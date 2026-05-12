@@ -1,0 +1,26 @@
+{
+  "name": "lucien-mcp",
+  "version": "0.0.1",
+  "description": "Lucien — librarian of the Dreaming. Synthesizes AI conversations into a personal wiki.",
+  "type": "module",
+  "bin": {
+    "lucien-mcp": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "bun run src/index.ts",
+    "build": "bun build --target=node --outdir=dist src/index.ts",
+    "prepublishOnly": "bun run build"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0"
+  }
+}
