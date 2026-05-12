@@ -71,18 +71,34 @@ interface MessageRow {
 
 function callClaude(prompt: string): Promise<string> {
     return new Promise((resolve, reject) => {
-        const proc = spawn("claude", ["-p", prompt], {
-            stdio: ["ignore", "pipe", "pipe"],
+        const proc = spawn("claude", ["-p"], {
+            stdio: ["pipe", "pipe", "pipe"],
         });
+
+        let settled = false;
+        const stdin = proc.stdin;
+        const fail = (err: Error) => {
+            if (settled) return;
+            settled = true;
+            stdin?.destroy();
+            reject(err);
+        };
+
+        stdin.on("error", fail);
+
         let stdout = "";
         let stderr = "";
         proc.stdout.on("data", (d) => (stdout += d.toString()));
         proc.stderr.on("data", (d) => (stderr += d.toString()));
         proc.on("exit", (code) => {
+            if (settled) return;
+            settled = true;
             if (code === 0) resolve(stdout);
             else reject(new Error(`claude exited ${code}: ${stderr}`));
         });
-        proc.on("error", reject);
+        proc.on("error", fail);
+
+        stdin.end(prompt, "utf8");
     });
 }
 

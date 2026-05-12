@@ -1,0 +1,6 @@
+[mcp_servers.lucien]
+args = [
+    "run",
+    "/Users/joshrossi/Code/lucien/src/index.ts",
+]
+command = "bun"
