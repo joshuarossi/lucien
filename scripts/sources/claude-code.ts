@@ -107,7 +107,7 @@ export async function ingestClaudeCode(
 
         try {
             const conv = await parseSession(abs);
-            if (conv) conversations.push(conv);
+            if (conv && conv.updated_at > opts.since) conversations.push(conv);
         } catch (err) {
             console.warn(`[claude-code] failed to parse ${rel}: ${(err as Error).message}`);
         }
