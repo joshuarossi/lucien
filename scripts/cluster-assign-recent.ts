@@ -4,6 +4,7 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import { writeFile } from "node:fs/promises";
 import { DB_PATH } from "./state-path.js";
+import { LUCIEN_PROMPT_SENTINEL } from "./sentinel.js";
 
 const BATCH_SIZE = 25;
 
@@ -187,7 +188,7 @@ async function main() {
         let response: string | undefined;
 
         try {
-            response = await callClaude(prompt);
+            response = await callClaude(LUCIEN_PROMPT_SENTINEL + prompt);
             const result = extractJSON(response) as LLMResponse;
             const assignments = result.assignments ?? [];
 

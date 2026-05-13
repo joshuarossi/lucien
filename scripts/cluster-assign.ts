@@ -4,6 +4,7 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import { writeFile } from "node:fs/promises";
 import { DB_PATH } from "./state-path.js";
+import { LUCIEN_PROMPT_SENTINEL } from "./sentinel.js";
 const BATCH_SIZE = 25;
 
 const ASSIGN_PROMPT = `You will assign topic labels to buckets. You have a list of buckets (each with a name and description) and a batch of topic labels. For each label, determine which buckets it belongs to.
@@ -144,7 +145,7 @@ async function main() {
         let response: string | undefined;
 
         try {
-            response = await callClaude(prompt);
+            response = await callClaude(LUCIEN_PROMPT_SENTINEL + prompt);
             const result = extractJSON(response);
             const assignments = result.assignments ?? [];
 

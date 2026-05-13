@@ -4,6 +4,7 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import { writeFile } from "node:fs/promises";
 import { DB_PATH } from "./state-path.js";
+import { LUCIEN_PROMPT_SENTINEL } from "./sentinel.js";
 
 const CHUNK_PROMPT = `You will analyze ONE conversation between a user and an AI assistant. Identify ALL distinct topic chunks within it.
 
@@ -251,7 +252,7 @@ async function main() {
 
         let response: string | undefined;
         try {
-            response = await callClaude(prompt);
+            response = await callClaude(LUCIEN_PROMPT_SENTINEL + prompt);
 
             // Detect refusal-like responses before attempting parse
             if (isRefusalOrPlaceholder(response)) {

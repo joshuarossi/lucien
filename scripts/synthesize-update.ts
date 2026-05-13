@@ -4,6 +4,7 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import { writeFile, mkdir, access, readFile } from "node:fs/promises";
 import { DB_PATH } from "./state-path.js";
+import { LUCIEN_PROMPT_SENTINEL } from "./sentinel.js";
 
 // Bootstrap prompt for NEW buckets that have no article on disk and no synthesis history.
 // Copied verbatim from scripts/synthesize.ts (SYNTHESIS_PROMPT_BOOTSTRAP) — kept separate
@@ -466,7 +467,7 @@ async function main() {
             let bootstrapResponse: string | undefined;
             try {
                 const callStart = Date.now();
-                bootstrapResponse = await callClaude(bootstrapPrompt);
+                bootstrapResponse = await callClaude(LUCIEN_PROMPT_SENTINEL + bootstrapPrompt);
                 const callElapsed = ((Date.now() - callStart) / 1000).toFixed(1);
 
                 let article = bootstrapResponse.trim();
@@ -553,7 +554,7 @@ async function main() {
         let response: string | undefined;
         try {
             const callStart = Date.now();
-            response = await callClaude(prompt);
+            response = await callClaude(LUCIEN_PROMPT_SENTINEL + prompt);
             const callElapsed = ((Date.now() - callStart) / 1000).toFixed(1);
 
             let article = response.trim();
