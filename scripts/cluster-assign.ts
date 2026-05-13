@@ -4,7 +4,7 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import { writeFile } from "node:fs/promises";
 
-const DB_PATH = join(homedir(), "Downloads/lucien.db");
+const DB_PATH = join(homedir(), "Dreaming/.lucien/lucien.db");
 const BATCH_SIZE = 25;
 
 const ASSIGN_PROMPT = `You will assign topic labels to buckets. You have a list of buckets (each with a name and description) and a batch of topic labels. For each label, determine which buckets it belongs to.

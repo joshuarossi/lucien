@@ -4,7 +4,7 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import { writeFile } from "node:fs/promises";
 
-const DB_PATH = join(homedir(), "Downloads/lucien.db");
+const DB_PATH = join(homedir(), "Dreaming/.lucien/lucien.db");
 
 const CHUNK_PROMPT = `You will analyze ONE conversation between a user and an AI assistant. Identify ALL distinct topic chunks within it.
 

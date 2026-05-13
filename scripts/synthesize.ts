@@ -4,7 +4,7 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import { writeFile, mkdir, access } from "node:fs/promises";
 
-const DB_PATH = join(homedir(), "Downloads/lucien.db");
+const DB_PATH = join(homedir(), "Dreaming/.lucien/lucien.db");
 const DREAMING_PATH = join(homedir(), "Dreaming");
 const ARTICLES_PATH = join(DREAMING_PATH, "articles");
 
