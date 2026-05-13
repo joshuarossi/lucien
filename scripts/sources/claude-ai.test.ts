@@ -36,6 +36,7 @@ maybe(
             profilePath: PROFILE,
             since: "2099-01-01T00:00:00.000Z", // future = empty result, just exercises auth path
             sleepMs: 0,
+            authTimeoutMs: 1000, // don't wait for a human in CI / smoke runs
         });
         // Either the org list succeeds and filtering produces zero (since=future),
         // or we get a clean auth failure summary. Both are valid signals that the

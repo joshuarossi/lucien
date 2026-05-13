@@ -16,6 +16,8 @@ export interface IngestClaudeAiOptions {
     since: string;
     /** Sleep between conversation fetches (ms). Default 1000; tests can pass 0. */
     sleepMs?: number;
+    /** Max time to wait for the user to solve a Cloudflare challenge. Default 5 min. */
+    authTimeoutMs?: number;
     /** Inject a context for tests. If provided, profilePath is ignored. */
     context?: BrowserContext;
 }
@@ -60,14 +62,37 @@ export async function ingestClaudeAi(
         const page = ctx.pages()[0] ?? (await ctx.newPage());
         await page.goto("https://claude.ai/", { waitUntil: "domcontentloaded" });
 
-        // 1. Org list
-        const orgsRes = await page.evaluate(async () => {
-            const r = await fetch("/api/organizations", {
-                credentials: "include",
-                headers: { Accept: "application/json" },
+        // 1. Org list — poll because Cloudflare may be presenting an interactive
+        // "verify you are human" challenge. The first time around, the user
+        // clicks the checkbox in the visible window and Cloudflare sets a
+        // cf_clearance cookie that the persistent profile retains for ~30 days.
+        // On subsequent runs the poll usually succeeds on the first attempt.
+        const AUTH_TIMEOUT_MS = opts.authTimeoutMs ?? 5 * 60 * 1000;
+        const POLL_INTERVAL_MS = 2000;
+        const pollStart = Date.now();
+        let orgsRes: { status: number; body: Array<{ uuid: string }> | null } = {
+            status: 0,
+            body: null,
+        };
+        let warnedHuman = false;
+        while (Date.now() - pollStart < AUTH_TIMEOUT_MS) {
+            orgsRes = await page.evaluate(async () => {
+                const r = await fetch("/api/organizations", {
+                    credentials: "include",
+                    headers: { Accept: "application/json" },
+                });
+                return { status: r.status, body: r.status === 200 ? await r.json() : null };
             });
-            return { status: r.status, body: r.status === 200 ? await r.json() : null };
-        });
+            if (orgsRes.status === 200) break;
+            if (orgsRes.status === 401) break;
+            if (!warnedHuman && (orgsRes.status === 403 || orgsRes.status === 0)) {
+                console.warn(
+                    "[claude-ai] Cloudflare challenge detected — solve the 'Verify you are human' checkbox in the open Chromium window. Subsequent runs reuse the resulting cf_clearance cookie for ~30 days."
+                );
+                warnedHuman = true;
+            }
+            await new Promise((r) => setTimeout(r, POLL_INTERVAL_MS));
+        }
         if (orgsRes.status === 401) {
             return {
                 conversations: [],
