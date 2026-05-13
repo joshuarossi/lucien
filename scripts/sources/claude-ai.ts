@@ -48,7 +48,11 @@ export async function ingestClaudeAi(
                 summary: `claude-ai: no profile at ${profilePath}. Run scripts/auth-claude-ai-login.ts first.`,
             };
         }
-        ctx = await chromium.launchPersistentContext(profilePath, { headless: true });
+        // headless: false because Cloudflare detects headless Chromium fingerprints
+        // (navigator.webdriver, missing window features) and blocks the request
+        // with 403 even when the persistent profile holds valid sessionKey +
+        // cf_clearance cookies. A short-lived visible window is the trade-off.
+        ctx = await chromium.launchPersistentContext(profilePath, { headless: false });
         ownsCtx = true;
     }
 
