@@ -57,16 +57,20 @@ Use this pipeline once. After that, run the nightly pipeline below.
 ```bash
 bun run scripts/ingest-recent.ts        # pull new conversations from both sources
 bun run scripts/chunk-recent.ts         # chunk only new conversations and those that grew
-bun run scripts/cluster-assign.ts       # assign new chunks to existing buckets (same script — already incremental)
-bun run scripts/synthesize-update.ts    # integrate ONLY new chunks into existing articles
+bun run scripts/cluster-assign-recent.ts  # assign new chunks; propose new buckets when nothing fits
+bun run scripts/synthesize-update.ts    # update existing articles AND write articles for new buckets
 ```
 
 What each step does differently from bootstrap:
 
 - **`ingest-recent.ts`** — incremental. Per-source watermarks in `.lucien/state.json` mean only new conversations land. Already-cached conversations are skipped at the per-tree level via sqlite pre-check.
 - **`chunk-recent.ts`** — picks up two cases: (a) conversations never chunked before, (b) conversations whose `updated_at` is newer than `chunked_at` (had new messages appended). Stale conversations have their old chunks deleted and re-chunked.
-- **`cluster-assign.ts`** — same script as bootstrap. It was already incremental: `INSERT OR IGNORE` on `chunk_buckets` and a `NOT IN` filter on already-assigned chunks. It does NOT create new buckets — if a new chunk doesn't fit any existing bucket, the LLM picks the best fit available.
-- **`synthesize-update.ts`** — the important one. For each bucket, finds chunks that have been assigned but not yet synthesized (tracked in a new `synthesized_bucket_chunks` table). If the article doesn't exist, it skips (won't bootstrap-from-scratch implicitly — that's the bootstrap script's job). If the article exists, it reads the existing markdown, sends it to Claude with the new chunks and an UPDATE prompt that says "preserve existing prose, extend citation numbering, respect manual edits, integrate new material." Writes the updated article. Records the new chunks as synthesized so future runs don't re-process them.
+- **`cluster-assign-recent.ts`** — for each new chunk, the LLM either assigns it to one or more existing buckets OR proposes a brand-new bucket (name + description) when nothing fits. Proposed buckets are inserted into the `buckets` table mid-run, so subsequent batches in the same run see them and don't duplicate. Strongly biased toward existing buckets.
+- **`synthesize-update.ts`** — the article-writer with four branches per bucket:
+  1. **Backfill** (one-time migration): an article exists on disk but the `synthesized_bucket_chunks` table has no rows for it. Assume the bootstrap path wrote it; mark every currently-assigned chunk as synthesized so future runs only see genuinely new chunks.
+  2. **Orphaned**: synthesis history exists but the file is gone. Warn and skip.
+  3. **New bucket → new article**: bucket exists, no file, no history. Run the bootstrap prompt to write a fresh article. (This is what happens when `cluster-assign-recent.ts` created a new bucket.)
+  4. **Update existing**: file exists, new chunks exist. Read the article, send it to Claude with the new chunks and the UPDATE prompt that says "preserve existing prose, extend citation numbering, respect manual edits."
 
 ### One-time backfill
 
@@ -126,6 +130,7 @@ All under `./.lucien/` in this repo (gitignored):
 
 ## Known limitations
 
-- `cluster-taxonomy.ts` is bootstrap-only. The nightly pipeline does not expand the bucket set. If new conversations introduce a genuinely new topic, its chunks will be assigned to the closest existing bucket (possibly the wrong one) or potentially left unassigned. Plan to re-bootstrap the taxonomy periodically (quarterly?).
-- `cluster-assign.ts` does not re-evaluate existing chunk→bucket assignments. Once assigned, a chunk's bucket is permanent unless manually deleted from `chunk_buckets`.
+- `cluster-taxonomy.ts` is bootstrap-only and intentionally not used in nightly runs. The nightly bucket-set growth happens in `cluster-assign-recent.ts`, one bucket at a time as warranted. If the taxonomy ever drifts (too many overlapping new buckets, hand-edited bucket names, etc.), a periodic manual re-bootstrap (DELETE FROM buckets; DELETE FROM chunk_buckets; DELETE FROM synthesized_bucket_chunks; rerun bootstrap) is the recovery path.
+- `cluster-assign-recent.ts` does not re-evaluate existing chunk→bucket assignments. Once a chunk is bucketed, that decision is permanent unless manually deleted from `chunk_buckets`.
+- New buckets get **English-prose names from the LLM**. They may not perfectly match existing bucket naming conventions (underscore vs space, casing). Inspect new buckets in the run output and rename in sqlite if needed.
 - Spec 2 will wrap all of this as MCP tools the cron-launched Claude orchestrates as a single command. Today the user runs the four scripts manually.
