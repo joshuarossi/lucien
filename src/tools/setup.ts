@@ -55,10 +55,28 @@ Each article follows roughly this shape:
 
 ## Citations
 
-Internal citations reference conversation UUIDs and message ranges:
-\`[[conv:abc123#msg:def456]]\`
+Citations are Wikipedia-style numbered footnotes. Inline, each claim is followed by a superscript link to a numbered entry in the \`## References\` section at the bottom of the article:
 
-External citations are standard links or footnotes.
+\`\`\`markdown
+...claim text.<sup id="cite-1-1">[\\[1\\]](#ref-1)</sup>
+\`\`\`
+
+Multiple citations of the same conversation in one article share a single number. The reference entry collects back-links for each inline occurrence:
+
+\`\`\`markdown
+## References
+
+1. <a id="ref-1"></a>[↩a](#cite-1-1) [↩b](#cite-1-2) \`conv:c7107ff6\` — Conversation title or short description
+2. <a id="ref-2"></a>[↩](#cite-2-1) \`conv:1d1037a7\` — Conversation title or short description
+\`\`\`
+
+Conventions:
+
+- Numbers are assigned in order of first appearance in the article body.
+- The canonical conversation identifier is the first 8 hex chars of its UUID (Lucien may emit full UUIDs; they are normalized to 8 chars at conversion time).
+- Each reference shows \`conv:HASH\` in inline code followed by an em-dash and the conversation title or a brief description of what it covers.
+- If a conversation is cited once, use a single \`[↩](#cite-N-1)\`. If cited multiple times, use lettered back-links (\`[↩a]\`, \`[↩b]\`, \`[↩c]\`, ...).
+- External citations are standard markdown links or footnotes.
 
 ## Stubs
 

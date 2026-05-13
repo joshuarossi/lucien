@@ -23,7 +23,33 @@ The Dreaming follows Wikipedia editorial conventions, adapted for personal scope
 - When the user's views have evolved over time, note that ("initially thought X, later refined to Y").
 - When the user has expressed strong opinions, capture them accurately as the user's positions.
 - Use wikilinks for references to other articles in the Dreaming: [[Article Name]]. You can link to any of the articles listed in OTHER ARTICLES below.
-- Cite source conversations using a footnote-style marker referring to conversation UUIDs. Example: "Josh prefers raw SQL over ORMs [conv:abc123]."
+
+CITATIONS — source conversations (required; matches Meta/Article_Conventions.md in the Dreaming):
+
+Cite substantive claims from the chunks using Wikipedia-style numbered footnotes only. Do not use deprecated inline [conv:HASH], bullet lines like "- [conv:HASH] …" in the body, or multi-conversation brackets such as [conv:a, conv:b].
+
+Inline form — place immediately after the claim. Preserve the backslashes before [ and ] exactly (they keep the visible text as [N] instead of nested markdown):
+
+...claim text.<sup id="cite-1-1">[\[1\]](#ref-1)</sup>
+
+Numbering and anchors:
+- Assign reference numbers 1, 2, 3, … in order of first appearance in the article body (through the last substantive section; do not count ## References).
+- Canonical hash: in each reference line, use the first 8 lowercase hex digits of the conversation UUID (strip hyphens). Example: c7107ff6-5142-4e14-b429-6e718a53dc34 → c7107ff6.
+- Same conversation cited multiple times: reuse one number N for all of those inline cites. One ## References row for that N.
+- Inline ids: cite-N-K — N is the reference number; K is 1-indexed occurrence count (first cite of ref 3 is cite-3-1, second is cite-3-2).
+- Reference row: put <a id="ref-N"></a> immediately after the list number.
+
+## References section (at the end, after See also):
+
+Each line is: list number, space, <a id="ref-N"></a>, immediately back-link(s) with no space before the first [ (mandatory), then a space, then exactly one markdown code span \`conv:HASH\` (the word conv:, the 8-char hash, and the backticks are all required), then optional — description. Never duplicate \`conv:HASH\` on one line; never emit bare conv:HASH without backticks.
+
+1. <a id="ref-1"></a>[↩a](#cite-1-1) [↩b](#cite-1-2) \`conv:c7107ff6\` — Conversation title or short description
+2. <a id="ref-2"></a>[↩](#cite-2-1) \`conv:1d1037a7\` — Conversation title or short description
+
+Back-links (required on every reference row): exactly one inline cite → use [↩](#cite-N-1) only (not [↩a]). Two or more inline cites of the same ref → [↩a](#cite-N-1) [↩b](#cite-N-2) … (letters a–z, space-separated, one per inline occurrence).
+Reference text after back-links: exactly one \`conv:HASH\` in markdown backticks — then an em-dash and title or brief description when the chunk/source name is known; otherwise just \`conv:HASH\` in backticks (no em-dash).
+Two different conversations for one sentence: two adjacent <sup> tags, not one combined marker.
+Every cite-N-K in the body must pair with ref-N in ## References; each ref-N must have at least one cite-N-K; numbers contiguous from 1.
 
 LENGTH GUIDANCE:
 - Articles should be as long as the source material justifies, no longer.
@@ -47,6 +73,8 @@ OUTPUT:
 Output ONLY the markdown article. No preamble, no explanation, no JSON, no markdown code fences around the article. Just the article content as a markdown document, ready to be written to {{BUCKET_NAME}}.md.
 
 The article should start with the title as a level-1 heading (# Title), followed by the lead paragraph, then sections.
+
+Before you finish, verify: every <sup id="cite-…"> matches a ref-N; every ref-N has correct ↩ back-links; each reference row contains \`conv:HASH\` in backticks, not bare conv: text.
 `;
 
 interface Bucket {
