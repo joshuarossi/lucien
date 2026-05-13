@@ -48,3 +48,106 @@ maybe(
     },
     60_000
 );
+
+test("watermark freezes at first failure even when a later conversation succeeds", async () => {
+    type Resp = { status: number; body: unknown };
+    const responses: Resp[] = [
+        { status: 200, body: [{ uuid: "org-1" }] },
+        {
+            status: 200,
+            body: [
+                {
+                    uuid: "convA",
+                    name: "A",
+                    summary: "",
+                    created_at: "2026-05-10T10:00:00.000Z",
+                    updated_at: "2026-05-10T10:00:00.000Z",
+                },
+                {
+                    uuid: "convB",
+                    name: "B",
+                    summary: "",
+                    created_at: "2026-05-10T11:00:00.000Z",
+                    updated_at: "2026-05-10T11:00:00.000Z",
+                },
+                {
+                    uuid: "convC",
+                    name: "C",
+                    summary: "",
+                    created_at: "2026-05-10T12:00:00.000Z",
+                    updated_at: "2026-05-10T12:00:00.000Z",
+                },
+            ],
+        },
+        {
+            status: 200,
+            body: {
+                uuid: "convA",
+                name: "A",
+                summary: "",
+                created_at: "2026-05-10T10:00:00.000Z",
+                updated_at: "2026-05-10T10:00:00.000Z",
+                current_leaf_message_uuid: "mA",
+                chat_messages: [
+                    {
+                        uuid: "mA",
+                        sender: "human",
+                        parent_message_uuid: null,
+                        created_at: "2026-05-10T10:00:00.000Z",
+                        content: [{ type: "text", text: "a" }],
+                    },
+                ],
+            },
+        },
+        { status: 500, body: null },
+        {
+            status: 200,
+            body: {
+                uuid: "convC",
+                name: "C",
+                summary: "",
+                created_at: "2026-05-10T12:00:00.000Z",
+                updated_at: "2026-05-10T12:00:00.000Z",
+                current_leaf_message_uuid: "mC",
+                chat_messages: [
+                    {
+                        uuid: "mC",
+                        sender: "human",
+                        parent_message_uuid: null,
+                        created_at: "2026-05-10T12:00:00.000Z",
+                        content: [{ type: "text", text: "c" }],
+                    },
+                ],
+            },
+        },
+    ];
+
+    let idx = 0;
+    const fakePage = {
+        async goto() {},
+        async evaluate() {
+            const r = responses[idx++];
+            if (!r) throw new Error("unexpected evaluate call beyond scripted responses");
+            return r;
+        },
+    };
+    const fakeCtx = {
+        pages() {
+            return [fakePage];
+        },
+        async newPage() {
+            return fakePage;
+        },
+        async close() {},
+    } as unknown as import("playwright").BrowserContext;
+
+    const result = await ingestClaudeAi({
+        context: fakeCtx,
+        since: "1970-01-01T00:00:00.000Z",
+        sleepMs: 0,
+    });
+
+    expect(result.conversations.map((c) => c.uuid)).toEqual(["convA", "convC"]);
+    expect(result.complete).toBe(false);
+    expect(result.new_watermark).toBe("2026-05-10T10:00:00.000Z");
+});

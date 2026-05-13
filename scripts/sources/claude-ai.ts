@@ -106,8 +106,15 @@ export async function ingestClaudeAi(
         const fresh = filterListBySince(items, opts.since);
 
         // 3. Per-conversation tree fetch
+        //
+        // Watermark advancement stops at the first failure. We still try
+        // later conversations in this run (so the user gets whatever data
+        // is available now), but they do not advance the watermark — that
+        // way the next run resumes at the failed item rather than skipping
+        // permanently past it.
         const conversations: NormalizedConversation[] = [];
-        let lastGoodUpdatedAt = opts.since;
+        let watermark = opts.since;
+        let watermarkFrozen = false;
         let complete = true;
 
         for (let i = 0; i < fresh.length; i++) {
@@ -129,16 +136,19 @@ export async function ingestClaudeAi(
             if (treeRes.status !== 200 || !treeRes.body) {
                 console.warn(`[claude-ai] ${item.uuid} → status ${treeRes.status}, skipping`);
                 complete = false;
+                watermarkFrozen = true;
                 continue;
             }
             const conv = treeToNormalizedConversation(treeRes.body as ConvTree);
             if (conv) conversations.push(conv);
-            lastGoodUpdatedAt = new Date(item.updated_at).toISOString();
+            if (!watermarkFrozen) {
+                watermark = new Date(item.updated_at).toISOString();
+            }
         }
 
         return {
             conversations,
-            new_watermark: lastGoodUpdatedAt,
+            new_watermark: watermark,
             complete,
             summary: `claude-ai: ${conversations.length} conversations / ${conversations.reduce(
                 (n, c) => n + c.messages.length,
