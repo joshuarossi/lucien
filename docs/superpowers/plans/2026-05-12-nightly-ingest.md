@@ -6,9 +6,11 @@
 
 **Architecture:** A single new entry script `scripts/ingest-recent.ts` reads per-source watermarks from `state.json`, calls two source adapters in parallel (`sources/claude-code.ts`, `sources/claude-ai.ts`), upserts results into `~/Dreaming/.lucien/lucien.db` with `INSERT OR REPLACE` on message uuid, and persists new watermarks. No new LLM calls — this spec is data plumbing only. The pipeline stays runnable as Bash commands; MCP-tool wrapping is deferred to a follow-up spec.
 
-**Tech Stack:** Bun + TypeScript, `bun:sqlite`, Bun's built-in `Glob` and `fetch`, `bun test` for tests. No new dependencies.
+**Tech Stack:** Bun + TypeScript, `bun:sqlite`, Bun's built-in `Glob`, `playwright` for claude.ai web access, `bun test` for tests.
 
 **Spec:** `docs/superpowers/specs/2026-05-12-nightly-ingest-design.md`
+
+**Amendment 2026-05-12 (post-Task-4):** Tasks 1–4 completed as planned (types, DB path move, Claude Code adapter). Task 5 was a manual endpoint spike that surfaced a blocker: **claude.ai is gated by Cloudflare TLS fingerprinting**, so cookie-authenticated HTTP from curl/Bun fetch is impossible (403 "Just a moment…" regardless of cookie + UA combinations). The reference repo we cited (Emnolope/claude-conversation-export) works only because it runs *inside* the user's logged-in browser tab. The only durable way to automate web ingest is to drive a real browser. Tasks 5–8 below have been **rewritten** around Playwright. Tasks 9–11 are largely unchanged but reference the new adapter shape.
 
 ---
 
@@ -452,71 +454,130 @@ git commit -m "feat: implement claude-code JSONL source adapter"
 
 ---
 
-## Task 5: claude.ai endpoint spike (manual verification)
+## Task 5: Add Playwright and write a first-time login script
 
-Before writing the adapter we must confirm the conversation-list endpoint exists. This is a **manual step, not a code task** — but the plan includes it because it gates Task 6.
+The claude.ai adapter must use a real browser. We use Playwright with a **persistent context** rooted at `~/.lucien/playwright-profile/`. Once the user logs in there once (interactively, in a headed Chromium window), the profile retains the cookies and CF clearance so subsequent runs can go headless.
 
-- [ ] **Step 1: Capture your sessionKey cookie**
+**Files:**
+- Modify: `package.json` (add `playwright` dependency)
+- Create: `scripts/auth-claude-ai-login.ts`
 
-In a browser logged into claude.ai: open DevTools → Application → Cookies → `https://claude.ai` → copy the value of the `sessionKey` cookie. It starts with `sk-ant-sid01-...`.
+- [ ] **Step 1: Add the dependency**
 
-- [ ] **Step 2: Spike the org-list endpoint**
+Run:
+```bash
+bun add playwright
+```
+Expected: `package.json` and `bun.lock` updated. Note that Playwright bundles its own browser binaries — if the post-install download didn't run, run `bunx playwright install chromium` manually.
+
+- [ ] **Step 2: Implement the login script**
+
+Create `scripts/auth-claude-ai-login.ts` with this exact content:
+
+```ts
+import { chromium } from "playwright";
+import { homedir } from "node:os";
+import { join } from "node:path";
+import { mkdir } from "node:fs/promises";
+
+const DEFAULT_PROFILE = join(homedir(), ".lucien", "playwright-profile");
+
+export interface LoginOptions {
+    profilePath?: string;
+    headless?: boolean;
+    /** Max seconds to wait for the user to finish logging in. Default 300. */
+    timeoutSeconds?: number;
+}
+
+/**
+ * Opens a real Chromium window pointed at claude.ai. The user signs in
+ * (or confirms they are already signed in). On return, the profile directory
+ * holds the cookies needed for headless runs.
+ */
+export async function loginInteractive(opts: LoginOptions = {}): Promise<void> {
+    const profilePath = opts.profilePath ?? DEFAULT_PROFILE;
+    const headless = opts.headless ?? false;
+    const timeoutMs = (opts.timeoutSeconds ?? 300) * 1000;
+
+    await mkdir(profilePath, { recursive: true });
+
+    const ctx = await chromium.launchPersistentContext(profilePath, {
+        headless,
+        viewport: { width: 1280, height: 800 },
+    });
+    const page = ctx.pages()[0] ?? (await ctx.newPage());
+
+    await page.goto("https://claude.ai/", { waitUntil: "domcontentloaded" });
+
+    console.log(
+        "[auth] Sign in to claude.ai in the opened window. " +
+            "Waiting for an authenticated session..."
+    );
+
+    // The /api/organizations endpoint returns 200 only when authenticated.
+    // We poll it from inside the page until success or timeout.
+    const start = Date.now();
+    let lastStatus = 0;
+    while (Date.now() - start < timeoutMs) {
+        lastStatus = await page.evaluate(async () => {
+            const r = await fetch("/api/organizations", {
+                credentials: "include",
+                headers: { Accept: "application/json" },
+            });
+            return r.status;
+        });
+        if (lastStatus === 200) break;
+        await new Promise((r) => setTimeout(r, 2000));
+    }
+
+    if (lastStatus !== 200) {
+        await ctx.close();
+        throw new Error(
+            `[auth] Did not detect a signed-in session within ${
+                opts.timeoutSeconds ?? 300
+            }s (last status: ${lastStatus}).`
+        );
+    }
+
+    console.log(`[auth] Signed in. Profile saved at ${profilePath}.`);
+    await ctx.close();
+}
+
+if (import.meta.main) {
+    await loginInteractive();
+}
+```
+
+- [ ] **Step 3: Run a manual sanity check**
 
 ```bash
-curl -s -H "Cookie: sessionKey=PASTE_HERE" \
-  https://claude.ai/api/organizations | jq '.[0].uuid'
+bun run scripts/auth-claude-ai-login.ts
 ```
-Expected: a UUID string. Note it as `ORG_UUID`.
+Expected: Chromium window opens at claude.ai. If you're already logged in, the script detects 200 from `/api/organizations` within a few seconds and exits cleanly. If not, you sign in in the window; the script then detects 200 and exits. Profile is at `~/.lucien/playwright-profile/`.
 
-- [ ] **Step 3: Spike the conversation-list endpoint**
+If Chromium fails to launch with "missing browser" error, run `bunx playwright install chromium` and retry.
+
+- [ ] **Step 4: Commit**
 
 ```bash
-curl -s -H "Cookie: sessionKey=PASTE_HERE" \
-  "https://claude.ai/api/organizations/ORG_UUID/chat_conversations" \
-  | jq 'length, .[0] | {uuid, name, updated_at}'
+git add package.json bun.lock scripts/auth-claude-ai-login.ts
+git commit -m "feat: add playwright dependency and claude.ai login bootstrap script"
 ```
-Expected: a number (conversation count) followed by a sample conversation. If this works, **proceed to Task 6 as planned.**
-
-If it returns 404 or HTML, stop and update the spec — the fallback (Playwright SPA scraping) needs a fresh design pass. Do not proceed to Task 6 in that case.
-
-- [ ] **Step 4: Record one real conversation tree for the test fixture**
-
-Pick one short conversation (few messages) and save the tree response:
-
-```bash
-curl -s -H "Cookie: sessionKey=PASTE_HERE" \
-  "https://claude.ai/api/organizations/ORG_UUID/chat_conversations/CONV_UUID?tree=True&rendering_mode=messages&render_all_tools=true" \
-  > /tmp/claude-ai-tree-sample.json
-```
-
-Inspect the shape. Note the field names for: per-message uuid, parent_message_uuid, sender (`human` vs `assistant`?), text content, timestamp, and whether there is a `current_leaf_message_uuid` on the conversation object. This informs the fixture you write in Task 6 Step 1.
-
-- [ ] **Step 5: No commit (this is a manual gate)**
 
 ---
 
-## Task 6: claude.ai adapter — fixture and failing test
+## Task 6: Linearization module — pure tree-flattening logic with tests
+
+This is the pure portion of the claude.ai adapter: given a `ConvTree` JSON, return a linearized `NormalizedConversation`. No network, fully unit-testable. The fetcher in Task 7 calls this function after retrieving JSON via Playwright.
 
 **Files:**
-- Create: `scripts/sources/claude-ai.test.ts`
-- Create: `scripts/sources/fixtures/claude-ai/org-list.json`
+- Create: `scripts/sources/claude-ai-linearize.ts`
+- Create: `scripts/sources/claude-ai-linearize.test.ts`
 - Create: `scripts/sources/fixtures/claude-ai/conv-list.json`
 - Create: `scripts/sources/fixtures/claude-ai/conv-tree-linear.json`
 - Create: `scripts/sources/fixtures/claude-ai/conv-tree-branching.json`
 
-The adapter takes a `since` watermark and a `fetch` function (injected so we can substitute a mock). Returns an `AdapterResult`.
-
-The fixtures below use the **assumed** field names confirmed in Task 5. If Task 5 reveals different field names (e.g. `senderType` instead of `sender`, `text` nested under `content[]`), **update the fixtures and the adapter's mapping logic accordingly**. The structure of the tests does not change.
-
-- [ ] **Step 1: Create the org-list fixture**
-
-`scripts/sources/fixtures/claude-ai/org-list.json`:
-
-```json
-[{ "uuid": "org-aaaa-1111", "name": "Personal" }]
-```
-
-- [ ] **Step 2: Create the conv-list fixture**
+- [ ] **Step 1: Create the fixtures**
 
 `scripts/sources/fixtures/claude-ai/conv-list.json`:
 
@@ -546,8 +607,6 @@ The fixtures below use the **assumed** field names confirmed in Task 5. If Task 
 ]
 ```
 
-- [ ] **Step 3: Create the linear-tree fixture**
-
 `scripts/sources/fixtures/claude-ai/conv-tree-linear.json`:
 
 ```json
@@ -576,8 +635,6 @@ The fixtures below use the **assumed** field names confirmed in Task 5. If Task 
   ]
 }
 ```
-
-- [ ] **Step 4: Create the branching-tree fixture**
 
 `scripts/sources/fixtures/claude-ai/conv-tree-branching.json`:
 
@@ -629,209 +686,131 @@ The fixtures below use the **assumed** field names confirmed in Task 5. If Task 
 }
 ```
 
-The main branch (walking back from `current_leaf_message_uuid` = `m4`) is `[m1, m2, m3, m4]`. The alternate branch `m2-alt` must be excluded.
+The main branch in the branching fixture (walking back from `current_leaf_message_uuid=m4`) is `[m1, m2, m3, m4]`. The alternate branch `m2-alt` must be excluded.
 
-- [ ] **Step 5: Write the failing test**
+> **Important:** if Task 5's manual sanity check revealed the real API returns differently-shaped data (different sender values, different content array shape, different field names like `text` vs `content`), update these fixtures to match the real shape before writing the tests. The whole point of running Task 5 first was to lock down the real schema.
 
-Create `scripts/sources/claude-ai.test.ts`:
+- [ ] **Step 2: Write the failing test file**
+
+Create `scripts/sources/claude-ai-linearize.test.ts`:
 
 ```ts
 import { test, expect } from "bun:test";
 import { join } from "node:path";
-import { ingestClaudeAi } from "./claude-ai.js";
+import {
+    linearizeTree,
+    filterListBySince,
+    treeToNormalizedConversation,
+    type ConvListItem,
+    type ConvTree,
+} from "./claude-ai-linearize.js";
 
 const FIXTURES = join(import.meta.dir, "fixtures/claude-ai");
 
-function makeFakeFetch() {
-    return async (url: string): Promise<Response> => {
-        if (url.endsWith("/api/organizations")) {
-            return new Response(await Bun.file(join(FIXTURES, "org-list.json")).text(), {
-                status: 200,
-                headers: { "content-type": "application/json" },
-            });
-        }
-        if (url.includes("/chat_conversations?")) {
-            // ignore query params for routing
-        }
-        if (url.endsWith("/chat_conversations") || url.match(/\/chat_conversations$/)) {
-            return new Response(await Bun.file(join(FIXTURES, "conv-list.json")).text(), {
-                status: 200,
-                headers: { "content-type": "application/json" },
-            });
-        }
-        const m = url.match(/\/chat_conversations\/([^?]+)/);
-        if (m) {
-            const id = m[1];
-            if (id === "conv-linear") {
-                return new Response(await Bun.file(join(FIXTURES, "conv-tree-linear.json")).text(), {
-                    status: 200,
-                    headers: { "content-type": "application/json" },
-                });
-            }
-            if (id === "conv-branching") {
-                return new Response(await Bun.file(join(FIXTURES, "conv-tree-branching.json")).text(), {
-                    status: 200,
-                    headers: { "content-type": "application/json" },
-                });
-            }
-            return new Response("not found", { status: 404 });
-        }
-        return new Response("unrouted: " + url, { status: 500 });
-    };
+async function loadJson<T>(name: string): Promise<T> {
+    return JSON.parse(await Bun.file(join(FIXTURES, name)).text()) as T;
 }
 
-test("missing cookie: returns empty result, complete=false, does not throw", async () => {
-    const result = await ingestClaudeAi({
-        cookie: null,
-        since: "1970-01-01T00:00:00.000Z",
-        fetchFn: makeFakeFetch(),
-        sleepMs: 0,
-    });
-    expect(result.conversations).toEqual([]);
-    expect(result.complete).toBe(false);
-    expect(result.summary).toMatch(/cookie/i);
+test("linearizeTree: linear conversation returns messages in order", async () => {
+    const tree = await loadJson<ConvTree>("conv-tree-linear.json");
+    const linear = linearizeTree(tree);
+    expect(linear.map((m) => m.uuid)).toEqual(["m1", "m2"]);
 });
 
-test("filters list by updated_at > since", async () => {
-    const result = await ingestClaudeAi({
-        cookie: "sk-ant-sid01-fake",
-        since: "2026-05-09T00:00:00.000Z",
-        fetchFn: makeFakeFetch(),
-        sleepMs: 0,
-    });
-    const uuids = result.conversations.map((c) => c.uuid).sort();
-    expect(uuids).toEqual(["conv-branching", "conv-linear"]);
+test("linearizeTree: branching conversation walks back from current_leaf only", async () => {
+    const tree = await loadJson<ConvTree>("conv-tree-branching.json");
+    const linear = linearizeTree(tree);
+    expect(linear.map((m) => m.uuid)).toEqual(["m1", "m2", "m3", "m4"]);
 });
 
-test("linearizes a branching tree to the current_leaf branch only", async () => {
-    const result = await ingestClaudeAi({
-        cookie: "sk-ant-sid01-fake",
-        since: "2026-05-11T00:00:00.000Z",
-        fetchFn: makeFakeFetch(),
-        sleepMs: 0,
-    });
-    const branching = result.conversations.find((c) => c.uuid === "conv-branching")!;
-    const ids = branching.messages.map((m) => m.uuid);
-    expect(ids).toEqual(["m1", "m2", "m3", "m4"]);
+test("linearizeTree: missing current_leaf falls back to longest root-to-leaf path", async () => {
+    const tree = await loadJson<ConvTree>("conv-tree-branching.json");
+    const { current_leaf_message_uuid: _drop, ...rest } = tree;
+    const without = rest as ConvTree;
+    const linear = linearizeTree(without);
+    expect(linear.length).toBe(4);
+    expect(linear[0].uuid).toBe("m1");
+    expect(linear[linear.length - 1].uuid).toBe("m4");
 });
 
-test("maps sender 'human' → 'user' and preserves 'assistant'", async () => {
-    const result = await ingestClaudeAi({
-        cookie: "sk-ant-sid01-fake",
-        since: "2026-05-09T00:00:00.000Z",
-        fetchFn: makeFakeFetch(),
-        sleepMs: 0,
-    });
-    const linear = result.conversations.find((c) => c.uuid === "conv-linear")!;
-    expect(linear.messages.map((m) => m.sender)).toEqual(["user", "assistant"]);
+test("treeToNormalizedConversation: maps sender 'human' → 'user' and preserves 'assistant'", async () => {
+    const tree = await loadJson<ConvTree>("conv-tree-linear.json");
+    const conv = treeToNormalizedConversation(tree)!;
+    expect(conv.source).toBe("claude-ai");
+    expect(conv.messages.map((m) => m.sender)).toEqual(["user", "assistant"]);
 });
 
-test("new_watermark is updated_at of the last successfully-fetched conversation", async () => {
-    const result = await ingestClaudeAi({
-        cookie: "sk-ant-sid01-fake",
-        since: "2026-05-09T00:00:00.000Z",
-        fetchFn: makeFakeFetch(),
-        sleepMs: 0,
-    });
-    // Both fetched successfully — watermark is the highest updated_at, normalized to Z form
-    expect(result.new_watermark).toBe("2026-05-11T10:10:00.000Z");
-});
-
-test("partial failure: skips a 500'd conversation, watermark stops at last good one", async () => {
-    const failingFetch = async (url: string): Promise<Response> => {
-        if (url.includes("conv-branching")) {
-            return new Response("boom", { status: 500 });
-        }
-        return makeFakeFetch()(url);
+test("treeToNormalizedConversation: drops messages with empty text", async () => {
+    const tree: ConvTree = {
+        uuid: "x",
+        name: "x",
+        summary: "",
+        created_at: "2026-05-12T00:00:00.000000+00:00",
+        updated_at: "2026-05-12T00:00:00.000000+00:00",
+        current_leaf_message_uuid: "m1",
+        chat_messages: [
+            {
+                uuid: "m1",
+                sender: "human",
+                parent_message_uuid: null,
+                created_at: "2026-05-12T00:00:00.000000+00:00",
+                content: [{ type: "tool_use", text: undefined } as any],
+            },
+        ],
     };
-    const result = await ingestClaudeAi({
-        cookie: "sk-ant-sid01-fake",
-        since: "2026-05-09T00:00:00.000Z",
-        fetchFn: failingFetch,
-        sleepMs: 0,
-    });
-    const uuids = result.conversations.map((c) => c.uuid);
-    expect(uuids).toEqual(["conv-linear"]);
-    expect(result.complete).toBe(false);
-    expect(result.new_watermark).toBe("2026-05-10T10:05:00.000Z");
+    expect(treeToNormalizedConversation(tree)).toBeNull();
 });
 
-test("401 on cookie: returns empty, complete=false, mentions re-auth", async () => {
-    const unauthFetch = async (): Promise<Response> =>
-        new Response("unauthorized", { status: 401 });
-    const result = await ingestClaudeAi({
-        cookie: "sk-ant-sid01-expired",
-        since: "1970-01-01T00:00:00.000Z",
-        fetchFn: unauthFetch,
-        sleepMs: 0,
-    });
-    expect(result.conversations).toEqual([]);
-    expect(result.complete).toBe(false);
-    expect(result.summary).toMatch(/auth|cookie|expired|re-?run/i);
+test("treeToNormalizedConversation: normalizes timestamps to Z form", async () => {
+    const tree = await loadJson<ConvTree>("conv-tree-linear.json");
+    const conv = treeToNormalizedConversation(tree)!;
+    expect(conv.created_at).toBe("2026-05-10T10:00:00.000Z");
+    expect(conv.updated_at).toBe("2026-05-10T10:05:00.000Z");
+    expect(conv.messages[0].timestamp).toBe("2026-05-10T10:00:00.000Z");
+});
+
+test("filterListBySince: returns items with updated_at > since, sorted ascending", async () => {
+    const list = await loadJson<ConvListItem[]>("conv-list.json");
+    const filtered = filterListBySince(list, "2026-05-09T00:00:00.000Z");
+    expect(filtered.map((i) => i.uuid)).toEqual(["conv-linear", "conv-branching"]);
+});
+
+test("filterListBySince: empty result when since is in the future", async () => {
+    const list = await loadJson<ConvListItem[]>("conv-list.json");
+    const filtered = filterListBySince(list, "2099-01-01T00:00:00.000Z");
+    expect(filtered).toEqual([]);
 });
 ```
 
-- [ ] **Step 6: Run test to verify it fails**
+- [ ] **Step 3: Run test to verify it fails**
 
-Run: `bun test scripts/sources/claude-ai.test.ts`
-Expected: FAIL with module-not-found for `./claude-ai.js`.
+Run: `bun test scripts/sources/claude-ai-linearize.test.ts`
+Expected: FAIL with module-not-found for `./claude-ai-linearize.js`.
 
-- [ ] **Step 7: Commit failing test + fixtures**
+- [ ] **Step 4: Implement the pure module**
 
-```bash
-git add scripts/sources/claude-ai.test.ts scripts/sources/fixtures/claude-ai/
-git commit -m "test: add fixtures and failing tests for claude-ai adapter"
-```
-
----
-
-## Task 7: claude.ai adapter — implementation
-
-**Files:**
-- Create: `scripts/sources/claude-ai.ts`
-
-- [ ] **Step 1: Implement the adapter**
-
-Create `scripts/sources/claude-ai.ts`:
+Create `scripts/sources/claude-ai-linearize.ts`:
 
 ```ts
-import type {
-    AdapterResult,
-    NormalizedConversation,
-    NormalizedMessage,
-} from "./types.js";
+import type { NormalizedConversation, NormalizedMessage } from "./types.js";
 
-const BASE = "https://claude.ai";
-
-export interface IngestClaudeAiOptions {
-    /** Raw sessionKey cookie value, or null/empty if unavailable. */
-    cookie: string | null;
-    /** ISO timestamp; conversations with updated_at > since are fetched. */
-    since: string;
-    /** Optional injectable fetch (for tests). Defaults to global fetch. */
-    fetchFn?: typeof fetch;
-    /** Sleep between conversation fetches (ms). Default 1000; tests pass 0. */
-    sleepMs?: number;
-}
-
-interface OrgResp {
-    uuid: string;
-}
-interface ConvListItem {
+export interface ConvListItem {
     uuid: string;
     name?: string;
     summary?: string;
     created_at: string;
     updated_at: string;
 }
-interface TreeMessage {
+
+export interface TreeMessage {
     uuid: string;
-    sender: string; // "human" | "assistant"
+    sender: string; // "human" | "assistant" (and possibly others)
     parent_message_uuid: string | null;
     created_at: string;
     content: Array<{ type: string; text?: string }>;
 }
-interface ConvTree {
+
+export interface ConvTree {
     uuid: string;
     name?: string;
     summary?: string;
@@ -842,14 +821,12 @@ interface ConvTree {
 }
 
 function normalizeIso(ts: string): string {
-    // claude.ai serves "2026-05-10T10:05:00.000000+00:00" → normalize to "2026-05-10T10:05:00.000Z"
     return new Date(ts).toISOString();
 }
 
-function linearize(tree: ConvTree): TreeMessage[] {
+export function linearizeTree(tree: ConvTree): TreeMessage[] {
     const byUuid = new Map(tree.chat_messages.map((m) => [m.uuid, m]));
 
-    // Prefer current_leaf_message_uuid back to root
     if (tree.current_leaf_message_uuid && byUuid.has(tree.current_leaf_message_uuid)) {
         const path: TreeMessage[] = [];
         let cur: TreeMessage | undefined = byUuid.get(tree.current_leaf_message_uuid);
@@ -860,7 +837,6 @@ function linearize(tree: ConvTree): TreeMessage[] {
         return path;
     }
 
-    // Fallback: longest root-to-leaf path
     const childrenOf = new Map<string | null, TreeMessage[]>();
     for (const m of tree.chat_messages) {
         const k = m.parent_message_uuid;
@@ -883,7 +859,7 @@ function extractText(content: TreeMessage["content"]): string {
     if (!Array.isArray(content)) return "";
     return content
         .filter((b) => b.type === "text" && typeof b.text === "string")
-        .map((b) => b.text)
+        .map((b) => b.text as string)
         .join("\n")
         .trim();
 }
@@ -902,238 +878,360 @@ function toNormalizedMessage(m: TreeMessage): NormalizedMessage | null {
     };
 }
 
-export async function ingestClaudeAi(
-    opts: IngestClaudeAiOptions
-): Promise<AdapterResult> {
-    const f = opts.fetchFn ?? fetch;
-    const sleepMs = opts.sleepMs ?? 1000;
+export function treeToNormalizedConversation(tree: ConvTree): NormalizedConversation | null {
+    const linear = linearizeTree(tree);
+    const messages = linear
+        .map(toNormalizedMessage)
+        .filter((m): m is NormalizedMessage => m !== null);
+    if (messages.length === 0) return null;
+    return {
+        source: "claude-ai",
+        uuid: tree.uuid,
+        name: tree.name ?? "",
+        summary: tree.summary ?? "",
+        created_at: normalizeIso(tree.created_at),
+        updated_at: normalizeIso(tree.updated_at),
+        messages,
+    };
+}
 
-    if (!opts.cookie) {
-        return {
-            conversations: [],
-            new_watermark: opts.since,
-            complete: false,
-            summary: "claude-ai: no cookie configured; run scripts/auth-set-claude-ai-cookie.ts",
-        };
-    }
-
-    const headers = { Cookie: `sessionKey=${opts.cookie}` };
-
-    // 1. Org list
-    const orgResp = await f(`${BASE}/api/organizations`, { headers });
-    if (orgResp.status === 401) {
-        return {
-            conversations: [],
-            new_watermark: opts.since,
-            complete: false,
-            summary:
-                "claude-ai: cookie expired or invalid (401). Re-run scripts/auth-set-claude-ai-cookie.ts",
-        };
-    }
-    if (!orgResp.ok) {
-        return {
-            conversations: [],
-            new_watermark: opts.since,
-            complete: false,
-            summary: `claude-ai: org list failed with status ${orgResp.status}`,
-        };
-    }
-    const orgs = (await orgResp.json()) as OrgResp[];
-    if (!orgs.length) {
-        return {
-            conversations: [],
-            new_watermark: opts.since,
-            complete: false,
-            summary: "claude-ai: no organizations on this account",
-        };
-    }
-    const orgId = orgs[0].uuid;
-
-    // 2. Conversation list
-    const listResp = await f(
-        `${BASE}/api/organizations/${orgId}/chat_conversations`,
-        { headers }
-    );
-    if (!listResp.ok) {
-        return {
-            conversations: [],
-            new_watermark: opts.since,
-            complete: false,
-            summary: `claude-ai: conversation list failed with status ${listResp.status}`,
-        };
-    }
-    const items = (await listResp.json()) as ConvListItem[];
-    const sinceMs = Date.parse(opts.since);
-    const fresh = items
+export function filterListBySince(items: ConvListItem[], since: string): ConvListItem[] {
+    const sinceMs = Date.parse(since);
+    return items
         .filter((it) => Date.parse(it.updated_at) > sinceMs)
         .sort((a, b) => Date.parse(a.updated_at) - Date.parse(b.updated_at));
-
-    // 3. Per-conversation tree fetch
-    const conversations: NormalizedConversation[] = [];
-    let lastGoodUpdatedAt = opts.since;
-    let complete = true;
-
-    for (let i = 0; i < fresh.length; i++) {
-        const item = fresh[i];
-        if (i > 0 && sleepMs > 0) {
-            await new Promise((r) => setTimeout(r, sleepMs));
-        }
-        const url = `${BASE}/api/organizations/${orgId}/chat_conversations/${item.uuid}?tree=True&rendering_mode=messages&render_all_tools=true`;
-        const treeResp = await f(url, { headers });
-        if (!treeResp.ok) {
-            console.warn(`[claude-ai] ${item.uuid} → status ${treeResp.status}, skipping`);
-            complete = false;
-            continue;
-        }
-        const tree = (await treeResp.json()) as ConvTree;
-        const linear = linearize(tree);
-        const messages = linear
-            .map(toNormalizedMessage)
-            .filter((m): m is NormalizedMessage => m !== null);
-        if (messages.length === 0) {
-            lastGoodUpdatedAt = normalizeIso(item.updated_at);
-            continue;
-        }
-        conversations.push({
-            source: "claude-ai",
-            uuid: tree.uuid,
-            name: tree.name ?? "",
-            summary: tree.summary ?? "",
-            created_at: normalizeIso(tree.created_at),
-            updated_at: normalizeIso(tree.updated_at),
-            messages,
-        });
-        lastGoodUpdatedAt = normalizeIso(item.updated_at);
-    }
-
-    return {
-        conversations,
-        new_watermark: lastGoodUpdatedAt,
-        complete,
-        summary: `claude-ai: ${conversations.length} conversations / ${conversations.reduce(
-            (n, c) => n + c.messages.length,
-            0
-        )} messages`,
-    };
 }
 ```
 
-- [ ] **Step 2: Run tests to verify they pass**
+- [ ] **Step 5: Run tests to verify they pass**
 
-Run: `bun test scripts/sources/claude-ai.test.ts`
-Expected: all 7 tests PASS.
+Run: `bun test scripts/sources/claude-ai-linearize.test.ts`
+Expected: all 8 tests PASS.
 
-- [ ] **Step 3: Commit**
+- [ ] **Step 6: Commit**
 
 ```bash
-git add scripts/sources/claude-ai.ts
-git commit -m "feat: implement claude-ai web source adapter"
+git add scripts/sources/claude-ai-linearize.ts scripts/sources/claude-ai-linearize.test.ts scripts/sources/fixtures/claude-ai/
+git commit -m "feat: pure tree linearization + list filter for claude-ai adapter"
 ```
 
 ---
 
-## Task 8: Auth helper script
+## Task 7: claude.ai Playwright fetcher
+
+The thin network layer. Opens the persistent Playwright profile from Task 5, navigates to claude.ai, runs in-page `fetch()` for the same endpoints the bookmarklet uses, hands the JSON to the pure linearize module from Task 6.
 
 **Files:**
-- Create: `scripts/auth-set-claude-ai-cookie.ts`
-- Create: `scripts/auth-set-claude-ai-cookie.test.ts`
+- Create: `scripts/sources/claude-ai.ts`
+- Create: `scripts/sources/claude-ai.test.ts` (integration test, gated on profile existence)
 
-- [ ] **Step 1: Write the failing test**
+- [ ] **Step 1: Implement the fetcher**
 
-Create `scripts/auth-set-claude-ai-cookie.test.ts`:
-
-```ts
-import { test, expect, beforeEach, afterEach } from "bun:test";
-import { mkdtemp, rm, stat, readFile } from "node:fs/promises";
-import { tmpdir } from "node:os";
-import { join } from "node:path";
-import { writeCookieFile } from "./auth-set-claude-ai-cookie.js";
-
-let dir: string;
-
-beforeEach(async () => {
-    dir = await mkdtemp(join(tmpdir(), "lucien-auth-"));
-});
-afterEach(async () => {
-    await rm(dir, { recursive: true, force: true });
-});
-
-test("writeCookieFile creates credentials.json with mode 0600 and correct JSON", async () => {
-    const path = join(dir, "credentials.json");
-    await writeCookieFile(path, "sk-ant-sid01-test");
-
-    const s = await stat(path);
-    expect(s.mode & 0o777).toBe(0o600);
-
-    const body = JSON.parse(await readFile(path, "utf-8"));
-    expect(body).toEqual({ claude_ai_session_key: "sk-ant-sid01-test" });
-});
-
-test("writeCookieFile trims whitespace", async () => {
-    const path = join(dir, "credentials.json");
-    await writeCookieFile(path, "  sk-ant-sid01-test\n");
-    const body = JSON.parse(await readFile(path, "utf-8"));
-    expect(body.claude_ai_session_key).toBe("sk-ant-sid01-test");
-});
-
-test("writeCookieFile rejects empty input", async () => {
-    const path = join(dir, "credentials.json");
-    await expect(writeCookieFile(path, "   ")).rejects.toThrow(/empty/i);
-});
-```
-
-- [ ] **Step 2: Run test to verify it fails**
-
-Run: `bun test scripts/auth-set-claude-ai-cookie.test.ts`
-Expected: FAIL with module-not-found.
-
-- [ ] **Step 3: Implement the helper**
-
-Create `scripts/auth-set-claude-ai-cookie.ts`:
+Create `scripts/sources/claude-ai.ts`:
 
 ```ts
-import { chmod, mkdir, writeFile } from "node:fs/promises";
+import { chromium, type BrowserContext } from "playwright";
 import { homedir } from "node:os";
-import { dirname, join } from "node:path";
+import { join } from "node:path";
+import { access } from "node:fs/promises";
+import type { AdapterResult, NormalizedConversation } from "./types.js";
+import {
+    filterListBySince,
+    treeToNormalizedConversation,
+    type ConvListItem,
+    type ConvTree,
+} from "./claude-ai-linearize.js";
 
-const DEFAULT_PATH = join(homedir(), ".lucien", "credentials.json");
-
-export async function writeCookieFile(path: string, raw: string): Promise<void> {
-    const trimmed = raw.trim();
-    if (!trimmed) throw new Error("cookie value is empty");
-    await mkdir(dirname(path), { recursive: true });
-    await writeFile(path, JSON.stringify({ claude_ai_session_key: trimmed }, null, 2), "utf-8");
-    await chmod(path, 0o600);
+export interface IngestClaudeAiOptions {
+    /** Path to the Playwright persistent-context profile directory. */
+    profilePath?: string;
+    /** ISO timestamp watermark. */
+    since: string;
+    /** Sleep between conversation fetches (ms). Default 1000; tests can pass 0. */
+    sleepMs?: number;
+    /** Inject a context for tests. If provided, profilePath is ignored. */
+    context?: BrowserContext;
 }
 
-async function readStdin(): Promise<string> {
-    const chunks: string[] = [];
-    for await (const chunk of Bun.stdin.stream()) {
-        chunks.push(new TextDecoder().decode(chunk));
+const DEFAULT_PROFILE = join(homedir(), ".lucien", "playwright-profile");
+
+async function profileExists(p: string): Promise<boolean> {
+    try {
+        await access(p);
+        return true;
+    } catch {
+        return false;
     }
-    return chunks.join("");
 }
 
-// Only run main when this file is the entry point, not when imported by tests.
-if (import.meta.main) {
-    const raw = await readStdin();
-    await writeCookieFile(DEFAULT_PATH, raw);
-    console.log(`Wrote ${DEFAULT_PATH} (mode 0600).`);
+export async function ingestClaudeAi(
+    opts: IngestClaudeAiOptions
+): Promise<AdapterResult> {
+    const profilePath = opts.profilePath ?? DEFAULT_PROFILE;
+    const sleepMs = opts.sleepMs ?? 1000;
+
+    let ctx: BrowserContext;
+    let ownsCtx = false;
+    if (opts.context) {
+        ctx = opts.context;
+    } else {
+        if (!(await profileExists(profilePath))) {
+            return {
+                conversations: [],
+                new_watermark: opts.since,
+                complete: false,
+                summary: `claude-ai: no profile at ${profilePath}. Run scripts/auth-claude-ai-login.ts first.`,
+            };
+        }
+        ctx = await chromium.launchPersistentContext(profilePath, { headless: true });
+        ownsCtx = true;
+    }
+
+    try {
+        const page = ctx.pages()[0] ?? (await ctx.newPage());
+        await page.goto("https://claude.ai/", { waitUntil: "domcontentloaded" });
+
+        // 1. Org list
+        const orgsRes = await page.evaluate(async () => {
+            const r = await fetch("/api/organizations", {
+                credentials: "include",
+                headers: { Accept: "application/json" },
+            });
+            return { status: r.status, body: r.status === 200 ? await r.json() : null };
+        });
+        if (orgsRes.status === 401) {
+            return {
+                conversations: [],
+                new_watermark: opts.since,
+                complete: false,
+                summary:
+                    "claude-ai: profile is no longer authenticated (401). Re-run scripts/auth-claude-ai-login.ts.",
+            };
+        }
+        if (orgsRes.status !== 200 || !orgsRes.body?.length) {
+            return {
+                conversations: [],
+                new_watermark: opts.since,
+                complete: false,
+                summary: `claude-ai: org list failed with status ${orgsRes.status}`,
+            };
+        }
+        const orgId = (orgsRes.body as Array<{ uuid: string }>)[0].uuid;
+
+        // 2. Conversation list
+        const listRes = await page.evaluate(async (oid: string) => {
+            const r = await fetch(`/api/organizations/${oid}/chat_conversations`, {
+                credentials: "include",
+                headers: { Accept: "application/json" },
+            });
+            return { status: r.status, body: r.status === 200 ? await r.json() : null };
+        }, orgId);
+        if (listRes.status !== 200) {
+            return {
+                conversations: [],
+                new_watermark: opts.since,
+                complete: false,
+                summary: `claude-ai: conversation list failed with status ${listRes.status}`,
+            };
+        }
+        const items = listRes.body as ConvListItem[];
+        const fresh = filterListBySince(items, opts.since);
+
+        // 3. Per-conversation tree fetch
+        const conversations: NormalizedConversation[] = [];
+        let lastGoodUpdatedAt = opts.since;
+        let complete = true;
+
+        for (let i = 0; i < fresh.length; i++) {
+            const item = fresh[i];
+            if (i > 0 && sleepMs > 0) {
+                await new Promise((r) => setTimeout(r, sleepMs));
+            }
+            const treeRes = await page.evaluate(
+                async ([oid, cid]: [string, string]) => {
+                    const u = `/api/organizations/${oid}/chat_conversations/${cid}?tree=True&rendering_mode=messages&render_all_tools=true`;
+                    const r = await fetch(u, {
+                        credentials: "include",
+                        headers: { Accept: "application/json" },
+                    });
+                    return { status: r.status, body: r.status === 200 ? await r.json() : null };
+                },
+                [orgId, item.uuid] as [string, string]
+            );
+            if (treeRes.status !== 200 || !treeRes.body) {
+                console.warn(`[claude-ai] ${item.uuid} → status ${treeRes.status}, skipping`);
+                complete = false;
+                continue;
+            }
+            const conv = treeToNormalizedConversation(treeRes.body as ConvTree);
+            if (conv) conversations.push(conv);
+            lastGoodUpdatedAt = new Date(item.updated_at).toISOString();
+        }
+
+        return {
+            conversations,
+            new_watermark: lastGoodUpdatedAt,
+            complete,
+            summary: `claude-ai: ${conversations.length} conversations / ${conversations.reduce(
+                (n, c) => n + c.messages.length,
+                0
+            )} messages`,
+        };
+    } finally {
+        if (ownsCtx) await ctx.close();
+    }
 }
 ```
 
-- [ ] **Step 4: Run tests to verify they pass**
+- [ ] **Step 2: Write a gated integration test**
 
-Run: `bun test scripts/auth-set-claude-ai-cookie.test.ts`
-Expected: all 3 tests PASS.
+Create `scripts/sources/claude-ai.test.ts`:
 
-- [ ] **Step 5: Commit**
+```ts
+import { test, expect } from "bun:test";
+import { access } from "node:fs/promises";
+import { homedir } from "node:os";
+import { join } from "node:path";
+import { ingestClaudeAi } from "./claude-ai.js";
+
+const PROFILE = join(homedir(), ".lucien", "playwright-profile");
+
+async function profileExists(): Promise<boolean> {
+    try {
+        await access(PROFILE);
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+test("missing profile: returns empty result with helpful summary, complete=false", async () => {
+    const result = await ingestClaudeAi({
+        profilePath: "/tmp/lucien-nonexistent-profile-" + Date.now(),
+        since: "1970-01-01T00:00:00.000Z",
+        sleepMs: 0,
+    });
+    expect(result.conversations).toEqual([]);
+    expect(result.complete).toBe(false);
+    expect(result.summary).toMatch(/profile/i);
+});
+
+// This integration test only runs when the user has logged in via
+// scripts/auth-claude-ai-login.ts. Skipped otherwise so CI / fresh
+// clones don't fail.
+const hasProfile = await profileExists();
+const maybe = hasProfile ? test : test.skip;
+
+maybe(
+    "integration: fetches against real claude.ai with logged-in profile (slow)",
+    async () => {
+        const result = await ingestClaudeAi({
+            profilePath: PROFILE,
+            since: "2099-01-01T00:00:00.000Z", // future = empty result, just exercises auth path
+            sleepMs: 0,
+        });
+        // Either the org list succeeds and filtering produces zero (since=future),
+        // or we get a clean auth failure summary. Both are valid signals that the
+        // pipeline executed end-to-end without crashing.
+        expect(result.conversations).toEqual([]);
+        expect(typeof result.summary).toBe("string");
+    },
+    60_000
+);
+```
+
+- [ ] **Step 3: Run the tests**
+
+Run: `bun test scripts/sources/claude-ai.test.ts`
+Expected:
+- The "missing profile" test passes (no Playwright launched; just disk check).
+- The "integration" test passes if you logged in during Task 5, otherwise it's skipped.
+
+- [ ] **Step 4: Commit**
 
 ```bash
-git add scripts/auth-set-claude-ai-cookie.ts scripts/auth-set-claude-ai-cookie.test.ts
-git commit -m "feat: add helper to write claude.ai session cookie to ~/.lucien/credentials.json"
+git add scripts/sources/claude-ai.ts scripts/sources/claude-ai.test.ts
+git commit -m "feat: implement claude-ai source via Playwright persistent context"
 ```
 
+---
+
+## Task 8: Runbook documentation
+
+Replaces the original Task 8 (cookie auth helper). With Playwright there is no cookie file; auth lives in the profile directory. We instead capture the one-time setup steps in a runbook.
+
+**Files:**
+- Create: `docs/nightly-ingest-runbook.md`
+
+- [ ] **Step 1: Write the runbook**
+
+Create `docs/nightly-ingest-runbook.md` with this content:
+
+```markdown
+# Nightly Ingest — Runbook
+
+Spec 1 ships an incremental ingest path that pulls conversations from two sources into `~/Dreaming/.lucien/lucien.db`, feeding the existing chunk / cluster-assign / synthesize pipeline.
+
+## First-time setup
+
+One-time per machine.
+
+1. Install dependencies:
+   ```bash
+   bun install
+   bunx playwright install chromium
+   ```
+
+2. Log in to claude.ai once so the Playwright profile is populated:
+   ```bash
+   bun run scripts/auth-claude-ai-login.ts
+   ```
+   A Chromium window opens at claude.ai. Sign in if needed. The script exits when it detects an authenticated session. The profile is stored at `~/.lucien/playwright-profile/`.
+
+3. If you already had a `~/Downloads/lucien.db` from previous bootstrap runs, move it:
+   ```bash
+   mkdir -p ~/Dreaming/.lucien
+   mv ~/Downloads/lucien.db ~/Dreaming/.lucien/lucien.db
+   ```
+
+## Nightly run (manual for now)
+
+```bash
+bun run scripts/ingest-recent.ts        # pull new conversations from both sources
+bun run scripts/chunk.ts                # segment into topic chunks
+bun run scripts/cluster-assign.ts       # classify chunks into buckets
+bun run scripts/synthesize.ts           # update / create articles
+```
+
+Spec 2 will wrap this as a single Claude-orchestrated command.
+
+## Re-authenticating
+
+If a run reports `claude-ai: profile is no longer authenticated`, re-run:
+
+```bash
+bun run scripts/auth-claude-ai-login.ts
+```
+
+This typically only happens if you sign out of claude.ai in the Playwright profile, or after a very long period of inactivity.
+
+## State files
+
+| Path | Purpose |
+|---|---|
+| `~/Dreaming/.lucien/lucien.db` | sqlite — conversations, messages, chunks, buckets |
+| `~/Dreaming/.lucien/state.json` | per-source ingest watermarks |
+| `~/.lucien/playwright-profile/` | Playwright Chromium profile (cookies, local storage) |
+```
+
+- [ ] **Step 2: Commit**
+
+```bash
+git add docs/nightly-ingest-runbook.md
+git commit -m "docs: add nightly-ingest runbook covering first-time setup and the manual run sequence"
+```
+
+---
 ---
 
 ## Task 9: Orchestrator — failing integration test
