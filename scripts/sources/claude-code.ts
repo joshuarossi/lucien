@@ -2,7 +2,7 @@ import { Glob } from "bun";
 import { stat } from "node:fs/promises";
 import { basename, join } from "node:path";
 import type { AdapterResult, NormalizedConversation, NormalizedMessage } from "./types.js";
-import { LUCIEN_PROMPT_SENTINEL } from "../sentinel.js";
+import { isLucienInternalPrompt } from "../sentinel.js";
 
 interface IngestClaudeCodeOptions {
     /** Root directory to scan. */
@@ -75,9 +75,10 @@ async function parseSession(filePath: string): Promise<NormalizedConversation | 
         });
     }
 
-    // Skip Lucien's own orchestration sessions — they begin with our sentinel.
+    // Skip Lucien's own orchestration sessions — sentinel for new ones,
+    // known prompt prefixes for ones created before the sentinel landed.
     const firstUser = messages.find((m) => m.sender === "user");
-    if (firstUser && firstUser.text.startsWith(LUCIEN_PROMPT_SENTINEL)) {
+    if (firstUser && isLucienInternalPrompt(firstUser.text)) {
         console.warn(`[claude-code] skipping Lucien-internal session ${sessionId}`);
         return null;
     }

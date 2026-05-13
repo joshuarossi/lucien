@@ -9,3 +9,29 @@
  * any sessions in the wild that still use the old marker.
  */
 export const LUCIEN_PROMPT_SENTINEL = "<<LUCIEN_INTERNAL>> ";
+
+/**
+ * Historic prompt prefixes for Lucien-orchestration sessions that pre-date
+ * the sentinel. Sessions whose first user message begins with any of these
+ * strings were created by chunk.ts / chunk-recent.ts / cluster-assign*.ts /
+ * synthesize*.ts before the sentinel was added. The Claude Code source
+ * adapter checks against this list in addition to the sentinel so historic
+ * sessions stay filtered out forever.
+ *
+ * Add new entries if a Lucien prompt's opening line changes.
+ */
+export const LUCIEN_HISTORIC_PROMPT_PREFIXES = [
+    "You are analyzing one conversation between a user and an AI assistant",
+    "You will analyze ONE conversation between a user and an AI assistant",
+    "You will assign topic labels to buckets",
+    "You are organizing chunks of conversation into a personal wiki",
+    "You are a Wikipedia editor maintaining a personal wiki",
+];
+
+export function isLucienInternalPrompt(firstUserText: string): boolean {
+    if (firstUserText.startsWith(LUCIEN_PROMPT_SENTINEL)) return true;
+    for (const prefix of LUCIEN_HISTORIC_PROMPT_PREFIXES) {
+        if (firstUserText.startsWith(prefix)) return true;
+    }
+    return false;
+}
