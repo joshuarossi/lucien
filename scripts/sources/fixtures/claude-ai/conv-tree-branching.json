@@ -1,0 +1,45 @@
+{
+  "uuid": "conv-branching",
+  "name": "Branching chat",
+  "summary": "",
+  "created_at": "2026-05-11T10:00:00.000000+00:00",
+  "updated_at": "2026-05-11T10:10:00.000000+00:00",
+  "current_leaf_message_uuid": "m4",
+  "chat_messages": [
+    {
+      "uuid": "m1",
+      "sender": "human",
+      "parent_message_uuid": null,
+      "created_at": "2026-05-11T10:00:00.000000+00:00",
+      "content": [{ "type": "text", "text": "What is 2+2?" }]
+    },
+    {
+      "uuid": "m2-alt",
+      "sender": "assistant",
+      "parent_message_uuid": "m1",
+      "created_at": "2026-05-11T10:00:30.000000+00:00",
+      "content": [{ "type": "text", "text": "Five." }]
+    },
+    {
+      "uuid": "m2",
+      "sender": "assistant",
+      "parent_message_uuid": "m1",
+      "created_at": "2026-05-11T10:01:00.000000+00:00",
+      "content": [{ "type": "text", "text": "Four." }]
+    },
+    {
+      "uuid": "m3",
+      "sender": "human",
+      "parent_message_uuid": "m2",
+      "created_at": "2026-05-11T10:02:00.000000+00:00",
+      "content": [{ "type": "text", "text": "And 3+3?" }]
+    },
+    {
+      "uuid": "m4",
+      "sender": "assistant",
+      "parent_message_uuid": "m3",
+      "created_at": "2026-05-11T10:02:30.000000+00:00",
+      "content": [{ "type": "text", "text": "Six." }]
+    }
+  ]
+}
