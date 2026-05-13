@@ -138,47 +138,65 @@ export async function ingestClaudeAi(
                 summary: `claude-ai: org list failed with status ${orgsRes.status}`,
             };
         }
-        const orgId = (orgsRes.body as Array<{ uuid: string }>)[0].uuid;
+        const orgs = orgsRes.body as Array<{ uuid: string; name?: string }>;
 
-        // 2. Conversation list. Try a few endpoint variants — claude.ai's
-        // internal API is undocumented and the exact URL has shifted over time.
-        const listRes = await page.evaluate(async (oid: string) => {
-            const variants = [
-                `/api/organizations/${oid}/chat_conversations`,
-                `/api/organizations/${oid}/chat_conversations?limit=50&offset=0`,
-                `/api/account/conversations?organization_uuid=${oid}`,
-            ];
-            const attempts: Array<{ url: string; status: number; bodyHead: string }> = [];
-            for (const url of variants) {
+        // 2. Conversation list. Some orgs (e.g. corporate workspaces) deny
+        // chat_conversations reads with "Invalid authorization for organization".
+        // Try every org and aggregate from the ones that work.
+        const listResult = await page.evaluate(async (orgList: Array<{ uuid: string; name?: string }>) => {
+            const successes: Array<{ orgId: string; orgName?: string; items: unknown[] }> = [];
+            const failures: Array<{ orgId: string; orgName?: string; status: number; bodyHead: string }> = [];
+            for (const o of orgList) {
+                const url = `/api/organizations/${o.uuid}/chat_conversations`;
                 const r = await fetch(url, {
                     credentials: "include",
                     headers: { Accept: "application/json" },
                 });
                 if (r.status === 200) {
                     const body = await r.json();
-                    return { status: 200, body, attempts, winner: url };
+                    successes.push({ orgId: o.uuid, orgName: o.name, items: body as unknown[] });
+                } else {
+                    const head = (await r.text()).slice(0, 200);
+                    failures.push({ orgId: o.uuid, orgName: o.name, status: r.status, bodyHead: head });
                 }
-                const head = (await r.text()).slice(0, 200);
-                attempts.push({ url, status: r.status, bodyHead: head });
             }
-            return { status: attempts[attempts.length - 1].status, body: null, attempts, winner: null };
-        }, orgId);
-        if (listRes.status !== 200) {
+            return { successes, failures };
+        }, orgs);
+
+        if (listResult.successes.length === 0) {
             console.warn(
-                `[claude-ai] conversation list failed — attempts:\n${listRes.attempts
-                    .map((a) => `  ${a.status} ${a.url} :: ${a.bodyHead}`)
+                `[claude-ai] every org rejected chat_conversations read:\n${listResult.failures
+                    .map((f) => `  ${f.status} org=${f.orgId} (${f.orgName ?? "?"}) :: ${f.bodyHead}`)
                     .join("\n")}`
             );
             return {
                 conversations: [],
                 new_watermark: opts.since,
                 complete: false,
-                summary: `claude-ai: conversation list failed (all endpoint variants returned non-200; check warn above)`,
+                summary: `claude-ai: no readable orgs (${listResult.failures.length} attempted)`,
             };
         }
-        console.log(`[claude-ai] using list endpoint: ${listRes.winner}`);
-        const items = listRes.body as ConvListItem[];
-        const fresh = filterListBySince(items, opts.since);
+
+        for (const f of listResult.failures) {
+            console.warn(
+                `[claude-ai] skipping org ${f.orgId} (${f.orgName ?? "?"}): ${f.status}`
+            );
+        }
+        console.log(
+            `[claude-ai] reading from ${listResult.successes.length} org(s): ${listResult.successes
+                .map((s) => `${s.orgName ?? s.orgId}=${s.items.length}`)
+                .join(", ")}`
+        );
+
+        // Flatten items across all readable orgs, keeping track of which org
+        // each item came from so the per-conversation tree fetch hits the
+        // right endpoint.
+        const itemsWithOrg = listResult.successes.flatMap((s) =>
+            (s.items as ConvListItem[]).map((it) => ({ ...it, _orgId: s.orgId }))
+        );
+        const fresh = filterListBySince(itemsWithOrg, opts.since) as Array<
+            ConvListItem & { _orgId: string }
+        >;
 
         // 3. Per-conversation tree fetch
         //
@@ -206,7 +224,7 @@ export async function ingestClaudeAi(
                     });
                     return { status: r.status, body: r.status === 200 ? await r.json() : null };
                 },
-                [orgId, item.uuid] as [string, string]
+                [item._orgId, item.uuid] as [string, string]
             );
             if (treeRes.status !== 200 || !treeRes.body) {
                 console.warn(`[claude-ai] ${item.uuid} → status ${treeRes.status}, skipping`);

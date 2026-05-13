@@ -48,35 +48,46 @@ maybe(
 );
 
 test("watermark freezes at first failure even when a later conversation succeeds", async () => {
-    type Resp = { status: number; body: unknown };
-    const responses: Resp[] = [
-        { status: 200, body: [{ uuid: "org-1" }] },
+    // Responses are heterogeneous: org list is wrapped in {status,body},
+    // the list-probe response is {successes,failures}, tree fetches are
+    // wrapped in {status,body} again. Just use any[].
+    const responses: any[] = [
+        // /api/organizations  → wrapped as {status, body}
+        { status: 200, body: [{ uuid: "org-1", name: "personal" }] },
+        // List probe returns {successes, failures} directly (not wrapped).
+        // Use `any` for the response slot to allow heterogeneous shapes.
         {
-            status: 200,
-            body: [
+            successes: [
                 {
-                    uuid: "convA",
-                    name: "A",
-                    summary: "",
-                    created_at: "2026-05-10T10:00:00.000Z",
-                    updated_at: "2026-05-10T10:00:00.000Z",
-                },
-                {
-                    uuid: "convB",
-                    name: "B",
-                    summary: "",
-                    created_at: "2026-05-10T11:00:00.000Z",
-                    updated_at: "2026-05-10T11:00:00.000Z",
-                },
-                {
-                    uuid: "convC",
-                    name: "C",
-                    summary: "",
-                    created_at: "2026-05-10T12:00:00.000Z",
-                    updated_at: "2026-05-10T12:00:00.000Z",
+                    orgId: "org-1",
+                    orgName: "personal",
+                    items: [
+                        {
+                            uuid: "convA",
+                            name: "A",
+                            summary: "",
+                            created_at: "2026-05-10T10:00:00.000Z",
+                            updated_at: "2026-05-10T10:00:00.000Z",
+                        },
+                        {
+                            uuid: "convB",
+                            name: "B",
+                            summary: "",
+                            created_at: "2026-05-10T11:00:00.000Z",
+                            updated_at: "2026-05-10T11:00:00.000Z",
+                        },
+                        {
+                            uuid: "convC",
+                            name: "C",
+                            summary: "",
+                            created_at: "2026-05-10T12:00:00.000Z",
+                            updated_at: "2026-05-10T12:00:00.000Z",
+                        },
+                    ],
                 },
             ],
-        },
+            failures: [],
+        } as any,
         {
             status: 200,
             body: {

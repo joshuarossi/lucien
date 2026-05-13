@@ -33,7 +33,7 @@ afterEach(async () => {
  * responses in order. Used to drive the claude.ai adapter without a real
  * Playwright profile.
  */
-function fakeClaudeAiContext(responses: Array<{ status: number; body: unknown }>) {
+function fakeClaudeAiContext(responses: any[]) {
     let idx = 0;
     const fakePage = {
         async goto() {},
@@ -57,18 +57,26 @@ function fakeClaudeAiContext(responses: Array<{ status: number; body: unknown }>
 /** A minimal pair of scripted responses: 1 org, 1 conversation, with one user message. */
 function scriptedClaudeAi() {
     return [
-        { status: 200, body: [{ uuid: "org-1" }] },
+        // /api/organizations — wrapped as {status, body}
+        { status: 200, body: [{ uuid: "org-1", name: "personal" }] },
+        // List probe returns {successes, failures} directly (NOT wrapped).
         {
-            status: 200,
-            body: [
+            successes: [
                 {
-                    uuid: "claude-ai-conv-1",
-                    name: "Test web chat",
-                    summary: "",
-                    created_at: "2026-05-10T09:00:00.000Z",
-                    updated_at: "2026-05-10T09:05:00.000Z",
+                    orgId: "org-1",
+                    orgName: "personal",
+                    items: [
+                        {
+                            uuid: "claude-ai-conv-1",
+                            name: "Test web chat",
+                            summary: "",
+                            created_at: "2026-05-10T09:00:00.000Z",
+                            updated_at: "2026-05-10T09:05:00.000Z",
+                        },
+                    ],
                 },
             ],
+            failures: [],
         },
         {
             status: 200,
