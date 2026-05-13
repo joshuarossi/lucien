@@ -23,6 +23,7 @@ export async function loginInteractive(opts: LoginOptions = {}): Promise<void> {
 
     const ctx = await chromium.launchPersistentContext(profilePath, {
         headless,
+        channel: "chrome",
         viewport: { width: 1280, height: 800 },
     });
     const page = ctx.pages()[0] ?? (await ctx.newPage());

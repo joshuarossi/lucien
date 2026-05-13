@@ -54,7 +54,10 @@ export async function ingestClaudeAi(
         // (navigator.webdriver, missing window features) and blocks the request
         // with 403 even when the persistent profile holds valid sessionKey +
         // cf_clearance cookies. A short-lived visible window is the trade-off.
-        ctx = await chromium.launchPersistentContext(profilePath, { headless: false });
+        ctx = await chromium.launchPersistentContext(profilePath, {
+            headless: false,
+            channel: "chrome",
+        });
         ownsCtx = true;
     }
 
