@@ -5,6 +5,7 @@ import { dirname, join } from "node:path";
 import { ingestClaudeCode } from "./sources/claude-code.js";
 import { ingestClaudeAi } from "./sources/claude-ai.js";
 import type { AdapterResult, NormalizedConversation } from "./sources/types.js";
+import { LUCIEN_STATE_DIR } from "./state-path.js";
 
 const SCHEMA_SQL = `
 CREATE TABLE IF NOT EXISTS conversations (
@@ -70,8 +71,8 @@ function upsert(db: Database, conv: NormalizedConversation): void {
 }
 
 export interface RunOptions {
-    dreamingPath: string;
     claudeCodeRoot: string;
+    stateDir?: string;          // defaults to LUCIEN_STATE_DIR
     claudeAiContext?: import("playwright").BrowserContext;
     sleepMs?: number;
 }
@@ -82,11 +83,11 @@ export interface RunSummary {
 }
 
 export async function runIngestRecent(opts: RunOptions): Promise<RunSummary> {
-    const lucienDir = join(opts.dreamingPath, ".lucien");
-    const dbPath = join(lucienDir, "lucien.db");
-    const statePath = join(lucienDir, "state.json");
+    const stateDir = opts.stateDir ?? LUCIEN_STATE_DIR;
+    const dbPath = join(stateDir, "lucien.db");
+    const statePath = join(stateDir, "state.json");
 
-    await mkdir(lucienDir, { recursive: true });
+    await mkdir(stateDir, { recursive: true });
     const state = await readState(statePath);
 
     const [claudeCode, claudeAi] = await Promise.all([
@@ -119,12 +120,10 @@ export async function runIngestRecent(opts: RunOptions): Promise<RunSummary> {
 }
 
 if (import.meta.main) {
-    const dreaming = process.env.LUCIEN_DREAMING_PATH ?? join(homedir(), "Dreaming");
     const claudeCodeRoot =
         process.env.LUCIEN_CLAUDE_CODE_ROOT ?? join(homedir(), ".claude/projects");
 
     const result = await runIngestRecent({
-        dreamingPath: dreaming,
         claudeCodeRoot,
     });
     console.log(result.claudeCode.summary);

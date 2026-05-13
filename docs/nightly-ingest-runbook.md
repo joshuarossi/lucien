@@ -1,6 +1,8 @@
 # Nightly Ingest — Runbook
 
-Spec 1 ships an incremental ingest path that pulls conversations from two sources into `~/Dreaming/.lucien/lucien.db`, feeding the existing chunk / cluster-assign / synthesize pipeline.
+Spec 1 ships an incremental ingest path that pulls conversations from two sources into a local sqlite database, feeding the existing chunk / cluster-assign / synthesize pipeline.
+
+All Lucien runtime state lives **inside this repo** at `./.lucien/` (gitignored). The Dreaming (`~/Dreaming/`) stays purely your markdown wiki content.
 
 ## First-time setup
 
@@ -16,12 +18,12 @@ One-time per machine.
    ```bash
    bun run scripts/auth-claude-ai-login.ts
    ```
-   A Chromium window opens at claude.ai. Sign in if needed. The script exits when it detects an authenticated session. The profile is stored at `~/.lucien/playwright-profile/`.
+   A Chromium window opens at claude.ai. Sign in if needed. The script exits when it detects an authenticated session. The profile is stored at `./.lucien/playwright-profile/`.
 
-3. If you already had a `~/Downloads/lucien.db` from previous bootstrap runs, move it:
+3. If you have an existing `~/Downloads/lucien.db` from prior bootstrap runs, move it into place:
    ```bash
-   mkdir -p ~/Dreaming/.lucien
-   mv ~/Downloads/lucien.db ~/Dreaming/.lucien/lucien.db
+   mkdir -p ./.lucien
+   mv ~/Downloads/lucien.db ./.lucien/lucien.db
    ```
 
 ## Nightly run (manual for now)
@@ -47,8 +49,10 @@ This typically only happens if you sign out of claude.ai in the Playwright profi
 
 ## State files
 
+All under `./.lucien/` in this repo (gitignored):
+
 | Path | Purpose |
 |---|---|
-| `~/Dreaming/.lucien/lucien.db` | sqlite — conversations, messages, chunks, buckets |
-| `~/Dreaming/.lucien/state.json` | per-source ingest watermarks |
-| `~/.lucien/playwright-profile/` | Playwright Chromium profile (cookies, local storage) |
+| `./.lucien/lucien.db` | sqlite — conversations, messages, chunks, buckets |
+| `./.lucien/state.json` | per-source ingest watermarks |
+| `./.lucien/playwright-profile/` | Playwright Chromium profile (cookies, local storage) |

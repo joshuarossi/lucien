@@ -1,3 +1,6 @@
+# Lucien runtime state (sqlite, watermarks, Playwright profile)
+.lucien/
+
 # dependencies (bun install)
 node_modules
 

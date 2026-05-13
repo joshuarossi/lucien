@@ -3,8 +3,8 @@ import { spawn } from "node:child_process";
 import { homedir } from "node:os";
 import { join } from "node:path";
 import { writeFile, mkdir, access } from "node:fs/promises";
+import { DB_PATH } from "./state-path.js";
 
-const DB_PATH = join(homedir(), "Dreaming/.lucien/lucien.db");
 const DREAMING_PATH = join(homedir(), "Dreaming");
 const ARTICLES_PATH = join(DREAMING_PATH, "articles");
 

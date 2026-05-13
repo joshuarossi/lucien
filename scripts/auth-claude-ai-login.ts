@@ -1,9 +1,6 @@
 import { chromium } from "playwright";
-import { homedir } from "node:os";
-import { join } from "node:path";
 import { mkdir } from "node:fs/promises";
-
-const DEFAULT_PROFILE = join(homedir(), ".lucien", "playwright-profile");
+import { PLAYWRIGHT_PROFILE_PATH } from "./state-path.js";
 
 export interface LoginOptions {
     profilePath?: string;
@@ -18,7 +15,7 @@ export interface LoginOptions {
  * holds the cookies needed for headless runs.
  */
 export async function loginInteractive(opts: LoginOptions = {}): Promise<void> {
-    const profilePath = opts.profilePath ?? DEFAULT_PROFILE;
+    const profilePath = opts.profilePath ?? PLAYWRIGHT_PROFILE_PATH;
     const headless = opts.headless ?? false;
     const timeoutMs = (opts.timeoutSeconds ?? 300) * 1000;
 

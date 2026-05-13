@@ -6,11 +6,11 @@ import { join } from "node:path";
 import { Glob } from "bun";
 import { runIngestRecent } from "./ingest-recent.js";
 
-let dreamingDir: string;
+let stateDir: string;
 let claudeCodeDir: string;
 
 beforeEach(async () => {
-    dreamingDir = await mkdtemp(join(tmpdir(), "lucien-dream-"));
+    stateDir = await mkdtemp(join(tmpdir(), "lucien-state-"));
     claudeCodeDir = await mkdtemp(join(tmpdir(), "lucien-cc-"));
 
     // Copy claude-code fixtures into the temp Claude Code dir
@@ -24,7 +24,7 @@ beforeEach(async () => {
 });
 
 afterEach(async () => {
-    await rm(dreamingDir, { recursive: true, force: true });
+    await rm(stateDir, { recursive: true, force: true });
     await rm(claudeCodeDir, { recursive: true, force: true });
 });
 
@@ -95,7 +95,7 @@ function scriptedClaudeAi() {
 
 test("end-to-end: ingests both sources, writes sqlite, persists watermarks", async () => {
     const result = await runIngestRecent({
-        dreamingPath: dreamingDir,
+        stateDir: stateDir,
         claudeCodeRoot: claudeCodeDir,
         claudeAiContext: fakeClaudeAiContext(scriptedClaudeAi()),
         sleepMs: 0,
@@ -105,7 +105,7 @@ test("end-to-end: ingests both sources, writes sqlite, persists watermarks", asy
     expect(result.claudeAi.conversations.length).toBe(1);
     expect(result.claudeAi.conversations[0].uuid).toBe("claude-ai-conv-1");
 
-    const db = new Database(join(dreamingDir, ".lucien", "lucien.db"));
+    const db = new Database(join(stateDir, "lucien.db"));
     const convCount = (db.query("SELECT COUNT(*) as n FROM conversations").get() as { n: number }).n;
     const msgCount = (db.query("SELECT COUNT(*) as n FROM messages").get() as { n: number }).n;
     expect(convCount).toBe(
@@ -118,7 +118,7 @@ test("end-to-end: ingests both sources, writes sqlite, persists watermarks", asy
 test("second run is a no-op when nothing has changed", async () => {
     // First run populates everything.
     await runIngestRecent({
-        dreamingPath: dreamingDir,
+        stateDir: stateDir,
         claudeCodeRoot: claudeCodeDir,
         claudeAiContext: fakeClaudeAiContext(scriptedClaudeAi()),
         sleepMs: 0,
@@ -128,7 +128,7 @@ test("second run is a no-op when nothing has changed", async () => {
     // single web conv) — watermark should filter it out, Claude Code mtime
     // hasn't moved, so we expect zero new conversations.
     const r2 = await runIngestRecent({
-        dreamingPath: dreamingDir,
+        stateDir: stateDir,
         claudeCodeRoot: claudeCodeDir,
         claudeAiContext: fakeClaudeAiContext(scriptedClaudeAi()),
         sleepMs: 0,
@@ -140,13 +140,13 @@ test("second run is a no-op when nothing has changed", async () => {
 
 test("writes state.json with both per-source watermarks", async () => {
     await runIngestRecent({
-        dreamingPath: dreamingDir,
+        stateDir: stateDir,
         claudeCodeRoot: claudeCodeDir,
         claudeAiContext: fakeClaudeAiContext(scriptedClaudeAi()),
         sleepMs: 0,
     });
     const state = JSON.parse(
-        await Bun.file(join(dreamingDir, ".lucien", "state.json")).text()
+        await Bun.file(join(stateDir, "state.json")).text()
     );
     expect(state.claude_code.last_ingest_at).toMatch(/^\d{4}-/);
     expect(state.claude_ai.last_ingest_at).toMatch(/^\d{4}-/);
@@ -156,7 +156,7 @@ test("claude-ai failure: claude-code source still ingests", async () => {
     // Org list fails immediately → claude.ai returns empty, complete=false.
     const failingContext = fakeClaudeAiContext([{ status: 500, body: null }]);
     const result = await runIngestRecent({
-        dreamingPath: dreamingDir,
+        stateDir: stateDir,
         claudeCodeRoot: claudeCodeDir,
         claudeAiContext: failingContext,
         sleepMs: 0,

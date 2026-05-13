@@ -3,8 +3,7 @@ import { spawn } from "node:child_process";
 import { homedir } from "node:os";
 import { join } from "node:path";
 import { writeFile } from "node:fs/promises";
-
-const DB_PATH = join(homedir(), "Dreaming/.lucien/lucien.db");
+import { DB_PATH } from "./state-path.js";
 
 const CHUNK_PROMPT = `You will analyze ONE conversation between a user and an AI assistant. Identify ALL distinct topic chunks within it.
 

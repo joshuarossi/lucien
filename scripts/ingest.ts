@@ -2,12 +2,12 @@ import { Database } from "bun:sqlite";
 import { mkdir, readFile } from "node:fs/promises";
 import { homedir } from "node:os";
 import { dirname, join } from "node:path";
+import { DB_PATH } from "./state-path.js";
 
 const EXPORT_PATH = join(
     homedir(),
     "Downloads/data-e4d5cee8-64de-4767-b8f4-3d3011367edb-1778546131-bdee5b91-batch-0000/conversations.json"
 );
-const DB_PATH = join(homedir(), "Dreaming/.lucien/lucien.db");
 
 interface Message {
     uuid: string;

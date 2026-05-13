@@ -1,6 +1,4 @@
 import { chromium, type BrowserContext } from "playwright";
-import { homedir } from "node:os";
-import { join } from "node:path";
 import { access } from "node:fs/promises";
 import type { AdapterResult, NormalizedConversation } from "./types.js";
 import {
@@ -9,6 +7,7 @@ import {
     type ConvListItem,
     type ConvTree,
 } from "./claude-ai-linearize.js";
+import { PLAYWRIGHT_PROFILE_PATH } from "../state-path.js";
 
 export interface IngestClaudeAiOptions {
     /** Path to the Playwright persistent-context profile directory. */
@@ -20,8 +19,6 @@ export interface IngestClaudeAiOptions {
     /** Inject a context for tests. If provided, profilePath is ignored. */
     context?: BrowserContext;
 }
-
-const DEFAULT_PROFILE = join(homedir(), ".lucien", "playwright-profile");
 
 async function profileExists(p: string): Promise<boolean> {
     try {
@@ -35,7 +32,7 @@ async function profileExists(p: string): Promise<boolean> {
 export async function ingestClaudeAi(
     opts: IngestClaudeAiOptions
 ): Promise<AdapterResult> {
-    const profilePath = opts.profilePath ?? DEFAULT_PROFILE;
+    const profilePath = opts.profilePath ?? PLAYWRIGHT_PROFILE_PATH;
     const sleepMs = opts.sleepMs ?? 1000;
 
     let ctx: BrowserContext;

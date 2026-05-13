@@ -1,10 +1,7 @@
 import { test, expect } from "bun:test";
 import { access } from "node:fs/promises";
-import { homedir } from "node:os";
-import { join } from "node:path";
 import { ingestClaudeAi } from "./claude-ai.js";
-
-const PROFILE = join(homedir(), ".lucien", "playwright-profile");
+import { PLAYWRIGHT_PROFILE_PATH as PROFILE } from "../state-path.js";
 
 async function profileExists(): Promise<boolean> {
     try {
