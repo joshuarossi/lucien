@@ -24,8 +24,25 @@ export async function loginInteractive(opts: LoginOptions = {}): Promise<void> {
     const ctx = await chromium.launchPersistentContext(profilePath, {
         headless,
         channel: "chrome",
+        ignoreDefaultArgs: ["--enable-automation"],
+        args: ["--disable-blink-features=AutomationControlled"],
         viewport: { width: 1280, height: 800 },
     });
+    // Match the stealth applied during ingest so the profile is established
+    // under the same fingerprint Cloudflare will see on subsequent runs.
+    // Runs in the browser context (window / navigator are globals there).
+    await ctx.addInitScript(`
+        Object.defineProperty(Navigator.prototype, "webdriver", {
+            get: () => false,
+            configurable: true,
+        });
+        if (typeof window.chrome === "undefined") {
+            window.chrome = { runtime: {} };
+        }
+        Object.defineProperty(navigator, "languages", {
+            get: () => ["en-US", "en"],
+        });
+    `);
     const page = ctx.pages()[0] ?? (await ctx.newPage());
 
     await page.goto("https://claude.ai/", { waitUntil: "domcontentloaded" });

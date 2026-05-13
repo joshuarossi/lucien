@@ -31,6 +31,28 @@ async function profileExists(p: string): Promise<boolean> {
     }
 }
 
+/**
+ * Patch the obvious automation signals Cloudflare's bot detection looks at.
+ * Runs before any page script on every navigation. Combined with launching
+ * real Chrome (channel:chrome) and suppressing --enable-automation, this is
+ * enough for CF to treat the session as a regular browser.
+ */
+async function applyStealth(ctx: BrowserContext): Promise<void> {
+    // Runs in the browser context, not Node — Navigator / window are globals there.
+    await ctx.addInitScript(`
+        Object.defineProperty(Navigator.prototype, "webdriver", {
+            get: () => false,
+            configurable: true,
+        });
+        if (typeof window.chrome === "undefined") {
+            window.chrome = { runtime: {} };
+        }
+        Object.defineProperty(navigator, "languages", {
+            get: () => ["en-US", "en"],
+        });
+    `);
+}
+
 export async function ingestClaudeAi(
     opts: IngestClaudeAiOptions
 ): Promise<AdapterResult> {
@@ -57,7 +79,10 @@ export async function ingestClaudeAi(
         ctx = await chromium.launchPersistentContext(profilePath, {
             headless: false,
             channel: "chrome",
+            ignoreDefaultArgs: ["--enable-automation"],
+            args: ["--disable-blink-features=AutomationControlled"],
         });
+        await applyStealth(ctx);
         ownsCtx = true;
     }
 
