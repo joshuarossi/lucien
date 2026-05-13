@@ -1,13 +1,13 @@
 import { Database } from "bun:sqlite";
-import { readFile } from "node:fs/promises";
+import { mkdir, readFile } from "node:fs/promises";
 import { homedir } from "node:os";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
+import { DB_PATH } from "./state-path.js";
 
 const EXPORT_PATH = join(
     homedir(),
     "Downloads/data-e4d5cee8-64de-4767-b8f4-3d3011367edb-1778546131-bdee5b91-batch-0000/conversations.json"
 );
-const DB_PATH = join(homedir(), "Downloads/lucien.db");
 
 interface Message {
     uuid: string;
@@ -33,6 +33,7 @@ async function main() {
     console.log(`Loaded ${data.length} conversations`);
 
     console.log(`Opening database at ${DB_PATH}...`);
+    await mkdir(dirname(DB_PATH), { recursive: true });
     const db = new Database(DB_PATH);
 
     // Schema

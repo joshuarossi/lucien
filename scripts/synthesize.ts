@@ -3,8 +3,9 @@ import { spawn } from "node:child_process";
 import { homedir } from "node:os";
 import { join } from "node:path";
 import { writeFile, mkdir, access } from "node:fs/promises";
+import { DB_PATH } from "./state-path.js";
+import { LUCIEN_PROMPT_SENTINEL } from "./sentinel.js";
 
-const DB_PATH = join(homedir(), "Downloads/lucien.db");
 const DREAMING_PATH = join(homedir(), "Dreaming");
 const ARTICLES_PATH = join(DREAMING_PATH, "articles");
 
@@ -275,7 +276,7 @@ async function main() {
         let response: string | undefined;
         try {
             const callStart = Date.now();
-            response = await callClaude(prompt);
+            response = await callClaude(LUCIEN_PROMPT_SENTINEL + prompt);
             const callElapsed = ((Date.now() - callStart) / 1000).toFixed(1);
 
             let article = response.trim();

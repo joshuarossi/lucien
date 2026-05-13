@@ -133,25 +133,55 @@ async function main() {
     );
   `);
 
+    // Migrate older databases that created chunked_conversations without the
+    // `status` column. CREATE TABLE IF NOT EXISTS doesn't add columns to an
+    // existing table, so we check via PRAGMA and ALTER if needed.
+    const ccCols = db
+        .query("PRAGMA table_info(chunked_conversations)")
+        .all() as Array<{ name: string }>;
+    if (!ccCols.some((c) => c.name === "status")) {
+        db.exec("ALTER TABLE chunked_conversations ADD COLUMN status TEXT");
+    }
+
+    // Select both new conversations (never chunked) and stale ones (grown since last chunk).
     const todoQuery = db.query(`
-    SELECT c.uuid, c.name 
+    SELECT c.uuid, c.name, c.updated_at,
+           CASE
+             WHEN cc.conversation_uuid IS NULL THEN 'new'
+             ELSE 'stale'
+           END AS reason
     FROM conversations c
-    WHERE c.uuid NOT IN (SELECT conversation_uuid FROM chunked_conversations)
+    LEFT JOIN chunked_conversations cc ON cc.conversation_uuid = c.uuid
+    WHERE cc.conversation_uuid IS NULL
+       OR c.updated_at > cc.chunked_at
     ORDER BY c.updated_at ASC
   `);
-    const todo = todoQuery.all() as { uuid: string; name: string }[];
+    const todo = todoQuery.all() as {
+        uuid: string;
+        name: string;
+        updated_at: string;
+        reason: "new" | "stale";
+    }[];
 
-    console.log(`Conversations to chunk: ${todo.length}`);
+    console.log(`Conversations to process: ${todo.length}`);
     if (todo.length === 0) {
-        console.log("All conversations already chunked. Nothing to do.");
+        console.log("Nothing new or grown since last run. Nothing to do.");
         return;
     }
 
+    const newCount = todo.filter((r) => r.reason === "new").length;
+    const staleCount = todo.filter((r) => r.reason === "stale").length;
+    console.log(`  ${newCount} new, ${staleCount} grown (stale)`);
+
     const messagesQuery = db.query(`
-    SELECT uuid, sender, text 
-    FROM messages 
-    WHERE conversation_uuid = ? 
+    SELECT uuid, sender, text
+    FROM messages
+    WHERE conversation_uuid = ?
     ORDER BY position
+  `);
+
+    const deleteStaleChunks = db.prepare(`
+    DELETE FROM chunks WHERE conversation_uuid = ?
   `);
 
     const insertChunk = db.prepare(`
@@ -168,6 +198,7 @@ async function main() {
     let i = 0;
     let stats = {
         chunked: 0,
+        refreshed_stale: 0,
         empty: 0,
         no_assistant: 0,
         refused: 0,
@@ -179,9 +210,14 @@ async function main() {
         const messages = messagesQuery.all(convMeta.uuid) as Message[];
         const nonEmpty = messages.filter((m) => m.text && m.text.trim());
 
+        const reasonLabel =
+            convMeta.reason === "stale" ? "stale: refresh" : "new";
+
         // Skip 1: conversation is fully empty (likely deleted)
         if (nonEmpty.length === 0) {
-            console.log(`[${i}/${todo.length}] ${convMeta.uuid} — empty/deleted, skipping`);
+            console.log(
+                `[${i}/${todo.length}] ${convMeta.uuid} — empty/deleted, skipping (${reasonLabel})`
+            );
             markChunked.run(convMeta.uuid, new Date().toISOString(), "empty");
             stats.empty++;
             continue;
@@ -191,7 +227,7 @@ async function main() {
         const assistantMessages = nonEmpty.filter((m) => m.sender === "assistant");
         if (assistantMessages.length === 0) {
             console.log(
-                `[${i}/${todo.length}] ${convMeta.uuid} — no assistant response, skipping`
+                `[${i}/${todo.length}] ${convMeta.uuid} — no assistant response, skipping (${reasonLabel})`
             );
             markChunked.run(convMeta.uuid, new Date().toISOString(), "no_assistant");
             stats.no_assistant++;
@@ -199,8 +235,13 @@ async function main() {
         }
 
         console.log(
-            `[${i}/${todo.length}] ${convMeta.uuid} — ${convMeta.name || "(untitled)"}`
+            `[${i}/${todo.length}] ${convMeta.uuid} — ${convMeta.name || "(untitled)"} (${reasonLabel})`
         );
+
+        // For stale conversations, remove old chunks before inserting fresh ones.
+        if (convMeta.reason === "stale") {
+            deleteStaleChunks.run(convMeta.uuid);
+        }
 
         const conv: Conversation = {
             uuid: convMeta.uuid,
@@ -239,7 +280,11 @@ async function main() {
             })();
 
             totalChunks += chunks.length;
-            stats.chunked++;
+            if (convMeta.reason === "stale") {
+                stats.refreshed_stale++;
+            } else {
+                stats.chunked++;
+            }
             console.log(`  → ${chunks.length} chunks (running total: ${totalChunks})`);
         } catch (err: any) {
             console.error(`  ERROR: ${err.message}`);
@@ -267,7 +312,8 @@ async function main() {
     console.log(`\nDone.`);
     console.log(`  Total chunks in database: ${finalCount.n}`);
     console.log(`  Stats:`);
-    console.log(`    Chunked: ${stats.chunked}`);
+    console.log(`    Chunked (new): ${stats.chunked}`);
+    console.log(`    Refreshed (stale): ${stats.refreshed_stale}`);
     console.log(`    Empty/deleted: ${stats.empty}`);
     console.log(`    No assistant response: ${stats.no_assistant}`);
     console.log(`    Refused by model: ${stats.refused}`);

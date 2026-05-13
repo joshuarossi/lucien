@@ -3,8 +3,7 @@ import { spawn } from "node:child_process";
 import { homedir } from "node:os";
 import { join } from "node:path";
 import { writeFile } from "node:fs/promises";
-
-const DB_PATH = join(homedir(), "Downloads/lucien.db");
+import { DB_PATH } from "./state-path.js";
 
 const TAXONOMY_PROMPT = `You will analyze a list of topic labels extracted from a user's conversations with AI assistants. Your job is to produce a coherent bucket taxonomy — a set of named buckets that organize these topics into a meaningful structure.
 
