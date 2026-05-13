@@ -140,22 +140,43 @@ export async function ingestClaudeAi(
         }
         const orgId = (orgsRes.body as Array<{ uuid: string }>)[0].uuid;
 
-        // 2. Conversation list
+        // 2. Conversation list. Try a few endpoint variants — claude.ai's
+        // internal API is undocumented and the exact URL has shifted over time.
         const listRes = await page.evaluate(async (oid: string) => {
-            const r = await fetch(`/api/organizations/${oid}/chat_conversations`, {
-                credentials: "include",
-                headers: { Accept: "application/json" },
-            });
-            return { status: r.status, body: r.status === 200 ? await r.json() : null };
+            const variants = [
+                `/api/organizations/${oid}/chat_conversations`,
+                `/api/organizations/${oid}/chat_conversations?limit=50&offset=0`,
+                `/api/account/conversations?organization_uuid=${oid}`,
+            ];
+            const attempts: Array<{ url: string; status: number; bodyHead: string }> = [];
+            for (const url of variants) {
+                const r = await fetch(url, {
+                    credentials: "include",
+                    headers: { Accept: "application/json" },
+                });
+                if (r.status === 200) {
+                    const body = await r.json();
+                    return { status: 200, body, attempts, winner: url };
+                }
+                const head = (await r.text()).slice(0, 200);
+                attempts.push({ url, status: r.status, bodyHead: head });
+            }
+            return { status: attempts[attempts.length - 1].status, body: null, attempts, winner: null };
         }, orgId);
         if (listRes.status !== 200) {
+            console.warn(
+                `[claude-ai] conversation list failed — attempts:\n${listRes.attempts
+                    .map((a) => `  ${a.status} ${a.url} :: ${a.bodyHead}`)
+                    .join("\n")}`
+            );
             return {
                 conversations: [],
                 new_watermark: opts.since,
                 complete: false,
-                summary: `claude-ai: conversation list failed with status ${listRes.status}`,
+                summary: `claude-ai: conversation list failed (all endpoint variants returned non-200; check warn above)`,
             };
         }
+        console.log(`[claude-ai] using list endpoint: ${listRes.winner}`);
         const items = listRes.body as ConvListItem[];
         const fresh = filterListBySince(items, opts.since);
 
