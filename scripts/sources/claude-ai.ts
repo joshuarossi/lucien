@@ -20,6 +20,12 @@ export interface IngestClaudeAiOptions {
     authTimeoutMs?: number;
     /** Inject a context for tests. If provided, profilePath is ignored. */
     context?: BrowserContext;
+    /**
+     * Optional predicate: return true if a conversation is already in the
+     * local DB at this updated_at (so we can skip the expensive tree fetch).
+     * Production wiring queries sqlite; tests can stub it.
+     */
+    isAlreadyIngested?: (uuid: string, updated_at: string) => boolean | Promise<boolean>;
 }
 
 async function profileExists(p: string): Promise<boolean> {
@@ -113,6 +119,10 @@ export async function ingestClaudeAi(
             });
             if (orgsRes.status === 200) break;
             if (orgsRes.status === 401) break;
+            // 5xx and other non-CF errors: stop polling. The server isn't
+            // going to heal mid-loop, and we want a fast, deterministic exit
+            // for tests and for production diagnostics alike.
+            if (orgsRes.status >= 500) break;
             if (!warnedHuman && (orgsRes.status === 403 || orgsRes.status === 0)) {
                 console.warn(
                     "[claude-ai] Cloudflare challenge detected — solve the 'Verify you are human' checkbox in the open Chromium window. Subsequent runs reuse the resulting cf_clearance cookie for ~30 days."
@@ -210,11 +220,33 @@ export async function ingestClaudeAi(
         let watermarkFrozen = false;
         let complete = true;
 
+        let skippedCached = 0;
         for (let i = 0; i < fresh.length; i++) {
             const item = fresh[i];
-            if (i > 0 && sleepMs > 0) {
+            const progress = `${i + 1}/${fresh.length}`;
+
+            // DB pre-check: if we already have this conversation at this updated_at,
+            // skip the expensive tree fetch entirely. (Sqlite INSERT OR REPLACE
+            // would still produce the right end state, but this avoids the round
+            // trip to claude.ai, which is the slow part.)
+            if (opts.isAlreadyIngested) {
+                const cached = await opts.isAlreadyIngested(item.uuid, item.updated_at);
+                if (cached) {
+                    skippedCached++;
+                    if (!watermarkFrozen) {
+                        watermark = new Date(item.updated_at).toISOString();
+                    }
+                    if (skippedCached % 25 === 0) {
+                        console.log(`[claude-ai] ${progress} — ${skippedCached} cached so far`);
+                    }
+                    continue;
+                }
+            }
+
+            if (sleepMs > 0) {
                 await new Promise((r) => setTimeout(r, sleepMs));
             }
+            console.log(`[claude-ai] ${progress} fetching ${item.uuid} (${item.name ?? ""})`);
             const treeRes = await page.evaluate(
                 async ([oid, cid]: [string, string]) => {
                     const u = `/api/organizations/${oid}/chat_conversations/${cid}?tree=True&rendering_mode=messages&render_all_tools=true`;
@@ -237,6 +269,9 @@ export async function ingestClaudeAi(
             if (!watermarkFrozen) {
                 watermark = new Date(item.updated_at).toISOString();
             }
+        }
+        if (skippedCached > 0) {
+            console.log(`[claude-ai] skipped ${skippedCached} already-cached conversations`);
         }
 
         return {

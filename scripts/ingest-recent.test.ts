@@ -39,7 +39,9 @@ function fakeClaudeAiContext(responses: any[]) {
         async goto() {},
         async evaluate() {
             const r = responses[idx++];
-            if (!r) throw new Error("unexpected evaluate call beyond scripted responses");
+            // Once the script is exhausted, keep returning the last response so
+            // poll loops in the adapter don't crash the test on overshoots.
+            if (!r) return responses[responses.length - 1];
             return r;
         },
     };

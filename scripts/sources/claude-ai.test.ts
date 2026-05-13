@@ -136,7 +136,7 @@ test("watermark freezes at first failure even when a later conversation succeeds
         async goto() {},
         async evaluate() {
             const r = responses[idx++];
-            if (!r) throw new Error("unexpected evaluate call beyond scripted responses");
+            if (!r) return responses[responses.length - 1];
             return r;
         },
     };

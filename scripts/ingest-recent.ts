@@ -90,6 +90,19 @@ export async function runIngestRecent(opts: RunOptions): Promise<RunSummary> {
     await mkdir(stateDir, { recursive: true });
     const state = await readState(statePath);
 
+    // Open the DB up front so adapters can probe it for already-cached items.
+    const db = new Database(dbPath);
+    db.exec(SCHEMA_SQL);
+    const cacheLookup = db.prepare(
+        "SELECT updated_at FROM conversations WHERE uuid = ?"
+    );
+    const isAlreadyIngested = (uuid: string, updated_at: string): boolean => {
+        const row = cacheLookup.get(uuid) as { updated_at?: string } | undefined;
+        if (!row?.updated_at) return false;
+        return new Date(row.updated_at).toISOString() ===
+            new Date(updated_at).toISOString();
+    };
+
     const [claudeCode, claudeAi] = await Promise.all([
         ingestClaudeCode({
             rootDir: opts.claudeCodeRoot,
@@ -99,11 +112,10 @@ export async function runIngestRecent(opts: RunOptions): Promise<RunSummary> {
             context: opts.claudeAiContext,
             since: state.claude_ai.last_ingest_at,
             sleepMs: opts.sleepMs,
+            isAlreadyIngested,
         }),
     ]);
 
-    const db = new Database(dbPath);
-    db.exec(SCHEMA_SQL);
     const tx = db.transaction((convs: NormalizedConversation[]) => {
         for (const c of convs) upsert(db, c);
     });
