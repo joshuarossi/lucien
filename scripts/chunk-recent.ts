@@ -132,6 +132,16 @@ async function main() {
     );
   `);
 
+    // Migrate older databases that created chunked_conversations without the
+    // `status` column. CREATE TABLE IF NOT EXISTS doesn't add columns to an
+    // existing table, so we check via PRAGMA and ALTER if needed.
+    const ccCols = db
+        .query("PRAGMA table_info(chunked_conversations)")
+        .all() as Array<{ name: string }>;
+    if (!ccCols.some((c) => c.name === "status")) {
+        db.exec("ALTER TABLE chunked_conversations ADD COLUMN status TEXT");
+    }
+
     // Select both new conversations (never chunked) and stale ones (grown since last chunk).
     const todoQuery = db.query(`
     SELECT c.uuid, c.name, c.updated_at,
