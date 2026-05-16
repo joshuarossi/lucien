@@ -5,6 +5,7 @@ import { join } from "node:path";
 import { writeFile, mkdir, access, readFile } from "node:fs/promises";
 import { DB_PATH } from "./state-path.js";
 import { LUCIEN_PROMPT_SENTINEL } from "./sentinel.js";
+import { sanitizeArticleOutput } from "./sanitize-article.js";
 
 // Bootstrap prompt for NEW buckets that have no article on disk and no synthesis history.
 // Copied verbatim from scripts/synthesize.ts (SYNTHESIS_PROMPT_BOOTSTRAP) — kept separate
@@ -470,14 +471,7 @@ async function main() {
                 bootstrapResponse = await callClaude(LUCIEN_PROMPT_SENTINEL + bootstrapPrompt);
                 const callElapsed = ((Date.now() - callStart) / 1000).toFixed(1);
 
-                let article = bootstrapResponse.trim();
-                article = article.replace(/^```(?:markdown|md)?\s*\n/i, "");
-                article = article.replace(/\n```\s*$/, "");
-                article = article.trim();
-
-                if (!article || article.length < 50) {
-                    throw new Error(`Article too short: ${article.length} chars`);
-                }
+                const article = sanitizeArticleOutput(bootstrapResponse);
 
                 await writeFile(filePath, article + "\n");
                 synthesizedArticles.push(filename);
@@ -557,14 +551,7 @@ async function main() {
             response = await callClaude(LUCIEN_PROMPT_SENTINEL + prompt);
             const callElapsed = ((Date.now() - callStart) / 1000).toFixed(1);
 
-            let article = response.trim();
-            article = article.replace(/^```(?:markdown|md)?\s*\n/i, "");
-            article = article.replace(/\n```\s*$/, "");
-            article = article.trim();
-
-            if (!article || article.length < 50) {
-                throw new Error(`Article too short: ${article.length} chars`);
-            }
+            const article = sanitizeArticleOutput(response);
 
             await writeFile(filePath, article + "\n");
             synthesizedArticles.push(filename);
