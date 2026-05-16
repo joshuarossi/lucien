@@ -87,20 +87,35 @@ compounding lesson applied structurally: no corpus-wide payload, no growth acros
 
 ## Code structure
 
-- **`scripts/synthesis-core.ts`** (new) — shared: the two prompt constants (verbatim move),
-  `Bucket`/`Chunk`/`MessageRow` interfaces, helpers (`formatChunks`, `getOtherArticles`,
-  `bucketToFilename`, `callClaude` [stdin], `runGit`, `exists`), the
-  `synthesized_bucket_chunks` DDL, and `synthesizeOneBucket(db, bucket, { dryRun })` which
-  encapsulates Branch 3/4.
-- **`scripts/synthesize-one.ts`** (new) — thin CLI around `synthesizeOneBucket`; sets exit code.
-- **`scripts/synthesize-update.ts`** (rewritten) — manifest builder (incl. inline
-  backfill/orphan bookkeeping) + dispatcher + git commit + summary.
+**Constraint discovered during implementation:** the two synthesis prompt constants in
+`synthesize-update.ts` contain hand-escaped citation markup with an existing inconsistency
+between them (`[\\[1\\]]` in the bootstrap prompt vs. `[\[1\]]` in the update prompt). Moving
+that text into a shared module is a real corruption risk that would silently affect every
+synthesized article's citations. The decomposition is therefore done **without touching the
+existing file**:
+
+- **`scripts/synthesize-update.ts`** — **unchanged.** Its existing `--only-bucket <name>` flag
+  already runs the full Branch 1–4 logic (backfill / orphan / create / update) for exactly one
+  bucket, with minimal flat context. It *is* the per-article worker.
+- **`scripts/synthesize-dispatch.ts`** (new, the only new file) — builds the manifest from DB
+  state (read-only), prints it as JSON, and runs a sliding pool of
+  `bun run scripts/synthesize-update.ts --only-bucket <name>` child processes at
+  `--concurrency N` (default 1), with rate-limit-aware early stop.
+
+Trade-off vs. the original 3-file plan: each worker self-commits its one article (existing
+`--only-bucket` behaviour: commit message `Synthesis update: <bucket>`), so a run produces N
+small per-article commits instead of one aggregate commit. This is acceptable and arguably
+better — per-article git granularity, and a failed worker leaves a clean boundary. The
+single-aggregate-commit behaviour is intentionally dropped.
 
 ## CLI compatibility
 
-`bun run scripts/synthesize-update.ts` remains the entry point (runbook unchanged in spirit).
-Preserved: `--dry-run` (now prints the manifest), `--only-bucket <name>` (manifest filtered to
-one). Added: `--concurrency N` (default 1).
+`synthesize-update.ts` keeps its exact current interface (used directly as the worker and
+still usable standalone). The new nightly entry point is
+`bun run scripts/synthesize-dispatch.ts`, supporting: `--dry-run` (print manifest JSON, spawn
+nothing, zero tokens), `--only-bucket <name>` (manifest filtered to one), `--concurrency N`
+(default 1). The runbook's nightly step changes from `synthesize-update.ts` to
+`synthesize-dispatch.ts`.
 
 ## Out of scope
 

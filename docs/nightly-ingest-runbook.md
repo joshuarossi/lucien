@@ -58,8 +58,15 @@ Use this pipeline once. After that, run the nightly pipeline below.
 bun run scripts/ingest-recent.ts        # pull new conversations from both sources
 bun run scripts/chunk-recent.ts         # chunk only new conversations and those that grew
 bun run scripts/cluster-assign-recent.ts  # assign new chunks; propose new buckets when nothing fits
-bun run scripts/synthesize-update.ts    # update existing articles AND write articles for new buckets
+bun run scripts/synthesize-dispatch.ts  # build manifest, dispatch one isolated worker per article
 ```
+
+`synthesize-dispatch.ts` builds an inspectable JSON manifest (`{ bucket: { mode, chunkIds } }`)
+from DB state, then spawns `synthesize-update.ts --only-bucket <name>` as an isolated worker per
+article. `--concurrency N` (default 1 = sequential, behaviour-identical to the old monolithic
+run) controls the sliding worker pool. It halts launching new workers if a worker reports a
+rate-limit / usage-window signal; re-running resumes cleanly (idempotent via
+`synthesized_bucket_chunks`). `synthesize-update.ts` is unchanged and still usable standalone.
 
 What each step does differently from bootstrap:
 
@@ -79,16 +86,27 @@ The first time `synthesize-update.ts` runs against a bucket whose article alread
 ### Dry-run
 
 ```bash
-bun run scripts/synthesize-update.ts --dry-run
+bun run scripts/synthesize-dispatch.ts --dry-run
 ```
 
-Prints which buckets have new material, how many chunks each, and a preview of the would-be output. No files written, no chunks marked synthesized.
+Prints the full manifest JSON (every actionable bucket, its mode, and its chunk IDs) plus
+orphan/skip counts. Spawns no workers, spends zero tokens, writes nothing.
 
 ### Filter to one bucket
 
 ```bash
-bun run scripts/synthesize-update.ts --only-bucket Photography
+bun run scripts/synthesize-dispatch.ts --only-bucket Photography     # manifest + dispatch, one bucket
+bun run scripts/synthesize-update.ts  --only-bucket Photography      # run the worker directly
 ```
+
+### Concurrency
+
+```bash
+bun run scripts/synthesize-dispatch.ts --concurrency 5   # sliding pool of 5 workers
+```
+
+Default is 1 (sequential). Higher concurrency finishes faster in wall-clock but compresses the
+same token spend into a tighter window — it hits the 5-hour usage limit harder and burstier.
 
 ---
 
