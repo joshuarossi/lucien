@@ -4,7 +4,7 @@
  *   - postamble:  trailing maintainer-note / refusal block
  *   - refusal:    refusal signal phrase anywhere in body
  *   - dangling:   `conv:HASH` citation whose conversation isn't in the DB
- *   - spec-hash:  known fake spec-placeholder hashes (c7107ff6, 1d1037a7)
+ *   - spec-hash:  all-zero sentinel placeholder hashes (00000000/00000001)
  *   - bad-link:   `[[Target]]` with spaces whose underscored form is not a stem
  *   - empty:      0-byte / <50-char file
  *
@@ -17,7 +17,11 @@ import { Database } from "bun:sqlite";
 import { DB_PATH } from "./state-path.js";
 
 const ARTICLES = join(homedir(), "Dreaming", "articles");
-const SPEC_HASHES = ["c7107ff6", "1d1037a7", "00000000", "00000001"];
+// Only the all-zero sentinels are true placeholders. c7107ff6 / 1d1037a7
+// were ALSO used in the prompt example, but they are REAL conversation
+// UUIDs in the DB ("Dynamic range and bit depth in SDR video" / "Describing
+// the Archie project") and their citations are legitimate — not pollution.
+const SPEC_HASHES = ["00000000", "00000001"];
 const REFUSAL_SIGNALS = [
     "requires your permission",
     "I did not generate",
@@ -88,16 +92,12 @@ for (const file of files) {
         }
     }
 
-    for (const m of body.matchAll(/\[\[([^\]|#]+)\]\]/g)) {
-        const inner = m[1];
-        if (inner.includes(" ")) {
-            const underscored = inner.replace(/\s+/g, "_");
-            findings.push({
-                file,
-                kind: "bad-link",
-                detail: `[[${inner}]]${stems.has(underscored) ? " (fixable→underscore)" : " (no matching stem)"}`,
-            });
-        }
+    for (const m of body.matchAll(/\[\[([^\]|#]+?)(?:\|[^\]]*)?\]\]/g)) {
+        const inner = m[1].trim();
+        const underscored = inner.replace(/\s+/g, "_");
+        if (stems.has(inner) || stems.has(underscored)) continue; // resolves fine
+        const kind = inner.includes(" ") ? "bad-link" : "phantom-link";
+        findings.push({ file, kind, detail: `[[${inner}]]` });
     }
 }
 
@@ -106,7 +106,7 @@ const byKind: Record<string, Finding[]> = {};
 for (const f of findings) (byKind[f.kind] ??= []).push(f);
 
 console.log(`Audited ${files.length} articles. ${findings.length} findings.\n`);
-for (const kind of ["empty", "preamble", "postamble", "refusal", "dangling", "spec-hash", "bad-link"]) {
+for (const kind of ["empty", "preamble", "postamble", "refusal", "dangling", "spec-hash", "bad-link", "phantom-link"]) {
     const fs = byKind[kind];
     if (!fs?.length) continue;
     console.log(`## ${kind} (${fs.length})`);
