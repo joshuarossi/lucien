@@ -5,6 +5,7 @@ import { join } from "node:path";
 import { writeFile, mkdir, access } from "node:fs/promises";
 import { DB_PATH } from "./state-path.js";
 import { LUCIEN_PROMPT_SENTINEL } from "./sentinel.js";
+import { sanitizeArticleOutput } from "./sanitize-article.js";
 
 const DREAMING_PATH = join(homedir(), "Dreaming");
 const ARTICLES_PATH = join(DREAMING_PATH, "articles");
@@ -307,14 +308,7 @@ async function main() {
             response = await callClaude(LUCIEN_PROMPT_SENTINEL + prompt);
             const callElapsed = ((Date.now() - callStart) / 1000).toFixed(1);
 
-            let article = response.trim();
-            article = article.replace(/^```(?:markdown|md)?\s*\n/i, "");
-            article = article.replace(/\n```\s*$/, "");
-            article = article.trim();
-
-            if (!article || article.length < 50) {
-                throw new Error(`Article too short: ${article.length} chars`);
-            }
+            const article = sanitizeArticleOutput(response);
 
             await writeFile(filePath, article + "\n");
             synthesizedArticles.push(filename);
