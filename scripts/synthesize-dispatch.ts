@@ -221,7 +221,7 @@ async function main() {
     const args = parseArgs();
 
     console.log(`Opening database at ${DB_PATH}...`);
-    const db = new Database(DB_PATH, { readonly: false });
+    const db = new Database(DB_PATH);
 
     const { actionable, orphans, skipped } = await buildManifest(
         db,
