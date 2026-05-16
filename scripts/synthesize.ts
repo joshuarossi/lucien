@@ -25,34 +25,29 @@ The Dreaming follows Wikipedia editorial conventions, adapted for personal scope
 - When the user has expressed strong opinions, capture them accurately as the user's positions.
 - Use wikilinks for references to other articles in the Dreaming: [[Article Name]]. You can link to any of the articles listed in OTHER ARTICLES below.
 
-CITATIONS — source conversations (required; matches Meta/Article_Conventions.md in the Dreaming):
+CITATIONS — source conversations (required):
 
-Cite substantive claims from the chunks using Wikipedia-style numbered footnotes only. Do not use deprecated inline [conv:HASH], bullet lines like "- [conv:HASH] …" in the body, or multi-conversation brackets such as [conv:a, conv:b].
+Cite substantive claims using Markdown footnotes. This is the ONLY allowed citation format.
 
-Inline form — place immediately after the claim. Preserve the backslashes before [ and ] exactly (they keep the visible text as [N] instead of nested markdown):
+Inline: place a footnote marker immediately after the claim.
 
-...claim text.<sup id="cite-1-1">[\[1\]](#ref-1)</sup>
+...claim text.[^1]
 
-Numbering and anchors:
-- Assign reference numbers 1, 2, 3, … in order of first appearance in the article body (through the last substantive section; do not count ## References).
-- Canonical hash: in each reference line, use the first 8 lowercase hex digits of the conversation UUID (strip hyphens). Example: 00000000-0000-0000-0000-000000000000 → 00000000. The hashes shown in this instruction and in the example reference rows below (conv:00000000, conv:00000001) are ILLUSTRATIVE PLACEHOLDERS. They must NEVER appear in your output. Every conv:HASH you emit must be the real first-8 hex of a conversation UUID that appears in the SOURCE MATERIAL provided to you.
-- Same conversation cited multiple times: reuse one number N for all of those inline cites. One ## References row for that N.
-- Inline ids: cite-N-K — N is the reference number; K is 1-indexed occurrence count (first cite of ref 3 is cite-3-1, second is cite-3-2).
-- Reference row: put <a id="ref-N"></a> immediately after the list number.
+Definitions: collect all footnote definitions in a "## References" section at the very end of the article (after "## See also"). One line per distinct source conversation:
 
-NEVER fabricate a citation. If a claim cannot be tied to a specific conversation present in the SOURCE MATERIAL, leave the claim uncited — an uncited true statement is acceptable; a citation to a conversation that is not in the source material is a defect. Do not invent a hash, do not reuse an example hash, do not guess.
+[^1]: \`conv:HASH\` — Conversation title or short description
 
-## References section (at the end, after See also):
+Rules:
+- Number footnotes 1, 2, 3, … in order of first appearance in the body.
+- Same conversation cited multiple times: reuse the same [^N] marker every time; emit exactly ONE [^N]: definition line for it.
+- Two different conversations supporting one sentence: adjacent markers with no space — [^1][^2].
+- Canonical hash: the first 8 lowercase hex digits of the conversation UUID, hyphens stripped. Example: 00000000-0000-0000-0000-000000000000 → 00000000. \`conv:00000000\` and \`conv:00000001\` are ILLUSTRATIVE PLACEHOLDERS and must NEVER appear in your output. Every conv:HASH you emit must be the real first-8 hex of a conversation UUID that appears in the SOURCE MATERIAL provided to you.
+- In every definition line the conv:HASH MUST be wrapped in backticks. Exactly one \`conv:HASH\` per line. An optional " — short description" may follow.
+- Every [^N] marker in the body must have a matching [^N]: definition, and vice versa. Numbers contiguous from 1.
 
-Each line is: list number, space, <a id="ref-N"></a>, immediately back-link(s) with no space before the first [ (mandatory), then a space, then exactly one markdown code span \`conv:HASH\` (the word conv:, the 8-char hash, and the backticks are all required), then optional — description. Never duplicate \`conv:HASH\` on one line; never emit bare conv:HASH without backticks.
+NEVER fabricate a citation. If a claim cannot be tied to a specific conversation present in the SOURCE MATERIAL, leave the claim uncited — an uncited true statement is acceptable; a citation to a conversation that is not in the source material is a defect. Do not invent a hash, do not reuse a placeholder hash, do not guess.
 
-1. <a id="ref-1"></a>[↩a](#cite-1-1) [↩b](#cite-1-2) \`conv:00000000\` — Conversation title or short description
-2. <a id="ref-2"></a>[↩](#cite-2-1) \`conv:00000001\` — Conversation title or short description
-
-Back-links (required on every reference row): exactly one inline cite → use [↩](#cite-N-1) only (not [↩a]). Two or more inline cites of the same ref → [↩a](#cite-N-1) [↩b](#cite-N-2) … (letters a–z, space-separated, one per inline occurrence).
-Reference text after back-links: exactly one \`conv:HASH\` in markdown backticks — then an em-dash and title or brief description when the chunk/source name is known; otherwise just \`conv:HASH\` in backticks (no em-dash).
-Two different conversations for one sentence: two adjacent <sup> tags, not one combined marker.
-Every cite-N-K in the body must pair with ref-N in ## References; each ref-N must have at least one cite-N-K; numbers contiguous from 1.
+FORBIDDEN — never emit any of these (they create broken phantom links in the wiki graph): HTML <sup> tags, <a id=...> anchors, #ref- or #cite- fragment links, escaped-bracket markers like [\[1\]], or wikilink-style numeric markers like [[1]]. Footnotes ([^N] / [^N]:) are the only citation syntax permitted.
 
 LENGTH GUIDANCE:
 - Articles should be as long as the source material justifies, no longer.
@@ -77,7 +72,7 @@ Output ONLY the markdown article. No preamble, no explanation, no JSON, no markd
 
 The article should start with the title as a level-1 heading (# Title), followed by the lead paragraph, then sections.
 
-Before you finish, verify: every <sup id="cite-…"> matches a ref-N; every ref-N has correct ↩ back-links; each reference row contains \`conv:HASH\` in backticks, not bare conv: text.
+Before you finish, verify: every [^N] marker in the body has a matching [^N]: definition; every [^N]: definition has at least one [^N] marker; each definition line contains \`conv:HASH\` in backticks, not bare conv: text; numbers are contiguous from 1.
 `;
 
 interface Bucket {
