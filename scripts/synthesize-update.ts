@@ -35,17 +35,19 @@ Inline form — place immediately after the claim. Preserve the backslashes befo
 
 Numbering and anchors:
 - Assign reference numbers 1, 2, 3, … in order of first appearance in the article body (through the last substantive section; do not count ## References).
-- Canonical hash: in each reference line, use the first 8 lowercase hex digits of the conversation UUID (strip hyphens). Example: c7107ff6-5142-4e14-b429-6e718a53dc34 → c7107ff6.
+- Canonical hash: in each reference line, use the first 8 lowercase hex digits of the conversation UUID (strip hyphens). Example: 00000000-0000-0000-0000-000000000000 → 00000000. The hashes shown in this instruction and in the example reference rows below (conv:00000000, conv:00000001) are ILLUSTRATIVE PLACEHOLDERS. They must NEVER appear in your output. Every conv:HASH you emit must be the real first-8 hex of a conversation UUID that appears in the SOURCE MATERIAL provided to you.
 - Same conversation cited multiple times: reuse one number N for all of those inline cites. One ## References row for that N.
 - Inline ids: cite-N-K — N is the reference number; K is 1-indexed occurrence count (first cite of ref 3 is cite-3-1, second is cite-3-2).
 - Reference row: put <a id="ref-N"></a> immediately after the list number.
+
+NEVER fabricate a citation. If a claim cannot be tied to a specific conversation present in the SOURCE MATERIAL, leave the claim uncited — an uncited true statement is acceptable; a citation to a conversation that is not in the source material is a defect. Do not invent a hash, do not reuse an example hash, do not guess.
 
 ## References section (at the end, after See also):
 
 Each line is: list number, space, <a id="ref-N"></a>, immediately back-link(s) with no space before the first [ (mandatory), then a space, then exactly one markdown code span \`conv:HASH\` (the word conv:, the 8-char hash, and the backticks are all required), then optional — description. Never duplicate \`conv:HASH\` on one line; never emit bare conv:HASH without backticks.
 
-1. <a id="ref-1"></a>[↩a](#cite-1-1) [↩b](#cite-1-2) \`conv:c7107ff6\` — Conversation title or short description
-2. <a id="ref-2"></a>[↩](#cite-2-1) \`conv:1d1037a7\` — Conversation title or short description
+1. <a id="ref-1"></a>[↩a](#cite-1-1) [↩b](#cite-1-2) \`conv:00000000\` — Conversation title or short description
+2. <a id="ref-2"></a>[↩](#cite-2-1) \`conv:00000001\` — Conversation title or short description
 
 Back-links (required on every reference row): exactly one inline cite → use [↩](#cite-N-1) only (not [↩a]). Two or more inline cites of the same ref → [↩a](#cite-N-1) [↩b](#cite-N-2) … (letters a–z, space-separated, one per inline occurrence).
 Reference text after back-links: exactly one \`conv:HASH\` in markdown backticks — then an em-dash and title or brief description when the chunk/source name is known; otherwise just \`conv:HASH\` in backticks (no em-dash).
@@ -108,17 +110,19 @@ Inline form — place immediately after the claim. Preserve the backslashes befo
 Numbering and anchors:
 - Assign reference numbers in order of first appearance in the article body (through the last substantive section; do not count ## References).
 - EXISTING citations keep their numbers unchanged. New citations start from (highest existing number + 1).
-- Canonical hash: in each reference line, use the first 8 lowercase hex digits of the conversation UUID (strip hyphens). Example: c7107ff6-5142-4e14-b429-6e718a53dc34 → c7107ff6.
+- Canonical hash: in each reference line, use the first 8 lowercase hex digits of the conversation UUID (strip hyphens). Example: 00000000-0000-0000-0000-000000000000 → 00000000. The hashes shown in this instruction and in the example reference rows below (conv:00000000, conv:00000001) are ILLUSTRATIVE PLACEHOLDERS. They must NEVER appear in your output. Every conv:HASH you emit must be the real first-8 hex of a conversation UUID that appears in the SOURCE MATERIAL provided to you.
 - Same conversation cited multiple times: reuse one number N for all of those inline cites. One ## References row for that N.
 - Inline ids: cite-N-K — N is the reference number; K is 1-indexed occurrence count (first cite of ref 3 is cite-3-1, second is cite-3-2).
 - Reference row: put <a id="ref-N"></a> immediately after the list number.
+
+NEVER fabricate a citation. If a claim cannot be tied to a specific conversation present in the SOURCE MATERIAL, leave the claim uncited — an uncited true statement is acceptable; a citation to a conversation that is not in the source material is a defect. Do not invent a hash, do not reuse an example hash, do not guess.
 
 ## References section (at the end, after See also):
 
 Each line is: list number, space, <a id="ref-N"></a>, immediately back-link(s) with no space before the first [ (mandatory), then a space, then exactly one markdown code span \`conv:HASH\` (the word conv:, the 8-char hash, and the backticks are all required), then optional — description. Never duplicate \`conv:HASH\` on one line; never emit bare conv:HASH without backticks.
 
-1. <a id="ref-1"></a>[↩a](#cite-1-1) [↩b](#cite-1-2) \`conv:c7107ff6\` — Conversation title or short description
-2. <a id="ref-2"></a>[↩](#cite-2-1) \`conv:1d1037a7\` — Conversation title or short description
+1. <a id="ref-1"></a>[↩a](#cite-1-1) [↩b](#cite-1-2) \`conv:00000000\` — Conversation title or short description
+2. <a id="ref-2"></a>[↩](#cite-2-1) \`conv:00000001\` — Conversation title or short description
 
 Back-links (required on every reference row): exactly one inline cite → use [↩](#cite-N-1) only (not [↩a]). Two or more inline cites of the same ref → [↩a](#cite-N-1) [↩b](#cite-N-2) … (letters a–z, space-separated, one per inline occurrence).
 Reference text after back-links: exactly one \`conv:HASH\` in markdown backticks — then an em-dash and title or brief description when the chunk/source name is known; otherwise just \`conv:HASH\` in backticks (no em-dash).
