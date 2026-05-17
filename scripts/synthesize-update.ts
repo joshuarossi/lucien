@@ -23,7 +23,7 @@ The Dreaming follows Wikipedia editorial conventions, adapted for personal scope
 - Preserve nuance and specific details. Don't generalize away the particulars — the value is in the specifics.
 - When the user's views have evolved over time, note that ("initially thought X, later refined to Y").
 - When the user has expressed strong opinions, capture them accurately as the user's positions.
-- Use wikilinks for references to other articles in the Dreaming: [[Article Name]]. You can link to any of the articles listed in OTHER ARTICLES below.
+- Use wikilinks for references to other articles in the Dreaming. The link target MUST be the exact article stem from OTHER ARTICLES below — underscores, never spaces: write [[AI_Coding_Workflow]], or with display text [[AI_Coding_Workflow|the coding workflow]]. The spaced form [[AI Coding Workflow]] resolves to nothing and creates a broken orphan link; it is forbidden.
 
 CITATIONS — source conversations (required):
 
@@ -90,7 +90,7 @@ INTEGRATION RULES:
 - Add new sections only when the new material does not fit naturally into existing sections.
 - When the user's views have evolved over time, note that ("initially thought X, later refined to Y").
 - When the user has expressed strong opinions, capture them accurately as the user's positions.
-- Use wikilinks for references to other articles in the Dreaming: [[Article Name]]. You can link to any of the articles listed in OTHER ARTICLES below.
+- Use wikilinks for references to other articles in the Dreaming. The link target MUST be the exact article stem from OTHER ARTICLES below — underscores, never spaces: write [[AI_Coding_Workflow]], or with display text [[AI_Coding_Workflow|the coding workflow]]. The spaced form [[AI Coding Workflow]] resolves to nothing and creates a broken orphan link; it is forbidden.
 - Use neutral, factual prose. The article describes what the user thinks and does, not what you (the synthesizer) believe.
 - Preserve nuance and specific details. Don't generalize away the particulars — the value is in the specifics.
 
@@ -266,7 +266,12 @@ function getOtherArticles(db: Database, excluding: string): string {
         .query("SELECT name, description FROM buckets WHERE name != ? ORDER BY name")
         .all(excluding) as Bucket[];
 
-    return others.map((b) => `- ${b.name}: ${b.description}`).join("\n");
+    // Feed the canonical underscore stem (the on-disk filename minus .md), not
+    // the spaced bucket name — this is the exact [[wikilink]] target the model
+    // must emit. Mismatched spaced links create broken orphan files in Obsidian.
+    return others
+        .map((b) => `- ${b.name.replace(/\s+/g, "_")}: ${b.description}`)
+        .join("\n");
 }
 
 interface CLIArgs {
