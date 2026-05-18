@@ -56,6 +56,22 @@ run_stage "chunk-recent"         "$BUN" run scripts/chunk-recent.ts         || e
 run_stage "cluster-assign-recent" "$BUN" run scripts/cluster-assign-recent.ts || exit 12
 run_stage "synthesize-dispatch"  "$BUN" run scripts/synthesize-dispatch.ts  || exit 13
 
+# Stage 5: normalize wikilink targets to canonical underscore stems. The
+# synthesizer can emit a spaced link ([[AI Coding Workflow]]) that resolves to
+# nothing and spawns a 0-byte orphan the next time it is clicked in Obsidian.
+# This sweep is idempotent and conservative (true redlinks are left alone), so
+# it is safe to run unconditionally. Stage only modifications to already-tracked
+# markdown articles ('git add -u' + a '*.md' pathspec) — this excludes both
+# Obsidian-created orphan stubs (untracked) and the tracked but noisy
+# articles/.obsidian/ workspace files.
+run_stage "normalize-wikilinks"  "$BUN" run scripts/normalize-wikilinks.ts  || exit 14
+(
+  cd "$HOME/Dreaming" \
+    && git add -u -- 'articles/*.md' \
+    && { git diff --cached --quiet \
+         || git commit -m "Normalize wikilinks to canonical article stems"; }
+) || echo "!!! normalize-wikilinks commit skipped (non-fatal)"
+
 echo ""
 echo "=== Lucien nightly run complete $(date) ==="
 

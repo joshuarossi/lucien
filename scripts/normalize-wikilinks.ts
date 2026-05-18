@@ -1,19 +1,69 @@
 /**
- * One-off: replace `[[Space Joined Name]]` wikilinks with `[[Space_Joined_Name]]`
- * across every article in the Dreaming, but only when the underscored form matches
- * an existing article filename. This avoids accidentally rewriting links to topics
- * that aren't yet articles (e.g. `[[Cartier-Bresson]]` stays as-is).
+ * Normalize `[[Space Joined Name]]` wikilinks to `[[Space_Joined_Name]]` across
+ * every article in the Dreaming, but only when the underscored form matches an
+ * existing article filename. Links to topics that aren't yet articles (true
+ * redlinks, e.g. `[[Cartier-Bresson]]`, `[[Mercury (planet)]]`) are left as-is.
  *
- * Idempotent: re-running after a successful pass finds zero matches.
+ * Handles the aliased and section forms — `[[Target|alias]]`,
+ * `[[Target#Section]]`, `[[Target#Section|alias]]` — by underscoring ONLY the
+ * link target. The alias is display text and the `#Section` anchor is matched
+ * by Obsidian against the literal heading; both are preserved verbatim.
+ *
+ * Idempotent: already-underscored links and redlinks are untouched, so a second
+ * pass finds zero matches.
+ *
+ * Run directly to normalize the on-disk corpus; imported for unit testing.
  */
 import { readdir, readFile, writeFile } from "node:fs/promises";
 import { homedir } from "node:os";
 import { join } from "node:path";
 
 const ARTICLES_DIR = join(homedir(), "Dreaming", "articles");
-const DRY_RUN = process.argv.includes("--dry-run");
+
+/**
+ * Rewrite spaced wikilink targets to their underscore stem when that stem is a
+ * known article. Pure: no filesystem access.
+ *
+ * @param content - article markdown
+ * @param stems - set of canonical article stems (filename without `.md`)
+ * @returns the rewritten content and the number of links changed
+ */
+export function normalizeWikilinks(
+    content: string,
+    stems: Set<string>
+): { content: string; edits: number } {
+    let edits = 0;
+
+    // `[^\]]+?` so the inner text may legitimately contain `|` and `#`.
+    const out = content.replace(/\[\[([^\]]+?)\]\]/g, (whole, inner: string) => {
+        // inner is one of: Target | Target|Alias | Target#Section |
+        //                  Target#Section|Alias
+        const pipeIdx = inner.indexOf("|");
+        const alias = pipeIdx === -1 ? null : inner.slice(pipeIdx + 1);
+        const beforeAlias = pipeIdx === -1 ? inner : inner.slice(0, pipeIdx);
+
+        const hashIdx = beforeAlias.indexOf("#");
+        const section = hashIdx === -1 ? null : beforeAlias.slice(hashIdx + 1);
+        const target = hashIdx === -1 ? beforeAlias : beforeAlias.slice(0, hashIdx);
+
+        // No space in the target → already canonical (or unspaced); leave alone.
+        if (!target.includes(" ")) return whole;
+
+        const underscored = target.replace(/\s+/g, "_");
+        if (!stems.has(underscored)) return whole; // true redlink — don't touch
+
+        let rebuilt = underscored;
+        if (section !== null) rebuilt += `#${section}`; // anchor preserved verbatim
+        if (alias !== null) rebuilt += `|${alias}`; // alias preserved verbatim
+        edits++;
+        return `[[${rebuilt}]]`;
+    });
+
+    return { content: out, edits };
+}
 
 async function main() {
+    const dryRun = process.argv.includes("--dry-run");
     const files = (await readdir(ARTICLES_DIR)).filter((f) => f.endsWith(".md"));
     const stems = new Set(files.map((f) => f.replace(/\.md$/, "")));
 
@@ -23,40 +73,22 @@ async function main() {
     for (const file of files) {
         const path = join(ARTICLES_DIR, file);
         const original = await readFile(path, "utf-8");
-        let edited = original;
+        const { content: edited, edits } = normalizeWikilinks(original, stems);
 
-        // Match [[…]] where the inner text has no pipe, hash, or already-underscored
-        // alternative. We only rewrite when the underscored form would be a valid stem.
-        edited = edited.replace(/\[\[([^\]|#]+)\]\]/g, (whole, inner: string) => {
-            // Already underscore form? leave alone.
-            if (!inner.includes(" ")) return whole;
-            const underscored = inner.replace(/\s+/g, "_");
-            if (!stems.has(underscored)) return whole; // no matching article
-            return `[[${underscored}]]`;
-        });
-
-        if (edited !== original) {
-            const before = (original.match(/\[\[[^\]|#]+\]\]/g) ?? []).filter(
-                (l) => /\s/.test(l)
-            ).length;
-            const after = (edited.match(/\[\[[^\]|#]+\]\]/g) ?? []).filter(
-                (l) => /\s/.test(l)
-            ).length;
-            const editsHere = before - after;
-            perFile[file] = editsHere;
-            totalEdits += editsHere;
-
-            if (!DRY_RUN) {
-                await writeFile(path, edited);
-            }
+        if (edits > 0) {
+            perFile[file] = edits;
+            totalEdits += edits;
+            if (!dryRun) await writeFile(path, edited);
         }
     }
 
-    console.log(`${DRY_RUN ? "[DRY RUN] " : ""}Total link rewrites: ${totalEdits}`);
+    console.log(`${dryRun ? "[DRY RUN] " : ""}Total link rewrites: ${totalEdits}`);
     console.log(`Files affected: ${Object.keys(perFile).length}`);
     for (const [f, n] of Object.entries(perFile).sort((a, b) => b[1] - a[1])) {
         console.log(`  ${n.toString().padStart(4)}  ${f}`);
     }
 }
 
-await main();
+if (import.meta.main) {
+    await main();
+}
