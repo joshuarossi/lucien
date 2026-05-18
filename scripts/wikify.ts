@@ -87,3 +87,57 @@ export function checkFootnoteIntegrity(text: string): CheckResult {
 
     return { ok: errors.length === 0, errors };
 }
+
+export interface VerifyOptions {
+    floor: number; // edited word count must be >= floor * original word count
+}
+
+function wordCount(s: string): number {
+    const t = s.trim();
+    return t ? t.split(/\s+/).length : 0;
+}
+
+/**
+ * Deterministic gate. On any failure the caller must discard the edit and keep
+ * the original. Catches citation/structure loss; does NOT catch nuance loss.
+ */
+export function verifyEditorialResult(
+    original: string,
+    edited: string,
+    opts: VerifyOptions
+): CheckResult {
+    const errors: string[] = [];
+
+    // 1. Citation preservation: every original hash must survive.
+    const before = extractConvHashes(original);
+    const after = extractConvHashes(edited);
+    for (const h of before) {
+        if (!after.has(h)) errors.push(`dropped citation conv:${h}`);
+    }
+
+    // 2. Footnote integrity on the edited article.
+    const fn = checkFootnoteIntegrity(edited);
+    if (!fn.ok) errors.push(...fn.errors);
+
+    // 3. Word floor.
+    const ow = wordCount(original);
+    const ew = wordCount(edited);
+    if (ow > 0 && ew < opts.floor * ow) {
+        errors.push(
+            `word count ${ew} below floor ${Math.ceil(opts.floor * ow)} (original ${ow})`
+        );
+    }
+
+    // 4. Structural sanity.
+    const firstNonEmpty = edited.split("\n").find((l) => l.trim().length > 0) ?? "";
+    if (!/^#\s+\S/.test(firstNonEmpty)) {
+        errors.push("edited article does not start with an H1 title");
+    }
+    const hadRefs = /^##\s+References\s*$/m.test(original);
+    const hasRefs = /^##\s+References\s*$/m.test(edited);
+    if (hadRefs && !hasRefs) {
+        errors.push("edited article dropped the ## References section");
+    }
+
+    return { ok: errors.length === 0, errors };
+}
