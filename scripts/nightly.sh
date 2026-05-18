@@ -11,12 +11,16 @@
 #
 # Everything is tee'd to .lucien/logs/nightly-<timestamp>.log.
 
-set -u
 set -o pipefail
 
 # launchd gives a minimal environment. Source the interactive profile so
 # bun / claude / git resolve exactly as they do in a normal terminal.
+# Done with nounset OFF: third-party dotfile code (chruby, LS_COLORS)
+# legitimately references unset params and would otherwise spam stderr.
 [ -f "$HOME/.zshrc" ] && source "$HOME/.zshrc"
+
+# Our own code runs under strict nounset; the profile above does not.
+set -u
 
 REPO="/Users/joshrossi/Code/lucien"
 cd "$REPO" || { echo "FATAL: cannot cd to $REPO"; exit 1; }
