@@ -16,6 +16,21 @@ import {
 } from "./tools/articles.js";
 import { lucienSetup } from "./tools/setup.js";
 
+// The `instructions` string is returned in the MCP `initialize` handshake and
+// surfaced to the model by every compliant client (Claude Code, Claude Desktop,
+// claude.ai connectors) at connect time. This is the cross-client priming
+// channel — the equivalent of a SessionStart hook, but it works everywhere the
+// MCP is connected, including hosted/remote deployments.
+const LUCIEN_INSTRUCTIONS = `The Dreaming (served by this server) is your synthesized, persistent memory of this user — a CURRENT-STATE LEDGER, not a transcript archive. Each ARTICLE is the consolidated understanding of its topic, already distilled from many past conversations: the synthesis from messages into understanding has been done for you. Recall is not understanding — do not reconstruct what the user thinks by searching raw history or stitching fragments together. Find the relevant article and read it; the article itself already contains the answer.
+
+Before doing substantive work for this user, query the Dreaming instead of guessing:
+- lucien_article_search — find the article(s) for a topic (start here)
+- lucien_list_articles — full index
+- lucien_article_read / lucien_article_section / lucien_article_toc — read an article in full
+- lucien_get_links — follow the wiki graph when a topic genuinely spans articles
+
+A topic may sometimes span more than one article, but each article is itself the complete synthesized understanding for its subject — you are reading a finished answer, not assembling one from pieces. Treat the article as the user's current position; \`conv:HASH\` footnotes are provenance — rely on the synthesized claim and trace rather than confabulate. Do not make the user re-explain what the Dreaming already records.`;
+
 const server = new Server(
     {
         name: "lucien",
@@ -25,6 +40,7 @@ const server = new Server(
         capabilities: {
             tools: {},
         },
+        instructions: LUCIEN_INSTRUCTIONS,
     }
 );
 
