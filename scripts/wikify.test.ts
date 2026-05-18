@@ -100,3 +100,27 @@ test("verifyEditorialResult rejects a missing H1 title", () => {
     expect(r.ok).toBe(false);
     expect(r.errors.join(" ")).toContain("H1 title");
 });
+
+import { splitModelOutput } from "./wikify.js";
+
+test("splitModelOutput returns the article and null talk when no block", () => {
+    const r = splitModelOutput("# Topic\n\nBody.\n");
+    expect(r.article).toBe("# Topic\n\nBody.");
+    expect(r.talk).toBeNull();
+});
+
+test("splitModelOutput separates a sentinel-delimited Talk block", () => {
+    const out =
+        "# Topic\n\nBody.\n\n" +
+        "<<<TALK>>>\nConsider splitting the Foo section into its own article.\n<<<END TALK>>>\n";
+    const r = splitModelOutput(out);
+    expect(r.article).toBe("# Topic\n\nBody.");
+    expect(r.talk).toBe("Consider splitting the Foo section into its own article.");
+});
+
+test("splitModelOutput strips a wrapping markdown code fence", () => {
+    const out = "```markdown\n# Topic\n\nBody.\n```";
+    const r = splitModelOutput(out);
+    expect(r.article).toBe("# Topic\n\nBody.");
+    expect(r.talk).toBeNull();
+});

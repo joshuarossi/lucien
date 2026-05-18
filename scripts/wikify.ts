@@ -141,3 +141,31 @@ export function verifyEditorialResult(
 
     return { ok: errors.length === 0, errors };
 }
+
+export interface SplitOutput {
+    article: string;
+    talk: string | null;
+}
+
+/** Parse the model contract: article text, then an optional Talk block. */
+export function splitModelOutput(raw: string): SplitOutput {
+    let s = raw.trim();
+
+    // Strip an accidental ```lang ... ``` wrapper.
+    const fence = s.match(/^```[a-zA-Z]*\n([\s\S]*?)\n```$/);
+    if (fence) s = fence[1]!.trim();
+
+    let talk: string | null = null;
+    const idx = s.indexOf("<<<TALK>>>");
+    if (idx !== -1) {
+        const end = s.indexOf("<<<END TALK>>>", idx);
+        const rawTalk =
+            end === -1
+                ? s.slice(idx + "<<<TALK>>>".length)
+                : s.slice(idx + "<<<TALK>>>".length, end);
+        talk = rawTalk.trim() || null;
+        s = s.slice(0, idx).trim();
+    }
+
+    return { article: s, talk };
+}
