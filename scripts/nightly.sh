@@ -54,7 +54,28 @@ run_stage() {
 run_stage "ingest-recent"        "$BUN" run scripts/ingest-recent.ts        || exit 10
 run_stage "chunk-recent"         "$BUN" run scripts/chunk-recent.ts         || exit 11
 run_stage "cluster-assign-recent" "$BUN" run scripts/cluster-assign-recent.ts || exit 12
+# Capture the Dreaming repo HEAD *before* synthesis so the editorial stage can
+# scope itself to exactly the articles this run rewrites (their "Synthesis
+# update:" commits land after this SHA).
+DREAM_BEFORE="$(git -C "$HOME/Dreaming" rev-parse HEAD 2>/dev/null || echo "")"
+
 run_stage "synthesize-dispatch"  "$BUN" run scripts/synthesize-dispatch.ts  || exit 13
+
+# Stage 4b: editorial pass. For every article synthesis touched this run,
+# wikify.ts runs a Wikipedia-editor restructure behind a deterministic gate
+# (no dropped citations, footnote integrity, >=70% word-floor, structural
+# sanity) and self-commits "Editorial restructure: <stem>" only when the gate
+# passes — a failed gate leaves the merged article untouched. Per-article
+# errors (e.g. a rate-limit mid-run) are logged and skipped, not fatal; the
+# stage exits 0 so the chain continues. A skipped article is simply not
+# restructured until it is synthesized again. Runs before normalize so any
+# links the editor emits are canonicalized by the next stage.
+if [ -n "$DREAM_BEFORE" ]; then
+  run_stage "synthesize-editorial" \
+    "$BUN" run scripts/wikify.ts --changed-since "$DREAM_BEFORE" || exit 15
+else
+  echo ">>> STAGE: synthesize-editorial :: SKIPPED (could not read Dreaming HEAD)"
+fi
 
 # Stage 5: normalize wikilink targets to canonical underscore stems. The
 # synthesizer can emit a spaced link ([[AI Coding Workflow]]) that resolves to
