@@ -169,3 +169,13 @@ export function splitModelOutput(raw: string): SplitOutput {
 
     return { article: s, talk };
 }
+
+/** Article stems (filename minus .md) from raw `git log --name-only` output. */
+export function parseChangedArticles(gitLog: string): Set<string> {
+    const stems = new Set<string>();
+    for (const line of gitLog.split("\n")) {
+        const m = line.trim().match(/^articles\/([^/]+)\.md$/);
+        if (m) stems.add(m[1]!);
+    }
+    return stems;
+}

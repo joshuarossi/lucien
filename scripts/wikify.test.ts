@@ -124,3 +124,22 @@ test("splitModelOutput strips a wrapping markdown code fence", () => {
     expect(r.article).toBe("# Topic\n\nBody.");
     expect(r.talk).toBeNull();
 });
+
+import { parseChangedArticles } from "./wikify.js";
+
+test("parseChangedArticles extracts unique article stems from name-only log", () => {
+    const log =
+        "articles/Archie_Project.md\n" +
+        "articles/AI_Coding_Workflow.md\n" +
+        "articles/Archie_Project.md\n" + // duplicate across commits
+        "articles/.obsidian/workspace.json\n" + // ignored: not articles/*.md
+        "Talk/Archie_Project.md\n"; // ignored: not under articles/
+    expect([...parseChangedArticles(log)].sort()).toEqual([
+        "AI_Coding_Workflow",
+        "Archie_Project",
+    ]);
+});
+
+test("parseChangedArticles returns empty set for empty input", () => {
+    expect(parseChangedArticles("").size).toBe(0);
+});
