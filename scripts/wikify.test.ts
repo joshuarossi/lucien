@@ -38,6 +38,17 @@ test("checkFootnoteIntegrity flags a definition with no marker", () => {
     expect(r.errors.join(" ")).toContain("definition [^2] has no marker");
 });
 
+test("checkFootnoteIntegrity counts a body marker glued to a colon", () => {
+    // Regression: `...types[^2]:` introducing a list is a body marker,
+    // not a definition. Only line-start `[^N]:` is a definition.
+    const ok =
+        "a.[^1] He found two types[^2]:\n\n- one\n- two\n\n" +
+        "## References\n\n" +
+        "[^1]: `conv:a1b2c3d4` — One\n" +
+        "[^2]: `conv:deadbeef` — Two\n";
+    expect(checkFootnoteIntegrity(ok)).toEqual({ ok: true, errors: [] });
+});
+
 test("checkFootnoteIntegrity flags non-contiguous numbering", () => {
     const bad = "a.[^1] b.[^3]\n\n[^1]: `conv:a1b2c3d4`\n[^3]: `conv:deadbeef`\n";
     const r = checkFootnoteIntegrity(bad);

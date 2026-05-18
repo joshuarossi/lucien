@@ -53,9 +53,17 @@ export function checkFootnoteIntegrity(text: string): CheckResult {
         defLineByNum.set(n, m[2]!);
     }
 
-    // Body markers: `[^N]` NOT followed by `:` (definitions excluded).
+    // Body markers: every `[^N]` outside a definition line. Only a
+    // line-START `[^N]:` is a definition, so strip those lines rather
+    // than excluding any `[^N]` followed by `:` — a body marker glued
+    // to a list-introducing colon (`...two types[^2]:`) is still a
+    // marker.
+    const bodyText = text
+        .split("\n")
+        .filter((l) => !/^\[\^\d+\]:/.test(l))
+        .join("\n");
     const markerNums = new Set<number>();
-    for (const m of text.matchAll(/\[\^(\d+)\](?!:)/g)) {
+    for (const m of bodyText.matchAll(/\[\^(\d+)\]/g)) {
         markerNums.add(parseInt(m[1]!, 10));
     }
 
