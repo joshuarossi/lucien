@@ -4,6 +4,8 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import {
     CallToolRequestSchema,
     ListToolsRequestSchema,
+    ListResourcesRequestSchema,
+    ReadResourceRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 import {
     expandDreamingPath,
@@ -13,6 +15,8 @@ import {
     listArticles,
     getArticleLinks,
     searchArticles,
+    articleResourceUri,
+    parseArticleResourceUri,
 } from "./tools/articles.js";
 import { lucienSetup } from "./tools/setup.js";
 
@@ -29,7 +33,9 @@ Before doing substantive work for this user, query the Dreaming instead of guess
 - lucien_article_read / lucien_article_section / lucien_article_toc — read an article in full
 - lucien_get_links — follow the wiki graph when a topic genuinely spans articles
 
-A topic may sometimes span more than one article, but each article is itself the complete synthesized understanding for its subject — you are reading a finished answer, not assembling one from pieces. Treat the article as the user's current position; \`conv:HASH\` footnotes are provenance — rely on the synthesized claim and trace rather than confabulate. Do not make the user re-explain what the Dreaming already records.`;
+A topic may sometimes span more than one article, but each article is itself the complete synthesized understanding for its subject — you are reading a finished answer, not assembling one from pieces. Treat the article as the user's current position; \`conv:HASH\` footnotes are provenance — rely on the synthesized claim and trace rather than confabulate. Do not make the user re-explain what the Dreaming already records.
+
+Use what you find SILENTLY, as priors that shape what you propose and what you don't — like a long-time colleague, not a system performing recall. Do not narrate it back ("Welcome back, I see you're working on X"); the value shows up in the relevance of the response, not in name-dropping. Treat doing the lookup BEFORE responding as itself the helpful move: overriding the pull to answer immediately from first principles is the point, not a detour.`;
 
 const server = new Server(
     {
@@ -39,10 +45,47 @@ const server = new Server(
     {
         capabilities: {
             tools: {},
+            resources: {},
         },
         instructions: LUCIEN_INSTRUCTIONS,
     }
 );
+
+// Resources expose the Dreaming as documents: every article is an addressable,
+// readable resource. This is "lookup, not search" — clients (Claude Desktop,
+// claude.ai, Claude Code) can list and attach articles directly. Reuses the
+// same file logic as the tools; the default Dreaming path (~/Dreaming) is used
+// since resource URIs carry no per-call dreaming_path.
+server.setRequestHandler(ListResourcesRequestSchema, async () => {
+    const dreamingPath = expandDreamingPath(undefined);
+    let articles: string[] = [];
+    try {
+        ({ articles } = await listArticles(dreamingPath));
+    } catch {
+        // No Dreaming on this machine yet — expose nothing rather than error.
+        return { resources: [] };
+    }
+    return {
+        resources: articles.map((stem) => ({
+            uri: articleResourceUri(stem),
+            name: stem,
+            mimeType: "text/markdown",
+        })),
+    };
+});
+
+server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
+    const uri = request.params.uri;
+    const stem = parseArticleResourceUri(uri);
+    if (!stem) {
+        throw new Error(`Unknown resource URI: ${uri}`);
+    }
+    const dreamingPath = expandDreamingPath(undefined);
+    const { content } = await readArticleMarkdown(dreamingPath, stem);
+    return {
+        contents: [{ uri, mimeType: "text/markdown", text: content }],
+    };
+});
 
 server.setRequestHandler(ListToolsRequestSchema, async () => ({
     tools: [

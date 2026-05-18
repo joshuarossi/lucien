@@ -12,6 +12,8 @@ import {
     listArticles,
     getArticleLinks,
     searchArticles,
+    articleResourceUri,
+    parseArticleResourceUri,
 } from "./articles.ts";
 
 test("slugifyHeading matches GitHub/Obsidian convention", () => {
@@ -162,4 +164,23 @@ test("searchArticles summaries rank by occurrences; hits respect limit", async (
     const capped = await searchArticles(dir, "term", { limit: 1 });
     expect(capped.summaries).toEqual(many.summaries);
     expect(capped.hits.length).toBe(1);
+});
+
+test("articleResourceUri round-trips a plain stem", () => {
+    const uri = articleResourceUri("Archie_Project");
+    expect(uri).toBe("lucien://article/Archie_Project");
+    expect(parseArticleResourceUri(uri)).toBe("Archie_Project");
+});
+
+test("articleResourceUri round-trips stems with punctuation", () => {
+    for (const stem of ["Recall.life_and_Don't_Wake_The_Baby", "No-Loss_Lottery_Project"]) {
+        expect(parseArticleResourceUri(articleResourceUri(stem))).toBe(stem);
+    }
+});
+
+test("parseArticleResourceUri rejects non-article and traversal URIs", () => {
+    expect(parseArticleResourceUri("https://example.com/x")).toBeNull();
+    expect(parseArticleResourceUri("lucien://article/")).toBeNull();
+    expect(parseArticleResourceUri("lucien://article/..%2f..%2fetc%2fpasswd")).toBeNull();
+    expect(parseArticleResourceUri("lucien://article/a%2Fb")).toBeNull();
 });

@@ -185,6 +185,35 @@ export async function readArticleMarkdown(
     return { path, content };
 }
 
+/**
+ * Stable MCP resource URI for an article. The scheme is the addressing
+ * contract clients use to list/read the Dreaming as documents — keep it
+ * stable (renaming it breaks every client's saved references).
+ */
+const ARTICLE_URI_PREFIX = "lucien://article/";
+
+export function articleResourceUri(stem: string): string {
+    return ARTICLE_URI_PREFIX + encodeURIComponent(stem);
+}
+
+/** Inverse of articleResourceUri. Returns the safe stem, or null if the URI is not a valid article resource. */
+export function parseArticleResourceUri(uri: string): string | null {
+    if (!uri.startsWith(ARTICLE_URI_PREFIX)) return null;
+    const raw = uri.slice(ARTICLE_URI_PREFIX.length);
+    if (!raw) return null;
+    let decoded: string;
+    try {
+        decoded = decodeURIComponent(raw);
+    } catch {
+        return null;
+    }
+    try {
+        return normalizeArticleStem(decoded);
+    } catch {
+        return null;
+    }
+}
+
 /** Filename stems for every `*.md` article under `articles/`, sorted alphabetically (non-recursive). */
 export async function listArticles(dreamingPath: string): Promise<{ articles: string[] }> {
     const articlesDir = join(dreamingPath, "articles");
