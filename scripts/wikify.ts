@@ -179,3 +179,37 @@ export function parseChangedArticles(gitLog: string): Set<string> {
     }
     return stems;
 }
+
+const EDITORIAL_PROMPT = `You are an expert Wikipedia editor improving ONE article in a personal wiki. You are NOT given new source material — your job is purely to restructure and tighten the article text below into the best possible single coherent Wikipedia-style article.
+
+DO:
+- Consolidate: wherever the same point, thesis, or example is restated in multiple places, merge it into ONE canonical passage and remove the echoes. State each thing once, in the right place. Do NOT add "see above" cross-references.
+- Regroup: gather scattered material on one topic into one section with subsections. Fix the heading hierarchy so depth tracks importance.
+- Lead: rewrite the lead to Wikipedia standards — 2 to 4 paragraphs that preview the major sections, with an accessible first sentence.
+
+HARD INVARIANT — information-preserving (this is non-negotiable):
+- Every substantive claim in the input must survive in the output. You may merge, compress, and relocate; you may NOT drop a claim.
+- Every \`conv:HASH\` citation and every footnote must survive. Footnote markers [^N] may be renumbered, but every [^N] must have a matching [^N]: definition and vice versa, contiguous from 1, and every definition line must keep its backticked \`conv:HASH\`.
+- Keep the single "# Title" H1 and the "## References" section.
+
+PERPETUAL, NOT CONVERGENT:
+- This article grows every night as new material is merged in. Your job is to keep the GROWN article well-structured. Do not optimize for a small diff; reorganize as much as the article needs.
+
+CROSS-ARTICLE ACTIONS — DO NOT PERFORM THESE:
+- Do not split this into multiple articles, merge it with another, or rename it.
+- If you believe such an action is warranted, do NOT do it. Instead, after the article, emit a block:
+<<<TALK>>>
+<one short paragraph: the suggested cross-article action and why>
+<<<END TALK>>>
+- Omit the block entirely if you have no such suggestion.
+
+OUTPUT:
+Output ONLY the full restructured markdown article, starting with "# ", optionally followed by the single <<<TALK>>> block. No preamble, no explanation, no code fences.
+
+ARTICLE TO RESTRUCTURE:
+{{ARTICLE}}
+`;
+
+export function buildEditorialPrompt(articleText: string): string {
+    return EDITORIAL_PROMPT.replace("{{ARTICLE}}", articleText);
+}

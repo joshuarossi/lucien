@@ -143,3 +143,14 @@ test("parseChangedArticles extracts unique article stems from name-only log", ()
 test("parseChangedArticles returns empty set for empty input", () => {
     expect(parseChangedArticles("").size).toBe(0);
 });
+
+import { buildEditorialPrompt } from "./wikify.js";
+
+test("buildEditorialPrompt embeds the article and the hard invariants", () => {
+    const p = buildEditorialPrompt("# Sample\n\nText with a claim.[^1]");
+    expect(p).toContain("# Sample\n\nText with a claim.[^1]");
+    expect(p).toContain("Wikipedia editor");
+    expect(p).toContain("must survive"); // info-preserving invariant
+    expect(p).toContain("<<<TALK>>>"); // cross-article contract
+    expect(p).toContain("not optimize for a small diff"); // perpetual-not-convergent
+});
