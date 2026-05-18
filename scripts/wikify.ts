@@ -213,3 +213,53 @@ ARTICLE TO RESTRUCTURE:
 export function buildEditorialPrompt(articleText: string): string {
     return EDITORIAL_PROMPT.replace("{{ARTICLE}}", articleText);
 }
+
+export interface ArticleIO {
+    readArticle: () => Promise<string>;
+    writeArticle: (content: string) => Promise<void>;
+    appendTalk: (entry: string) => Promise<void>;
+    commit: (message: string) => Promise<void>;
+    callModel: (prompt: string) => Promise<string>;
+}
+
+export interface WikifyOptions {
+    floor: number;
+    dryRun: boolean;
+}
+
+export interface WikifyResult {
+    stem: string;
+    status: "edited" | "would-edit" | "rejected" | "unchanged";
+    errors: string[];
+}
+
+export async function wikifyArticle(
+    stem: string,
+    io: ArticleIO,
+    opts: WikifyOptions
+): Promise<WikifyResult> {
+    const original = await io.readArticle();
+    const raw = await io.callModel(buildEditorialPrompt(original));
+    const { article, talk } = splitModelOutput(raw);
+
+    if (article.trim() === original.trim()) {
+        return { stem, status: "unchanged", errors: [] };
+    }
+
+    const gate = verifyEditorialResult(original, article, { floor: opts.floor });
+    if (!gate.ok) {
+        return { stem, status: "rejected", errors: gate.errors };
+    }
+
+    if (opts.dryRun) {
+        return { stem, status: "would-edit", errors: [] };
+    }
+
+    await io.writeArticle(article + "\n");
+    if (talk) {
+        const stamp = new Date().toISOString().slice(0, 10);
+        await io.appendTalk(`\n## ${stamp} — editorial suggestion\n\n${talk}\n`);
+    }
+    await io.commit(`Editorial restructure: ${stem}`);
+    return { stem, status: "edited", errors: [] };
+}

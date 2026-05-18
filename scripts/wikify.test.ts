@@ -154,3 +154,73 @@ test("buildEditorialPrompt embeds the article and the hard invariants", () => {
     expect(p).toContain("<<<TALK>>>"); // cross-article contract
     expect(p).toContain("not optimize for a small diff"); // perpetual-not-convergent
 });
+
+import { wikifyArticle } from "./wikify.js";
+
+const ORIG =
+    "# Topic\n\nLead.\n\n## Body\n\nClaim a.[^1] Claim b.[^2]\n\n" +
+    "## References\n\n[^1]: `conv:a1b2c3d4` — One\n[^2]: `conv:deadbeef` — Two\n";
+
+function deps(model: (p: string) => Promise<string>) {
+    const calls: Record<string, string> = {};
+    return {
+        spy: calls,
+        io: {
+            readArticle: async () => ORIG,
+            writeArticle: async (s: string) => {
+                calls.written = s;
+            },
+            appendTalk: async (s: string) => {
+                calls.talk = s;
+            },
+            commit: async (msg: string) => {
+                calls.commit = msg;
+            },
+            callModel: model,
+        },
+    };
+}
+
+test("wikifyArticle writes and commits a faithful restructure", async () => {
+    const good =
+        "# Topic\n\nA proper rebuilt lead spanning the body.\n\n" +
+        "## Body\n\nConsolidated a and b.[^1][^2]\n\n" +
+        "## References\n\n[^1]: `conv:a1b2c3d4` — One\n[^2]: `conv:deadbeef` — Two\n";
+    const { spy, io } = deps(async () => good);
+    const r = await wikifyArticle("Topic", io, { floor: 0.7, dryRun: false });
+    expect(r.status).toBe("edited");
+    expect(spy.written).toBe(good);
+    expect(spy.commit).toBe("Editorial restructure: Topic");
+});
+
+test("wikifyArticle keeps original and does NOT commit when gate fails", async () => {
+    const bad = "# Topic\n\nDropped b.[^1]\n\n## References\n\n[^1]: `conv:a1b2c3d4`\n";
+    const { spy, io } = deps(async () => bad);
+    const r = await wikifyArticle("Topic", io, { floor: 0.7, dryRun: false });
+    expect(r.status).toBe("rejected");
+    expect(r.errors.join(" ")).toContain("deadbeef");
+    expect(spy.written).toBeUndefined();
+    expect(spy.commit).toBeUndefined();
+});
+
+test("wikifyArticle dry-run never writes or commits even on a good edit", async () => {
+    const good =
+        "# Topic\n\nRebuilt lead.\n\n## Body\n\nConsolidated.[^1][^2]\n\n" +
+        "## References\n\n[^1]: `conv:a1b2c3d4` — One\n[^2]: `conv:deadbeef` — Two\n";
+    const { spy, io } = deps(async () => good);
+    const r = await wikifyArticle("Topic", io, { floor: 0.7, dryRun: true });
+    expect(r.status).toBe("would-edit");
+    expect(spy.written).toBeUndefined();
+    expect(spy.commit).toBeUndefined();
+});
+
+test("wikifyArticle appends a Talk block when the model emits one", async () => {
+    const good =
+        "# Topic\n\nRebuilt lead.\n\n## Body\n\nConsolidated.[^1][^2]\n\n" +
+        "## References\n\n[^1]: `conv:a1b2c3d4` — One\n[^2]: `conv:deadbeef` — Two\n\n" +
+        "<<<TALK>>>\nConsider splitting Body into its own article.\n<<<END TALK>>>";
+    const { spy, io } = deps(async () => good);
+    const r = await wikifyArticle("Topic", io, { floor: 0.7, dryRun: false });
+    expect(r.status).toBe("edited");
+    expect(spy.talk).toContain("Consider splitting Body");
+});
