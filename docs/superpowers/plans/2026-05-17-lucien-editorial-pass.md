@@ -655,7 +655,9 @@ test("wikifyArticle writes and commits a faithful restructure", async () => {
     const { spy, io } = deps(async () => good);
     const r = await wikifyArticle("Topic", io, { floor: 0.7, dryRun: false });
     expect(r.status).toBe("edited");
-    expect(spy.written).toBe(good + "\n");
+    // splitModelOutput trims; wikifyArticle writes article + "\n"; `good`
+    // already ends in a single "\n", so the written value equals `good`.
+    expect(spy.written).toBe(good);
     expect(spy.commit).toBe("Editorial restructure: Topic");
 });
 
@@ -672,7 +674,7 @@ test("wikifyArticle keeps original and does NOT commit when gate fails", async (
 test("wikifyArticle dry-run never writes or commits even on a good edit", async () => {
     const good =
         "# Topic\n\nRebuilt lead.\n\n## Body\n\nConsolidated.[^1][^2]\n\n" +
-        "## References\n\n[^1]: `conv:a1b2c3d4`\n[^2]: `conv:deadbeef`\n";
+        "## References\n\n[^1]: `conv:a1b2c3d4` — One\n[^2]: `conv:deadbeef` — Two\n";
     const { spy, io } = deps(async () => good);
     const r = await wikifyArticle("Topic", io, { floor: 0.7, dryRun: true });
     expect(r.status).toBe("would-edit");
@@ -683,7 +685,7 @@ test("wikifyArticle dry-run never writes or commits even on a good edit", async 
 test("wikifyArticle appends a Talk block when the model emits one", async () => {
     const good =
         "# Topic\n\nRebuilt lead.\n\n## Body\n\nConsolidated.[^1][^2]\n\n" +
-        "## References\n\n[^1]: `conv:a1b2c3d4`\n[^2]: `conv:deadbeef`\n\n" +
+        "## References\n\n[^1]: `conv:a1b2c3d4` — One\n[^2]: `conv:deadbeef` — Two\n\n" +
         "<<<TALK>>>\nConsider splitting Body into its own article.\n<<<END TALK>>>";
     const { spy, io } = deps(async () => good);
     const r = await wikifyArticle("Topic", io, { floor: 0.7, dryRun: false });
