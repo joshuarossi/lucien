@@ -224,3 +224,29 @@ test("wikifyArticle appends a Talk block when the model emits one", async () => 
     expect(r.status).toBe("edited");
     expect(spy.talk).toContain("Consider splitting Body");
 });
+
+import { parseArgs } from "./wikify.js";
+
+test("parseArgs --bucket with dry-run", () => {
+    expect(parseArgs(["--bucket", "Archie_Project", "--dry-run"])).toEqual({
+        mode: { kind: "bucket", stem: "Archie_Project" },
+        dryRun: true,
+        floor: 0.7,
+    });
+});
+
+test("parseArgs --all with custom floor", () => {
+    expect(parseArgs(["--all", "--floor", "0.6"])).toEqual({
+        mode: { kind: "all" },
+        dryRun: false,
+        floor: 0.6,
+    });
+});
+
+test("parseArgs --changed-since ref", () => {
+    expect(parseArgs(["--changed-since", "HEAD~5"])).toEqual({
+        mode: { kind: "changed-since", ref: "HEAD~5" },
+        dryRun: false,
+        floor: 0.7,
+    });
+});

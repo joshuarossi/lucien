@@ -263,3 +263,179 @@ export async function wikifyArticle(
     await io.commit(`Editorial restructure: ${stem}`);
     return { stem, status: "edited", errors: [] };
 }
+
+export type CliMode =
+    | { kind: "bucket"; stem: string }
+    | { kind: "all" }
+    | { kind: "changed-since"; ref: string };
+
+export interface CliArgs {
+    mode: CliMode;
+    dryRun: boolean;
+    floor: number;
+}
+
+export function parseArgs(argv: string[]): CliArgs {
+    let mode: CliMode | null = null;
+    let dryRun = false;
+    let floor = 0.7;
+    for (let i = 0; i < argv.length; i++) {
+        const a = argv[i];
+        if (a === "--bucket" && argv[i + 1]) {
+            mode = { kind: "bucket", stem: argv[++i]! };
+        } else if (a === "--all") {
+            mode = { kind: "all" };
+        } else if (a === "--changed-since" && argv[i + 1]) {
+            mode = { kind: "changed-since", ref: argv[++i]! };
+        } else if (a === "--dry-run") {
+            dryRun = true;
+        } else if (a === "--floor" && argv[i + 1]) {
+            floor = parseFloat(argv[++i]!);
+        }
+    }
+    if (!mode) {
+        throw new Error(
+            "usage: wikify.ts (--bucket <stem> | --all | --changed-since <ref>) [--dry-run] [--floor N]"
+        );
+    }
+    return { mode, dryRun, floor };
+}
+
+function callClaude(prompt: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+        const proc = spawn("claude", ["-p"], { stdio: ["pipe", "pipe", "pipe"] });
+        let settled = false;
+        const stdin = proc.stdin;
+        const fail = (err: Error) => {
+            if (settled) return;
+            settled = true;
+            stdin?.destroy();
+            reject(err);
+        };
+        stdin.on("error", fail);
+        let stdout = "";
+        let stderr = "";
+        proc.stdout.on("data", (d) => (stdout += d.toString()));
+        proc.stderr.on("data", (d) => (stderr += d.toString()));
+        proc.on("exit", (code) => {
+            if (settled) return;
+            settled = true;
+            if (code === 0) resolve(stdout);
+            else reject(new Error(`claude exited ${code}: ${stderr}`));
+        });
+        proc.on("error", fail);
+        stdin.end(prompt, "utf8");
+    });
+}
+
+function runGit(args: string[], cwd: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+        const proc = spawn("git", args, { cwd, stdio: "ignore" });
+        proc.on("exit", (code) =>
+            code === 0
+                ? resolve()
+                : reject(new Error(`git ${args.join(" ")} exited ${code}`))
+        );
+        proc.on("error", reject);
+    });
+}
+
+function gitCapture(args: string[], cwd: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+        const proc = spawn("git", args, { cwd, stdio: ["ignore", "pipe", "ignore"] });
+        let out = "";
+        proc.stdout.on("data", (d) => (out += d.toString()));
+        proc.on("exit", (code) =>
+            code === 0 ? resolve(out) : reject(new Error(`git ${args[0]} exited ${code}`))
+        );
+        proc.on("error", reject);
+    });
+}
+
+async function fileExists(p: string): Promise<boolean> {
+    try {
+        await access(p);
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+function ioFor(stem: string): ArticleIO {
+    const articlePath = join(ARTICLES_PATH, `${stem}.md`);
+    const talkPath = join(TALK_PATH, `${stem}.md`);
+    return {
+        readArticle: () => readFile(articlePath, "utf8"),
+        writeArticle: (c) => writeFile(articlePath, c),
+        appendTalk: (e) => appendFile(talkPath, e),
+        commit: async (msg) => {
+            await runGit(["add", "--", `articles/${stem}.md`], DREAMING_PATH);
+            if (await fileExists(talkPath)) {
+                await runGit(["add", "--", `Talk/${stem}.md`], DREAMING_PATH);
+            }
+            await runGit(["commit", "-m", msg], DREAMING_PATH);
+        },
+        callModel: callClaude,
+    };
+}
+
+async function resolveStems(mode: CliMode): Promise<string[]> {
+    if (mode.kind === "bucket") return [mode.stem];
+    if (mode.kind === "all") {
+        const files = await readdir(ARTICLES_PATH);
+        return files
+            .filter((f) => f.endsWith(".md"))
+            .map((f) => f.replace(/\.md$/, ""));
+    }
+    // changed-since: Dreaming commits titled "Synthesis update:" since ref.
+    const log = await gitCapture(
+        [
+            "log",
+            "--name-only",
+            "--pretty=format:",
+            "--grep=Synthesis update:",
+            `${mode.ref}..HEAD`,
+        ],
+        DREAMING_PATH
+    );
+    return [...parseChangedArticles(log)];
+}
+
+async function main() {
+    const args = parseArgs(process.argv.slice(2));
+    const stems = await resolveStems(args.mode);
+    console.log(
+        `wikify: ${stems.length} article(s)${args.dryRun ? " [DRY RUN]" : ""}, floor=${args.floor}`
+    );
+    const summary: Record<string, number> = {};
+    for (const stem of stems) {
+        const articlePath = join(ARTICLES_PATH, `${stem}.md`);
+        if (!(await fileExists(articlePath))) {
+            console.log(`  SKIP ${stem} (no such article)`);
+            summary.skipped = (summary.skipped ?? 0) + 1;
+            continue;
+        }
+        try {
+            const r = await wikifyArticle(stem, ioFor(stem), {
+                floor: args.floor,
+                dryRun: args.dryRun,
+            });
+            summary[r.status] = (summary[r.status] ?? 0) + 1;
+            const tail = r.errors.length ? ` — ${r.errors.join("; ")}` : "";
+            console.log(`  ${r.status.toUpperCase()} ${stem}${tail}`);
+        } catch (err) {
+            summary.errored = (summary.errored ?? 0) + 1;
+            console.log(`  ERRORED ${stem} — ${(err as Error).message}`);
+        }
+    }
+    console.log(
+        "Summary: " +
+            Object.entries(summary)
+                .map(([k, v]) => `${v} ${k}`)
+                .join(", ")
+    );
+}
+
+if (import.meta.main) {
+    await main();
+}
