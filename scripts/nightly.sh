@@ -19,6 +19,13 @@ set -o pipefail
 # legitimately references unset params and would otherwise spam stderr.
 [ -f "$HOME/.zshrc" ] && source "$HOME/.zshrc"
 
+# Neutralize interactive zsh hooks the profile installs (chruby_auto on
+# preexec, starship prompt hooks). A non-interactive batch pipeline must
+# not auto-switch Ruby or render a prompt on every command/cd; chruby_auto
+# in particular spams stderr with `RUBY_AUTO_VERSION: parameter not set`
+# (a ${VAR?} expansion, fires regardless of nounset) on every command.
+preexec_functions=() precmd_functions=() chpwd_functions=()
+
 # Our own code runs under strict nounset; the profile above does not.
 set -u
 
