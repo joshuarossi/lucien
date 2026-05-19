@@ -26,6 +26,9 @@ export const LUCIEN_HISTORIC_PROMPT_PREFIXES = [
     "You will assign topic labels to buckets",
     "You are organizing chunks of conversation into a personal wiki",
     "You are a Wikipedia editor maintaining a personal wiki",
+    // wikify.ts editorial-restructure pass. Pre-dated its sentinel; the
+    // 2026-05 corpus-wide backfill created ~50+ of these sessions.
+    "You are an expert Wikipedia editor improving ONE article in a personal wiki",
     // Citation-format spec example used while iterating on synthesize prompts;
     // leaked in as a fake "tea and coffee preferences" article.
     "Short Dreaming article only.",

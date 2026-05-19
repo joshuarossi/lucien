@@ -11,6 +11,7 @@ import { spawn } from "node:child_process";
 import { readFile, writeFile, readdir, access, appendFile } from "node:fs/promises";
 import { homedir } from "node:os";
 import { join } from "node:path";
+import { LUCIEN_PROMPT_SENTINEL } from "./sentinel.js";
 
 const DREAMING_PATH = join(homedir(), "Dreaming");
 const ARTICLES_PATH = join(DREAMING_PATH, "articles");
@@ -354,7 +355,9 @@ function callClaude(prompt: string): Promise<string> {
             else reject(new Error(`claude exited ${code}: ${stderr}`));
         });
         proc.on("error", fail);
-        stdin.end(prompt, "utf8");
+        // Mark as Lucien-internal so the Claude Code source adapter never
+        // re-ingests these editorial subprocess sessions (self-ingestion).
+        stdin.end(LUCIEN_PROMPT_SENTINEL + prompt, "utf8");
     });
 }
 
