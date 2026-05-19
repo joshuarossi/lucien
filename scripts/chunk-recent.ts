@@ -18,6 +18,12 @@ CRITICAL INSTRUCTIONS:
 - Short conversations (under 4 messages) with a single Q&A may legitimately be one chunk. Most longer conversations are multiple chunks.
 - Chunks MAY overlap. When a message at a topic boundary is genuinely substantive to BOTH the topic that is ending and the one beginning, include it in BOTH chunks — it is the end_message_uuid of one and falls within the range of the next. Do this only for genuine dual-membership, never for connective filler.
 
+POLICY — you MUST do this before emitting chunks:
+- Use the Read tool to read the documents in /Users/joshrossi/Dreaming/Meta/ (for example Topics_to_Ignore.md, a chunking-style page, and any others the user has added). Two things there govern you:
+  (1) Ignore rules — do NOT emit a chunk for any span whose subject falls under one; simply omit it.
+  (2) Chunking style — the instructions above (how fine a chunk is, how aggressively to overlap vs. draw hard boundaries, when a whole conversation is one chunk) are DEFAULTS. If a Meta doc specifies different chunking-style preferences, follow it over those defaults.
+- You MUST still segment the conversation into topic chunks in the output schema below — that is not optional and no Meta doc overrides it. This prompt defines WHAT to do (segment into chunks; this schema); the Meta docs define HOW (granularity, overlap aggressiveness, boundary hardness, what to ignore).
+
 For each chunk, output:
 - start_message_uuid: uuid of the first message in the chunk
 - end_message_uuid: uuid of the last message in the chunk

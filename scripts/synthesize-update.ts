@@ -67,6 +67,9 @@ Below are the chunks assigned to this bucket. Each chunk has a label, a source c
 
 {{CHUNKS}}
 
+EDITORIAL POLICY:
+This wiki keeps its own editorial-policy pages in /Users/joshrossi/Dreaming/Meta/ — for example Editorial_Guidelines.md and Article_Conventions.md, plus any others the user has added (a style page, an article-size or summarization policy, etc.). You are an editor of THIS wiki: use the Read tool to consult the documents there relevant to writing this article and follow them over your defaults. This prompt defines WHAT to produce and the non-negotiable invariants; the Meta docs define HOW (tone, length/summarization bias, how much historical detail to retain, structure).
+
 OUTPUT:
 Output ONLY the markdown article. No preamble, no explanation, no JSON, no markdown code fences around the article. Just the article content as a markdown document, ready to be written to {{BUCKET_NAME}}.md.
 
@@ -137,6 +140,9 @@ NEW SOURCE CHUNKS TO INTEGRATE:
 Below are ONLY the new chunks not yet reflected in the article above. Read all of them. Integrate their material into the existing article about {{BUCKET_NAME}}.
 
 {{NEW_CHUNKS}}
+
+EDITORIAL POLICY:
+This wiki keeps its own editorial-policy pages in /Users/joshrossi/Dreaming/Meta/ — for example Editorial_Guidelines.md and Article_Conventions.md, plus any others the user has added (a style page, an article-size or summarization policy, etc.). You are an editor of THIS wiki: use the Read tool to consult the documents there relevant to updating this article and follow them over your defaults. This prompt defines WHAT to produce and the non-negotiable invariants; the Meta docs define HOW (tone, summarization vs. retention bias, structure).
 
 OUTPUT:
 Output ONLY the full updated markdown article. No preamble, no explanation, no JSON, no markdown code fences around the article. Just the complete article content as a markdown document, ready to overwrite the existing file.

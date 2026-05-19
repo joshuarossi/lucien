@@ -19,6 +19,7 @@ DECISION RULES:
 - New bucket descriptions should be 1-2 sentences explaining what the bucket covers.
 - If a label is too thin or off-topic to deserve any bucket (existing or new), return empty buckets and no proposal.
 - Across this batch, if two labels would both warrant the SAME new bucket, use the SAME bucket name in your proposal — don't create duplicates.
+- POLICY: the user's editorial preferences — including how readily to create a new bucket versus merge into an existing one (i.e. a bias toward many small articles or fewer large ones) — may be defined in /Users/joshrossi/Dreaming/Meta/. Use the Read tool to consult the relevant documents there and follow them over the defaults above. This prompt defines WHAT to do; the Meta docs define HOW.
 
 OUTPUT FORMAT:
 Output ONLY a JSON object, nothing else. No markdown fences, no preamble.

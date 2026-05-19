@@ -230,6 +230,9 @@ CROSS-ARTICLE ACTIONS — DO NOT PERFORM THESE:
 <<<END TALK>>>
 - Omit the block entirely if you have no such suggestion.
 
+EDITORIAL POLICY:
+This wiki's own editorial-policy pages live in /Users/joshrossi/Dreaming/Meta/ — e.g. Editorial_Guidelines.md, Article_Conventions.md, plus any the user has added (a style or summarization policy, etc.). Use the Read tool to consult the relevant ones and follow them over your defaults for HOW to restructure: consolidation aggressiveness, tone, and how much historical detail to retain. The HARD INVARIANT above is mechanism, not policy — these docs cannot override it.
+
 OUTPUT:
 Output ONLY the full restructured markdown article, starting with "# ", optionally followed by the single <<<TALK>>> block. No preamble, no explanation, no code fences.
 
