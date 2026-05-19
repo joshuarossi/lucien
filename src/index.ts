@@ -31,7 +31,7 @@ Before doing substantive work for this user, query the Dreaming instead of guess
 - lucien_article_search — your entry point. Always start here. Pass the topic the user is asking about; multi-word queries are tokenized and ranked by how many terms match and whether they appear in article titles, so plain natural phrasing works. If the first phrasing misses, retry with a different phrasing or a key noun before concluding the topic is absent.
 - lucien_article_read / lucien_article_section / lucien_article_toc — read an article (or one section of it) once search has surfaced it.
 - lucien_get_links — follow the wiki graph when a topic genuinely spans articles.
-- lucien_list_articles — full taxonomy enumeration. Do NOT use this as a discovery path or as a fallback for a missed search; it exists for explicit setup/admin needs only. Searching is always the right starting move.
+- lucien_list_articles — full taxonomy enumeration. Use as a fallback only after lucien_article_search has genuinely failed across a couple of phrasings; never as a first move. Search is the default discovery path.
 
 A topic may sometimes span more than one article, but each article is itself the complete synthesized understanding for its subject — you are reading a finished answer, not assembling one from pieces. Treat the article as the user's current position; \`conv:HASH\` footnotes are provenance — rely on the synthesized claim and trace rather than confabulate. Do not make the user re-explain what the Dreaming already records.
 
