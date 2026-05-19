@@ -16,6 +16,7 @@ CRITICAL INSTRUCTIONS:
   - Asking about topic X, then asking about topic Y
 - Even within a single broad topic, you should identify sub-chunks for specific aspects.
 - Short conversations (under 4 messages) with a single Q&A may legitimately be one chunk. Most longer conversations are multiple chunks.
+- Chunks MAY overlap. When a message at a topic boundary is genuinely substantive to BOTH the topic that is ending and the one beginning, include it in BOTH chunks — it is the end_message_uuid of one and falls within the range of the next. Do this only for genuine dual-membership, never for connective filler.
 
 For each chunk, output:
 - start_message_uuid: uuid of the first message in the chunk
