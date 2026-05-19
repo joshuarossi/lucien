@@ -166,6 +166,103 @@ test("searchArticles summaries rank by occurrences; hits respect limit", async (
     expect(capped.hits.length).toBe(1);
 });
 
+test("searchArticles multi-word: ranks by distinct terms matched, then occurrences", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "lucien-search-multi-"));
+    await mkdir(join(dir, "articles"));
+    // a: hits all three terms (most coverage) but few total occurrences
+    await writeFile(join(dir, "articles", "a.md"), "v3 was a thing\nkaizen happens\nrollout\n");
+    // b: hits two terms with many occurrences (would dominate by sum alone)
+    await writeFile(
+        join(dir, "articles", "b.md"),
+        "kaizen kaizen kaizen kaizen\nrollout rollout\n"
+    );
+    // c: hits only one common term
+    await writeFile(join(dir, "articles", "c.md"), "rollout only\n");
+    // d: matches nothing
+    await writeFile(join(dir, "articles", "d.md"), "unrelated content here\n");
+
+    const r = await searchArticles(dir, "v3 kaizen rollout");
+    expect(r.summaries.map((s) => s.article)).toEqual(["a", "b", "c"]);
+    expect(r.summaries[0]!.matched_terms).toEqual(["v3", "kaizen", "rollout"]);
+    expect(r.summaries[1]!.matched_terms).toEqual(["kaizen", "rollout"]);
+    expect(r.summaries[2]!.matched_terms).toEqual(["rollout"]);
+});
+
+test("searchArticles multi-word: contiguous phrase that never appears still surfaces best-coverage articles", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "lucien-search-phrase-"));
+    await mkdir(join(dir, "articles"));
+    // The exact phrase "v3 kaizen rollout" never appears, but tps hits all 3
+    await writeFile(
+        join(dir, "articles", "tps.md"),
+        "Discussion of kaizen and the v3 work, plus rollout planning.\n"
+    );
+    await writeFile(join(dir, "articles", "noise.md"), "irrelevant text\n");
+
+    const r = await searchArticles(dir, "v3 kaizen rollout");
+    expect(r.summaries.length).toBe(1);
+    expect(r.summaries[0]!.article).toBe("tps");
+});
+
+test("searchArticles multi-word: hits prefer lines with more distinct term coverage", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "lucien-search-hits-"));
+    await mkdir(join(dir, "articles"));
+    await writeFile(
+        join(dir, "articles", "x.md"),
+        "first line has v3\nsecond line has v3 and kaizen\nthird line has only kaizen\n"
+    );
+
+    const r = await searchArticles(dir, "v3 kaizen");
+    expect(r.hits[0]!.line).toBe(2); // the two-term line ranks first
+    expect(r.hits.map((h) => h.line)).toEqual([2, 1, 3]);
+});
+
+test("searchArticles boosts articles whose stem contains a query term", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "lucien-search-title-"));
+    await mkdir(join(dir, "articles"));
+    // about.md references archie many times in body; Archie_Project's stem
+    // contains "archie" so it should outrank about.md despite fewer mentions.
+    await writeFile(
+        join(dir, "articles", "about.md"),
+        "archie archie archie archie\n"
+    );
+    await writeFile(join(dir, "articles", "Archie_Project.md"), "archie once\n");
+    const r = await searchArticles(dir, "archie");
+    expect(r.summaries[0]!.article).toBe("Archie_Project");
+    expect(r.summaries[0]!.title_matches).toBe(1);
+    expect(r.summaries[1]!.article).toBe("about");
+});
+
+test("searchArticles drops stopwords from multi-word queries", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "lucien-search-stop-"));
+    await mkdir(join(dir, "articles"));
+    // hot.md hits only the meaningful term; noise.md hits only "the".
+    await writeFile(join(dir, "articles", "hot.md"), "kaizen is everywhere here\n");
+    await writeFile(join(dir, "articles", "noise.md"), "the the the the\n");
+    const r = await searchArticles(dir, "the kaizen");
+    expect(r.summaries.length).toBe(1);
+    expect(r.summaries[0]!.article).toBe("hot");
+    // The remaining single meaningful term means no multi-term metadata.
+    expect(r.summaries[0]!.matched_terms).toBeUndefined();
+});
+
+test("searchArticles stopword-only query falls back to whole-query substring", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "lucien-search-stoponly-"));
+    await mkdir(join(dir, "articles"));
+    await writeFile(join(dir, "articles", "a.md"), "the of the of\n");
+    const r = await searchArticles(dir, "the of");
+    // Falls back to whole-query substring, which appears once contiguously.
+    expect(r.summaries.length).toBe(1);
+    expect(r.summaries[0]!.article).toBe("a");
+});
+
+test("searchArticles single-term: backward-compatible (no matched_terms on summary)", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "lucien-search-single-"));
+    await mkdir(join(dir, "articles"));
+    await writeFile(join(dir, "articles", "x.md"), "alpha alpha beta\n");
+    const r = await searchArticles(dir, "alpha");
+    expect(r.summaries).toEqual([{ article: "x", occurrences: 2 }]);
+});
+
 test("articleResourceUri round-trips a plain stem", () => {
     const uri = articleResourceUri("Archie_Project");
     expect(uri).toBe("lucien://article/Archie_Project");

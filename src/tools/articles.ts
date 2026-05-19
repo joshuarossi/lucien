@@ -39,6 +39,10 @@ export function countSubstringOccurrences(
 export interface ArticleSearchSummary {
     article: string;
     occurrences: number;
+    /** Distinct query terms that matched this article (multi-term queries). */
+    matched_terms?: string[];
+    /** Number of query terms that appear in the article's title/stem. */
+    title_matches?: number;
 }
 
 export function expandDreamingPath(dreaming_path?: string): string {
@@ -337,9 +341,31 @@ export async function searchArticles(
         throw new Error(`Articles directory not found: ${articlesDir}`);
     }
 
-    const haystack = caseSensitive ? q : q.toLowerCase();
-    const hits: SearchHit[] = [];
+    // Split the query into terms on whitespace and scan each independently;
+    // aggregate per-article so multi-word queries that never appear contiguously
+    // (e.g. "v3 kaizen rollout") still surface the articles that hit the most
+    // distinct terms, rather than returning zero. A single-term query (no
+    // whitespace) behaves identically to a plain substring search.
+    //
+    // Drop a small list of trivial English stopwords so a query like
+    // "the kaizen" doesn't ALSO scan for "the" (which matches every article
+    // and rewards length over relevance). If a query is ONLY stopwords (e.g.
+    // "the of"), fall back to scanning the whole query as a single substring
+    // so we don't silently return zero.
+    const STOPWORDS = new Set([
+        "the", "a", "an", "of", "for", "to", "in", "on", "at",
+        "and", "or", "is", "it", "as", "with",
+    ]);
+    const rawTerms = q.split(/\s+/).filter((t) => t.length > 0);
+    const filtered = rawTerms.filter(
+        (t) => !STOPWORDS.has(caseSensitive ? t.toLowerCase() : t.toLowerCase())
+    );
+    const terms = filtered.length > 0 ? filtered : [q];
+    const isMulti = terms.length > 1;
+
     const summaries: ArticleSearchSummary[] = [];
+    type HitWithCount = SearchHit & { _termCount: number };
+    const allHits: HitWithCount[] = [];
 
     for (const name of names.sort()) {
         if (!name.endsWith(".md")) continue;
@@ -351,14 +377,46 @@ export async function searchArticles(
             continue;
         }
 
-        const occurrences = countSubstringOccurrences(content, q, caseSensitive);
-        if (occurrences > 0) summaries.push({ article: stem, occurrences });
+        const matchedTerms: string[] = [];
+        let totalOccurrences = 0;
+        for (const t of terms) {
+            const n = countSubstringOccurrences(content, t, caseSensitive);
+            if (n > 0) {
+                matchedTerms.push(t);
+                totalOccurrences += n;
+            }
+        }
+        if (totalOccurrences === 0) continue;
 
-        if (hits.length >= limit) continue;
+        // Title/stem match bonus: a query term appearing in the article's
+        // stem (the H1 by convention here) signals the article is *about*
+        // that term, not just mentioning it. Used as a secondary sort key
+        // so e.g. `archie` foregrounds `Archie_Project` over articles that
+        // merely reference it. Underscore separators don't interfere with
+        // substring containment.
+        const stemForMatch = caseSensitive ? stem : stem.toLowerCase();
+        let titleMatches = 0;
+        for (const t of terms) {
+            const tL = caseSensitive ? t : t.toLowerCase();
+            if (stemForMatch.includes(tL)) titleMatches++;
+        }
 
+        const summary: ArticleSearchSummary = {
+            article: stem,
+            occurrences: totalOccurrences,
+        };
+        if (isMulti) summary.matched_terms = matchedTerms;
+        if (titleMatches > 0) summary.title_matches = titleMatches;
+        summaries.push(summary);
+
+        // Per-line hits: a line is a hit if it contains ANY term; lines that
+        // contain MORE distinct terms rank higher in the final hit list.
         const lines = content.split(/\r?\n/);
         let inFence = false;
         let lastAnchor: string | null = null;
+        const lcTerms = caseSensitive
+            ? matchedTerms
+            : matchedTerms.map((t) => t.toLowerCase());
 
         for (let i = 0; i < lines.length; i++) {
             const line = lines[i]!;
@@ -372,22 +430,43 @@ export async function searchArticles(
             }
 
             const compareLine = caseSensitive ? line : line.toLowerCase();
-            if (compareLine.includes(haystack)) {
-                hits.push({
+            let termCount = 0;
+            for (const t of lcTerms) {
+                if (compareLine.includes(t)) termCount++;
+            }
+            if (termCount > 0) {
+                allHits.push({
                     article: stem,
                     anchor: lastAnchor,
                     line: lineNo,
                     excerpt: line.trim(),
+                    _termCount: termCount,
                 });
-                if (hits.length >= limit) break;
             }
         }
     }
 
-    summaries.sort(
+    // Rank summaries: distinct terms matched (desc) → title/stem matches
+    // (desc) → total occurrences (desc) → article name (asc) for stability.
+    summaries.sort((a, b) => {
+        const am = a.matched_terms?.length ?? 1;
+        const bm = b.matched_terms?.length ?? 1;
+        if (bm !== am) return bm - am;
+        const at = a.title_matches ?? 0;
+        const bt = b.title_matches ?? 0;
+        if (bt !== at) return bt - at;
+        if (b.occurrences !== a.occurrences) return b.occurrences - a.occurrences;
+        return a.article.localeCompare(b.article);
+    });
+
+    // Rank hits: most-term-coverage first, then by article, then by line.
+    allHits.sort(
         (a, b) =>
-            b.occurrences - a.occurrences || a.article.localeCompare(b.article)
+            b._termCount - a._termCount ||
+            a.article.localeCompare(b.article) ||
+            a.line - b.line
     );
+    const hits: SearchHit[] = allHits.slice(0, limit).map(({ _termCount, ...h }) => h);
 
     return { summaries, hits };
 }
