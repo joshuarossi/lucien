@@ -136,6 +136,28 @@ test("splitModelOutput strips a wrapping markdown code fence", () => {
     expect(r.talk).toBeNull();
 });
 
+test("splitModelOutput ignores an inline backticked <<<TALK>>> in prose", () => {
+    // Regression: a meta-article documenting the protocol mentions the
+    // literal token mid-sentence; it must NOT guillotine the article.
+    const article =
+        "# Lucien\n\nThe editor emits the `<<<TALK>>>` block in `wikify`.\n\n" +
+        "## References\n\n[^1]: `conv:deadbeef` — x";
+    const r = splitModelOutput(article + "\n");
+    expect(r.article).toBe(article);
+    expect(r.talk).toBeNull();
+});
+
+test("splitModelOutput takes the last line-anchored block over an earlier example", () => {
+    const out =
+        "# Lucien\n\nAn example block looks like:\n\n<<<TALK>>>\n\n" +
+        "More body that mentions `<<<TALK>>>` inline.\n\n## References\n\n" +
+        "<<<TALK>>>\nMerge Foo into Bar.\n<<<END TALK>>>\n";
+    const r = splitModelOutput(out);
+    expect(r.article.endsWith("## References")).toBe(true);
+    expect(r.article).toContain("An example block looks like:");
+    expect(r.talk).toBe("Merge Foo into Bar.");
+});
+
 import { parseChangedArticles } from "./wikify.js";
 
 test("parseChangedArticles extracts unique article stems from name-only log", () => {

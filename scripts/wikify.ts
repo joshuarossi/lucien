@@ -155,7 +155,17 @@ export interface SplitOutput {
     talk: string | null;
 }
 
-/** Parse the model contract: article text, then an optional Talk block. */
+/**
+ * Parse the model contract: article text, then an optional Talk block.
+ *
+ * The `<<<TALK>>>` / `<<<END TALK>>>` delimiters are recognized ONLY as a
+ * line of their own. Meta-articles (e.g. Lucien_Synthesis_Pipeline)
+ * legitimately mention the literal token inline in prose while documenting
+ * the protocol; a substring match lets that prose impersonate the boundary
+ * and guillotine the article. We also take the LAST line-anchored
+ * `<<<TALK>>>` so an in-article fenced example cannot outrank the real
+ * trailing block the prompt appends after the full article.
+ */
 export function splitModelOutput(raw: string): SplitOutput {
     let s = raw.trim();
 
@@ -163,16 +173,25 @@ export function splitModelOutput(raw: string): SplitOutput {
     const fence = s.match(/^```[a-zA-Z]*\n([\s\S]*?)\n```$/);
     if (fence) s = fence[1]!.trim();
 
+    // Last <<<TALK>>> that is a line of its own — never an inline mention.
+    const startRe = /^[ \t]*<<<TALK>>>[ \t]*$/gm;
+    let startMatch: RegExpExecArray | null = null;
+    for (let m = startRe.exec(s); m !== null; m = startRe.exec(s)) {
+        startMatch = m;
+    }
+
     let talk: string | null = null;
-    const idx = s.indexOf("<<<TALK>>>");
-    if (idx !== -1) {
-        const end = s.indexOf("<<<END TALK>>>", idx);
+    if (startMatch) {
+        const afterStart = startMatch.index + startMatch[0].length;
+        const endMatch = /^[ \t]*<<<END TALK>>>[ \t]*$/m.exec(
+            s.slice(afterStart)
+        );
         const rawTalk =
-            end === -1
-                ? s.slice(idx + "<<<TALK>>>".length)
-                : s.slice(idx + "<<<TALK>>>".length, end);
+            endMatch === null
+                ? s.slice(afterStart)
+                : s.slice(afterStart, afterStart + endMatch.index);
         talk = rawTalk.trim() || null;
-        s = s.slice(0, idx).trim();
+        s = s.slice(0, startMatch.index).trim();
     }
 
     return { article: s, talk };
