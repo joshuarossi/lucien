@@ -72,6 +72,18 @@ DREAM_BEFORE="$(git -C "$HOME/Dreaming" rev-parse HEAD 2>/dev/null || echo "")"
 
 run_stage "synthesize-dispatch"  "$BUN" run scripts/synthesize-dispatch.ts  || exit 13
 
+# Stage 4a: deterministic footnote repair. Synthesis is *told* to keep
+# [^N] markers/definitions bijective and contiguous but violates it on
+# large articles (orphan markers, gaps), which makes wikify's gate reject
+# the article every night. This pass ENFORCES the invariant before wikify
+# sees it: drops orphan markers/defs, renumbers survivors, records every
+# drop in an auditable Talk note, self-commits per article. Idempotent and
+# a byte-identical no-op on healthy articles, so --all is safe and cheap.
+# Non-fatal: if it errors, wikify simply rejects malformed articles as
+# before (graceful degradation), so the chain continues.
+run_stage "normalize-footnotes" "$BUN" run scripts/normalize-footnotes.ts --all \
+  || echo "!!! normalize-footnotes failed (non-fatal) — continuing"
+
 # Stage 4b: editorial pass. For every article synthesis touched this run,
 # wikify.ts runs a Wikipedia-editor restructure behind a deterministic gate
 # (no dropped citations, footnote integrity, >=70% word-floor, structural
