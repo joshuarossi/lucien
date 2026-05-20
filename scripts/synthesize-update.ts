@@ -35,14 +35,14 @@ Inline: place a footnote marker immediately after the claim.
 
 Definitions: collect all footnote definitions in a "## References" section at the very end of the article (after "## See also"). One line per distinct source conversation:
 
-[^1]: \`conv:HASH\` — Conversation title or short description
+[^1]: \`conv:HASH\` (YYYY-MM-DD) — Conversation title or short description
 
 Rules:
 - Number footnotes 1, 2, 3, … in order of first appearance in the body.
 - Same conversation cited multiple times: reuse the same [^N] marker every time; emit exactly ONE [^N]: definition line for it.
 - Two different conversations supporting one sentence: adjacent markers with no space — [^1][^2].
 - Canonical hash: the first 8 lowercase hex digits of the conversation UUID, hyphens stripped. Example: 00000000-0000-0000-0000-000000000000 → 00000000. \`conv:00000000\` and \`conv:00000001\` are ILLUSTRATIVE PLACEHOLDERS and must NEVER appear in your output. Every conv:HASH you emit must be the real first-8 hex of a conversation UUID that appears in the SOURCE MATERIAL provided to you.
-- In every definition line the conv:HASH MUST be wrapped in backticks. Exactly one \`conv:HASH\` per line. An optional " — short description" may follow.
+- In every definition line the conv:HASH MUST be wrapped in backticks. Exactly one \`conv:HASH\` per line, followed by the conversation date in \`(YYYY-MM-DD)\` form (use the date supplied in the chunk header), then an em-dash and a short description. Example: \`[^1]: \`conv:a1b2c3d4\` (2024-08-04) — kaizen rollout discussion\`.
 - Every [^N] marker in the body must have a matching [^N]: definition, and vice versa. Numbers contiguous from 1.
 
 NEVER fabricate a citation. If a claim cannot be tied to a specific conversation present in the SOURCE MATERIAL, leave the claim uncited — an uncited true statement is acceptable; a citation to a conversation that is not in the source material is a defect. Do not invent a hash, do not reuse a placeholder hash, do not guess.
@@ -107,7 +107,7 @@ Inline: place a footnote marker immediately after the claim.
 
 Definitions: collect all footnote definitions in a "## References" section at the very end of the article (after "## See also"). One line per distinct source conversation:
 
-[^1]: \`conv:HASH\` — Conversation title or short description
+[^1]: \`conv:HASH\` (YYYY-MM-DD) — Conversation title or short description
 
 Rules:
 - Number footnotes 1, 2, 3, … in order of first appearance in the body.
@@ -115,7 +115,7 @@ Rules:
 - Same conversation cited multiple times: reuse the same [^N] marker every time; emit exactly ONE [^N]: definition line for it.
 - Two different conversations supporting one sentence: adjacent markers with no space — [^1][^2].
 - Canonical hash: the first 8 lowercase hex digits of the conversation UUID, hyphens stripped. Example: 00000000-0000-0000-0000-000000000000 → 00000000. \`conv:00000000\` and \`conv:00000001\` are ILLUSTRATIVE PLACEHOLDERS and must NEVER appear in your output. Every conv:HASH you emit must be the real first-8 hex of a conversation UUID that appears in the SOURCE MATERIAL provided to you.
-- In every definition line the conv:HASH MUST be wrapped in backticks. Exactly one \`conv:HASH\` per line. An optional " — short description" may follow.
+- In every definition line the conv:HASH MUST be wrapped in backticks. Exactly one \`conv:HASH\` per line, followed by the conversation date in \`(YYYY-MM-DD)\` form (use the date supplied in the chunk header), then an em-dash and a short description. Example: \`[^1]: \`conv:a1b2c3d4\` (2024-08-04) — kaizen rollout discussion\`.
 - Every [^N] marker in the body must have a matching [^N]: definition, and vice versa. Numbers contiguous from 1.
 
 NEVER fabricate a citation. If a claim cannot be tied to a specific conversation present in the SOURCE MATERIAL, leave the claim uncited — an uncited true statement is acceptable; a citation to a conversation that is not in the source material is a defect. Do not invent a hash, do not reuse a placeholder hash, do not guess.
@@ -161,6 +161,7 @@ interface Chunk {
     id: number;
     conversation_uuid: string;
     conversation_name: string;
+    conversation_updated_at: string;
     start_message_uuid: string;
     end_message_uuid: string;
     label: string;
@@ -257,9 +258,14 @@ function formatChunks(chunks: Chunk[], db: Database): string {
             .map((m) => `[${m.sender}]\n${m.text}`)
             .join("\n\n");
 
+        // Date is the YYYY-MM-DD portion of the conversation's updated_at —
+        // exposed here so the model can include it in the footnote definition
+        // per the citation format in Meta/Article_Conventions.md.
+        const conversationDate = (chunk.conversation_updated_at || "").slice(0, 10);
+
         parts.push(
             `=== CHUNK: ${chunk.label} ===\n` +
-            `Source conversation: "${conversationLabel}" (uuid: ${chunk.conversation_uuid})\n\n` +
+            `Source conversation: "${conversationLabel}" (uuid: ${chunk.conversation_uuid}, date: ${conversationDate})\n\n` +
             messageText
         );
     }
@@ -348,6 +354,7 @@ async function main() {
     // Prepared statements.
     const newChunksQuery = db.query(`
     SELECT c.id, c.conversation_uuid, conv.name as conversation_name,
+           conv.updated_at as conversation_updated_at,
            c.start_message_uuid, c.end_message_uuid, c.label
     FROM chunks c
     JOIN chunk_buckets cb ON cb.chunk_id = c.id
