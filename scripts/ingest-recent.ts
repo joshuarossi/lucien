@@ -4,6 +4,7 @@ import { homedir } from "node:os";
 import { dirname, join } from "node:path";
 import { ingestClaudeCode } from "./sources/claude-code.js";
 import { ingestClaudeAi } from "./sources/claude-ai.js";
+import { ingestCodexCli } from "./sources/codex-cli.js";
 import type { AdapterResult, NormalizedConversation } from "./sources/types.js";
 import { LUCIEN_STATE_DIR } from "./state-path.js";
 
@@ -14,7 +15,8 @@ CREATE TABLE IF NOT EXISTS conversations (
   summary TEXT,
   created_at TEXT,
   updated_at TEXT,
-  message_count INTEGER
+  message_count INTEGER,
+  source TEXT
 );
 CREATE TABLE IF NOT EXISTS messages (
   uuid TEXT PRIMARY KEY,
@@ -32,6 +34,7 @@ CREATE INDEX IF NOT EXISTS idx_msg_conv_position ON messages(conversation_uuid, 
 interface State {
     claude_code: { last_ingest_at: string };
     claude_ai: { last_ingest_at: string };
+    codex_cli: { last_ingest_at: string };
 }
 
 const EPOCH = "1970-01-01T00:00:00.000Z";
@@ -43,9 +46,14 @@ async function readState(path: string): Promise<State> {
         return {
             claude_code: { last_ingest_at: parsed?.claude_code?.last_ingest_at ?? EPOCH },
             claude_ai: { last_ingest_at: parsed?.claude_ai?.last_ingest_at ?? EPOCH },
+            codex_cli: { last_ingest_at: parsed?.codex_cli?.last_ingest_at ?? EPOCH },
         };
     } catch {
-        return { claude_code: { last_ingest_at: EPOCH }, claude_ai: { last_ingest_at: EPOCH } };
+        return {
+            claude_code: { last_ingest_at: EPOCH },
+            claude_ai: { last_ingest_at: EPOCH },
+            codex_cli: { last_ingest_at: EPOCH },
+        };
     }
 }
 
@@ -58,12 +66,12 @@ async function writeState(path: string, state: State): Promise<void> {
 
 function upsert(db: Database, conv: NormalizedConversation): void {
     const insertConv = db.prepare(
-        "INSERT OR REPLACE INTO conversations (uuid, name, summary, created_at, updated_at, message_count) VALUES (?, ?, ?, ?, ?, ?)"
+        "INSERT OR REPLACE INTO conversations (uuid, name, summary, created_at, updated_at, message_count, source) VALUES (?, ?, ?, ?, ?, ?, ?)"
     );
     const insertMsg = db.prepare(
         "INSERT OR REPLACE INTO messages (uuid, conversation_uuid, position, sender, text, timestamp, parent_message_uuid) VALUES (?, ?, ?, ?, ?, ?, ?)"
     );
-    insertConv.run(conv.uuid, conv.name, conv.summary, conv.created_at, conv.updated_at, conv.messages.length);
+    insertConv.run(conv.uuid, conv.name, conv.summary, conv.created_at, conv.updated_at, conv.messages.length, conv.source);
     let pos = 0;
     for (const m of conv.messages) {
         insertMsg.run(m.uuid, conv.uuid, pos++, m.sender, m.text, m.timestamp, m.parent_message_uuid);
@@ -72,6 +80,10 @@ function upsert(db: Database, conv: NormalizedConversation): void {
 
 export interface RunOptions {
     claudeCodeRoot: string;
+    /** Override the Codex sessions root (defaults to ~/.codex/sessions). */
+    codexSessionsRoot?: string;
+    /** Override the Codex session_index.jsonl path. */
+    codexIndexPath?: string;
     stateDir?: string;          // defaults to LUCIEN_STATE_DIR
     claudeAiContext?: import("playwright").BrowserContext;
     sleepMs?: number;
@@ -80,6 +92,7 @@ export interface RunOptions {
 export interface RunSummary {
     claudeCode: AdapterResult;
     claudeAi: AdapterResult;
+    codexCli: AdapterResult;
 }
 
 export async function runIngestRecent(opts: RunOptions): Promise<RunSummary> {
@@ -93,6 +106,14 @@ export async function runIngestRecent(opts: RunOptions): Promise<RunSummary> {
     // Open the DB up front so adapters can probe it for already-cached items.
     const db = new Database(dbPath);
     db.exec(SCHEMA_SQL);
+    // Idempotent migration: older databases created the conversations table
+    // without the `source` column. Same pattern as chunked_conversations.status.
+    const convCols = db
+        .query("PRAGMA table_info(conversations)")
+        .all() as Array<{ name: string }>;
+    if (!convCols.some((c) => c.name === "source")) {
+        db.exec("ALTER TABLE conversations ADD COLUMN source TEXT");
+    }
     const cacheLookup = db.prepare(
         "SELECT updated_at FROM conversations WHERE uuid = ?"
     );
@@ -103,7 +124,7 @@ export async function runIngestRecent(opts: RunOptions): Promise<RunSummary> {
             new Date(updated_at).toISOString();
     };
 
-    const [claudeCode, claudeAi] = await Promise.all([
+    const [claudeCode, claudeAi, codexCli] = await Promise.all([
         ingestClaudeCode({
             rootDir: opts.claudeCodeRoot,
             since: state.claude_code.last_ingest_at,
@@ -114,21 +135,31 @@ export async function runIngestRecent(opts: RunOptions): Promise<RunSummary> {
             sleepMs: opts.sleepMs,
             isAlreadyIngested,
         }),
+        ingestCodexCli({
+            rootDir: opts.codexSessionsRoot,
+            indexPath: opts.codexIndexPath,
+            since: state.codex_cli.last_ingest_at,
+        }),
     ]);
 
     const tx = db.transaction((convs: NormalizedConversation[]) => {
         for (const c of convs) upsert(db, c);
     });
-    tx([...claudeCode.conversations, ...claudeAi.conversations]);
+    tx([
+        ...claudeCode.conversations,
+        ...claudeAi.conversations,
+        ...codexCli.conversations,
+    ]);
     db.close();
 
     const newState: State = {
         claude_code: { last_ingest_at: claudeCode.new_watermark },
         claude_ai: { last_ingest_at: claudeAi.new_watermark },
+        codex_cli: { last_ingest_at: codexCli.new_watermark },
     };
     await writeState(statePath, newState);
 
-    return { claudeCode, claudeAi };
+    return { claudeCode, claudeAi, codexCli };
 }
 
 if (import.meta.main) {

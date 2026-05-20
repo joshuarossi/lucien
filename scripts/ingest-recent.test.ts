@@ -8,10 +8,13 @@ import { runIngestRecent } from "./ingest-recent.js";
 
 let stateDir: string;
 let claudeCodeDir: string;
+let codexSessionsDir: string;
 
 beforeEach(async () => {
     stateDir = await mkdtemp(join(tmpdir(), "lucien-state-"));
     claudeCodeDir = await mkdtemp(join(tmpdir(), "lucien-cc-"));
+    // Empty codex sessions dir so the codex adapter finds nothing in tests.
+    codexSessionsDir = await mkdtemp(join(tmpdir(), "lucien-codex-"));
 
     // Copy claude-code fixtures into the temp Claude Code dir
     const srcRoot = join(import.meta.dir, "sources/fixtures/claude-code");
@@ -26,6 +29,7 @@ beforeEach(async () => {
 afterEach(async () => {
     await rm(stateDir, { recursive: true, force: true });
     await rm(claudeCodeDir, { recursive: true, force: true });
+    await rm(codexSessionsDir, { recursive: true, force: true });
 });
 
 /**
@@ -107,6 +111,8 @@ test("end-to-end: ingests both sources, writes sqlite, persists watermarks", asy
     const result = await runIngestRecent({
         stateDir: stateDir,
         claudeCodeRoot: claudeCodeDir,
+        codexSessionsRoot: codexSessionsDir,
+        codexIndexPath: join(codexSessionsDir, "session_index.jsonl"),
         claudeAiContext: fakeClaudeAiContext(scriptedClaudeAi()),
         sleepMs: 0,
     });
@@ -119,7 +125,9 @@ test("end-to-end: ingests both sources, writes sqlite, persists watermarks", asy
     const convCount = (db.query("SELECT COUNT(*) as n FROM conversations").get() as { n: number }).n;
     const msgCount = (db.query("SELECT COUNT(*) as n FROM messages").get() as { n: number }).n;
     expect(convCount).toBe(
-        result.claudeCode.conversations.length + result.claudeAi.conversations.length
+        result.claudeCode.conversations.length +
+        result.claudeAi.conversations.length +
+        result.codexCli.conversations.length
     );
     expect(msgCount).toBeGreaterThan(0);
     db.close();
@@ -130,6 +138,8 @@ test("second run is a no-op when nothing has changed", async () => {
     await runIngestRecent({
         stateDir: stateDir,
         claudeCodeRoot: claudeCodeDir,
+        codexSessionsRoot: codexSessionsDir,
+        codexIndexPath: join(codexSessionsDir, "session_index.jsonl"),
         claudeAiContext: fakeClaudeAiContext(scriptedClaudeAi()),
         sleepMs: 0,
     });
@@ -140,6 +150,8 @@ test("second run is a no-op when nothing has changed", async () => {
     const r2 = await runIngestRecent({
         stateDir: stateDir,
         claudeCodeRoot: claudeCodeDir,
+        codexSessionsRoot: codexSessionsDir,
+        codexIndexPath: join(codexSessionsDir, "session_index.jsonl"),
         claudeAiContext: fakeClaudeAiContext(scriptedClaudeAi()),
         sleepMs: 0,
     });
@@ -152,6 +164,8 @@ test("writes state.json with both per-source watermarks", async () => {
     await runIngestRecent({
         stateDir: stateDir,
         claudeCodeRoot: claudeCodeDir,
+        codexSessionsRoot: codexSessionsDir,
+        codexIndexPath: join(codexSessionsDir, "session_index.jsonl"),
         claudeAiContext: fakeClaudeAiContext(scriptedClaudeAi()),
         sleepMs: 0,
     });
@@ -168,6 +182,8 @@ test("claude-ai failure: claude-code source still ingests", async () => {
     const result = await runIngestRecent({
         stateDir: stateDir,
         claudeCodeRoot: claudeCodeDir,
+        codexSessionsRoot: codexSessionsDir,
+        codexIndexPath: join(codexSessionsDir, "session_index.jsonl"),
         claudeAiContext: failingContext,
         sleepMs: 0,
     });

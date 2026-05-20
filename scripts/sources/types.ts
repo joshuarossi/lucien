@@ -1,4 +1,4 @@
-export type Source = "claude-code" | "claude-ai";
+export type Source = "claude-code" | "claude-ai" | "codex-cli";
 
 export interface NormalizedMessage {
     uuid: string;
