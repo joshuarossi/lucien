@@ -1,4 +1,4 @@
-export type Source = "claude-code" | "claude-ai" | "codex-cli";
+export type Source = "claude-code" | "claude-ai" | "codex-cli" | "chatgpt";
 
 export interface NormalizedMessage {
     uuid: string;
