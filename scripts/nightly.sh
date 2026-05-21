@@ -116,6 +116,24 @@ run_stage "normalize-wikilinks"  "$BUN" run scripts/normalize-wikilinks.ts  || e
          || git commit -m "Normalize wikilinks to canonical article stems"; }
 ) || echo "!!! normalize-wikilinks commit skipped (non-fatal)"
 
+# Stage 6: changelog. Deterministic per-run digest — diffs articles/ between
+# the pre-synthesis HEAD and now, prepends a dated "## YYYY-MM-DD — OK" section
+# (new/updated/removed, one line per article) to Meta/Changelog.md. Answers the
+# morning "did it run / what changed" question with a single page. Non-fatal:
+# a changelog failure must not fail a run that already succeeded.
+if [ -n "$DREAM_BEFORE" ]; then
+  run_stage "write-changelog" "$BUN" run scripts/write-changelog.ts --since "$DREAM_BEFORE" \
+    || echo "!!! write-changelog failed (non-fatal)"
+  (
+    cd "$HOME/Dreaming" \
+      && git add -- 'Meta/Changelog.md' \
+      && { git diff --cached --quiet \
+           || git commit -m "Changelog: $(date +%Y-%m-%d) run"; }
+  ) || echo "!!! changelog commit skipped (non-fatal)"
+else
+  echo ">>> STAGE: write-changelog :: SKIPPED (could not read Dreaming HEAD)"
+fi
+
 echo ""
 echo "=== Lucien nightly run complete $(date) ==="
 
