@@ -4,8 +4,10 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import { writeFile, mkdir, access, readFile } from "node:fs/promises";
 import { DB_PATH } from "./state-path.js";
+import { debugLogPath } from "./debug-log.js";
 import { LUCIEN_PROMPT_SENTINEL } from "./sentinel.js";
 import { sanitizeArticleOutput } from "./sanitize-article.js";
+import { bucketToFilename, bucketToStem } from "./bucket-names.js";
 
 // Bootstrap prompt for NEW buckets that have no article on disk and no synthesis history.
 // Copied verbatim from scripts/synthesize.ts (SYNTHESIS_PROMPT_BOOTSTRAP) — kept separate
@@ -177,7 +179,8 @@ interface MessageRow {
 
 function callClaude(prompt: string): Promise<string> {
     return new Promise((resolve, reject) => {
-        const proc = spawn("claude", ["-p"], {
+        const proc = spawn("claude", ["-p", "--model", "opus"], {
+            cwd: DREAMING_PATH,
             stdio: ["pipe", "pipe", "pipe"],
         });
 
@@ -226,10 +229,6 @@ async function exists(path: string): Promise<boolean> {
     } catch {
         return false;
     }
-}
-
-function bucketToFilename(name: string): string {
-    return name.replace(/\s+/g, "_") + ".md";
 }
 
 function formatChunks(chunks: Chunk[], db: Database): string {
@@ -284,7 +283,7 @@ function getOtherArticles(db: Database, excluding: string): string {
     // the spaced bucket name — this is the exact [[wikilink]] target the model
     // must emit. Mismatched spaced links create broken orphan files in Obsidian.
     return others
-        .map((b) => `- ${b.name.replace(/\s+/g, "_")}: ${b.description}`)
+        .map((b) => `- ${bucketToStem(b.name)}: ${b.description}`)
         .join("\n");
 }
 
@@ -348,10 +347,11 @@ async function main() {
             console.error(`Bucket "${args.onlyBucket}" not found.`);
             process.exit(1);
         }
-        console.log(`Filtering to single bucket: ${args.onlyBucket}`);
+        console.log(`Filtering to source bucket: ${args.onlyBucket}`);
+        console.log(`Target article: ${bucketToFilename(args.onlyBucket)}`);
     }
 
-    console.log(`Buckets to evaluate: ${buckets.length}`);
+    console.log(`Source buckets to evaluate: ${buckets.length}`);
 
     // Prepared statements.
     const newChunksQuery = db.query(`
@@ -418,7 +418,8 @@ async function main() {
                 .query("SELECT COUNT(*) as n FROM chunk_buckets WHERE bucket_name = ?")
                 .get(bucket.name) as { n: number };
             console.log(
-                `[${i}/${buckets.length}] ${bucket.name} — backfill: marked ${backfilledRow.n} existing chunks as synthesized (one-time migration)`
+                `[${i}/${buckets.length}] article ${filename} — backfill from source bucket "${bucket.name}": ` +
+                `marked ${backfilledRow.n} existing chunks as synthesized (one-time migration)`
             );
             backfilled++;
             // Fall through: newChunksQuery below will now return only genuinely new chunks.
@@ -431,8 +432,8 @@ async function main() {
         // ===================================================================
         if (!articleExists && hasSynthesisHistory) {
             console.warn(
-                `[${i}/${buckets.length}] ${bucket.name} — WARNING: synthesis history exists but article file is missing. ` +
-                `Skipping (check the Dreaming — file may have been deleted manually).`
+                `[${i}/${buckets.length}] article ${filename} — WARNING: source bucket "${bucket.name}" has synthesis history ` +
+                `but the target article file is missing. Skipping (check the Dreaming — file may have been deleted manually).`
             );
             skippedNoArticleOrphan++;
             continue;
@@ -454,14 +455,15 @@ async function main() {
 
             if (allChunks.length === 0) {
                 console.log(
-                    `[${i}/${buckets.length}] ${bucket.name} — new bucket but no chunks assigned yet, skipping`
+                    `[${i}/${buckets.length}] article ${filename} — source bucket "${bucket.name}" has no chunks assigned yet, skipping`
                 );
                 skippedNoMaterial++;
                 continue;
             }
 
             console.log(
-                `[${i}/${buckets.length}] ${bucket.name} — NEW BUCKET: bootstrapping from ${allChunks.length} chunk(s)...`
+                `[${i}/${buckets.length}] article ${filename} — creating from source bucket "${bucket.name}" ` +
+                `with ${allChunks.length} chunk(s)...`
             );
 
             if (args.dryRun) {
@@ -502,12 +504,10 @@ async function main() {
 
                 newBuckets++;
                 const wordCount = article.split(/\s+/).length;
-                console.log(`  → created ${filename} (${wordCount} words, ${callElapsed}s) [NEW BUCKET]`);
+                console.log(`  → created article ${filename} (${wordCount} words, ${callElapsed}s)`);
             } catch (err: any) {
-                console.error(`  ERROR: ${err.message}`);
-                const debugPath = join(
-                    homedir(),
-                    "Downloads",
+                console.error(`  ERROR: article ${filename} from source bucket "${bucket.name}" failed: ${err.message}`);
+                const debugPath = await debugLogPath(
                     `lucien-bootstrap-debug-${bucketToFilename(bucket.name)}.txt`
                 );
                 try {
@@ -529,14 +529,15 @@ async function main() {
         // ===================================================================
         if (newChunks.length === 0) {
             console.log(
-                `[${i}/${buckets.length}] ${bucket.name} — no new material, skipping`
+                `[${i}/${buckets.length}] article ${filename} — source bucket "${bucket.name}" has no new material, skipping`
             );
             skippedNoMaterial++;
             continue;
         }
 
         console.log(
-            `[${i}/${buckets.length}] ${bucket.name} — integrating ${newChunks.length} new chunk(s) into existing article...`
+            `[${i}/${buckets.length}] article ${filename} — updating from source bucket "${bucket.name}" ` +
+            `with ${newChunks.length} new chunk(s)...`
         );
 
         if (args.dryRun) {
@@ -581,12 +582,10 @@ async function main() {
 
             updated++;
             const wordCount = article.split(/\s+/).length;
-            console.log(`  → updated ${filename} (${wordCount} words, ${callElapsed}s)`);
+            console.log(`  → updated article ${filename} (${wordCount} words, ${callElapsed}s)`);
         } catch (err: any) {
-            console.error(`  ERROR: ${err.message}`);
-            const debugPath = join(
-                homedir(),
-                "Downloads",
+            console.error(`  ERROR: article ${filename} from source bucket "${bucket.name}" failed: ${err.message}`);
+            const debugPath = await debugLogPath(
                 `lucien-update-debug-${bucketToFilename(bucket.name)}.txt`
             );
             try {
@@ -628,17 +627,20 @@ async function main() {
 
     const elapsedMin = ((Date.now() - startTime) / 60000).toFixed(1);
     console.log(`\nDone in ${elapsedMin} minutes.`);
-    console.log(`  Buckets evaluated:                                      ${buckets.length}`);
+    console.log(`  Source buckets evaluated:                              ${buckets.length}`);
     console.log(`  Backfilled (one-time migration):                        ${backfilled}`);
     console.log(`  Skipped (no new material):                              ${skippedNoMaterial}`);
     console.log(`  Skipped (no article on disk + synthesis history exists): ${skippedNoArticleOrphan}`);
-    console.log(`  Updated:                                                ${updated}`);
-    console.log(`  NEW articles created (fresh bucket):                    ${newBuckets}`);
+    console.log(`  Articles updated:                                       ${updated}`);
+    console.log(`  Articles created from new source buckets:               ${newBuckets}`);
     console.log(`  Errored:                                                ${errored}`);
     if (errored > 0) {
         console.log(
-            `  Failed articles retain their new chunks as un-synthesized; they will retry on the next run.`
+            `  Failed article updates retain their source chunks as un-synthesized; they will retry on the next run.`
         );
+        if (args.onlyBucket) {
+            process.exitCode = 1;
+        }
     }
 }
 

@@ -16,6 +16,26 @@ alwaysApply: false
 
 **On-disk wiki:** `articles/` (stem filenames like `Topic_With_Underscores.md`), `Meta/`, `Talk/`, `.lucien/` for implementation caches. Prefer search/read/link tools for content; call **`lucien_setup`** only when initializing a **new** Dreaming. For tool choice and layout, see `.cursor/skills/lucien/SKILL.md`. For product narrative and architecture, see **`README.md`** and **`docs/`** (e.g. `Lucien-PRD.md`, `lucien-vision.md`).
 
+**Pipeline vocabulary — keep these concepts distinct:**
+
+- **Conversation** — one session talking to an AI provider.
+- **Chunk** — a contiguous segment of a conversation focused on one topic; one conversation can produce many chunks as the user changes topics.
+- **Bucket** — a staging/grouping area for similar chunks. Buckets are intermediate synthesis inputs, not articles.
+- **Article** — the markdown output in the Dreaming: the current synthesized wiki page for an article topic.
+
+Do **not** collapse bucket and article in explanations, code comments, or user-facing logs. Chunks are assigned to buckets; buckets/source chunks then inform whether synthesis updates an existing article or creates a new article. A brand-new topic may create a new bucket first and later create a new article; therefore bucket names must not be treated as inherently dependent on existing article names. During synthesis, logs should be article-centric and mention buckets/chunks as source material/provenance.
+
+**Long-running operations:** do not run long pipeline jobs (nightly, synthesis, bulk imports, editorial passes) in the foreground unless the user explicitly asks. Reuse a persistent tmux session named `lucien-runner` so the user can attach and the agent is not blocked for hours:
+
+```sh
+tmux has-session -t lucien-runner 2>/dev/null || \
+  tmux new-session -d -s lucien-runner -c /Users/joshrossi/Code/lucien
+
+tmux send-keys -t lucien-runner 'cd /Users/joshrossi/Code/lucien && ./scripts/nightly.sh' C-m
+```
+
+Inspect progress with `tmux capture-pane -pt lucien-runner -S -200`; the user can attach with `tmux attach -t lucien-runner`. Use the same session for future long-running Lucien tasks rather than creating one-off sessions.
+
 The sections below are **general Bun defaults** for TypeScript in this codebase (this package does not ship a web UI unless you add one).
 
 ---

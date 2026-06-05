@@ -4,9 +4,13 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import { writeFile } from "node:fs/promises";
 import { DB_PATH } from "./state-path.js";
+import { debugLogPath } from "./debug-log.js";
 import { LUCIEN_PROMPT_SENTINEL } from "./sentinel.js";
+import { canonicalBucketKey } from "./bucket-names.js";
 
 const BATCH_SIZE = 25;
+const CLAUDE_TIMEOUT_MS = 5 * 60 * 1000;
+const CLAUDE_CWD = join(homedir(), "Dreaming");
 
 const ASSIGN_OR_PROPOSE_PROMPT = `You are organizing chunks of conversation into a personal wiki's bucket taxonomy. You have a list of EXISTING buckets and a batch of NEW topic labels. For each label, decide whether it fits into one or more existing buckets, or whether it represents a genuinely new topic that needs its own bucket.
 
@@ -65,7 +69,8 @@ function callClaude(prompt: string): Promise<string> {
     return new Promise((resolve, reject) => {
         // Prompt is passed via stdin, not argv: batched labels can exceed
         // the OS ARG_MAX limit and posix_spawn fails with E2BIG.
-        const proc = spawn("claude", ["-p"], {
+        const proc = spawn("claude", ["-p", "--model", "opus"], {
+            cwd: CLAUDE_CWD,
             stdio: ["pipe", "pipe", "pipe"],
         });
 
@@ -80,17 +85,26 @@ function callClaude(prompt: string): Promise<string> {
 
         stdin.on("error", fail);
 
+        const timeout = setTimeout(() => {
+            fail(new Error(`claude timed out after ${CLAUDE_TIMEOUT_MS / 1000}s`));
+            proc.kill("SIGTERM");
+        }, CLAUDE_TIMEOUT_MS);
+
         let stdout = "";
         let stderr = "";
         proc.stdout.on("data", (d) => (stdout += d.toString()));
         proc.stderr.on("data", (d) => (stderr += d.toString()));
         proc.on("exit", (code) => {
+            clearTimeout(timeout);
             if (settled) return;
             settled = true;
             if (code === 0) resolve(stdout);
             else reject(new Error(`claude exited ${code}: ${stderr}`));
         });
-        proc.on("error", fail);
+        proc.on("error", (err) => {
+            clearTimeout(timeout);
+            fail(err);
+        });
 
         stdin.end(prompt, "utf8");
     });
@@ -151,8 +165,10 @@ async function main() {
     }
 
     const bucketsMap = new Map<string, Bucket>();
+    const bucketKeyToName = new Map<string, string>();
     for (const b of initialBuckets) {
         bucketsMap.set(b.name, b);
+        bucketKeyToName.set(canonicalBucketKey(b.name), b.name);
     }
     console.log(`Loaded ${bucketsMap.size} buckets`);
 
@@ -216,7 +232,7 @@ async function main() {
                 for (const a of assignments) {
                     const labelId = a.label_id as number;
                     if (!labelId || labelId < 1 || labelId > batch.length) continue;
-                    const chunk = batch[labelId - 1];
+                    const chunk = batch[labelId - 1]!;
                     const existingBuckets = (a.existing_buckets ?? []) as string[];
                     const newBucket = a.new_bucket ?? null;
 
@@ -227,27 +243,30 @@ async function main() {
                     }
 
                     for (const bucketName of existingBuckets) {
-                        if (!bucketsMap.has(bucketName)) {
+                        const canonicalBucketName = bucketKeyToName.get(canonicalBucketKey(bucketName));
+                        if (!canonicalBucketName) {
                             unknownBuckets++;
                             console.warn(`  [dry-run] Unknown bucket: "${bucketName}" (would skip)`);
                             continue;
                         }
-                        dryRunExisting.push({ chunk_id: chunk.id, label: chunk.label, bucket: bucketName });
+                        dryRunExisting.push({ chunk_id: chunk.id, label: chunk.label, bucket: canonicalBucketName });
                         existingAssignments++;
                     }
 
                     if (newBucket && existingBuckets.length === 0) {
                         const normalizedName = newBucket.name.trim().replace(/\s+/g, " ");
-                        if (bucketsMap.has(normalizedName)) {
+                        const existingName = bucketKeyToName.get(canonicalBucketKey(normalizedName));
+                        if (existingName) {
                             console.warn(
-                                `  [dry-run] LLM proposed new bucket "${normalizedName}" but it already exists — would treat as existing assignment`
+                                `  [dry-run] LLM proposed new bucket "${normalizedName}" but it already exists as "${existingName}" — would treat as existing assignment`
                             );
-                            dryRunExisting.push({ chunk_id: chunk.id, label: chunk.label, bucket: normalizedName });
+                            dryRunExisting.push({ chunk_id: chunk.id, label: chunk.label, bucket: existingName });
                             existingAssignments++;
                         } else {
                             const proposal: NewBucketProposal = { name: normalizedName, description: newBucket.description };
                             // Add to bucketsMap so subsequent batches see it (even in dry-run)
                             bucketsMap.set(normalizedName, proposal);
+                            bucketKeyToName.set(canonicalBucketKey(normalizedName), normalizedName);
                             dryRunNew.push({ chunk_id: chunk.id, label: chunk.label, bucket: proposal });
                             newBucketsCreated++;
                             console.log(
@@ -261,7 +280,7 @@ async function main() {
                     for (const a of assignments) {
                         const labelId = a.label_id as number;
                         if (!labelId || labelId < 1 || labelId > batch.length) continue;
-                        const chunk = batch[labelId - 1];
+                        const chunk = batch[labelId - 1]!;
                         const existingBuckets = (a.existing_buckets ?? []) as string[];
                         const newBucket = a.new_bucket ?? null;
 
@@ -272,12 +291,13 @@ async function main() {
 
                         // Assign to existing buckets
                         for (const bucketName of existingBuckets) {
-                            if (!bucketsMap.has(bucketName)) {
+                            const canonicalBucketName = bucketKeyToName.get(canonicalBucketKey(bucketName));
+                            if (!canonicalBucketName) {
                                 unknownBuckets++;
                                 console.warn(`  Unknown bucket: "${bucketName}" (skipping)`);
                                 continue;
                             }
-                            insertChunkBucket.run(chunk.id, bucketName);
+                            insertChunkBucket.run(chunk.id, canonicalBucketName);
                             existingAssignments++;
                         }
 
@@ -285,12 +305,13 @@ async function main() {
                         if (newBucket && existingBuckets.length === 0) {
                             const normalizedName = newBucket.name.trim().replace(/\s+/g, " ");
 
-                            if (bucketsMap.has(normalizedName)) {
+                            const existingName = bucketKeyToName.get(canonicalBucketKey(normalizedName));
+                            if (existingName) {
                                 // LLM proposed a duplicate — treat as existing assignment
                                 console.warn(
-                                    `  LLM proposed new bucket "${normalizedName}" but it already exists — assigning to existing`
+                                    `  LLM proposed new bucket "${normalizedName}" but it already exists as "${existingName}" — assigning to existing`
                                 );
-                                insertChunkBucket.run(chunk.id, normalizedName);
+                                insertChunkBucket.run(chunk.id, existingName);
                                 existingAssignments++;
                             } else {
                                 // Create the new bucket and assign
@@ -298,6 +319,7 @@ async function main() {
                                 const newEntry: Bucket = { name: normalizedName, description: newBucket.description };
                                 // Update the mutable map so subsequent batches see this new bucket
                                 bucketsMap.set(normalizedName, newEntry);
+                                bucketKeyToName.set(canonicalBucketKey(normalizedName), normalizedName);
                                 newBucketsThisRun.push(newEntry);
                                 insertChunkBucket.run(chunk.id, normalizedName);
                                 newBucketsCreated++;
@@ -315,11 +337,7 @@ async function main() {
             }
         } catch (err: any) {
             console.error(`  ERROR: ${err.message}`);
-            const debugPath = join(
-                homedir(),
-                "Downloads",
-                `lucien-assign-recent-debug-batch-${batchNum}.txt`
-            );
+            const debugPath = await debugLogPath(`lucien-assign-recent-debug-batch-${batchNum}.txt`);
             try {
                 await writeFile(
                     debugPath,

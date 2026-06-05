@@ -4,6 +4,9 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import { writeFile } from "node:fs/promises";
 import { DB_PATH } from "./state-path.js";
+import { debugLogPath } from "./debug-log.js";
+
+const CLAUDE_CWD = join(homedir(), "Dreaming");
 
 const TAXONOMY_PROMPT = `You will analyze a list of topic labels extracted from a user's conversations with AI assistants. Your job is to produce a coherent bucket taxonomy — a set of named buckets that organize these topics into a meaningful structure.
 
@@ -42,7 +45,8 @@ function callClaude(prompt: string): Promise<string> {
     return new Promise((resolve, reject) => {
         // Prompt is passed via stdin, not argv: the full label set can exceed
         // the OS ARG_MAX limit and posix_spawn fails with E2BIG.
-        const proc = spawn("claude", ["-p"], {
+        const proc = spawn("claude", ["-p", "--model", "opus"], {
+            cwd: CLAUDE_CWD,
             stdio: ["pipe", "pipe", "pipe"],
         });
 
@@ -154,7 +158,7 @@ async function main() {
         }
     } catch (err: any) {
         console.error(`ERROR: ${err.message}`);
-        const debugPath = join(homedir(), "Downloads", "lucien-taxonomy-debug.txt");
+        const debugPath = await debugLogPath("lucien-taxonomy-debug.txt");
         try {
             await writeFile(
                 debugPath,

@@ -4,8 +4,12 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import { writeFile } from "node:fs/promises";
 import { DB_PATH } from "./state-path.js";
+import { debugLogPath } from "./debug-log.js";
 import { LUCIEN_PROMPT_SENTINEL } from "./sentinel.js";
+import { canonicalBucketKey } from "./bucket-names.js";
 const BATCH_SIZE = 25;
+const CLAUDE_TIMEOUT_MS = 5 * 60 * 1000;
+const CLAUDE_CWD = join(homedir(), "Dreaming");
 
 const ASSIGN_PROMPT = `You will assign topic labels to buckets. You have a list of buckets (each with a name and description) and a batch of topic labels. For each label, determine which buckets it belongs to.
 
@@ -43,7 +47,8 @@ function callClaude(prompt: string): Promise<string> {
     return new Promise((resolve, reject) => {
         // Prompt is passed via stdin, not argv: batched labels can exceed
         // the OS ARG_MAX limit and posix_spawn fails with E2BIG.
-        const proc = spawn("claude", ["-p"], {
+        const proc = spawn("claude", ["-p", "--model", "opus"], {
+            cwd: CLAUDE_CWD,
             stdio: ["pipe", "pipe", "pipe"],
         });
 
@@ -58,17 +63,26 @@ function callClaude(prompt: string): Promise<string> {
 
         stdin.on("error", fail);
 
+        const timeout = setTimeout(() => {
+            fail(new Error(`claude timed out after ${CLAUDE_TIMEOUT_MS / 1000}s`));
+            proc.kill("SIGTERM");
+        }, CLAUDE_TIMEOUT_MS);
+
         let stdout = "";
         let stderr = "";
         proc.stdout.on("data", (d) => (stdout += d.toString()));
         proc.stderr.on("data", (d) => (stderr += d.toString()));
         proc.on("exit", (code) => {
+            clearTimeout(timeout);
             if (settled) return;
             settled = true;
             if (code === 0) resolve(stdout);
             else reject(new Error(`claude exited ${code}: ${stderr}`));
         });
-        proc.on("error", fail);
+        proc.on("error", (err) => {
+            clearTimeout(timeout);
+            fail(err);
+        });
 
         stdin.end(prompt, "utf8");
     });
@@ -122,7 +136,9 @@ async function main() {
     }
     console.log(`Loaded ${buckets.length} buckets`);
 
-    const bucketNames = new Set(buckets.map((b) => b.name));
+    const bucketKeyToName = new Map(
+        buckets.map((b) => [canonicalBucketKey(b.name), b.name] as const)
+    );
 
     // Find chunks that haven't been assigned yet
     const todo = db
@@ -171,7 +187,7 @@ async function main() {
                 for (const a of assignments) {
                     const labelId = a.label_id as number;
                     if (!labelId || labelId < 1 || labelId > batch.length) continue;
-                    const chunk = batch[labelId - 1];
+                    const chunk = batch[labelId - 1]!;
                     const assignedBuckets = (a.buckets ?? []) as string[];
 
                     if (assignedBuckets.length === 0) {
@@ -180,12 +196,13 @@ async function main() {
                     }
 
                     for (const bucketName of assignedBuckets) {
-                        if (!bucketNames.has(bucketName)) {
+                        const canonicalBucketName = bucketKeyToName.get(canonicalBucketKey(bucketName));
+                        if (!canonicalBucketName) {
                             unknownBuckets++;
                             console.warn(`  Unknown bucket: "${bucketName}" (skipping)`);
                             continue;
                         }
-                        insert.run(chunk?.id ?? 0, bucketName);
+                        insert.run(chunk.id, canonicalBucketName);
                         totalAssignments++;
                     }
                 }
@@ -194,11 +211,7 @@ async function main() {
             console.log(`  → total assignments so far: ${totalAssignments}`);
         } catch (err: any) {
             console.error(`  ERROR: ${err.message}`);
-            const debugPath = join(
-                homedir(),
-                "Downloads",
-                `lucien-assign-debug-batch-${batchNum}.txt`
-            );
+            const debugPath = await debugLogPath(`lucien-assign-debug-batch-${batchNum}.txt`);
             try {
                 await writeFile(
                     debugPath,

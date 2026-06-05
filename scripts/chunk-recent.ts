@@ -1,9 +1,8 @@
 import { Database } from "bun:sqlite";
 import { spawn } from "node:child_process";
-import { homedir } from "node:os";
-import { join } from "node:path";
 import { writeFile } from "node:fs/promises";
 import { DB_PATH } from "./state-path.js";
+import { debugLogPath } from "./debug-log.js";
 import { LUCIEN_PROMPT_SENTINEL } from "./sentinel.js";
 
 const CHUNK_PROMPT = `You will analyze ONE conversation between a user and an AI assistant. Identify ALL distinct topic chunks within it.
@@ -63,7 +62,7 @@ function callClaude(prompt: string): Promise<string> {
     return new Promise((resolve, reject) => {
         // Prompt is passed via stdin, not argv: transcripts routinely exceed
         // the OS ARG_MAX limit and posix_spawn fails with E2BIG.
-        const proc = spawn("claude", ["-p"], {
+        const proc = spawn("claude", ["-p", "--model", "opus"], {
             stdio: ["pipe", "pipe", "pipe"],
         });
 
@@ -313,11 +312,7 @@ async function main() {
             console.log(`  → ${chunks.length} chunks (running total: ${totalChunks})`);
         } catch (err: any) {
             console.error(`  ERROR: ${err.message}`);
-            const debugPath = join(
-                homedir(),
-                "Downloads",
-                `lucien-debug-${convMeta.uuid}.txt`
-            );
+            const debugPath = await debugLogPath(`lucien-debug-${convMeta.uuid}.txt`);
             try {
                 await writeFile(
                     debugPath,

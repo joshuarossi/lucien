@@ -4,3 +4,18 @@ args = [
     "/Users/joshrossi/Code/lucien/src/index.ts",
 ]
 command = "bun"
+
+[mcp_servers.lucien.tools.lucien_article_search]
+approval_mode = "approve"
+
+[mcp_servers.lucien.tools.lucien_article_toc]
+approval_mode = "approve"
+
+[mcp_servers.lucien.tools.lucien_get_links]
+approval_mode = "approve"
+
+[mcp_servers.lucien.tools.lucien_article_section]
+approval_mode = "approve"
+
+[mcp_servers.lucien.tools.lucien_article_read]
+approval_mode = "approve"

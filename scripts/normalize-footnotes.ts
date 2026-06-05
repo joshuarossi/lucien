@@ -82,7 +82,7 @@ export function normalizeFootnotes(article: string): NormalizeResult {
         if (m) {
             const n = parseInt(m[1]!, 10);
             defNums.add(n);
-            const c = m[2]!.match(/conv:[0-9a-f]{8}/i);
+            const c = m[2]!.match(/conv:[0-9a-z]{8}/i);
             defConv.set(n, c ? c[0]!.toLowerCase() : null);
         }
     }

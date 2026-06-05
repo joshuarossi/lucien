@@ -23,6 +23,7 @@ import { homedir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { DB_PATH, REPO_ROOT } from "./state-path.js";
+import { bucketToFilename } from "./bucket-names.js";
 
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const WORKER_SCRIPT = join(SCRIPT_DIR, "synthesize-update.ts");
@@ -72,10 +73,6 @@ function parseArgs(): CLIArgs {
         }
     }
     return args;
-}
-
-function bucketToFilename(name: string): string {
-    return name.replace(/\s+/g, "_") + ".md";
 }
 
 async function exists(path: string): Promise<boolean> {
@@ -184,9 +181,46 @@ async function buildManifest(
 }
 
 /** Spawn one worker for one bucket. Resolves with its outcome. */
-function runWorker(
-    bucket: string
-): Promise<{ bucket: string; ok: boolean; rateLimited: boolean; tailLine: string }> {
+interface WorkerResult {
+    bucket: string;
+    ok: boolean;
+    rateLimited: boolean;
+    summary: string;
+    error?: string;
+    debugPath?: string;
+    exitCode: number | null;
+}
+
+function summarizeWorkerOutput(out: string, err: string): Pick<WorkerResult, "summary" | "error" | "debugPath"> {
+    const stdoutLines = out.split("\n").map((l) => l.trim()).filter(Boolean);
+    const stderrLines = err.split("\n").map((l) => l.trim()).filter(Boolean);
+
+    const errorLine = [...stderrLines, ...stdoutLines].find((l) => /^ERROR:/i.test(l) || /^\s*ERROR:/i.test(l));
+    const debugLine = [...stderrLines, ...stdoutLines].find((l) => /Raw response saved to /.test(l));
+    const debugPath = debugLine?.replace(/^.*Raw response saved to\s+/, "").trim();
+
+    if (errorLine) {
+        return {
+            summary: errorLine.replace(/^\s+/, ""),
+            error: errorLine.replace(/^\s*ERROR:\s*/i, "").trim(),
+            debugPath,
+        };
+    }
+
+    const meaningful = [...stdoutLines]
+        .reverse()
+        .find((l) =>
+            /^→ /.test(l) ||
+            /— backfill:/.test(l) ||
+            /— no new material/.test(l) ||
+            /— new bucket but no chunks/.test(l) ||
+            /^Git commit created\./.test(l)
+        );
+
+    return { summary: meaningful ?? "completed without article changes" };
+}
+
+function runWorker(bucket: string): Promise<WorkerResult> {
     return new Promise((resolve) => {
         const proc = spawn(
             "bun",
@@ -199,21 +233,23 @@ function runWorker(
         proc.stdout.on("data", (d) => (out += d.toString()));
         proc.stderr.on("data", (d) => (err += d.toString()));
 
-        const finish = (ok: boolean) => {
-            const combined = out + "\n" + err;
-            const rateLimited = RATE_LIMIT_RE.test(combined);
-            // Last non-empty stdout line is the worker's own summary of this bucket
-            // (→ created / → updated / — no new material / — backfill / ERROR).
-            const lines = out.split("\n").map((l) => l.trim()).filter(Boolean);
-            const tailLine = lines[lines.length - 1] ?? (ok ? "(no output)" : "(failed, no output)");
-            resolve({ bucket, ok, rateLimited, tailLine });
+        const finish = (exitCode: number | null, spawnError?: Error) => {
+            if (spawnError) err += `\nERROR: failed to spawn worker: ${spawnError.message}`;
+
+            // Check stderr only — the article body goes to stdout and can
+            // legitimately contain phrases like "rate limit". Also strip
+            // the bucket name itself, since the worker echoes it in log
+            // lines (e.g. the Token_Usage_and_Rate_Limits article triggered
+            // false positives via its own name appearing in stderr).
+            const errSansBucket = err.split(bucket).join("");
+            const rateLimited = RATE_LIMIT_RE.test(errSansBucket);
+            const parsed = summarizeWorkerOutput(out, err);
+            const ok = exitCode === 0 && !parsed.error;
+            resolve({ bucket, ok, rateLimited, exitCode, ...parsed });
         };
 
-        proc.on("exit", (code) => finish(code === 0));
-        proc.on("error", (e) => {
-            err += String(e);
-            finish(false);
-        });
+        proc.on("exit", (code) => finish(code));
+        proc.on("error", (e) => finish(null, e));
     });
 }
 
@@ -229,10 +265,15 @@ async function main() {
     );
     db.close();
 
-    // The inspectable artifact: { bucket: { mode, chunkIds } }
-    const manifestObj: Record<string, { mode: Mode; chunkIds: number[] }> = {};
+    // The inspectable artifact: source bucket -> article target + chunk inputs.
+    // Buckets are staging/grouping inputs; articles are the Dreaming markdown outputs.
+    const manifestObj: Record<string, { article: string; mode: Mode; chunkIds: number[] }> = {};
     for (const e of actionable) {
-        manifestObj[e.bucket] = { mode: e.mode, chunkIds: e.chunkIds };
+        manifestObj[e.bucket] = {
+            article: bucketToFilename(e.bucket),
+            mode: e.mode,
+            chunkIds: e.chunkIds,
+        };
     }
 
     console.log("\n=== MANIFEST ===");
@@ -279,22 +320,31 @@ async function main() {
             if (!entry) return;
             started++;
             const idx = started;
+            const article = bucketToFilename(entry.bucket);
+            const chunkText = entry.chunkIds.length ? `, ${entry.chunkIds.length} chunk(s)` : "";
             console.log(
-                `[${idx}/${actionable.length}] → ${entry.bucket} (${entry.mode}` +
-                `${entry.chunkIds.length ? `, ${entry.chunkIds.length} chunk(s)` : ""})`
+                `[${idx}/${actionable.length}] → article ${article} (${entry.mode}${chunkText})`
             );
+            console.log(`    source bucket: ${entry.bucket}`);
             const res = await runWorker(entry.bucket);
             if (res.ok) {
                 okCount++;
-                console.log(`    ${entry.bucket}: ${res.tailLine}`);
+                console.log(`[${idx}/${actionable.length}] ✓ article ${article} — ${res.summary}`);
+                console.log(`    source bucket: ${entry.bucket}`);
             } else {
                 failCount++;
-                console.log(`    ${entry.bucket}: FAILED — ${res.tailLine}`);
+                const exit = res.exitCode === null ? "spawn failed" : `exit ${res.exitCode}`;
+                console.log(`[${idx}/${actionable.length}] ✗ article ${article} — FAILED (${exit})`);
+                console.log(`    source bucket: ${entry.bucket}`);
+                console.log(`    error: ${res.error ?? res.summary}`);
+                if (res.debugPath) console.log(`    debug: ${res.debugPath}`);
+                console.log(`    retry: source chunks remain un-synthesized and will reappear in the next manifest`);
             }
             if (res.rateLimited && !stoppedForRateLimit) {
                 stoppedForRateLimit = true;
                 console.warn(
-                    `\n!! Rate-limit / usage-window signal detected from worker "${entry.bucket}". ` +
+                    `\n!! Rate-limit / usage-window signal detected while updating article ${article} ` +
+                    `from source bucket "${entry.bucket}". ` +
                     `Halting: no new workers will start; in-flight workers will finish.\n` +
                     `   Re-run later — synthesized_bucket_chunks makes this idempotent, ` +
                     `so only unfinished articles will remain in the manifest.`
@@ -319,7 +369,7 @@ async function main() {
     }
     if (failCount > 0 || notRun > 0) {
         console.log(
-            `  Failed/unstarted buckets keep their chunks un-synthesized and ` +
+            `  Failed/unstarted article updates keep their source chunks un-synthesized and ` +
             `reappear in the next run's manifest.`
         );
     }

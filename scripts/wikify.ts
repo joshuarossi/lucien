@@ -24,7 +24,7 @@ const SPEC_HASHES = new Set(["00000000", "00000001"]);
 /** All real `conv:HASH` citation hashes in `text`, lowercased. */
 export function extractConvHashes(text: string): Set<string> {
     const out = new Set<string>();
-    for (const m of text.matchAll(/conv:([0-9a-f]{8})/gi)) {
+    for (const m of text.matchAll(/conv:([0-9a-z]{8})/gi)) {
         const h = m[1]!.toLowerCase();
         if (!SPEC_HASHES.has(h)) out.add(h);
     }
@@ -86,7 +86,7 @@ export function checkFootnoteIntegrity(text: string): CheckResult {
     }
 
     for (const [n, line] of defLineByNum) {
-        const backticked = line.match(/`conv:[0-9a-f]{8}`/gi) ?? [];
+        const backticked = line.match(/`conv:[0-9a-z]{8}`/gi) ?? [];
         if (backticked.length !== 1) {
             errors.push(
                 `[^${n}] definition lacks a backticked \`conv:HASH\` (found ${backticked.length})`
@@ -235,7 +235,7 @@ EDITORIAL POLICY:
 This wiki's own editorial-policy pages live in /Users/joshrossi/Dreaming/Meta/ — e.g. Editorial_Guidelines.md, Article_Conventions.md, plus any the user has added (a style or summarization policy, etc.). Use the Read tool to consult the relevant ones and follow them over your defaults for HOW to restructure: consolidation aggressiveness, tone, and how much historical detail to retain. The HARD INVARIANT above is mechanism, not policy — these docs cannot override it.
 
 OUTPUT:
-Output ONLY the full restructured markdown article, starting with "# ", optionally followed by the single <<<TALK>>> block. No preamble, no explanation, no code fences.
+Output ONLY the full restructured markdown article. The very first non-whitespace characters of your response MUST be "# ", followed by the article title. Optionally follow the article with the single <<<TALK>>> block. No preamble, no explanation, no code fences.
 
 ARTICLE TO RESTRUCTURE:
 {{ARTICLE}}
@@ -243,6 +243,51 @@ ARTICLE TO RESTRUCTURE:
 
 export function buildEditorialPrompt(articleText: string): string {
     return EDITORIAL_PROMPT.replace("{{ARTICLE}}", articleText);
+}
+
+export function ensureArticleStartsWithH1(article: string, original: string): string {
+    let s = article.trim();
+
+    // Strip common accidental wrappers/preamble while preserving the article body.
+    const fence = s.match(/^```[a-zA-Z]*\n([\s\S]*?)\n```$/);
+    if (fence) s = fence[1]!.trim();
+
+    const h1Re = /^#\s+\S/;
+    const originalH1 = original
+        .split("\n")
+        .find((line) => h1Re.exec(line.trim()) !== null)
+        ?.trim();
+    const originalTitleText = originalH1?.replace(/^#\s+/, "").trim();
+
+    const lines = s.split("\n");
+    const h1Index = lines.findIndex((line) => h1Re.exec(line.trim()) !== null);
+    if (h1Index > 0) return lines.slice(h1Index).join("\n").trim();
+    if (h1Index === 0) return s;
+
+    const firstContentIndex = lines.findIndex((line) => line.trim().length > 0);
+    if (firstContentIndex === -1 || !originalH1 || !originalTitleText) return s;
+
+    const first = lines[firstContentIndex]!.trim();
+
+    // If the model emitted the title as plain text, convert it to the H1 instead
+    // of prepending a second copy of the title.
+    if (first === originalTitleText) {
+        lines[firstContentIndex] = originalH1;
+        return lines.join("\n").trim();
+    }
+
+    // If the model demoted the title to H2/H3/etc., promote that heading rather
+    // than adding a duplicate H1 above it.
+    const demotedTitle = first.match(/^#{2,6}\s+(.+)$/);
+    if (demotedTitle?.[1]?.trim() === originalTitleText) {
+        lines[firstContentIndex] = originalH1;
+        return lines.join("\n").trim();
+    }
+
+    // Otherwise the output appears to be article body with no title; add the
+    // original H1. The normal verification gate still rejects non-article output
+    // via citations, references, and word-floor checks.
+    return `${originalH1}\n\n${s}`.trim();
 }
 
 export interface ArticleIO {
@@ -271,7 +316,9 @@ export async function wikifyArticle(
 ): Promise<WikifyResult> {
     const original = await io.readArticle();
     const raw = await io.callModel(buildEditorialPrompt(original));
-    const { article, talk } = splitModelOutput(raw);
+    const split = splitModelOutput(raw);
+    const article = ensureArticleStartsWithH1(split.article, original);
+    const { talk } = split;
 
     if (article.trim() === original.trim()) {
         return { stem, status: "unchanged", errors: [] };
@@ -334,7 +381,10 @@ export function parseArgs(argv: string[]): CliArgs {
 
 function callClaude(prompt: string): Promise<string> {
     return new Promise((resolve, reject) => {
-        const proc = spawn("claude", ["-p"], { stdio: ["pipe", "pipe", "pipe"] });
+        const proc = spawn("claude", ["-p", "--model", "opus"], {
+            cwd: DREAMING_PATH,
+            stdio: ["pipe", "pipe", "pipe"],
+        });
         let settled = false;
         const stdin = proc.stdin;
         const fail = (err: Error) => {

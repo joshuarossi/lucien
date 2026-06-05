@@ -23,8 +23,8 @@ export function sanitizeArticleOutput(raw: string): string {
     let start = 0;
     while (
         start < lines.length &&
-        !/^\s*#\s/.test(lines[start]) &&
-        !/^\s*\{\{stub\}\}/i.test(lines[start])
+        !/^\s*#\s/.exec(lines[start] ?? "") &&
+        !/^\s*\{\{stub\}\}/i.exec(lines[start] ?? "")
     ) {
         start++;
     }
@@ -46,7 +46,7 @@ export function sanitizeArticleOutput(raw: string): string {
     ];
     const outLines = s.split("\n");
     for (let i = 0; i < outLines.length; i++) {
-        if (postambleMarkers.some((re) => re.test(outLines[i].trim()))) {
+        if (postambleMarkers.some((re) => re.exec((outLines[i] ?? "").trim()))) {
             s = outLines.slice(0, i).join("\n").trim();
             break;
         }
