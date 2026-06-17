@@ -1,0 +1,1723 @@
+{
+  "label": "gemma-e4b-base",
+  "transport": "fetch",
+  "provider": null,
+  "model": "local",
+  "adapter": null,
+  "baseUrl": "http://localhost:8090/v1",
+  "generatedAt": "2026-06-17T01:49:18.235Z",
+  "convs": [
+    {
+      "id": "67e99628-77a4-8013-a2b8-fbdca8c68541",
+      "name": "How Anchors Work",
+      "mc": 6,
+      "promptHash": "0baee21860aad7ed",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "Clarification on the meaning of 'anchors'",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "Mechanism of anchoring a vessel on the seabed",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "label": "Distinction between anchor weight and seabed digging resistance",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"0bd823f7-55e6-457b-a0cd-e9bb6ef493f6\", \"end_message_uuid\": \"8b2ce35c-0cf1-412a-9534-317d20cd30b2\", \"label\": \"Clarification on the meaning of 'anchors'\"}, {\"start_message_uuid\": \"cf541b04-307e-4f0a-956f-0b4235539fc5\", \"end_message_uuid\": \"db8ad56f-b89d-4fb9-8211-fb662b6f5ec4\", \"label\": \"Mechanism of anchoring a vessel on the seabed\"}, {\"start_message_uuid\": \"d494c716-1be9-49bb-bf96-c22366d05274\", \"end_message_uuid\": \"cf28c0f1-4714-4c17-b7e7-60a86357f31b\", \"label\": \"Distinction between anchor weight and seabed digging resistance\"}]}",
+      "ms": 12224
+    },
+    {
+      "id": "f5ecbed4-5361-40ab-9442-670a86831969",
+      "name": "Divorce Rights in Mexico",
+      "mc": 10,
+      "promptHash": "bac670081dfffbc0",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "Legal grounds for divorce in Mexico",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "Translation of divorce laws into Spanish",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "label": "Evolution of no-fault divorce laws in Mexico",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 6,
+          "end": 7,
+          "label": "Historical rights for women to seek divorce in Mexico",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 9,
+          "label": "Production details of telenovela La Que La Vida Me Robo",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"aaa2391d-aef6-4872-ab00-b487bdec8980\", \"end_message_uuid\": \"a69e2b2b-74ba-4d25-bccd-d18d0c7e44a1\", \"label\": \"Legal grounds for divorce in Mexico\"}, {\"start_message_uuid\": \"aaa21f53-9d8d-44e0-92fd-1385dd61bbcf\", \"end_message_uuid\": \"7b6637ca-6c6d-4bf3-a557-4e4744b4f588\", \"label\": \"Translation of divorce laws into Spanish\"}, {\"start_message_uuid\": \"aaa24e3b-6298-421a-88f9-c31c35c74711\", \"end_message_uuid\": \"6039483c-1fb8-43c9-bf83-89284849b528\", \"label\": \"Evolution of no-fault divorce laws in Mexico\"}, {\"start_message_uuid\": \"aaa28299-3c4e-4348-b4de-94d9ed2aeb81\", \"end_message_uuid\": \"bc3ff974-ab7c-4702-89aa-e6ba8c26b616\", \"label\": \"Historical rights for women to seek divorce in Mexico\"}, {\"start_message_uuid\": \"aaa28a32-8f06-406d-a8a6-5ad0f84547f4\", \"end_message_uuid\": \"1afd71f0-15f0-4212-a404-109e221315fa\", \"label\": \"Production details of telenovela La Que La Vida Me Robo\"}]}",
+      "ms": 15439
+    },
+    {
+      "id": "a5be3d4e-fa6f-4d09-9715-70b745578026",
+      "name": "Fixing JavaScript ES6 Error",
+      "mc": 30,
+      "promptHash": "e1fd709838ab91c8",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "Debugging JavaScript Module Parse Failure Error",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "Customizing Webpack Configuration in Create React App",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "label": "Searching Git History for Content Changes Using Pickaxe",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 6,
+          "end": 7,
+          "label": "Clarification on Git Content Search vs Commit Messages",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 9,
+          "label": "Tracking Dependencies Using npm ls Command",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 10,
+          "end": 11,
+          "label": "Locating Specific Packages in npm Dependency Tree",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 12,
+          "end": 13,
+          "label": "Finding Specific Branches in Git Repository",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 14,
+          "end": 15,
+          "label": "Linking Local Libraries to Node Modules Using npm link",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 16,
+          "end": 17,
+          "label": "Checking Available Versions in Remote npm Repository",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 18,
+          "end": 19,
+          "label": "Enabling Verbose Output for RPM Package Manager",
+          "startFlag": "exact",
+          "endFlag": "chimera_prefix"
+        },
+        {
+          "start": 20,
+          "end": 21,
+          "label": "Controlling Verbosity in npm Command Line Interface",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 22,
+          "end": 23,
+          "label": "Clearing Package Manager Cache for RPM Systems",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 24,
+          "end": 25,
+          "label": "Forcing Cleanup of npm Cache Directory",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 26,
+          "end": 27,
+          "label": "Resolving npm ETARGET Error Due to Version Mismatch",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 28,
+          "end": 29,
+          "label": "Fixing npm ERESOLVE Dependency Tree Conflicts",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [
+        "HALLUCINATED ANCHOR — \"Enabling Verbose Output for RPM Package Manager\": end anchor is a spliced/chimera uuid (prefix-matched to msg 19)"
+      ],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"aaa22a86-5653-4005-826d-a992aeeef517\", \"end_message_uuid\": \"30697bc9-6262-4c6c-a3b7-99db37e2f948\", \"label\": \"Debugging JavaScript Module Parse Failure Error\"}, {\"start_message_uuid\": \"aaa286ca-0768-46d7-bb0f-a6da8d55b3e0\", \"end_message_uuid\": \"c960d7ca-1a3a-49d9-b2e3-b3d595848b26\", \"label\": \"Customizing Webpack Configuration in Create React App\"}, {\"start_message_uuid\": \"aaa236b2-0f33-46bc-8e6a-c19d2d94a469\", \"end_message_uuid\": \"c8ddf9c6-6cec-4da6-9e3f-6691f297bfa3\", \"label\": \"Searching Git History for Content Changes Using Pickaxe\"}, {\"start_message_uuid\": \"aaa29be9-9200-4ee1-8e62-b985e3552c01\", \"end_message_uuid\": \"96539612-811a-4880-abe7-30f2c4a44545\", \"label\": \"Clarification on Git Content Search vs Commit Messages\"}, {\"start_message_uuid\": \"aaa27823-4cd6-4ade-9be3-1aac64257227\", \"end_message_uuid\": \"60c06b7c-ed34-435c-b9e1-c1bd7d0fc20a\", \"label\": \"Tracking Dependencies Using npm ls Command\"}, {\"start_message_uuid\": \"aaa21518-df46-44b8-8eac-c2a1262294e5\", \"end_message_uuid\": \"00799dc9-b1f8-4873-9018-00b5ec35d3eb\", \"label\": \"Locating Specific Packages in npm Dependency Tree\"}, {\"start_message_uuid\": \"aaa27b68-f449-4123-9fa4-d6935e0fe506\", \"end_message_uuid\": \"d293a9e0-395d-40e1-9f70-ad3d763a8243\", \"label\": \"Finding Specific Branches in Git Repository\"}, {\"start_message_uuid\": \"aaa26487-d86f-4813-8529-b814408f320a\", \"end_message_uuid\": \"fec1b501-b574-4c01-bf59-65df80651a0b\", \"label\": \"Linking Local Libraries to Node Modules Using npm link\"}, {\"start_message_uuid\": \"aaa2e8b6-91dc-4307-b2c3-6f1911813626\", \"end_message_uuid\": \"14d9ca02-e87c-4d83-9a09-4fcdef7654c9\", \"label\": \"Checking Available Versions in Remote npm Repository\"}, {\"start_message_uuid\": \"aaa27602-17a9-4a5e-8e3a-23eb3c4d011c\", \"end_message_uuid\": \"a9fa4e0d-faaa4bfb-ad00-b115ec74f4e8\", \"label\": \"Enabling Verbose Output for RPM Package Manager\"}, {\"start_message_uuid\": \"aaa2cefd-1e0b-4d50-bdde-d28d4d5f2023\", \"end_message_uuid\": \"0e0154f5-7cc8-4d2c-bebd-4d6bc0a8eb9c\", \"label\": \"Controlling Verbosity in npm Command Line Interface\"}, {\"start_message_uuid\": \"aaa2d15b-0942-47e7-b6e8-f3264cb6be04\", \"end_message_uuid\": \"7fc20eee-352e-4530-8ada-8f151ad3c2e9\", \"label\": \"Clearing Package Manager Cache for RPM Systems\"}, {\"start_message_uuid\": \"aaa29f60-7df4-417a-908a-e1f1c6d3552e\", \"end_message_uuid\": \"2589dd7e-1a1b-472f-ab1b-a1b551af9c82\", \"label\": \"Forcing Cleanup of npm Cache Directory\"}, {\"start_message_uuid\": \"aaa22954-e52c-4c5e-b3cb-ab11df1cd478\", \"end_message_uuid\": \"ffba6455-2546-4e22-9926-a9055eb3048c\", \"label\": \"Resolving npm ETARGET Error Due to Version Mismatch\"}, {\"start_message_uuid\": \"aaa2ac7a-0902-4eeb-af01-8c698a33a763\", \"end_message_uuid\": \"fa0f5e3a-86ab-4ac2-8d83-9e9ac6906121\", \"label\": \"Fixing npm ERESOLVE Dependency Tree Conflicts\"}]}",
+      "ms": 42523
+    },
+    {
+      "id": "eff06c22-ad20-45d7-b670-7054bd9d6cbb",
+      "name": "First Hold: Climbing Starting Point",
+      "mc": 8,
+      "promptHash": "fd3304fc9b7fd858",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "Definition of 'first hold' in rock climbing",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "Booking system definition of 'first hold'",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "label": "Challenges in multi-hold reservation systems",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 6,
+          "end": 7,
+          "label": "Mechanism of challenging a first hold reservation",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"aaa2c97a-4ada-4a1e-ae26-ee2e9840cd27\", \"end_message_uuid\": \"b3fc2809-4130-4479-b9fc-c938a1923d02\", \"label\": \"Definition of 'first hold' in rock climbing\"}, {\"start_message_uuid\": \"aaa2cf20-e104-4700-9409-35beaa08e699\", \"end_message_uuid\": \"6d777936-3899-4a38-99e5-cc1d5f971203\", \"label\": \"Booking system definition of 'first hold'\"}, {\"start_message_uuid\": \"aaa2d7cf-80ea-4d2c-bf4a-657a32913988\", \"end_message_uuid\": \"12d82517-7dd2-4d6d-af5d-9bca39fcb022\", \"label\": \"Challenges in multi-hold reservation systems\"}, {\"start_message_uuid\": \"aaa26c78-7d58-46b2-b018-b47526fc9517\", \"end_message_uuid\": \"731e8281-9b39-405f-ac6c-22d6122fc0cd\", \"label\": \"Mechanism of challenging a first hold reservation\"}]}",
+      "ms": 13729
+    },
+    {
+      "id": "ed94728c-eb45-41e8-8993-da8322e2cc44",
+      "name": "Encoded String Verification",
+      "mc": 9,
+      "promptHash": "b0b2d52678025f07",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 3,
+          "label": "Base64 decoding and data analysis",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "label": "Reversing Base64 encoding process",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 6,
+          "end": 8,
+          "label": "Interpreting decoded bytes as ASCII",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"aaa22775-d407-4787-9345-bee16d480d1e\", \"end_message_uuid\": \"6beab952-27ce-4dba-82ff-a2e2c11a2fee\", \"label\": \"Base64 decoding and data analysis\"}, {\"start_message_uuid\": \"aaa2f37b-e431-492b-ba98-ded1f690f76e\", \"end_message_uuid\": \"f33f43e9-2946-4859-bd80-490c479803fa\", \"label\": \"Reversing Base64 encoding process\"}, {\"start_message_uuid\": \"aaa25f75-1a58-4f98-980b-38a0a0301f0a\", \"end_message_uuid\": \"8d443571-c7ae-4c67-bfd6-7679ae7a3c83\", \"label\": \"Interpreting decoded bytes as ASCII\"}]}",
+      "ms": 11662
+    },
+    {
+      "id": "16be1a9f-3c61-453a-a536-5736a74a8921",
+      "name": "Mud versus clay differences",
+      "mc": 48,
+      "promptHash": "f013080280df1d53",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "Fundamental difference between mud and clay",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "Natural sources and testing for clay",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "label": "Relationship between clay, brick, and adobe",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 6,
+          "end": 7,
+          "label": "Reversibility of firing clay into brick",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 9,
+          "label": "Distinguishing brick from broader ceramic category",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 10,
+          "end": 11,
+          "label": "Purpose of glazing on fully vitrified porcelain",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 12,
+          "end": 13,
+          "label": "Compositional difference between pure clay and brick",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 14,
+          "end": 15,
+          "label": "Chemical reactions of iron, carbon, and oxygen in space",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 16,
+          "end": 17,
+          "label": "Collision dynamics of oxygen and iron clouds",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 18,
+          "end": 19,
+          "label": "Atomic bonding and cold welding of iron in vacuum",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 20,
+          "end": 21,
+          "label": "Distinction between atomic bonding and bulk cold welding",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 22,
+          "end": 23,
+          "label": "Practical challenges of cold welding iron bars in vacuum",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 24,
+          "end": 25,
+          "label": "Complex chemistry of iron, carbon, and oxygen clouds",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 26,
+          "end": 27,
+          "label": "Stability and cosmic role of carbon monoxide (CO)",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 28,
+          "end": 29,
+          "label": "Phase diagram and existence of solid carbon monoxide",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 30,
+          "end": 31,
+          "label": "Hardness vs. bond strength in solid CO",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 32,
+          "end": 33,
+          "label": "Network structure of silicon dioxide (SiO2)",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 34,
+          "end": 35,
+          "label": "Hardness vs. toughness trade-off in diamond",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 36,
+          "end": 37,
+          "label": "Economic reality of synthetic diamond production",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 38,
+          "end": 39,
+          "label": "Implications of cheap diamond in future technology",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 46,
+          "end": 47,
+          "label": "Diamond suitability for electronic displays and screens",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 40,
+          "end": 41,
+          "label": "Engineering requirements for car crash safety and failure modes",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 44,
+          "end": 45,
+          "label": "Stephenson's vision of diamondoid technology applications",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [
+        42,
+        43
+      ],
+      "error": null,
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"019e0517-4c04-7390-8fe8-ad94ecea4127\", \"end_message_uuid\": \"019e0517-4c04-7a2c-9c80-02ce41a863ef\", \"label\": \"Fundamental difference between mud and clay\"}, {\"start_message_uuid\": \"019e0518-3a1d-7cae-94b8-8d9bb0abdc84\", \"end_message_uuid\": \"019e0518-3a1d-7a15-bca4-637168891e3d\", \"label\": \"Natural sources and testing for clay\"}, {\"start_message_uuid\": \"019e0519-18f9-73eb-88e6-adf666caddbe\", \"end_message_uuid\": \"019e0519-18f9-70fe-b33b-ae36b1c422c4\", \"label\": \"Relationship between clay, brick, and adobe\"}, {\"start_message_uuid\": \"019e051a-2003-7653-b06c-e96647fc6921\", \"end_message_uuid\": \"019e051a-2003-7461-ba42-461185006a5b\", \"label\": \"Reversibility of firing clay into brick\"}, {\"start_message_uuid\": \"019e051b-e598-7a58-8a5a-0a93057f1db0\", \"end_message_uuid\": \"019e051b-e598-75d0-8cf5-4f07ce4e3137\", \"label\": \"Distinguishing brick from broader ceramic category\"}, {\"start_message_uuid\": \"019e051d-08d1-7fd2-a8c9-9937c04e2117\", \"end_message_uuid\": \"019e051d-08d1-74ea-b292-b0aad96e2881\", \"label\": \"Purpose of glazing on fully vitrified porcelain\"}, {\"start_message_uuid\": \"019e051e-64f5-7506-85b2-369af85a7ae9\", \"end_message_uuid\": \"019e051e-64f5-7f49-8a4f-747fcbd2f587\", \"label\": \"Compositional difference between pure clay and brick\"}, {\"start_message_uuid\": \"019e051f-ec36-7b67-b154-3510e6c8f49a\", \"end_message_uuid\": \"019e051f-ec37-7999-8efa-5be2d174a5d4\", \"label\": \"Chemical reactions of iron, carbon, and oxygen in space\"}, {\"start_message_uuid\": \"019e0521-a7f0-789d-8529-d5393be80513\", \"end_message_uuid\": \"019e0521-a7f0-7a35-9821-9b4733db5c4c\", \"label\": \"Collision dynamics of oxygen and iron clouds\"}, {\"start_message_uuid\": \"019e0523-237e-7f00-a3b3-38ffcc41568d\", \"end_message_uuid\": \"019e0523-237e-7ef1-b4d1-8619b8b9cf6c\", \"label\": \"Atomic bonding and cold welding of iron in vacuum\"}, {\"start_message_uuid\": \"019e0524-b252-7cde-892d-b46e70565b38\", \"end_message_uuid\": \"019e0524-b252-773b-b750-cb489bbab780\", \"label\": \"Distinction between atomic bonding and bulk cold welding\"}, {\"start_message_uuid\": \"019e0525-c839-719d-a176-4d2df01f9a76\", \"end_message_uuid\": \"019e0525-c839-707d-ada9-ca580ec55637\", \"label\": \"Practical challenges of cold welding iron bars in vacuum\"}, {\"start_message_uuid\": \"019e0527-43d4-7672-a5e0-614279006232\", \"end_message_uuid\": \"019e0527-43d5-7951-a26b-922fdec07817\", \"label\": \"Complex chemistry of iron, carbon, and oxygen clouds\"}, {\"start_message_uuid\": \"019e0528-e000-7eec-b2dc-287414093d72\", \"end_message_uuid\": \"019e0528-e000-717c-97e2-52678639b830\", \"label\": \"Stability and cosmic role of carbon monoxide (CO)\"}, {\"start_message_uuid\": \"019e052d-42c2-72a3-80a9-fbbc53779bf4\", \"end_message_uuid\": \"019e052d-42c2-7245-8aac-7f84f83ce3df\", \"label\": \"Phase diagram and existence of solid carbon monoxide\"}, {\"start_message_uuid\": \"019e052e-be89-7b9b-8606-2abfaf17e74a\", \"end_message_uuid\": \"019e052e-be89-78cc-959c-1e4bc9e04627\", \"label\": \"Hardness vs. bond strength in solid CO\"}, {\"start_message_uuid\": \"019e0530-dd51-7b74-919a-ecbf1a4e65a0\", \"end_message_uuid\": \"019e0530-dd51-7c2b-88c1-cc41de512223\", \"label\": \"Network structure of silicon dioxide (SiO2)\"}, {\"start_message_uuid\": \"019e0533-c07c-7c97-8ffd-8f8db2fd7bb0\", \"end_message_uuid\": \"019e0533-c07c-7e94-b4a4-13d40407b774\", \"label\": \"Hardness vs. toughness trade-off in diamond\"}, {\"start_message_uuid\": \"019e0537-212a-73cb-a895-84e66ced21ab\", \"end_message_uuid\": \"019e0537-212a-7954-b996-15d074252c60\", \"label\": \"Economic reality of synthetic diamond production\"}, {\"start_message_uuid\": \"019e053a-60a3-7d22-84e9-32573afe9a42\", \"end_message_uuid\": \"019e053a-60a3-781f-814b-16cc28d01bc7\", \"label\": \"Implications of cheap diamond in future technology\"}, {\"start_message_uuid\": \"019e054f-73e9-76cb-84f6-c7cc82ee7ce9\", \"end_message_uuid\": \"019e054f-73ea-7f80-be3a-e7eb975ecff1\", \"label\": \"Diamond suitability for electronic displays and screens\"}, {\"start_message_uuid\": \"019e053d-43bd-7df5-b804-9d04e95b1268\", \"end_message_uuid\": \"019e053d-43bd-702b-ab8a-394",
+      "ms": 90645
+    },
+    {
+      "id": "f5515608-8e7e-4b79-b9ed-afc34fa7a400",
+      "name": "Comparing Microphone Audio",
+      "mc": 4,
+      "promptHash": "4377923fd08e7a9e",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "Scientific methodology for microphone audio comparison",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "List of audio analysis software tools",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"aaa2c0c9-35e1-4d48-86a2-7f16f6d131e6\", \"end_message_uuid\": \"436f95c9-f2bb-4a17-a31b-5d44924ccbde\", \"label\": \"Scientific methodology for microphone audio comparison\"}, {\"start_message_uuid\": \"aaa2954f-688b-420f-882d-9e6109ec3250\", \"end_message_uuid\": \"6904b07c-552c-4ffa-a8fd-d7d2090056bb\", \"label\": \"List of audio analysis software tools\"}]}",
+      "ms": 9102
+    },
+    {
+      "id": "86397ce8-e28f-44ea-8cb4-bfce24e0d13d",
+      "name": "Avoid Banding in DaVinci.",
+      "mc": 14,
+      "promptHash": "0c15d2015564f667",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "Avoiding video banding in DaVinci Resolve",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "DaVinci Resolve 360-degree video editing capabilities",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "label": "Maximum resolution supported by DaVinci Resolve",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 6,
+          "end": 7,
+          "label": "Hollywood films edited in DaVinci Resolve",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 9,
+          "label": "Chemical reason nitroglycerin explodes when struck",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 10,
+          "end": 11,
+          "label": "Relating detonation temperature to activation energy",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 12,
+          "end": 13,
+          "label": "Initiation energy required regardless of energy form",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"aaa230a5-459b-43c4-aa21-23a96e499710\", \"end_message_uuid\": \"e3758b32-a302-4a4a-951d-1b85dcf9117a\", \"label\": \"Avoiding video banding in DaVinci Resolve\"}, {\"start_message_uuid\": \"aaa2fdfd-5451-4ac6-8b46-0b4947f2c058\", \"end_message_uuid\": \"0d054468-457d-4723-92ab-f8eb40905d1f\", \"label\": \"DaVinci Resolve 360-degree video editing capabilities\"}, {\"start_message_uuid\": \"aaa2e520-f360-4cd8-a727-388efa8d8870\", \"end_message_uuid\": \"b942215a-40ed-471a-b1b8-4973b9806766\", \"label\": \"Maximum resolution supported by DaVinci Resolve\"}, {\"start_message_uuid\": \"aaa2487e-9ef3-4318-91fa-46ed9a6035a1\", \"end_message_uuid\": \"45a5b12a-7b3d-44f3-bd38-72cb58f2ba96\", \"label\": \"Hollywood films edited in DaVinci Resolve\"}, {\"start_message_uuid\": \"aaa268ef-638f-444a-9f68-cca8ccfed325\", \"end_message_uuid\": \"22466f59-5174-48e6-b4ad-41a35810c0a3\", \"label\": \"Chemical reason nitroglycerin explodes when struck\"}, {\"start_message_uuid\": \"aaa2c47a-4fa8-4529-9169-ef577819fbee\", \"end_message_uuid\": \"b8cc53d6-5170-4f60-be21-bec882acf74c\", \"label\": \"Relating detonation temperature to activation energy\"}, {\"start_message_uuid\": \"aaa2866c-d527-48eb-bc4f-13b6986cd6a8\", \"end_message_uuid\": \"8366a74e-d129-429f-bb6f-dcee9443854d\", \"label\": \"Initiation energy required regardless of energy form\"}]}",
+      "ms": 18774
+    },
+    {
+      "id": "78da6fe3-60bc-482f-9346-49c600780d47",
+      "name": "Service Table Design for SIMS",
+      "mc": 4,
+      "promptHash": "681bae6ed6e4c368",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "Designing service table structure for SIMS inventory system",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "Inquiry about SurrealQL database language",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"aaa20d21-0372-4eec-b3c7-5e673c78268d\", \"end_message_uuid\": \"dfcb5deb-57d2-405d-8776-7437df16a5f7\", \"label\": \"Designing service table structure for SIMS inventory system\"}, {\"start_message_uuid\": \"aaa2b4f0-f0ee-41df-b116-d8917c07ff8e\", \"end_message_uuid\": \"90985f92-978d-4fb2-b390-03a16ca04b4b\", \"label\": \"Inquiry about SurrealQL database language\"}]}",
+      "ms": 10226
+    },
+    {
+      "id": "67a82605-6540-8013-a892-60288bbf7b50",
+      "name": "File Size Creation Date",
+      "mc": 20,
+      "promptHash": "5d24d824633b3a6c",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "Node.js file size and creation date retrieval",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "Converting raw byte size to megabytes",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "label": "Standard RAW photo file format comparison",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 6,
+          "end": 7,
+          "label": "Converting RW2 Panasonic files to DNG",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 9,
+          "label": "Arca-Swiss vs Manfrotto mounting system comparison",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 10,
+          "end": 11,
+          "label": "Modular Arca-Swiss rigging workflow examples",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 12,
+          "end": 13,
+          "label": "Troubleshooting sticking Arca-Swiss clamp mechanism",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 14,
+          "end": 15,
+          "label": "Perpendicular drop-in Arca-Swiss plate binding issues",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 16,
+          "end": 17,
+          "label": "MP4 versus MOV video container format differences",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 18,
+          "end": 19,
+          "label": "Automatic audio waveform synchronization in DaVinci Resolve",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"21cf9dee-68d1-4106-b6e7-0e0f1c42477a\", \"end_message_uuid\": \"92507dea-c1a3-46c1-83ed-e8e646b5b87b\", \"label\": \"Node.js file size and creation date retrieval\"}, {\"start_message_uuid\": \"cf3a1547-ee23-4fed-b0c8-79eff2442b08\", \"end_message_uuid\": \"8ad664b2-2f78-45b1-86bf-c901a8037e55\", \"label\": \"Converting raw byte size to megabytes\"}, {\"start_message_uuid\": \"6b4467a3-3cff-45eb-9e87-345ac0862036\", \"end_message_uuid\": \"df756941-b267-4ef9-a5b0-ec2a1e43e301\", \"label\": \"Standard RAW photo file format comparison\"}, {\"start_message_uuid\": \"beb8d2c6-fcf0-4dc8-8c30-341ee1d2e7bd\", \"end_message_uuid\": \"dc5ff762-844b-4ff2-826e-e272f4853b0a\", \"label\": \"Converting RW2 Panasonic files to DNG\"}, {\"start_message_uuid\": \"0a5bfeda-3f76-41e0-8f51-02119b35cb4a\", \"end_message_uuid\": \"5ebb15da-860f-46f7-974e-f8d6a557dff2\", \"label\": \"Arca-Swiss vs Manfrotto mounting system comparison\"}, {\"start_message_uuid\": \"4da97d06-bd05-42dc-acd3-cf4e2d9812e5\", \"end_message_uuid\": \"e8b669ea-8793-4711-89e4-cb2951915a9d\", \"label\": \"Modular Arca-Swiss rigging workflow examples\"}, {\"start_message_uuid\": \"308001bc-05be-4105-94d5-3b9c0a422881\", \"end_message_uuid\": \"924b96b4-e5cc-4473-bbcf-c00218e7d080\", \"label\": \"Troubleshooting sticking Arca-Swiss clamp mechanism\"}, {\"start_message_uuid\": \"40357b3e-24af-4aa4-86d5-5b5befd3c528\", \"end_message_uuid\": \"fc25efe9-3a96-41b4-9879-588d4e7db866\", \"label\": \"Perpendicular drop-in Arca-Swiss plate binding issues\"}, {\"start_message_uuid\": \"980bb0e1-7775-493c-94e5-5c45c370817e\", \"end_message_uuid\": \"02526c20-6f57-453e-8a75-ca50a12ddb5a\", \"label\": \"MP4 versus MOV video container format differences\"}, {\"start_message_uuid\": \"0329b4da-5719-4c3e-8c1c-b8cab1834751\", \"end_message_uuid\": \"c9399cf0-9f8c-44d1-9cf4-35adae1af79a\", \"label\": \"Automatic audio waveform synchronization in DaVinci Resolve\"}]}",
+      "ms": 32622
+    },
+    {
+      "id": "2427687a-75a4-4b05-8ee1-4602879db37c",
+      "name": "New chat",
+      "mc": 5,
+      "promptHash": "31a9d349594f659d",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 4,
+          "label": "Translating photographic film terminology to Spanish",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"d92779c3-085a-41e1-9ac1-984773247fd6\", \"end_message_uuid\": \"acb7fecb-c4ef-4975-8493-bf8aee8b4ffb\", \"label\": \"Translating photographic film terminology to Spanish\"}]}",
+      "ms": 7218
+    },
+    {
+      "id": "18e1ea4c-106a-4212-8531-28342d0cc3e7",
+      "name": "Toyota's Kaizen Culture",
+      "mc": 4,
+      "promptHash": "1f6df8d1fbb0ed41",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "Toyota's Kaizen culture and continuous improvement",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "Lexus LFA success linked to Toyota culture",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"aaa26a15-f1bd-4a2a-a0b5-ff6530dc60e4\", \"end_message_uuid\": \"7e6bac20-b827-416d-b68a-00aaf7443ffe\", \"label\": \"Toyota's Kaizen culture and continuous improvement\"}, {\"start_message_uuid\": \"aaa25756-56ac-4270-9b4d-9a5cfdad7907\", \"end_message_uuid\": \"f530e09f-6a29-483e-af77-81d947955dea\", \"label\": \"Lexus LFA success linked to Toyota culture\"}]}",
+      "ms": 8646
+    },
+    {
+      "id": "c3c8b072-143e-4b97-8d28-088f4d78cb8e",
+      "name": "if you look at the articles in articles, you might see that they have a lot of c",
+      "mc": 49,
+      "promptHash": "0a05c8f08853696e",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 5,
+          "label": "Requesting Wikipedia-style citation formatting in articles",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 6,
+          "end": 13,
+          "label": "Iterative refinement of citation script and format",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 14,
+          "end": 15,
+          "label": "Finalizing citation format and updating conventions file",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 16,
+          "end": 17,
+          "label": "Requesting instructions for external agent to update synthesis prompt",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 18,
+          "end": 19,
+          "label": "Providing detailed instructions for citation format update",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 20,
+          "end": 21,
+          "label": "Checking status of citation migration",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 22,
+          "end": 23,
+          "label": "Reporting rendering issues with citation format",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 24,
+          "end": 27,
+          "label": "Switching to pure HTML for reliable Obsidian rendering",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 28,
+          "end": 29,
+          "label": "Attempting Obsidian native footnote syntax",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 30,
+          "end": 31,
+          "label": "Finalizing citation format using Obsidian native footnotes",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 32,
+          "end": 41,
+          "label": "User providing specific instructions for final citation format migration",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 42,
+          "end": 46,
+          "label": "Executing user-specified citation migration script and updating conventions",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [
+        "TAIL GAP — trailing messages [47, 48] uncovered"
+      ],
+      "uncovered": [
+        47,
+        48
+      ],
+      "error": null,
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"89c61acd-a4b2-4492-bbb9-ef6f4243142b\", \"end_message_uuid\": \"b5614e12-7bed-48bd-86fe-375e7877a545\", \"label\": \"Requesting Wikipedia-style citation formatting in articles\"}, {\"start_message_uuid\": \"a492af8b-43e5-46d7-ab0e-5cbdbe85a604\", \"end_message_uuid\": \"e6978e3e-62a0-4a7c-bd7d-d17844af2c15\", \"label\": \"Iterative refinement of citation script and format\"}, {\"start_message_uuid\": \"9ef75771-f4bc-4be0-8e55-af2c989bb0ed\", \"end_message_uuid\": \"b3680216-bae7-4221-b9cc-f66ba532b413\", \"label\": \"Finalizing citation format and updating conventions file\"}, {\"start_message_uuid\": \"6b4f3168-8026-4428-b7b2-d09143d8f7c8\", \"end_message_uuid\": \"be690a03-cf35-459c-ae30-e3930faaff81\", \"label\": \"Requesting instructions for external agent to update synthesis prompt\"}, {\"start_message_uuid\": \"14bbeb6b-6a00-462f-94c6-c7bc019f540c\", \"end_message_uuid\": \"16796c8c-0f53-47fe-a206-fad8d8fac6d4\", \"label\": \"Providing detailed instructions for citation format update\"}, {\"start_message_uuid\": \"f58fa9a9-d9d3-46df-a8ce-75ea64751db2\", \"end_message_uuid\": \"9ed0b9f4-c1b1-44af-9b8a-2347336b0b65\", \"label\": \"Checking status of citation migration\"}, {\"start_message_uuid\": \"70e731ef-5b43-420c-ac9f-8423bb5cc459\", \"end_message_uuid\": \"b728b597-5d65-4e62-b4c2-b389d4726dfd\", \"label\": \"Reporting rendering issues with citation format\"}, {\"start_message_uuid\": \"0347956b-ffbd-46db-b1f7-41292579a397\", \"end_message_uuid\": \"a33f625c-f8fa-45eb-a1ac-5bd7aaacdd5a\", \"label\": \"Switching to pure HTML for reliable Obsidian rendering\"}, {\"start_message_uuid\": \"621a9b28-e89c-47cd-8da3-2683bdbe1997\", \"end_message_uuid\": \"f23b4eba-8825-4770-8f58-98d511e0a43e\", \"label\": \"Attempting Obsidian native footnote syntax\"}, {\"start_message_uuid\": \"b1163a75-1aed-4d4d-b83b-192263106628\", \"end_message_uuid\": \"0a8d7982-2590-4e1a-a074-9850d1279cd5\", \"label\": \"Finalizing citation format using Obsidian native footnotes\"}, {\"start_message_uuid\": \"ca1e05e3-cacb-4994-8416-5598c248e06f\", \"end_message_uuid\": \"47c05384-5c2e-4a20-ad38-f8f95a92bfc0\", \"label\": \"User providing specific instructions for final citation format migration\"}, {\"start_message_uuid\": \"46283126-f4b0-4c41-a1bc-f7cfedfb9f1b\", \"end_message_uuid\": \"705c06e9-b044-40ad-81a8-0a9c8e729e2f\", \"label\": \"Executing user-specified citation migration script and updating conventions\"}]}",
+      "ms": 38146
+    },
+    {
+      "id": "57ab528b-8f4d-42cd-b35c-70e53b57dfe6",
+      "name": "Comparing Mac computers for local AI performance",
+      "mc": 74,
+      "promptHash": "25ae5b328521599f",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "Comparing Mac computers for local AI performance",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "Detailed analysis of Mac hardware for LLM inference",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "label": "Evaluating dual M4 Max Studio setup for AI",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 6,
+          "end": 7,
+          "label": "Technical deep dive on M4 Max dual-node sharding",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 9,
+          "label": "Fleet deployment strategy for AI compute",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 10,
+          "end": 11,
+          "label": "Feasibility of serving large MoE models on M4 Max fleet",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 12,
+          "end": 13,
+          "label": "Clarification on 1T model feasibility and hardware availability",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 14,
+          "end": 15,
+          "label": "Secondary market risks for high-memory Mac Studio",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 18,
+          "end": 19,
+          "label": "Analysis of 2x M4 Max Studio for parallel workloads",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 20,
+          "end": 21,
+          "label": "Kimi K2 model fit and performance on 512GB M3 Ultra",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 22,
+          "end": 23,
+          "label": "Strategic timing of M3 Ultra vs M5 Ultra release",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 24,
+          "end": 25,
+          "label": "Timing the M3 Ultra purchase relative to M5 Ultra launch",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 26,
+          "end": 27,
+          "label": "Benefits of larger model sizes vs. M1 Max capabilities",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 28,
+          "end": 29,
+          "label": "Archie architecture refutes model capability dependency",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 30,
+          "end": 31,
+          "label": "Single-task focus negates long reasoning chain need",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 32,
+          "end": 33,
+          "label": "Archie's thesis: throughput over single-task latency",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 34,
+          "end": 35,
+          "label": "Archie solves compute cost, DRAM scarcity, and reliance",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 50,
+          "end": 51,
+          "label": "Decomposition as the key to small-model project scale",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 52,
+          "end": 53,
+          "label": "Interfaces as the structural solution to seam problems",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 55,
+          "end": 55,
+          "label": "Open source as proof of bounded-context contribution",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 57,
+          "end": 57,
+          "label": "Linux kernel as proof of bounded-context contribution",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 58,
+          "end": 59,
+          "label": "Anthropic Fable as the capability-betting alternative",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 61,
+          "end": 61,
+          "label": "Fable's context economics vs. Archie's bounded context cost",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 62,
+          "end": 63,
+          "label": "Cost divergence between capability-betting and structure-betting models",
+          "startFlag": "chimera_prefix",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [
+        "HALLUCINATED ANCHOR — \"Cost divergence between capability-betting and structure-betting models\": start anchor is a spliced/chimera uuid (prefix-matched to msg 62)",
+        "TAIL GAP — trailing messages [64, 73] uncovered"
+      ],
+      "uncovered": [
+        16,
+        17,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        54,
+        56,
+        60,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73
+      ],
+      "error": null,
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"019eacf7-3040-7f04-91ff-150a3d3087bc\", \"end_message_uuid\": \"019eacf7-3041-71d9-b59c-342cc3c9d70c\", \"label\": \"Comparing Mac computers for local AI performance\"}, {\"start_message_uuid\": \"019eacfa-7b10-7ad9-a445-47198af2e4e9\", \"end_message_uuid\": \"019eacfa-7b10-700b-92fc-d755538ff35f\", \"label\": \"Detailed analysis of Mac hardware for LLM inference\"}, {\"start_message_uuid\": \"019eacfd-73b5-7eb4-9ba9-1e0878494a69\", \"end_message_uuid\": \"019eacfd-73b5-7e57-b935-74e0604ee908\", \"label\": \"Evaluating dual M4 Max Studio setup for AI\"}, {\"start_message_uuid\": \"019eacff-3fe2-7d4d-a8db-fa472c141a17\", \"end_message_uuid\": \"019eacff-3fe2-7f6a-966f-7d169999363a\", \"label\": \"Technical deep dive on M4 Max dual-node sharding\"}, {\"start_message_uuid\": \"019ead04-b3c7-77da-ac40-9bad9fd11d6d\", \"end_message_uuid\": \"019ead04-b3c7-7bdb-9fe2-8a22634a01a8\", \"label\": \"Fleet deployment strategy for AI compute\"}, {\"start_message_uuid\": \"019ead06-d995-74b8-8d44-efecf6c20be2\", \"end_message_uuid\": \"019ead06-d995-7110-a057-671f1fb39aa2\", \"label\": \"Feasibility of serving large MoE models on M4 Max fleet\"}, {\"start_message_uuid\": \"019ead09-04b3-7e93-8aea-844d722e253b\", \"end_message_uuid\": \"019ead09-04b3-776c-ab5c-1de49cf925a1\", \"label\": \"Clarification on 1T model feasibility and hardware availability\"}, {\"start_message_uuid\": \"019ead09-fae1-7b4a-8d34-9091a87618b4\", \"end_message_uuid\": \"019ead09-fae1-71dd-9858-d835f77acb90\", \"label\": \"Secondary market risks for high-memory Mac Studio\"}, {\"start_message_uuid\": \"019ead0d-6234-7ba0-bcfc-eec40928c35e\", \"end_message_uuid\": \"019ead0d-6234-7135-948f-47250bc50c2f\", \"label\": \"Analysis of 2x M4 Max Studio for parallel workloads\"}, {\"start_message_uuid\": \"019ead0f-5990-7b1e-9900-357a0c47d3c4\", \"end_message_uuid\": \"019ead0f-5990-7aa4-959d-e825f2c8f458\", \"label\": \"Kimi K2 model fit and performance on 512GB M3 Ultra\"}, {\"start_message_uuid\": \"019ead10-e2af-7765-83a1-61c7b9dc13e3\", \"end_message_uuid\": \"019ead10-e2af-79c1-af8f-d3da531790fa\", \"label\": \"Strategic timing of M3 Ultra vs M5 Ultra release\"}, {\"start_message_uuid\": \"019ead12-34a5-7169-a40b-3f0477b5e2e3\", \"end_message_uuid\": \"019ead12-34a5-754a-8d2e-2b08aee9abc2\", \"label\": \"Timing the M3 Ultra purchase relative to M5 Ultra launch\"}, {\"start_message_uuid\": \"019ead14-8d61-7e38-9738-224be449a06b\", \"end_message_uuid\": \"019ead14-8d62-7fd0-a50d-90750adb2828\", \"label\": \"Benefits of larger model sizes vs. M1 Max capabilities\"}, {\"start_message_uuid\": \"019ead17-d1a1-7fe3-8e04-fa45c2819162\", \"end_message_uuid\": \"019ead17-d1a1-70ed-ab04-a98680dab97c\", \"label\": \"Archie architecture refutes model capability dependency\"}, {\"start_message_uuid\": \"019ead1d-7a2b-7ab4-8dc3-b273fc07be24\", \"end_message_uuid\": \"019ead1d-7a2b-78b1-a57e-357c483c7052\", \"label\": \"Single-task focus negates long reasoning chain need\"}, {\"start_message_uuid\": \"019ead21-b6ee-7fd9-a7ba-52c61bbe0341\", \"end_message_uuid\": \"019ead21-b6ee-7c15-97c3-b6438bfce545\", \"label\": \"Archie's thesis: throughput over single-task latency\"}, {\"start_message_uuid\": \"019ead23-5772-72c4-b0d8-c2b6c23709a5\", \"end_message_uuid\": \"019ead23-5772-7594-ae9f-1c2284679ba8\", \"label\": \"Archie solves compute cost, DRAM scarcity, and reliance\"}, {\"start_message_uuid\": \"019ead47-46cb-763f-9382-4a333a49fc16\", \"end_message_uuid\": \"019ead47-46cb-7a3f-9a57-628aeab7b815\", \"label\": \"Decomposition as the key to small-model project scale\"}, {\"start_message_uuid\": \"019ead49-2913-7502-bfc9-4bef6a1fbd2f\", \"end_message_uuid\": \"019ead49-2913-7aef-82d9-a08f4efbd4e2\", \"label\": \"Interfaces as the structural solution to seam problems\"}, {\"start_message_uuid\": \"019ead4c-8f45-70ba-90d7-a9c6c8aed0c0\", \"end_message_uuid\": \"019ead4c-8f45-70ba-90d7-a9c6c8aed0c0\", \"label\": \"Open source as proof of bounded-context contribution\"}, {\"start_message_uuid\": \"019ead56-3c24-7591-b32a-c66378fd3da3\", \"end_message_uuid\": \"019ead56-3c24-7591-b32a-c66378fd3da3\", \"label\": \"Linux kernel as proof of bounded-context contribution\"}, {\"start_message_uuid\": \"019ead",
+      "ms": 150746
+    },
+    {
+      "id": "67257e17-fc64-8013-a928-142fafd36c6b",
+      "name": "EDGE Network Rollout Timeline",
+      "mc": 14,
+      "promptHash": "29a6ac951ff76f26",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 3,
+          "label": "History and current availability of EDGE networks",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "label": "Evolution of mobile data from GSM to EDGE",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 6,
+          "end": 7,
+          "label": "Modern iPhone support for legacy mobile networks",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 9,
+          "label": "Hypothetical connectivity of modern phone in 2003",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 10,
+          "end": 11,
+          "label": "Popularization timeline of Wi-Fi technology",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 12,
+          "end": 13,
+          "label": "Wi-Fi connectivity on early iPhone models",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"94b8b24b-f192-4ce7-9414-3c13f66e20ba\", \"end_message_uuid\": \"2acd9d91-ddc2-40b6-b949-7ad87b4026e8\", \"label\": \"History and current availability of EDGE networks\"}, {\"start_message_uuid\": \"1de6f438-1cc9-4941-afc7-230749f365de\", \"end_message_uuid\": \"9f528619-9bd0-475b-b1f5-e492b2440fd7\", \"label\": \"Evolution of mobile data from GSM to EDGE\"}, {\"start_message_uuid\": \"50da2ad2-35f8-4e71-a8a7-06882cde4e60\", \"end_message_uuid\": \"4162e5d1-1933-4cdf-9e76-7a10eefc405a\", \"label\": \"Modern iPhone support for legacy mobile networks\"}, {\"start_message_uuid\": \"a309b215-8a3b-413f-b3be-293adab91e98\", \"end_message_uuid\": \"3e0967b0-97eb-4f43-91b2-4ef4ad6960d3\", \"label\": \"Hypothetical connectivity of modern phone in 2003\"}, {\"start_message_uuid\": \"65ade572-35d9-4158-a3e7-3cef69b587ed\", \"end_message_uuid\": \"e00676ed-3ace-450c-aff7-da3d0a004562\", \"label\": \"Popularization timeline of Wi-Fi technology\"}, {\"start_message_uuid\": \"3134d0fb-4f17-4194-9b10-5d692add2eda\", \"end_message_uuid\": \"38dcb7b2-880d-4ef8-b68b-4f0b90db5dfc\", \"label\": \"Wi-Fi connectivity on early iPhone models\"}]}",
+      "ms": 17458
+    },
+    {
+      "id": "ddcc93cd-18e5-4bfd-b28d-6d4a43da3a78",
+      "name": "SR-71s never downed",
+      "mc": 20,
+      "promptHash": "df8e7d6362cf4b3e",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 3,
+          "label": "SR-71 Blackbird downed status and crashes",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 7,
+          "label": "SR-71 Blackbird range and armament",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 9,
+          "label": "Total number of SR-71 Blackbirds manufactured",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 10,
+          "end": 13,
+          "label": "Operational missions and pilot count for SR-71",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 14,
+          "end": 15,
+          "label": "Special patch awarded to SR-71 pilots",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 16,
+          "end": 19,
+          "label": "Drifting speed comparison to normal driving",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 18,
+          "end": 19,
+          "label": "Cornering speed advantages of drifting",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [
+        "OVERLAP — \"Drifting speed comparison to normal driving\" & \"Cornering speed advantages of drifting\" share 2 messages (policy allows ≤1 boundary message)"
+      ],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"aaa21cda-ebdd-4cbe-bf4e-b184a966205d\", \"end_message_uuid\": \"531798b7-8717-41ae-86c7-c7380e66f1b7\", \"label\": \"SR-71 Blackbird downed status and crashes\"}, {\"start_message_uuid\": \"aaa2817a-5a39-4988-ad3f-f09eea3b813c\", \"end_message_uuid\": \"06e64524-f23d-4e27-aceb-1ae211447e4a\", \"label\": \"SR-71 Blackbird range and armament\"}, {\"start_message_uuid\": \"aaa24c9c-3a80-46c3-a2bd-872f62ec1c77\", \"end_message_uuid\": \"f92deb82-fb19-46eb-afb6-d03d83f128d2\", \"label\": \"Total number of SR-71 Blackbirds manufactured\"}, {\"start_message_uuid\": \"aaa27d0d-ecc7-41ec-8f17-aafffe6a553b\", \"end_message_uuid\": \"3006c058-7bff-49b7-af56-7b54a8bbe93b\", \"label\": \"Operational missions and pilot count for SR-71\"}, {\"start_message_uuid\": \"aaa22cce-872a-40c9-a6ca-df35e6779e18\", \"end_message_uuid\": \"b048c997-377d-4877-85ba-f2dddf791575\", \"label\": \"Special patch awarded to SR-71 pilots\"}, {\"start_message_uuid\": \"aaa269d6-4c13-4877-ae98-ee9b18667995\", \"end_message_uuid\": \"ce360bdd-ca1c-4dd9-b731-3b4eba7380ac\", \"label\": \"Drifting speed comparison to normal driving\"}, {\"start_message_uuid\": \"aaa29777-f49a-4feb-8cc3-10201ba9bb26\", \"end_message_uuid\": \"ce360bdd-ca1c-4dd9-b731-3b4eba7380ac\", \"label\": \"Cornering speed advantages of drifting\"}]}",
+      "ms": 18888
+    },
+    {
+      "id": "7b7e0d0d-d8e9-455c-8383-cf150b365ce6",
+      "name": "Policy Document Database Import",
+      "mc": 12,
+      "promptHash": "8e521e4ec9f496b3",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "Initial setup and discovery of policy documents",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "Locating specific policy documents in Google Drive",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "label": "Finalizing discovery of all policy files via filesystem access",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 6,
+          "end": 7,
+          "label": "Designing comprehensive database schema for policy management",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 9,
+          "label": "Executing database schema creation and initialization",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 10,
+          "end": 11,
+          "label": "Extracting policy details and requirements from initial documents",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"e0564284-c2cf-471c-94c9-37e1251378bc\", \"end_message_uuid\": \"c0c4bff6-55b4-406b-8a29-7199fccaa92d\", \"label\": \"Initial setup and discovery of policy documents\"}, {\"start_message_uuid\": \"0a4dcf85-524f-4f19-842c-4737d75d179f\", \"end_message_uuid\": \"7250aed5-0040-4ede-a760-5aff4da9ee58\", \"label\": \"Locating specific policy documents in Google Drive\"}, {\"start_message_uuid\": \"565b6693-fc7f-4cf7-a4be-d7320e7436ac\", \"end_message_uuid\": \"775929ab-aba9-4ff3-a251-06a301be8289\", \"label\": \"Finalizing discovery of all policy files via filesystem access\"}, {\"start_message_uuid\": \"485d754c-051f-4e83-88db-7fb392c66b12\", \"end_message_uuid\": \"91d6a344-7001-455e-bd04-b17aec8e3bee\", \"label\": \"Designing comprehensive database schema for policy management\"}, {\"start_message_uuid\": \"7282fd41-3ae7-48b4-b1bc-e9719fb41e07\", \"end_message_uuid\": \"ad786f98-54bf-47a8-b6a2-f5fe656d7076\", \"label\": \"Executing database schema creation and initialization\"}, {\"start_message_uuid\": \"13561ddb-4c45-44cd-a454-ec4f14bf44d0\", \"end_message_uuid\": \"bb1619a7-a587-4fec-9ba2-9ffa53050c28\", \"label\": \"Extracting policy details and requirements from initial documents\"}]}",
+      "ms": 24676
+    },
+    {
+      "id": "670e2fd5-08fc-8013-86f1-eb0ad8d54d93",
+      "name": "WebSocket Message Queueing Fix",
+      "mc": 14,
+      "promptHash": "c8a5e4098cde138f",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 0,
+          "label": "Initial WebSocket message queueing issue description",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 1,
+          "end": 1,
+          "label": "Fixing promise resolution for queued websocket messages",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 2,
+          "label": "Implementing dynamic function calling via JavaScript Proxy",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 3,
+          "end": 3,
+          "label": "Using Proxy to enable dynamic method invocation on APEX",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 4,
+          "label": "Creating event handlers for websocket message type 3",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 5,
+          "end": 5,
+          "label": "Separating event handling from request callbacks in APEX",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 6,
+          "end": 6,
+          "label": "Enhancing APEX to support global and specific event subscriptions",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 7,
+          "end": 7,
+          "label": "Implementing global and specific event subscription methods in APEX",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 8,
+          "label": "Future considerations for websocket library development",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 9,
+          "end": 9,
+          "label": "Discussion on complexity of websocket reconnect logic",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 10,
+          "end": 10,
+          "label": "Strategies for managing websocket connection state and session restoration",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 11,
+          "end": 11,
+          "label": "Rewriting websocket library from Node.js to Deno for bundling",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [
+        "TAIL GAP — trailing messages [12, 13] uncovered"
+      ],
+      "uncovered": [
+        12,
+        13
+      ],
+      "error": null,
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"540cc7b3-83c5-44c6-9b65-92b14b60850b\", \"end_message_uuid\": \"540cc7b3-83c5-44c6-9b65-92b14b60850b\", \"label\": \"Initial WebSocket message queueing issue description\"}, {\"start_message_uuid\": \"0eb70237-29d7-434b-8037-2780dc66cd8a\", \"end_message_uuid\": \"0eb70237-29d7-434b-8037-2780dc66cd8a\", \"label\": \"Fixing promise resolution for queued websocket messages\"}, {\"start_message_uuid\": \"d37d55fe-aea3-4e7a-9190-9e6b9f21e5ff\", \"end_message_uuid\": \"d37d55fe-aea3-4e7a-9190-9e6b9f21e5ff\", \"label\": \"Implementing dynamic function calling via JavaScript Proxy\"}, {\"start_message_uuid\": \"79937683-ad19-49ba-8068-598eb34ca7b9\", \"end_message_uuid\": \"79937683-ad19-49ba-8068-598eb34ca7b9\", \"label\": \"Using Proxy to enable dynamic method invocation on APEX\"}, {\"start_message_uuid\": \"0b4d5893-eb9e-4b7d-bd82-0f56e38614c2\", \"end_message_uuid\": \"0b4d5893-eb9e-4b7d-bd82-0f56e38614c2\", \"label\": \"Creating event handlers for websocket message type 3\"}, {\"start_message_uuid\": \"2046fbd6-172c-4173-9ed2-45ea10086d28\", \"end_message_uuid\": \"2046fbd6-172c-4173-9ed2-45ea10086d28\", \"label\": \"Separating event handling from request callbacks in APEX\"}, {\"start_message_uuid\": \"e471dd03-f191-4f63-96cc-1b89bd4ac87c\", \"end_message_uuid\": \"e471dd03-f191-4f63-96cc-1b89bd4ac87c\", \"label\": \"Enhancing APEX to support global and specific event subscriptions\"}, {\"start_message_uuid\": \"26041b2e-614c-4682-b2b7-a79c8b204256\", \"end_message_uuid\": \"26041b2e-614c-4682-b2b7-a79c8b204256\", \"label\": \"Implementing global and specific event subscription methods in APEX\"}, {\"start_message_uuid\": \"3e554dd1-cc2d-4fe5-ba5f-e8f826df7cd9\", \"end_message_uuid\": \"3e554dd1-cc2d-4fe5-ba5f-e8f826df7cd9\", \"label\": \"Future considerations for websocket library development\"}, {\"start_message_uuid\": \"6956f3db-ec1c-4dbd-8116-a90cd4408956\", \"end_message_uuid\": \"6956f3db-ec1c-4dbd-8116-a90cd4408956\", \"label\": \"Discussion on complexity of websocket reconnect logic\"}, {\"start_message_uuid\": \"cb6b9e01-ce0f-4ecf-b766-4946f38aff06\", \"end_message_uuid\": \"cb6b9e01-ce0f-4ecf-b766-4946f38aff06\", \"label\": \"Strategies for managing websocket connection state and session restoration\"}, {\"start_message_uuid\": \"3d2917bc-512a-441d-bd2b-e3acd353924d\", \"end_message_uuid\": \"3d2917bc-512a-441d-bd2b-e3acd353924d\", \"label\": \"Rewriting websocket library from Node.js to Deno for bundling\"}]}",
+      "ms": 38539
+    },
+    {
+      "id": "c8f1088f-2584-479f-ad31-69f2e208b4ce",
+      "name": "LUT effects on image appearance",
+      "mc": 8,
+      "promptHash": "b219c82900bc7efc",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "Comparing LUT effects to film stock characteristics",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "SOOC workflow philosophy: LUTs as final image state",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "label": "Demonstrating variable choice using two different LUTs",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 6,
+          "end": 7,
+          "label": "Managing a curated set of in-camera LUTs",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"019e8993-5dda-77b1-83db-7c644d82f92e\", \"end_message_uuid\": \"019e8993-5dda-738d-97fd-ab1907d1091e\", \"label\": \"Comparing LUT effects to film stock characteristics\"}, {\"start_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f1\", \"end_message_uuid\": \"019e8995-14cd-7c79-be7b-f4d2f63e2eb3\", \"label\": \"SOOC workflow philosophy: LUTs as final image state\"}, {\"start_message_uuid\": \"019e8995-d32a-7206-a874-481b34b95f7d\", \"end_message_uuid\": \"019e8995-d32a-776a-b301-7dfe8e7537f3\", \"label\": \"Demonstrating variable choice using two different LUTs\"}, {\"start_message_uuid\": \"019e8997-eab8-7034-8c28-fd8e3e0f98b6\", \"end_message_uuid\": \"019e8997-eab9-7710-a456-6cb46749ff4f\", \"label\": \"Managing a curated set of in-camera LUTs\"}]}",
+      "ms": 15585
+    },
+    {
+      "id": "67dc568a-9128-8013-946e-304354396075",
+      "name": "NinjaOne RMM Overview",
+      "mc": 10,
+      "promptHash": "c69bf834eb68b7c5",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "NinjaOne RMM platform background and features",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "macOS blocking NinjaOne due to malware verification",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "label": "macOS security block on AlphaPoint installer pkg",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 6,
+          "end": 7,
+          "label": "Analysis of rejected installer signature on macOS",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 9,
+          "label": "User reluctance regarding NinjaOne installing TeamViewer",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"c21155ca-de3d-4759-96f3-557ab5edad11\", \"end_message_uuid\": \"b2600d38-b5b5-4596-8a24-dc0b326a9022\", \"label\": \"NinjaOne RMM platform background and features\"}, {\"start_message_uuid\": \"c7029599-c74a-431a-a94c-1acdc8c35c0c\", \"end_message_uuid\": \"873189ee-ed06-47fd-b187-9dd75bda612c\", \"label\": \"macOS blocking NinjaOne due to malware verification\"}, {\"start_message_uuid\": \"3d1f8b4f-1695-4d22-af20-2bfb41b1d588\", \"end_message_uuid\": \"de7f714f-7ae0-4c1d-a38d-525a38e51a6c\", \"label\": \"macOS security block on AlphaPoint installer pkg\"}, {\"start_message_uuid\": \"dd6892e4-4005-4c7c-8080-f110f4206b63\", \"end_message_uuid\": \"17a78175-fc0f-4d13-9533-c0ee6488aaf8\", \"label\": \"Analysis of rejected installer signature on macOS\"}, {\"start_message_uuid\": \"712fd04e-80b0-4917-bfe6-ee899cc9ea7e\", \"end_message_uuid\": \"1e313954-e648-4432-b6c3-8e709e72f585\", \"label\": \"User reluctance regarding NinjaOne installing TeamViewer\"}]}",
+      "ms": 18562
+    },
+    {
+      "id": "68265d39-6344-8013-a724-365431cbdb8e",
+      "name": "Telemedicine Opportunity Decision Analysis",
+      "mc": 26,
+      "promptHash": "49a4171f6c026cf2",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 0,
+          "label": "Initial context setting for El Salvador telemedicine project",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 1,
+          "end": 1,
+          "label": "Framework for deciding whether to accept the opportunity",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "Validation of paid discovery phase for consultancy",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "label": "Estimating project value based on potential cost savings",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 6,
+          "end": 7,
+          "label": "Analyzing strategic alignment of the government project",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 9,
+          "label": "SWOT analysis of the telemedicine implementation proposal",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 10,
+          "end": 11,
+          "label": "Analyzing the existential risk of project failure and blame",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 12,
+          "end": 13,
+          "label": "General exploration and scoping of the opportunity",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 14,
+          "end": 15,
+          "label": "Risk assessment regarding impact on primary employment",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 16,
+          "end": 17,
+          "label": "Feasibility check on time allocation for the project",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 18,
+          "end": 19,
+          "label": "Refining time commitment based on remote/asynchronous work",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 20,
+          "end": 21,
+          "label": "Categorizing core risks into deliverability and personal cost",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 22,
+          "end": 23,
+          "label": "Scoring identified risks using likelihood and severity matrix",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 24,
+          "end": 25,
+          "label": "Final Go/No-Go decision matrix based on risk mitigation",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"37bfbd8e-3456-4df2-bf6e-dd2b4da2e994\", \"end_message_uuid\": \"37bfbd8e-3456-4df2-bf6e-dd2b4da2e994\", \"label\": \"Initial context setting for El Salvador telemedicine project\"}, {\"start_message_uuid\": \"25095e53-43e6-4d8d-b2e2-20edb3fa2831\", \"end_message_uuid\": \"25095e53-43e6-4d8d-b2e2-20edb3fa2831\", \"label\": \"Framework for deciding whether to accept the opportunity\"}, {\"start_message_uuid\": \"a56c14c1-1ce7-432f-a940-fa0ca64097a4\", \"end_message_uuid\": \"3b029d4e-5084-4a0d-867e-f24209833eab\", \"label\": \"Validation of paid discovery phase for consultancy\"}, {\"start_message_uuid\": \"d1d2b092-4b61-4d53-b250-4da3a72d40ef\", \"end_message_uuid\": \"983f70a3-8441-444f-b86e-ffb19e539554\", \"label\": \"Estimating project value based on potential cost savings\"}, {\"start_message_uuid\": \"96d261c3-2766-4917-a161-be137f401985\", \"end_message_uuid\": \"5756de31-631f-49b6-9eae-92ed88e7cfcb\", \"label\": \"Analyzing strategic alignment of the government project\"}, {\"start_message_uuid\": \"50f2d1e3-031b-4bbb-88ff-f9fea16fb7be\", \"end_message_uuid\": \"565aa79a-d07f-4daf-864b-f9c6285e1150\", \"label\": \"SWOT analysis of the telemedicine implementation proposal\"}, {\"start_message_uuid\": \"157011d9-c3d5-413b-9d80-17d2cde22e8a\", \"end_message_uuid\": \"a0ca0623-b612-4ebc-8894-95c658b7b19e\", \"label\": \"Analyzing the existential risk of project failure and blame\"}, {\"start_message_uuid\": \"a9c1b2df-9a31-4377-82e5-03dda98ce3a8\", \"end_message_uuid\": \"5273eb75-d148-4b33-b058-8d551d323b49\", \"label\": \"General exploration and scoping of the opportunity\"}, {\"start_message_uuid\": \"1b7193cb-d01d-4999-bc3b-ae568542682a\", \"end_message_uuid\": \"61c066f1-5335-400c-9167-4f5b2319df59\", \"label\": \"Risk assessment regarding impact on primary employment\"}, {\"start_message_uuid\": \"151394f2-0005-4ce1-92db-9851c0740ad8\", \"end_message_uuid\": \"77c20f8b-7d4b-4f10-a49e-6e40bdf64e66\", \"label\": \"Feasibility check on time allocation for the project\"}, {\"start_message_uuid\": \"dd9c721e-232b-4eed-a624-369d3697f8b8\", \"end_message_uuid\": \"bc2b604c-71bd-4378-97ba-a9b50d5bd161\", \"label\": \"Refining time commitment based on remote/asynchronous work\"}, {\"start_message_uuid\": \"fa80df0b-6543-4e99-b9ea-5485186a6c67\", \"end_message_uuid\": \"e88b9d2e-be4d-4ff3-ad5a-040f8454f818\", \"label\": \"Categorizing core risks into deliverability and personal cost\"}, {\"start_message_uuid\": \"d2f48832-aaab-4f00-a0dd-c260e0e76cf4\", \"end_message_uuid\": \"9ea8fe37-2529-449d-9d0d-ca6af82bff7e\", \"label\": \"Scoring identified risks using likelihood and severity matrix\"}, {\"start_message_uuid\": \"61611f3f-8427-46d0-8d9a-149e9b829454\", \"end_message_uuid\": \"1558b151-4410-44a8-8a75-38b316935f92\", \"label\": \"Final Go/No-Go decision matrix based on risk mitigation\"}]}",
+      "ms": 40413
+    },
+    {
+      "id": "f471869f-bd14-4d4f-a372-fa6e4283be7c",
+      "name": "Google Drive Folder Search",
+      "mc": 14,
+      "promptHash": "802d30345a5c89e6",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "Initial search for 'All Meetings' folder in Google Drive",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "Listing subfolders and content within 'All Meetings' folder",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "label": "Detailed review of the Sales folder structure and content",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 6,
+          "end": 7,
+          "label": "Analysis of top 5 prospect objections from sales transcripts",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 9,
+          "label": "Evaluation of sales rep performance in handling objections",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 10,
+          "end": 11,
+          "label": "Contextualizing sales discussions using Gmail email correspondence",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 12,
+          "end": 13,
+          "label": "Searching Jira for tickets related to WhiteBit project",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"71038418-0db6-4c32-abde-2db9728939d1\", \"end_message_uuid\": \"f83fbd41-d1cb-4594-a8fc-5b4c1da040fc\", \"label\": \"Initial search for 'All Meetings' folder in Google Drive\"}, {\"start_message_uuid\": \"dec947f6-bc65-4779-b7bc-4d7814191532\", \"end_message_uuid\": \"8d9c83e2-1ef2-4cf0-8def-ce4b2d72cecd\", \"label\": \"Listing subfolders and content within 'All Meetings' folder\"}, {\"start_message_uuid\": \"60fe8e3d-7527-4093-a29e-b44ded34e8ae\", \"end_message_uuid\": \"010dcd0d-bc97-475c-aa4b-7281c10205c5\", \"label\": \"Detailed review of the Sales folder structure and content\"}, {\"start_message_uuid\": \"11798497-4c2e-4298-8e3e-762c8def3f49\", \"end_message_uuid\": \"cb658156-6051-4059-a3b2-f3c770d5c2f8\", \"label\": \"Analysis of top 5 prospect objections from sales transcripts\"}, {\"start_message_uuid\": \"3043d598-4f50-4e02-b986-72ab7a3331a3\", \"end_message_uuid\": \"22015302-b21a-40d2-952a-b1616f80408b\", \"label\": \"Evaluation of sales rep performance in handling objections\"}, {\"start_message_uuid\": \"af0f2e49-2ecb-44cd-80ca-9d986d85f18a\", \"end_message_uuid\": \"d9782aa2-f46b-4033-bff8-ba82a225dd1f\", \"label\": \"Contextualizing sales discussions using Gmail email correspondence\"}, {\"start_message_uuid\": \"06292940-e488-4107-b0d9-46fdb4732701\", \"end_message_uuid\": \"636bc976-14a5-4490-8490-522936065ff1\", \"label\": \"Searching Jira for tickets related to WhiteBit project\"}]}",
+      "ms": 24835
+    },
+    {
+      "id": "676ce76d-1b14-8013-9fab-bdf9b5e00ccb",
+      "name": "S5IIX High Resolution Mode",
+      "mc": 18,
+      "promptHash": "8168c9d865a18463",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "LUMIX S5IIX High Resolution Mode overview",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "High Resolution Mode suitability for astrophotography",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "label": "Specific astrophotography settings for S5IIX",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 6,
+          "end": 7,
+          "label": "Time-Lapse Mode capabilities for long exposures",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 9,
+          "label": "Comparison of high resolution, long exposure, and time-lapse",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 10,
+          "end": 11,
+          "label": "Capturing stars without naked eye visibility",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 12,
+          "end": 13,
+          "label": "Achieving pinpoint focus on distant stars",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 14,
+          "end": 15,
+          "label": "Timer vs. remote control for astrophotography",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 16,
+          "end": 17,
+          "label": "Step-by-step guide for long exposure setup",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"2d2d060c-4f21-4d3e-9bc6-84b093417668\", \"end_message_uuid\": \"877afa46-d7d4-4c5e-b74c-73078fd70d65\", \"label\": \"LUMIX S5IIX High Resolution Mode overview\"}, {\"start_message_uuid\": \"afc101c0-0632-4188-8a94-cfb1700ef360\", \"end_message_uuid\": \"1a5705ca-44a9-42a2-a206-cbb2c5ee66a1\", \"label\": \"High Resolution Mode suitability for astrophotography\"}, {\"start_message_uuid\": \"dd18e571-c6e8-4236-ab7b-ede6302b22ec\", \"end_message_uuid\": \"866793eb-3fb1-4455-9f54-2164b4a61a91\", \"label\": \"Specific astrophotography settings for S5IIX\"}, {\"start_message_uuid\": \"61d69ac0-dc66-4229-b464-40913a074d76\", \"end_message_uuid\": \"ce3b38ec-b642-4412-ae13-9930bdb62624\", \"label\": \"Time-Lapse Mode capabilities for long exposures\"}, {\"start_message_uuid\": \"847d74ed-01ed-433f-bc94-09327c7f476b\", \"end_message_uuid\": \"8441e87c-a378-49be-b184-6ad46901bf4d\", \"label\": \"Comparison of high resolution, long exposure, and time-lapse\"}, {\"start_message_uuid\": \"97b3f5bc-7bac-409c-ad26-fa71b94b8271\", \"end_message_uuid\": \"d24380e7-455b-4158-9ead-cad6eaff8d87\", \"label\": \"Capturing stars without naked eye visibility\"}, {\"start_message_uuid\": \"9e425057-957c-4aae-9a00-256164c12a8d\", \"end_message_uuid\": \"67757099-4a79-48f8-be64-cd3fad26cd72\", \"label\": \"Achieving pinpoint focus on distant stars\"}, {\"start_message_uuid\": \"1d7f97eb-9186-4978-9a70-d87dd373827d\", \"end_message_uuid\": \"1b5683e0-1f52-422a-96fb-75bb4188d50a\", \"label\": \"Timer vs. remote control for astrophotography\"}, {\"start_message_uuid\": \"8928e1d8-0ea2-4676-9479-2dace4db80dd\", \"end_message_uuid\": \"fbaa40d0-d5bf-471f-900e-49806494e5cc\", \"label\": \"Step-by-step guide for long exposure setup\"}]}",
+      "ms": 32268
+    },
+    {
+      "id": "019e4d54-f0cb-74e0-a4cc-36c524895d38",
+      "name": "Untitled",
+      "mc": 4,
+      "promptHash": "f4d158822b2f7dbd",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "Initial review of Archie board deck presentation",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 2,
+          "label": "User request to install Poppler and review PPTX file",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "Reviewing Archie presentation and building new PPTX",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 3,
+          "end": 3,
+          "label": "Final approval for rendering revised PowerPoint thumbnail",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"019e4d54-f0cb-74e0-a4cc-36c524895d38-msg-0\", \"end_message_uuid\": \"019e4d54-f0cb-74e0-a4cc-36c524895d38-msg-1\", \"label\": \"Initial review of Archie board deck presentation\"}, {\"start_message_uuid\": \"019e4d54-f0cb-74e0-a4cc-36c524895d38-msg-2\", \"end_message_uuid\": \"019e4d54-f0cb-74e0-a4cc-36c524895d38-msg-2\", \"label\": \"User request to install Poppler and review PPTX file\"}, {\"start_message_uuid\": \"019e4d54-f0cb-74e0-a4cc-36c524895d38-msg-2\", \"end_message_uuid\": \"019e4d54-f0cb-74e0-a4cc-36c524895d38-msg-3\", \"label\": \"Reviewing Archie presentation and building new PPTX\"}, {\"start_message_uuid\": \"019e4d54-f0cb-74e0-a4cc-36c524895d38-msg-3\", \"end_message_uuid\": \"019e4d54-f0cb-74e0-a4cc-36c524895d38-msg-3\", \"label\": \"Final approval for rendering revised PowerPoint thumbnail\"}]}",
+      "ms": 40906
+    },
+    {
+      "id": "9f7e3acb-4a5d-4b63-b47d-21fc956bd36d",
+      "name": "Camera Sensor vs. Display",
+      "mc": 8,
+      "promptHash": "2feac688589e1a86",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "Camera sensor vs display function comparison",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "Explanation of Quad Bayer filter technology",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "label": "Creating 24 MP images from 48 MP sensor",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 6,
+          "end": 7,
+          "label": "Using high-res data to enhance low-res images",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"aaa2bd63-2402-4954-89e5-3772353ca644\", \"end_message_uuid\": \"50c05cbf-c199-4978-8ab8-ded397c1721a\", \"label\": \"Camera sensor vs display function comparison\"}, {\"start_message_uuid\": \"aaa272ca-acdf-45d9-9ab0-cd8ee08e01fc\", \"end_message_uuid\": \"5dc40454-9186-4c4b-90bd-2ed9cf5fcf18\", \"label\": \"Explanation of Quad Bayer filter technology\"}, {\"start_message_uuid\": \"aaa295b3-523b-4ba8-beee-d50146354e49\", \"end_message_uuid\": \"2042ab1d-5070-4b77-b382-083044a71196\", \"label\": \"Creating 24 MP images from 48 MP sensor\"}, {\"start_message_uuid\": \"aaa26071-0a24-47fa-951c-112eb32e5b4f\", \"end_message_uuid\": \"e8062489-121a-4b8a-afcb-0b67d1b39c62\", \"label\": \"Using high-res data to enhance low-res images\"}]}",
+      "ms": 15634
+    }
+  ]
+}

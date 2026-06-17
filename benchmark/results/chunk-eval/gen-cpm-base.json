@@ -1,0 +1,449 @@
+{
+  "label": "cpm-base",
+  "transport": "fetch",
+  "provider": null,
+  "model": "local",
+  "adapter": null,
+  "baseUrl": "http://localhost:8090/v1",
+  "generatedAt": "2026-06-17T00:09:06.527Z",
+  "convs": [
+    {
+      "id": "67e99628-77a4-8013-a2b8-fbdca8c68541",
+      "name": "How Anchors Work",
+      "mc": 6,
+      "promptHash": "0baee21860aad7ed",
+      "chunks": [],
+      "anomalies": [
+        "ERROR — invalid JSON"
+      ],
+      "uncovered": [],
+      "error": "invalid JSON",
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"8b2ce35c-0cf1-412a-9534-317d20cd30b2\", \"end_message_uuid\": \"8b2ce35c-0cf1-412a-9534-317d20cd30b2\", \"label\": \"How anchors work\"}, {\"start_message_uuid\": \"db8ad56f-b89d-4fb9-8211-fb662b6f5ec4\", \"end_message_uuid\": \"db8ad56f-b89d-4fb9-8211-fb662b6f5ec4\", \"label\": \"Anchor mechanics\"}, {\"start_message_uuid\": \"cf28c0f1-4714-4c17-b7e7-60a86357f31b\", \"end_message_uuid\": \"cf28c0f1-4714-4c17-b7e7-60a86357f31b\", \"label\": \"Good question\"}, {\"start_message_uuid\": \"cf541b04-307e-4f0a-956f-0b4235539fc5\", \"end_message_uuid\": \"cf541b04-307e-4f0a-956f-0b4235539fc5\", \"label\": \"Anchor types\"}, {\"start_message_uuid\": \"d494c716-1be9-49bb-bf96-c22366d05274\", \"end_message_uuid\": \"d494c716-1be9-49bb-bf96-c22366d05274\", \"label\": \"Anchor design\"}, {\"start_message_uuid\": \"cf28c0f1-4714-4c17-b7e7-60a86357f31b\", \"end_message_uuid\": \"cf28c0f1-4714-4c17-b7e7-60a86357f31b\", \"label\": \"Good question\"}, {\"start_message_uuid\": \"cf541b04-307e-4f0a-956f-0b4235539fc5\", \"end_message_uuid\": \"cf541b04-307e-4f0a-956f-0b4235539fc5\", \"label\": \"Anchor types\"}, {\"start_message_uuid\": \"d494c716-1be9-49bb-bf96-c22366d05274\", \"end_message_uuid\": \"d494c716-1be9-49bb-bf96-c22366d05274\", \"label\": \"Anchor design\"}, {\"start_message_uuid\": \"cf28c0f1-4714-4c17-b7e7-60a86357f31b\", \"end_message_uuid\": \"cf28c0f1-4714-4c17-b7e7-60a86357f31b\", \"label\": \"Good question\"}, {\"start_message_uuid\": \"cf541b04-307e-4f0a-956f-0b4235539fc5\", \"end_message_uuid\": \"cf541b04-307e-4f0a-956f-0b4235539fc5\", \"label\": \"Anchor types\"}, {\"start_message_uuid\": \"d494c716-1be9-49bb-bf96-c22366d05274\", \"end_message_uuid\": \"d494c716-1be9-49bb-bf96-c22366d05274\", \"label\": \"Anchor design\"}, {\"start_message_uuid\": \"cf28c0f1-4714-4c17-b7e7-60a86357f31b\", \"end_message_uuid\": \"cf28c0f1-4714-4c17-b7e7-60a86357f31b\", \"label\": \"Good question\"}, {\"start_message_uuid\": \"cf541b04-307e-4f0a-956f-0b4235539fc5\", \"end_message_uuid\": \"cf541b04-307e-4f0a-956f-0b4235539fc5\", \"label\": \"Anchor types\"}, {\"start_message_uuid\": \"d494c716-1be9-49bb-bf96-c22366d05274\", \"end_message_uuid\": \"d494c716-1be9-49bb-bf96-c22366d05274\", \"label\": \"Anchor design\"}, {\"start_message_uuid\": \"cf28c0f1-4714-4c17-b7e7-60a86357f31b\", \"end_message_uuid\": \"cf28c0f1-4714-4c17-b7e7-60a86357f31b\", \"label\": \"Good question\"}, {\"start_message_uuid\": \"cf541b04-307e-4f0a-956f-0b4235539fc5\", \"end_message_uuid\": \"cf541b04-307e-4f0a-956f-0b4235539fc5\", \"label\": \"Anchor types\"}, {\"start_message_uuid\": \"cf28c0f1-4714-4c17-b7e7-60a86357f31b\", \"end_message_uuid\": \"cf28c0f1-4714-4c17-b7e7-60a86357f31b\", \"label\": \"Good question\"}, {\"start_message_uuid\": \"cf541b04-307e-4f0a-956f-0b4235539fc5\", \"end_message_uuid\": \"cf541b04-307e-4f0a-956f-0b4235539fc5\", \"label\": \"Anchor types\"}, {\"start_message_uuid\": \"cf28c0f1-4714-4c17-b7e7-60a86357f31b\", \"end_message_uuid\": \"cf28c0f1-4714-4c17-b7e7-60a86357f31b\", \"label\": \"Good question\"}, {\"start_message_uuid\": \"cf541b04-307e-4f0a-956f-0b4235539fc5\", \"end_message_uuid\": \"cf541b04-307e-4f0a-956f-0b4235539fc5\", \"label\": \"Anchor types\"}, {\"start_message_uuid\": \"cf28c0f1-4714-4c17-b7e7-60a86357f31b\", \"end_message_uuid\": \"cf28c0f1-4714-4c17-b7e7-60a86357f31b\", \"label\": \"Good question\"}, {\"start_message_uuid\": \"cf541b04-307e-4f0a-956f-0b4235539fc5\", \"end_message_uuid\": \"cf541b04-307e-4f0a-956f-0b4235539fc5\", \"label\": \"Anchor types\"}, {\"start_message_uuid\": \"cf28c0f1-4714-4c17-b7e7-60a86357f31b\", \"end_message_uuid\": \"cf28c0f1-4714-4c17-b7e7-60a86357f31b\", \"label\": \"Good question\"}, {\"start_message_uuid\": \"cf541b04-307e-4f0a-956f-0b4235539fc5\", \"end_message_uuid\": \"cf541b04-307e-4f0a-956f-0b4235539fc5\", \"label\": \"Anchor types\"}, {\"start_message_uuid\": \"cf28c0f1-4714-4c17-b7e7-60a86357f31b\", \"end_message_uuid\": \"cf28c0f1-4714-4c17-b7e7-60a86357f31b\", \"label\": \"Good question\"}, {\"start_message_uuid\": \"cf541b04-307e-4f0a-956f-0b4235539fc5\", \"end_message_uuid\": \"cf541b04-307e-4f0a-956f-0b4235539fc5\", \"label\": \"Anchor types\"}, {\"start_message_uuid\": \"cf28c0f1-4714-4c17-b7e7-60a86357f31b\", \"end_message_uuid\": \"cf28c0f1",
+      "ms": 85122
+    },
+    {
+      "id": "f5ecbed4-5361-40ab-9442-670a86831969",
+      "name": "Divorce Rights in Mexico",
+      "mc": 10,
+      "promptHash": "bac670081dfffbc0",
+      "chunks": [],
+      "anomalies": [
+        "ERROR — invalid JSON"
+      ],
+      "uncovered": [],
+      "error": "invalid JSON",
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"f5ecbed4-5361-40ab-9442-670a86831969\", \"end_message_uuid\": \"a69e2b2b-74ba-4d25-bccd-d18d0c7e44a1\", \"label\": \"Conversación: Divorce in México\"}, {\"start_message_uuid\": \"aaa2391d-aef6-4872-ab00-b487bdec8980\", \"end_message_uuid\": \"a69e2b2b-74ba-4d25-bccd-d18d0c7e44a1\", \"label\": \"Conversación: México, un hombre no puede stop his wife from divorcing him\"}, {\"start_message_uuid\": \"a69e2b2b-74ba-4d25-bccd-d18d0c7e44a1\", \"end_message_uuid\": \"a3f6637c-6c6d-4bf3-a557-4e4744b4f588\", \"label\": \"Conversación: México, un hombre no puede stop his wife from divorcing him\"}, {\"start_message_uuid\": \"7b6637ca-6c6d-4bf3-a557-4e4744b4f588\", \"end_message_uuid\": \"bc3ff974-ab7c-4702-89aa-6ba8c26b6166\", \"label\": \"Conversación: México, un hombre no puede stop his wife from divorcing him\"}, {\"start_message_uuid\": \"6039483c-1fb8-43c9-bf83-89284849b528\", \"end_message_uuid\": \"bc3ff974-ab7c-4702-89aa-6ba8c26b6166\", \"label\": \"Conversación: La Que La Vida Me Robo\"}, \"start_message_uuid\": \"1afd71f0-15f0-4212-a404-109e221315fa\", \"end_message_uuid\": \"bc3ff974-ab7c-4702-89aa-6ba8c26b6166\", \"label\": \"Conversación: La Que La Vida Me Robo\"}, \"start_message_uuid\": \"bc3ff974-ab7c-4702-89aa-6ba8c26b6166\", \"end_message_uuid\": \"1afd71f0-15f0-4212-a404-109e221315fa\", \"label\": \"Conversación: La Que La Vida Me Robo\"}, \"start_message_uuid\": \"a3f6637c-6c6d-4bf3-a557-4e4744b4f588\", \"end_message_uuid\": \"6039483c-1fb8-43c9-bf83-89284849b528\", \"label\": \"Conversación: La Que La Vida Me Robo\"}]}",
+      "ms": 4312
+    },
+    {
+      "id": "a5be3d4e-fa6f-4d09-9715-70b745578026",
+      "name": "Fixing JavaScript ES6 Error",
+      "mc": 30,
+      "promptHash": "e1fd709838ab91c8",
+      "chunks": [
+        {
+          "start": null,
+          "end": null,
+          "label": "",
+          "startFlag": "unresolved",
+          "endFlag": "unresolved"
+        }
+      ],
+      "anomalies": [
+        "HALLUCINATED ANCHOR — \"\": start anchor does not resolve to any message",
+        "HALLUCINATED ANCHOR — \"\": end anchor does not resolve to any message"
+      ],
+      "uncovered": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29
+      ],
+      "error": null,
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"\"}]}]",
+      "ms": 6474
+    },
+    {
+      "id": "eff06c22-ad20-45d7-b670-7054bd9d6cbb",
+      "name": "First Hold: Climbing Starting Point",
+      "mc": 8,
+      "promptHash": "fd3304fc9b7fd858",
+      "chunks": [],
+      "anomalies": [
+        "ERROR — invalid JSON"
+      ],
+      "uncovered": [],
+      "error": "invalid JSON",
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"First Hold: Climbing Starting Point\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"What is a first hold\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"In rock climbing, a first hold refers to the initial grip or foothold\"}, {\"end_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"It's a key starting point for route and strategy\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"In booking, a first hold refers to the initial reservation on a venue or date\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"It secures the option for the organizer before confirming and paying\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"If someone else wants to book the same venue or date, they can place a second hold\"}, {\"end_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"second hold and would only get the spot if the first hold is released\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"A challenge in a system with first holds, second holds, etc., is managing priority and timing of reservations\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"For example, if the party with the first hold delays their decision, it can create uncertainty and logistical challenges for others with subsequent holds\"}, {\"end_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"This can lead to lost opportunities and inefficiencies as subsequent holders wait to confirm their plans\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"Exactly, that's how the 'challenge' system typically works in venue booking, when someone with a subsequent hold (like a second hold) is ready to confirm and challenge the first hold\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"When someone with a subsequent hold is ready to confirm and challenge the first hold, the party with the first hold is usually given a deadline to either confirm their booking with a deposit or release their hold on the venue}}, {\"end_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"This mechanism helps streamline decisions and ensures that venues aren't held indefinitely without commitment\"}}]}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]})}]}]})}]}]})}]}]})}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]}]",
+      "ms": 83396
+    },
+    {
+      "id": "ed94728c-eb45-41e8-8993-da8322e2cc44",
+      "name": "Encoded String Verification",
+      "mc": 9,
+      "promptHash": "b0b2d52678025f07",
+      "chunks": [
+        {
+          "start": null,
+          "end": null,
+          "label": "Base64 decoding attempt",
+          "startFlag": "unresolved",
+          "endFlag": "unresolved"
+        }
+      ],
+      "anomalies": [
+        "HALLUCINATED ANCHOR — \"Base64 decoding attempt\": start anchor does not resolve to any message",
+        "HALLUCINATED ANCHOR — \"Base64 decoding attempt\": end anchor does not resolve to any message"
+      ],
+      "uncovered": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "error": null,
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Base64 decoding attempt\"}]}",
+      "ms": 1165
+    },
+    {
+      "id": "16be1a9f-3c61-453a-a536-5736a74a8921",
+      "name": "Mud versus clay differences",
+      "mc": 48,
+      "promptHash": "f013080280df1d53",
+      "chunks": [],
+      "anomalies": [
+        "ERROR — invalid JSON"
+      ],
+      "uncovered": [],
+      "error": "invalid JSON",
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\", \"label\": \"Innovative applications of diamond\"}]}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\", \"label\": \"\"}]}",
+      "ms": 31924
+    },
+    {
+      "id": "f5515608-8e7e-4b79-b9ed-afc34fa7a400",
+      "name": "Comparing Microphone Audio",
+      "mc": 4,
+      "promptHash": "4377923fd08e7a9e",
+      "chunks": [],
+      "anomalies": [
+        "ERROR — invalid JSON"
+      ],
+      "uncovered": [],
+      "error": "invalid JSON",
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"f5515608-8e7e-4b79-b9ed-afc34fa7a400\", \"end_message_uuid\": \"aaa2c0c9-35e1-4d48-86a2-7f16f6d131e6\", \"label\": \"Conversation: Comparing Microphone Audio\"}, {\"start_message_uuid\": \"aaa2c0c9-35e1-4d48-86a2-7f16f6d131e6\", \"end_message_uuid\": \"aaa2954f-688b-420f-882d-9e6109ec3250\", \"label\": \"User: how are microphones compared\"}, {\"start_message_uuid\": \"436f95c9-f2bb-4a17-a31b-5d44924ccbde\", \"end_message_uuid\": \"436f95c9-f2bb-4a17-a31b-5d44924ccbde\", \"label\": \"Assistant: general procedure\"}, \"start_message_uuid\": \"436f95c9-f2bb-4a17-a31b-5d44924ccbde\", \"end_message_uuid\": \"436f95c9-f2bb-4a17-a31b-5d44924ccbde\", \"label\": \"Conversation: Comparing Microphone Audio\"}, {\"start_message_uuid\": \"6904b07c-552c-4ffa-a8fd-d7d2090056bb\", \"end_message_uuid\": \"6904b07c-552c-4ffa-a8fd-d7d2090056bb\", \"label\": \"User: what are some audio analysis softwares\"}, \"start_message_uuid\": \"6904b07c-552c-4ffa-a8fd-d7d2090056bb\", \"end_message_uuid\": \"6904b07c-552c-4ffa-a8fd-d7d2090056bb\", \"label\": \"Assistant: list of audio analysis software tools\"}]}",
+      "ms": 3530
+    },
+    {
+      "id": "86397ce8-e28f-44ea-8cb4-bfce24e0d13d",
+      "name": "Avoid Banding in DaVinci.",
+      "mc": 14,
+      "promptHash": "0c15d2015564f667",
+      "chunks": [],
+      "anomalies": [
+        "ERROR — invalid JSON"
+      ],
+      "uncovered": [],
+      "error": "invalid JSON",
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"How to avoid banding in a youtube video, from davinci resolve?\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"How to avoid banding in a youtube video, from davinci resolve?\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"How to avoid banding in a youtube video, from davinci resolve?\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"How to avoid banding in a youtube video, from davinci resolve?\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"How to avoid banding in a youtube video, from davinci resolve?\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"How to avoid banding in a youtube video, from davinci resolve?\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"How to avoid banding in a youtube video, from davinci resolve?\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"How to avoid banding in a youtube video, from davinci resolve?\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"How to avoid banding in a youtube video, from davinci resolve?\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"How to avoid banding in a youtube video, from davinci resolve?\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"How to avoid banding in a youtube video, from davinci resolve?\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"How to avoid banding in a youtube video, from davinci resolve?\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"How to avoid banding in a youtube video, from davinci resolve?\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"How to avoid banding in a youtube video, from davinci resolve?\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"How to avoid banding in a youtube video, from davinci resolve?\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"How to avoid banding in a youtube video, from davinci resolve?\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"How to avoid banding in a youtube video, from davinci resolve?\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"How to avoid banding in a youtube video, from davinci resolve?\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"How to avoid banding in a youtube video, from davinci resolve?\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"How to avoid banding in a youtube video, from davinci resolve?\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"How to avoid banding in a youtube video, from davinci resolve?\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"How to avoid banding in a youtube video, from davinci resolve?\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"How to avoid banding in a youtube video, from davinci resolve?\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"How to avoid banding in a youtube video, from davinci resolve?\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"How to avoid banding in a youtube video, from davinci resolve?\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"How to avoid banding in a youtube video, from davinci resolve?\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"How to avoid banding in a youtube video, from davinci resolve?\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"How to avoid banding in a youtube video, from davinci resolve?\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"How to avoid banding in a youtube video, from davinci resolve?\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"How to avoid banding in a youtube video, from davinci resolve?\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"la",
+      "ms": 87024
+    },
+    {
+      "id": "78da6fe3-60bc-482f-9346-49c600780d47",
+      "name": "Service Table Design for SIMS",
+      "mc": 4,
+      "promptHash": "681bae6ed6e4c368",
+      "chunks": [],
+      "anomalies": [
+        "ERROR — invalid JSON"
+      ],
+      "uncovered": [],
+      "error": "invalid JSON",
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"78da6fe3-60bc-482f-9346-49c600780d47\", \"end_message_uuid\": \"aaa20d21-0372-4eec-3c7-5e673c78268d\", \"label\": \"Service Table Design for SIMS\"}, {\"start_message_uuid\": \"dfcb5deb-57d2-405d-8776-7437df16a5f7\", \"end_message_uuid\": \"dfcb5deb-57d2-405d-8776-7437df16a5f7\", \"label\": \"Table: Services\"}, {\"start_message_uuid\": \"90985f92-978d-4fb2-b390-03a16ca04b4b\", \"end_message_uuid\": \"90985f92-978d-4fb2-b390-03a16ca04b4b\", \"label\": \"SurrealQL Overview\"}, {\"start_message_uuid\": \"aaa2b4f0-f0ee-41df-3c7-5e673c78268d\", \"end_message_uuid\": \"aaa2b4f0-f0ee-41df-3c7-5e673c78268d\", \"label\": \"SurrealQL Overview\"}, {\"start_message_uuid\": \"90985f92-978d-4fb2-b390-03a16ca04b4b\", \"end_message_uuid\": \"90985f92-978d-4fb2-b390-03a16ca04b4b\", \"label\": \"SurrealQL Overview\"},]}",
+      "ms": 2795
+    },
+    {
+      "id": "67a82605-6540-8013-a892-60288bbf7b50",
+      "name": "File Size Creation Date",
+      "mc": 20,
+      "promptHash": "5d24d824633b3a6c",
+      "chunks": [],
+      "anomalies": [
+        "ERROR — invalid JSON"
+      ],
+      "uncovered": [],
+      "error": "invalid JSON",
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"File Size Creation Date\"}, {\"start_message_uuid\": \"92507dea-c1a3-46c1-83ed-e8e646b5b87b\", \"end_message_uuid\": \"}\", \"label\": \"How to find file size in MB and creation date\"}, {\"start_message_uuid\": \"8ad664b2-2f78-45b1-86bf-c901a8037e55\", \"end_message_uuid\": \"}\", \"label\": \"Convert file size from bytes to MB\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Explanation: bytes -> MB\", \"end_message_uuid\": \"}\", {\"start_message_uuid\": \"df756941-b267-4ef9-a5b0-ec901a8037e55\", \"end_message_uuid\": \"}\", \"label\": \"Most standard RAW photo file\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"DNG (Digital Negative)\"}, {\"end_message_uuid\": \"{\"}, \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Adobe DNG Converter\", \"start_message_uuid\": \"{\", \"end_m",
+      "ms": 94006
+    },
+    {
+      "id": "2427687a-75a4-4b05-8ee1-4602879db37c",
+      "name": "New chat",
+      "mc": 5,
+      "promptHash": "31a9d349594f659d",
+      "chunks": [],
+      "anomalies": [
+        "ERROR — invalid JSON"
+      ],
+      "uncovered": [],
+      "error": "invalid JSON",
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"d92779c3-085a-41e1-8ee1-4602879dbc2\", \"end_message_uuid\": \"d92779c3-085a-41e1-8ee1-4602879db2\"}, {\"start_message_uuid\": \"81fe9060-b167-4a2b-ac54-a4f44c4d61b1\", \"end_message_uuid\": \"81fe9060-b167-4a2b-ac54-a4f44c4d61b1\"}, {\"start_message_uuid\": \"eda6d2e6-f8a5-4bb5-924a-9e67a7e81c3b\", \"end_message_uuid\": \"eda6d2e6-f8a5-4bb5-924a-9e67a7e81c3b\"}, {\"start_message_uuid\": \"4583db35-3a86-4dd9-b635-d47b565da601\", \"end_message_uuid\": \"4583db35-3a86-4dd9-b635-d47b565da601\"}, \"start_message_uuid\": \"acb7fecb-c4ef-4975-8493-bf8aee8b4ffb\", \"end_message_uuid\": \"acb7fecb-c4ef-4975-8493-bf8aee8b4ffb\"}]}",
+      "ms": 2099
+    },
+    {
+      "id": "18e1ea4c-106a-4212-8531-28342d0cc3e7",
+      "name": "Toyota's Kaizen Culture",
+      "mc": 4,
+      "promptHash": "1f6df8d1fbb0ed41",
+      "chunks": [],
+      "anomalies": [
+        "ERROR — invalid JSON"
+      ],
+      "uncovered": [],
+      "error": "invalid JSON",
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: Toyota's Kaizen Culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: Kaizen culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: Kaizen\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: Kaizen\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: internal culture\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"{\"}, \"label\": \"Conversation: inte",
+      "ms": 85663
+    },
+    {
+      "id": "c3c8b072-143e-4b97-8d28-088f4d78cb8e",
+      "name": "if you look at the articles in articles, you might see that they have a lot of c",
+      "mc": 49,
+      "promptHash": "0a05c8f08853696e",
+      "chunks": [],
+      "anomalies": [
+        "ERROR — invalid JSON"
+      ],
+      "uncovered": [],
+      "error": "invalid JSON",
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Conversation: if you look at the articles in articles, you might see that they have a lot of citations, i would like it if the citations were like wikipedia, a single number that links to the bottom of the page, where the specific details (the conversation, etc)  can be found, could we do that here?\"}, {\"start_message_uuid\": \"dc644825-622b-4541-a777-bb38f6b56fae\", \"end_message_uuid\": \"}\", \"label\": \"Please run /login · API Error: 401 Invalid authentication credentials\"}, {\"start_message_uuid\": \"2f4011d7-0d66-4f06-b42d-c8f48fcf4e91\", \"end_message_uuid\": \"}\", \"label\": \"User: (uuid: 2f4011d7-0d66-4f06-b42d-c8f48fcf4e91)\", \"content\": \"<local-command-caveat>Caveat: The messages below were generated by the user while running local commands. DO NOT respond to these messages or otherwise consider them in your response unless the user explicitly asks you to.\"}, {\"start_message_uuid\": \"eac9c141-a82e-4834-abfd-3ebf9bb9813f\", \"end_message_uuid\": \"}\", \"label\": \"User: (uuid: eac9c141-a82e-4834-abfd-3ebf9bb9813f)\", \"content\": \"<command-name>/login</command-name> <command-args></command-args>\"}, {\"start_message_uuid\": \"4d41d0d0-f656-4d0d-9750-f7565785da1f\", \"end_message_uuid\": \"}\", \"label\": \"User: (uuid: 4d41d0d0-f656-4d0d-9750-f7565785da1f)\", \"content\": \"<local-command-stdout>Login interrupted</local-command-stdout>\"}, {\"start_message_uuid\": \"b5614e12-7bed-48bd-86fe-375e7877a545\", \"end_message_uuid\": \"}\", \"label\": \"User: (uuid: b5614e12-7bed-48bd-86fe-375e7877a545)\", \"content\": \"❯ if you look at the articles in articles, you might see that they have a lot of citations, i would like it if the citations were like wikipedia, a single number that links to the bottom of the page, where the specific details (the conversation, etc)  can be found, could we do that here?\"}, {\"start_message_uuid\": \"a492af8b-43e5-46d7-ab0e-5cbdbe85a604\", \"end_message_uuid\": \"}\", \"label\": \"Please run /login · API Error: 401 Invalid authentication credentials\"}, {\"start_message_uuid\": \"dc644825-622b-4541-a777-bb38f6b56fae\", \"end_message_uuid\": \"}\", \"label\": \"Please run /login · API Error: 401 Invalid authentication credentials\"}, {\"start_message_uuid\": \"72c65926-eebe-426a-980a-2aaebc6bbbad\", \"end_message_uuid\": \"}\", \"label\": \"Let me test on one article first.\", \"content\": \"Looking at the format — citations are `[conv:HASH]` inline, with no References section. There are 189 unique conv IDs across all articles, ~7 per article.\"}, {\"start_message_uuid\": \"fa0430aa-f6a2-4857-b773-bbad-8a6903f8569c\", \"end_message_uuid\": \"}\", \"label\": \"Please run /login · API Error: 401 Invalid authentication credentials\", \"content\": \"Looking at the format — citations are `[conv:HASH]` inline, with no References section. There are 189 unique conv IDs across all articles, ~7 per article.\"}, {\"start_message_uuid\": \"b3680216-bae7-4221-b9cc-f66ba532b413\", \"end_message_uuid\": \"}\", \"label\": \"Please run /login · API Error: 401 Invalid authentication credentials\", \"content\": \"Looking at the format — citations are `[conv:HASH]` inline, with no References section. There are 189 unique conv IDs across all articles, ~7 per article.\"}, {\"start_message_uuid\": \"b3680216-bae7-4221-b9cc-f66ba532b413\", \"end_message_uuid\": \"}\", \"label\": \"Please run /login · API Error: 401 Invalid authentication credentials\", \"content\": \"Looking at the format — citations are `[conv:HASH]` inline, with no References section. There are 189 unique conv IDs across all articles, ~7 per article.\"}, {\"start_message_uuid\": \"e6978e3e-62a0-4f6b-9a3-3f3f3f3f3f3\", \"end_message_uuid\": \"}\", \"label\": \"Please run /login · API Error: 401 Invalid authentication credentials\", \"content\": \"Looking at the format — citations are `[conv:HASH]` inline, with no References section. There are 189 unique conv IDs across all articles, ~7 per article.\"}, {\"start_message_uuid\": \"9ef75771-f4bc-4be0-8e55-af2c989bb0e\", \"end_message_uuid\": \"}\", \"label\": \"Please run /login · API Error: 401 Inva",
+      "ms": 94550
+    },
+    {
+      "id": "57ab528b-8f4d-42cd-b35c-70e53b57dfe6",
+      "name": "Comparing Mac computers for local AI performance",
+      "mc": 74,
+      "promptHash": "25ae5b328521599f",
+      "chunks": [],
+      "anomalies": [
+        "ERROR — invalid JSON"
+      ],
+      "uncovered": [],
+      "error": "invalid JSON",
+      "rawResponse": "{\n\"chunks\": [\n  {\n    \"start_message_uuid\": \"uuid: 019ead93-017b-73f1-b745-4505963f4aa7\",\n    \"end_message_uuid\": \"uuid: 019ead93-017b-73f1-b745-4505963f4aa7\",\n    \"label\": \"The core thesis: capability is the key, not structure\"\n  },\n  {\n    \"start_message_uuid\": \"uuid: 019ead93-017b-73f1-b745-4505963f4aa7\",\n    \"end_message_uuid\": \"uuid: 019ead93-017b-73f1-b745-4505963f4aa7\",\n    \"label\": \"The core thesis: capability is the key, not structure\"\n  },\n  {\n    \"start_message_uuid\": \"uuid: 019ead94-9711-7fd9-8b15-d21dee256d2a\",\n    \"end_message_uuid\": \"uuid: 019ead94-9711-750d-9981-b2eb711e72e6\",\n    \"label\": \"The cost divergence: context vs. routing\"\n  },\n  {\n    \"start_message_uuid\": \"uuid: 019ead94-9711-750d-9981-b2eb711e72e6\",\n    \"end_message_uuid\": \"uuid: 019ead94-9711-7fd9-8b15-d21dee256d2a\",\n    \"label\": \"The cost divergence: context vs. routing\"\n  },\n  {\n    \"start_message_uuid\": \"uuid: 019ead97-6917-7ebe-9485-fc5b5db82099\",\n    \"end_message_uuid\": \"uuid: 019ead97-6917-7c18-2b4-ca0adcaeaa80\",\n    \"label\": \"The ambiguity: nebulous intent to reduce ambiguity\"\n  },\n  {\n    \"start_message_uuid\": \"uuid: 019ead97-6917-7c18-2b4-ca0adcaeaa80\",\n    \"end_message_uuid\": \"uuid: 019ead97-6917-7c18-2b4-ca0adcaeaa80\",\n    \"label\": \"The ambiguity: nebulous intent to reduce ambiguity\"\n  },\n  {\n    \"start_message_uuid\": \"uuid: 019ead9b-b6c2-71e1-b69e-26f6f07a1405\",\n    \"end_message_uuid\": \"uuid: 019ead9b-b6c2-71e1-b69e-26f6f07a1405\",\n    \"label\": \"The approach: single task, no decomposition\"\n  },\n  {\n    \"start_message_uuid\": \"uuid: 019ead9b-b6c2-71e1-b69e-26f6f07a1405\",\n    \"end_message_uuid\": \"uuid: 019ead9b-b6c2-71e1-b69e-26f6f07a1405\",\n    \"label\": \"The approach: single task, no decomposition\"\n  },\n  {\n    \"start_message_uuid\": \"uuid: 019ead9b-b6c2-71e1-b69e-26f6f07a1405\",\n    \"end_message_uuid\": \"uuid: 019ead9b-b6c2-71e1-b69e-26f6f07a1405\",\n    \"label\": \"The approach: single task, no decomposition\"\n  },\n  {\n    \"start_message_uuid\": \"uuid: 019ead9b-b6c2-71e1-b69e-26f6f07a1405\",\n    \"end_message_uuid\": \"uuid: 019ead9b-b6c2-71e1-b69e-26f6f07a1405\",\n    \"label\": \"The approach: single task, no decomposition\"\n  },\n  {\n    \"start_message_uuid\": \"uuid: 019ead9b-b6c2-71e1-b69e-26f6f07a1405\",\n    \"end_message_uuid\": \"uuid: 019ead9b-b6c2-71e1-b69e-26f6f07a1405\",\n    \"label\": \"The approach: single task, no decomposition\"\n  },\n  {\n    \"start_message_uuid\": \"uuid: 019ead9b-b6c2-71e1-b69e-26f6f07a1405\",\n    \"end_message_uuid\": \"uuid: 019ead9b-b6c2-71e1-b69e-26f6f07a1405\",\n    \"label\": \"The approach: single task, no decomposition\"\n  },\n  {\n    \"start_message_uuid\": \"uuid: 019ead9b-b6c2-71e1-b69e-26f6f07a1405\",\n    \"end_message_uuid\": \"uuid: 019ead9b-b6c2-71e1-b69e-26f6f07a1405\",\n    \"label\": \"The approach: single task, no decomposition\"\n  },\n  {\n    \"start_message_uuid\": \"uuid: 019ead9b-b6c2-71e1-b69e-26f6f07a1405\",\n    \"end_message_uuid\": \"uuid: 019ead9b-b6c2-71e1-b69e-26f6f07a1405\",\n    \"label\": \"The approach: single task, no decomposition\"\n  },\n  {\n    \"start_message_uuid\": \"uuid: 019ead9b-b6c2-71e1-b69e-26f6f07a1405\",\n    \"end_message_uuid\": \"uuid: 019ead9b-b6c2-71e1-b69e-26f6f07a1405\",\n    \"label\": \"The approach: single task, no decomposition\"\n  },\n  {\n    \"start_message_uuid\": \"uuid: 019ead9b-b6c2-71e1-b69e-26f6f07a1405\",\n    \"end_message_uuid\": \"uuid: 019ead9b-b6c2-71e1-b69e-26f6f07a1405\",\n    \"label\": \"The approach: single task, no decomposition\"\n  },\n  {\n    \"start_message_uuid\": \"uuid: 019ead9b-b6c2-71e1-b69e-26f6f07a1405\",\n    \"end_message_uuid\": \"uuid: 019ead9b-b6c2-71e1-b69e-26f6f07a1405\",\n    \"label\": \"The approach: single task, no decomposition\"\n  },\n  {\n    \"start_message_uuid\": \"uuid: 019ead9b-b6c2-71e1-b69e-26f6f07a1405\",\n    \"end_message_uuid\": \"uuid: 019ead9b-b6c2-71e1-b69e-26f6f07a1405\",\n    \"label\": \"The approach: single task, no decomposition\"\n  },\n  {\n    \"start_message_uuid\": \"uuid: 019ead9b-b6c2-71e1-b69e-26f6f07a1405\",\n    \"end_message_uuid\": \"uuid: 019ead9b-b6c2-71e1-b69e-26f6f07a1405\",\n    \"label\": \"The approach: single ",
+      "ms": 231965
+    },
+    {
+      "id": "67257e17-fc64-8013-a928-142fafd36c6b",
+      "name": "EDGE Network Rollout Timeline",
+      "mc": 14,
+      "promptHash": "29a6ac951ff76f26",
+      "chunks": [],
+      "anomalies": [
+        "ERROR — invalid JSON"
+      ],
+      "uncovered": [],
+      "error": "invalid JSON",
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"ARCHIE webhook architecture decisions\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"GPRS introduction\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"2.75G speeds\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"2003 launch\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"2003 launch\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"2003 launch\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"Wi-Fi introduction\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"Wi-Fi introduction\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"2007 release\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"2007 release\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\" \"label\": \"iphone 2007\"}, {\"start_message_uuid\": \"{\"\", \"end_messa",
+      "ms": 85236
+    },
+    {
+      "id": "ddcc93cd-18e5-4bfd-b28d-6d4a43da3a78",
+      "name": "SR-71s never downed",
+      "mc": 20,
+      "promptHash": "df8e7d6362cf4b3e",
+      "chunks": [],
+      "anomalies": [
+        "ERROR — invalid JSON"
+      ],
+      "uncovered": [],
+      "error": "invalid JSON",
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"ddcc93cd-18e5-4bfd-b28d-6d4a43da3a78\", \"end_message_uuid\": \"a3c2e6f5b-89d4-4e24-41ae-49b1b80a5ddf\"}, \"start_message_uuid\": \"a8e7f2d4-56e5-4c2e-9b5f-1c2e6a5e6b3\", \"end_message_uuid\": \"531798b7-8717-41ae-86c7-49b1b80a5ddf\"}, \"start_message_uuid\": \"a3b295d-44c1-454e-86d5-0ee607bfe73a\", \"end_message_uuid\": \"f92deb82-fb19-46eb-afb6-d03d83f128d2\"}, \"start_message_uuid\": \"2c242ef8-c8b2-43bd-8037-fce2ba0dd314\", \"end_message_uuid\": \"3006c058-7bff-49b7-af56-7b54a8bbe93b\"}, \"start_message_uuid\": \"3006c058-7bff-49b7-af56-7b54a8bbe93b\", \"end_message_uuid\": \"903860c8-d32a-4f3a-8d77-ce2e2d1252fc\"}, \"start_message_uuid\": \"903860c8-d32a-4f3a-8d77-ce2e2d1252fc\", \"end_message_uuid\": \"b048c997-377d-4877-85ba-f2dddf791575\"]}",
+      "ms": 3276
+    },
+    {
+      "id": "7b7e0d0d-d8e9-455c-8383-cf150b365ce6",
+      "name": "Policy Document Database Import",
+      "mc": 12,
+      "promptHash": "8e521e4ec9f496b3",
+      "chunks": [],
+      "anomalies": [
+        "ERROR — invalid JSON"
+      ],
+      "uncovered": [],
+      "error": "invalid JSON",
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"Policy Document Parsing Complete\"}, {\"start_message_uuid\": \"uuid: c0c4bff6-55b4-406b-8a29-7199fccaa92d\", \"end_message_uuid\": \"uuid: 0a4dcf85-524f-4f19-94c9-37e1251378bc\", \"label\": \"Step 4: APPLY - Database Creation Complete!\"}, {\"start_message_uuid\": \"uuid: 91d6a344-7001-455e-bd04-b17aec8e66b\", \"end_message_uuid\": \"uuid: 91d6a344-7001-455e-bd04-b17aec8e66b\", \"label\": \"Step 3: APPLY - Database Creation Complete!\"}, {\"start_message_uuid\": \"uuid: ad786f98-54bf-47a8-b6a2-f5fe656d7076\", \"end_message_uuid\": \"uuid: ad786f98-54bf-47a8-b6a2-f5fe656d7076\", \"label\": \"Step 2: SCHEMA - Database Design Complete\"}, {\"start_message_uuid\": \"uuid: 7250aed5-0040-4ede-a760-5aff4da9ee58\", \"end_message_uuid\": \"uuid: 7250aed5-0040-4ede-a760-5aff4da9ee58\", \"label\": \"Step 1: DISCOVER - Policy Files Summary\"}, {\"start_message_uuid\": \"uuid: 565b6693-fc7f-4cf7-a4be-d7320e7436ac\", \"end_message_uuid\": \"uuid: 565b6693-fc7f-4cf7-a4be-d7320e7436ac\", \"label\": \"Step 1: DISCOVER - Policy Files Summary\"}, {\"start_message_uuid\": \"uuid: 0a4dcf85-524f-4f19-94c9-37e1251378bc\", \"end_message_uuid\": \"uuid: 0a4dcf85-524f-4f19-94c9-37e1251378bc\", \"label\": \"Step 1: DISCOVER - Policy Files Summary\"}, {\"start_message_uuid\": \"uuid: 565b6693-fc7f-4cf7-a4be-d7320e7436ac\", \"end_message_uuid\": \"uuid: 565b6693-fc7f-4cf7-a4be-d7320e7436ac\", \"label\": \"Step 1: DISCOVER - Policy Files Summary\"}, {\"start_message_uuid\": \"uuid: 91d6a344-aba9-4ff3-a251-6a301be8289\", \"end_message_uuid\": \"uuid: 91d6a344-aba9-4ff3-a251-6a301be8289\", \"label\": \"Step 1: DISCOVER - Policy Files Summary\"}, {\"start_message_uuid\": \"uuid: 7250aed5-0040-4ede-a760-5aff4da9ee58\", \"end_message_uuid\": \"uuid: 7250aed5-0040-4ede-a760-5aff4da9ee58\", \"label\": \"Step 1: DISCOVER - Policy Files Summary\"}, {\"start_message_uuid\": \"uuid: 565b6693-fc7f-4cf7-a4be-d7320e7436ac\", \"end_message_uuid\": \"uuid: 565b6693-fc7f-4cf7-a4be-d7320e7436ac\", \"label\": \"Step 1: DISCOVER - Policy Files Summary\"}, {\"start_message_uuid\": \"uuid: 91d6a344-7001-455e-bd04-b17aec8e66b\", \"end_message_uuid\": \"uuid: 91d6a344-7001-455e-bd04-b17aec8e66b\", \"label\": \"Step 1: DISCOVER - Policy Files Summary\"}, {\"start_message_uuid\": \"uuid: ad786f98-54bf-47a8-b6a2-f5fe656d7076\", \"end_message_uuid\": \"uuid: ad786f98-54bf-47a8-b6a2-f5fe656d7076\", \"label\": \"Step 2: SCHEMA - Database Design Complete\"}, {\"start_message_uuid\": \"uuid: bb1619a7-a587-4fec-9ba2-9ffa53050c\", \"end_message_uuid\": \"uuid: bb1619a7-a587-4fec-9ba2-9ffa53050c\", \"label\": \"Step 2: SCHEMA - Database Design Complete\"}, {\"start_message_uuid\": \"uuid: 91d6a344-aba9-4ff3-a251-6a301be8289\", \"end_message_uuid\": \"uuid: 91d6a344-aba9-4ff3-a251-6a301be8289\", \"label\": \"Step 2: SCHEMA - Database Design Complete\"}, {\"start_message_uuid\": \"uuid: ad786f98-54bf-47a8-b6a2-f5fe656d7076\", \"end_message_uuid\": \"uuid: ad786f98-54bf-47a8-b6a2-f5fe656d7076\", \"label\": \"Step 2: SCHEMA - Database Design Complete\"}, {\"start_message_uuid\": \"uuid: 7250aed5-0040-4ede-a760-5aff4da9ee58\", \"end_message_uuid\": \"uuid: 7250aed5-0040-4ede-a760-5aff4da9ee58\", \"label\": \"Step 2: SCHEMA - Database Design Complete\"}, {\"start_message_uuid\": \"uuid: 565b6693-fc7f-4cf7-a4be-d7320e7436ac\", \"end_message_uuid\": \"uuid: 565b6693-fc7f-4cf7-a4be-d7320e7436ac\", \"label\": \"Step 2: SCHEMA - Database Design Complete\"}, {\"start_message_uuid\": \"uuid: 91d6a344-7001-455e-bd04-b17aec8e66b\", \"end_message_uuid\": \"uuid: 91d6a344-7001-455e-bd04-b17aec8e66b\", \"label\": \"Step 2: SCHEMA - Database Design Complete\"}, {\"start_message_uuid\": \"uuid: ad786f98-54bf-47a8-b6a2-f5fe656d7076\", \"end_message_uuid\": \"uuid: ad786f98-54bf-47a8-b6a2-f5fe656d7076\", \"label\": \"Step 2: SCHEMA - Database Design Complete\"}, {\"start_message_uuid\": \"uuid: 91d6a344-aba9-4ff3-a251-6a301be8289\", \"end_message_uuid\": \"uuid: 91d6a344-aba9-4ff3-a251-6a301be8289\", \"label\": \"Step 2: SCHEMA - Database Design Complete\"}, {\"start_message_uuid\": \"uuid: bb1619a7-a587-4fec-9ba2-9ffa53050c\", \"end_message_uuid\": \"uuid: bb1619a7-a587-4fec-9ba2",
+      "ms": 91102
+    },
+    {
+      "id": "670e2fd5-08fc-8013-86f1-eb0ad8d54d93",
+      "name": "WebSocket Message Queueing Fix",
+      "mc": 14,
+      "promptHash": "c8a5e4098cde138f",
+      "chunks": [],
+      "anomalies": [
+        "ERROR — invalid JSON"
+      ],
+      "uncovered": [],
+      "error": "invalid JSON",
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"0eb70237-29d7-44c6-9b65-92b14b60893\", \"end_message_uuid\": \"0b4d5893-eb9e-4b7d-bd82-0f56e38614c2\", \"label\": \"WebSocket Message Queueing Fix\"}, {\"start_message_uuid\": \"0d37d55fe-aea3-4e7-9190-9e6b9f21e5ff\", \"end_message_uuid\": \"0e89b3c2-5f1a-4f63-96cc-1b89bd4ac87c\", \"label\": \"WebSocket Message Queueing Fix\"}, {\"start_message_uuid\": \"0b4d5893-eb9e-4b7-da2-0f56e38614c2\", \"end_message_uuid\": \"0e89b3c2-5f1a-4f63-96cc-1b89bd4ac87c\", \"label\": \"WebSocket Message Queueing Fix\"}, {\"start_message_uuid\": \"0e89b3c2-5f1a-4f63-96cc-1b89bd4ac87c\", \"end_message_uuid\": \"0e89b3c2-5f1a-4f63-96cc-1b89bd4ac87c\", \"label\": \"WebSocket Message Queueing Fix\"}, {\"start_message_uuid\": \"0f56e38614c2\", \"end_message_uuid\": \"0e89b3c2-5f1a-4f63-96cc-1b89bd4ac87c\", \"label\": \"WebSocket Message Queueing Fix\"}, {\"start_message_uuid\": \"0e89b3c2-5f1a-4f63-96cc-1b89bd4ac87c\", \"end_message_uuid\": \"0e89b3c2-5f1a-4f63-96cc-1b89bd4ac87c\", \"label\": \"WebSocket Message Queueing Fix\"}, {\"start_message_uuid\": \"0b6f9f3d-0e89-4a2b-8d29-0e4800ba1480\", \"end_message_uuid\": \"0c2a5f3d-0e89-4a2b-8d29-0e4800ba1480\", \"label\": \"WebSocket Message Queueing Fix\"}, {\"start_message_uuid\": \"0c2a5f3d-0e89-4a2b-8d29-0e4800ba1480\", \"end_message_uuid\": \"0c2a5f3d-0e89-4a2b-8d29-0e4800ba1480\", \"label\": \"WebSocket Message Queueing Fix\"}, {\"start_message_uuid\": \"0c2a5f3d-0e89-4a2b-8d29-0e4800ba1480\", \"end_message_uuid\": \"0c2a5f3d-0e89-4a2b-8d29-0e4800ba1480\", \"label\": \"WebSocket Message Queueing Fix\"}, {\"start_message_uuid\": \"0e89b3c2-5f1a-4f63-96cc-1b89bd4ac87c\", \"end_message_uuid\": \"0e89b3c2-5f1a-4f63-96cc-1b89bd4ac87c\", \"label\": \"WebSocket Message Queueing Fix\"}, {\"start_message_uuid\": \"0e89b3c2-5f1a-4f63-96cc-1b89bd4ac87c\", \"end_message_uuid\": \"0e89b3c2-5f1a-4f63-96cc-1b89bd4ac87c\", \"label\": \"WebSocket Message Queueing Fix\"}, {\"start_message_uuid\": \"0f56e38614c2\", \"end_message_uuid\": \"0e89b3c2-5f1a-4f63-96cc-1b89bd4ac87c\", \"label\": \"WebSocket Message Queueing Fix\"}, {\"start_message_uuid\": \"0e89b3c2-5f1a-4f63-96cc-1b89bd4ac87c\", \"end_message_uuid\": \"0e89b3c2-5f1a-4f63-96cc-1b89bd4ac87c\", \"label\": \"WebSocket Message Queueing Fix\"}, {\"start_message_uuid\": \"0c2a5f3d-0e89-4a2b-8d29-0e4800ba1480\", \"end_message_uuid\": \"0c2a5f3d-0e89-4a2b-8d29-0e4800ba1480\", \"label\": \"WebSocket Message Queueing Fix\"}, {\"start_message_uuid\": \"0c2a5f3d-0e89-4a2b-8d29-0e4800ba1480\", \"end_message_uuid\": \"0c2a5f3d-0e89-4a2b-8d29-0e4800ba1480\", \"label\": \"WebSocket Message Queueing Fix\"}, {\"start_message_uuid\": \"0c2a5f3d-0e89-4a2b-8d29-0e4800ba1480\", \"end_message_uuid\": \"0c2a5f3d-0e89-4a2b-8d29-0e4800ba1480\", \"label\": \"WebSocket Message Queueing Fix\"}, {\"start_message_uuid\": \"0e89b3c2-5f1a-4f63-96cc-1b89bd4ac87c\", \"end_message_uuid\": \"0e89b3c2-5f1a-4f63-96cc-1b89bd4ac87c\", \"label\": \"WebSocket Message Queueing Fix\"}, {\"start_message_uuid\": \"0c2a5f3d-0e89-4a2b-8d29-0e4800ba1480\", \"end_message_uuid\": \"0c2a5f3d-0e89-4a2b-8d29-0e4800ba1480\", \"label\": \"WebSocket Message Queueing Fix\"}, {\"start_message_uuid\": \"0c2a5f3d-0e89-4a2b-8d29-0e4800ba1480\", \"end_message_uuid\": \"0c2a5f3d-0e89-4a2b-8d29-0e4800ba1480\", \"label\": \"WebSocket Message Queueing Fix\"}, {\"start_message_uuid\": \"0e89b3c2-5f1a-4f63-96cc-1b89bd4ac87c\", \"end_message_uuid\": \"0e89b3c2-5f1a-4f63-96cc-1b89bd4ac87c\", \"label\": \"WebSocket Message Queueing Fix\"}, {\"start_message_uuid\": \"0c2a5f3d-0e89-4a2b-8d29-0e4800ba1480\", \"end_message_uuid\": \"0c2a5f3d-0e89-4a2b-8d29-0e4800ba1480\", \"label\": \"WebSocket Message Queueing Fix\"}, {\"start_message_uuid\": \"0c2a5f3d-0e89-4a2b-8d29-0e4800ba1480\", \"end_message_uuid\": \"0c2a5f3d-0e89-4a2b-8d29-0e4800ba1480\", \"label\": \"WebSocket Message Queueing Fix\"}, {\"start_message_uuid\": \"0e89b3c2-5f1a-4f63-96cc-1b89bd4ac87c\", \"end_message_uuid\": \"0e89b3c2-5f1a-4f63-96cc-1b89bd4ac87c\", \"label\": \"WebSocket Message Queueing Fix\"}, {\"start_message_uuid\": \"0c2a5f3d-0e89-4a2b-8d29-0e4800ba1480\", \"end_message_uuid\": \"0c2a5f3d-0e89-4a2b-8d29-0e4800ba1480\", \"label\": \"WebSocket Message Queueing Fix\"}, {\"start_message_uuid\": \"0c2a5f3",
+      "ms": 91632
+    },
+    {
+      "id": "c8f1088f-2584-479f-ad31-69f2e208b4ce",
+      "name": "LUT effects on image appearance",
+      "mc": 8,
+      "promptHash": "b219c82900bc7efc",
+      "chunks": [],
+      "anomalies": [
+        "ERROR — invalid JSON"
+      ],
+      "uncovered": [],
+      "error": "invalid JSON",
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"019e8993-5dda-77b1-83db-7c644d82fce\", \"end_message_uuid\": \"019e8993-5dda-77b1-83db-7c644d82fce\", \"label\": \"LUT effects on image appearance\"}, {\"start_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42e\", \"end_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f1\", \"label\": \"LUT effects on image appearance\"}, {\"start_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f1\", \"end_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"label\": \"LUT effects on image appearance\"}, {\"start_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"end_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"label\": \"LUT effects on image appearance\"}, {\"start_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"end_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"label\": \"LUT effects on image appearance\"}, {\"start_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"end_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"label\": \"LUT effects on image appearance\"}, {\"start_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"end_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"label\": \"LUT effects on image appearance\"}, {\"start_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"end_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"label\": \"LUT effects on image appearance\"}, {\"start_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"end_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"label\": \"LUT effects on image appearance\"}, {\"start_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"end_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"label\": \"LUT effects on image appearance\"}, {\"start_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"end_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"label\": \"LUT effects on image appearance\"}, {\"start_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"end_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"label\": \"LUT effects on image appearance\"}, {\"start_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"end_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"label\": \"LUT effects on image appearance\"}, {\"start_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"end_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"label\": \"LUT effects on image appearance\"}, {\"start_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"end_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"label\": \"LUT effects on image appearance\"}, {\"start_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"end_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"label\": \"LUT effects on image appearance\"}, {\"start_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"end_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"label\": \"LUT effects on image appearance\"}, {\"start_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"end_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"label\": \"LUT effects on image appearance\"}, {\"start_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"end_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"label\": \"LUT effects on image appearance\"}, {\"start_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"end_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"label\": \"LUT effects on image appearance\"}, {\"start_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"end_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"label\": \"LUT effects on image appearance\"}, {\"start_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"end_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"label\": \"LUT effects on image appearance\"}, {\"start_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"end_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"label\": \"LUT effects on image appearance\"}, {\"start_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"end_message_uuid\": \"019e8995-14cd-7cb7-9e56-86d8eb6a42f3\", \"lab",
+      "ms": 87446
+    },
+    {
+      "id": "67dc568a-9128-8013-946e-304354396075",
+      "name": "NinjaOne RMM Overview",
+      "mc": 10,
+      "promptHash": "c69bf834eb68b7c5",
+      "chunks": [
+        {
+          "start": null,
+          "end": null,
+          "label": "NinjaOne RMM Overview",
+          "startFlag": "unresolved",
+          "endFlag": "unresolved"
+        },
+        {
+          "start": null,
+          "end": null,
+          "label": "What is NinjaOne (RMM)",
+          "startFlag": "unresolved",
+          "endFlag": "unresolved"
+        }
+      ],
+      "anomalies": [
+        "HALLUCINATED ANCHOR — \"NinjaOne RMM Overview\": start anchor does not resolve to any message",
+        "HALLUCINATED ANCHOR — \"NinjaOne RMM Overview\": end anchor does not resolve to any message",
+        "HALLUCINATED ANCHOR — \"What is NinjaOne (RMM)\": start anchor does not resolve to any message",
+        "HALLUCINATED ANCHOR — \"What is NinjaOne (RMM)\": end anchor does not resolve to any message"
+      ],
+      "uncovered": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "error": null,
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"NinjaOne RMM Overview\"}, {\"start_message_uuid\": \"{\", \"end_message_uuid\": \"}\", \"label\": \"What is NinjaOne (RMM)\"}]}",
+      "ms": 2941
+    },
+    {
+      "id": "68265d39-6344-8013-a724-365431cbdb8e",
+      "name": "Telemedicine Opportunity Decision Analysis",
+      "mc": 26,
+      "promptHash": "49a4171f6c026cf2",
+      "chunks": [],
+      "anomalies": [
+        "ERROR — invalid JSON"
+      ],
+      "uncovered": [],
+      "error": "invalid JSON",
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\", \"label\": \"Telemedicine Opportunity Decision Analysis\"}]}",
+      "ms": 5208
+    },
+    {
+      "id": "f471869f-bd14-4d4f-a372-fa6e4283be7c",
+      "name": "Google Drive Folder Search",
+      "mc": 14,
+      "promptHash": "802d30345a5c89e6",
+      "chunks": [],
+      "anomalies": [
+        "ERROR — invalid JSON"
+      ],
+      "uncovered": [],
+      "error": "invalid JSON",
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"{\"\", \"end_message_uuid\": \"}\", \"label\": \"\"}]}",
+      "ms": 4358
+    },
+    {
+      "id": "676ce76d-1b14-8013-9fab-bdf9b5e00ccb",
+      "name": "S5IIX High Resolution Mode",
+      "mc": 18,
+      "promptHash": "8168c9d865a18463",
+      "chunks": [],
+      "anomalies": [
+        "ERROR — invalid JSON"
+      ],
+      "uncovered": [],
+      "error": "invalid JSON",
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"{\"id\": \"2d2d060c-4f21-4d3e-9bc6-84b093417668\", \"end_message_uuid\": \"2d2d060c-4f21-4d3e-9bc6-84b093417668\"}, \"label\": \"High Resolution Mode - Overview\"}, {\"start_message_uuid\": \"877afa46-d7d4-4c5e-b74c-73078fd70d65\", \"end_message_uuid\": \"877afa46-d7d4-4c5e-b74c-73078fd70d65\", \"label\": \"High Resolution Mode - Key Features\"}, {\"start_message_uuid\": \"1a5705ca-44a9-42a2-a206-cbb2c5ee66a1\", \"end_message_uuid\": \"1a5705ca-44a9-42a2-a206-cbb2c5ee66a1\", \"label\": \"High Resolution Mode - Use Cases\"}, {\"start_message_uuid\": \"1a5705ca-44a9-42a2-a206-cbb2c5ee66a1\", \"end_message_uuid\": \"1a5705ca-44a9-42a2-a206-cbb2c5ee66a1\", \"label\": \"High Resolution Mode - Use Cases\"}, {\"start_message_uuid\": \"dd18e571-c6e8-4236-ab7b-ede6302b22ec\", \"end_message_uuid\": \"dd18e571-c6e8-4236-ab7b-ede6302b22ec\", \"label\": \"High Resolution Mode - Use Cases\"}, {\"start_message_uuid\": \"866793eb-3fb1-4455-9f54-2164b4a61a91\", \"end_message_uuid\": \"866793eb-3fb1-4455-9f54-2164b4a61a91\", \"label\": \"High Resolution Mode - Use Cases\"}, {\"start_message_uuid\": \"61d69ac0-dc66-4229-b464-40913a074d76b\", \"end_message_uuid\": \"61d69ac0-dc66-4229-b464-40913a074d76b\", \"label\": \"High Resolution Mode - Use Cases\"}, {\"start_message_uuid\": \"847d74ed-01ed-4334-4188-8a94-cfb1700ef360\", \"end_message_uuid\": \"847d74ed-01ed-4334-4188-8a94-cfb1700ef360\", \"label\": \"High Resolution Mode - Use Cases\"}, {\"start_message_uuid\": \"866793eb-3fb1-4455-9f54-2164b4a61a91\", \"end_message_uuid\": \"866793eb-3fb1-4455-9f54-2164b4a61a91\", \"label\": \"High Resolution Mode - Use Cases\"}, {\"start_message_uuid\": \"ce3b38ec-b6e8-4414-9a13-49606494e5ccd\", \"end_message_uuid\": \"ce3b38ec-b6e8-4414-9a13-49606494e5ccd\", \"label\": \"High Resolution Mode - Use Cases\"}, {\"start_message_uuid\": \"8441e87c-a378-49be-b184-6ad46901bf4d\", \"end_message_uuid\": \"8441e87c-a378-49be-b184-6ad46901bf4d\", \"label\": \"High Resolution Mode - Use Cases\"}, {\"start_message_uuid\": \"d24380e7-455b-4158-9ead-ede6302b22ec\", \"end_message_uuid\": \"d24380e7-455b-4158-9ead-ede6302b22ec\", \"label\": \"High Resolution Mode - Use Cases\"}, {\"start_message_uuid\": \"afc101c0-0632-4188-8a94-cfb1700ef360\", \"end_message_uuid\": \"afc101c0-0632-4188-8a94-cfb1700ef360\", \"label\": \"High Resolution Mode - Use Cases\"}, {\"start_message_uuid\": \"61d69ac0-dc66-4229-b464-40913a074d76b\", \"end_message_uuid\": \"61d69ac0-dc66-4229-b464-40913a074d76b\", \"label\": \"High Resolution Mode - Use Cases\"}, {\"start_message_uuid\": \"9e425057-957c-4aae-9a00-256164c12a8d\", \"end_message_uuid\": \"9e425057-957c-4aae-9a00-256164c12a8d\", \"label\": \"High Resolution Mode - Use Cases\"}, {\"start_message_uuid\": \"fbaa40d0-0ea2-4676-9479-2dace4db80dd\", \"end_message_uuid\": \"fbaa40d0-0ea2-4676-9479-2dace4db80dd\", \"label\": \"High Resolution Mode - Use Cases\"}, {\"start_message_uuid\": \"8928e1d8-0ea2-4676-9a70-d87dd373827d\", \"end_message_uuid\": \"8928e1d8-0ea2-4676-9a70-d87dd373827d\", \"label\": \"High Resolution Mode - Use Cases\"}, {\"start_message_uuid\": \"1b5683e0-1f52-422a-96fb-49806494e5ccd\", \"end_message_uuid\": \"1b5683e0-1f52-422a-96fb-49806494e5ccd\", \"label\": \"High Resolution Mode - Use Cases\"}, {\"start_message_uuid\": \"1d7f97eb-9186-4978-9a70-d87dd373827d\", \"end_message_uuid\": \"1d7f97e0-9186-4978-9a70-d87dd373827d\", \"label\": \"High Resolution Mode - Use Cases\"}, {\"start_message_uuid\": \"a4f3f5b4-6e8-4a3f-4e6-8f2e6c2e2f4\", \"end_message_uuid\": \"a4f3f5b4-6e8-4a3f-4e6-8f2e6c2e2f4\", \"label\": \"High Resolution Mode - Use Cases\"}, {\"start_message_uuid\": \"1b5683e0-1f52-422a-96fb-49806494e5ccd\", \"end_message_uuid\": \"1b5683e0-1f52-422a-96fb-49806494e5ccd\", \"label\": \"High Resolution Mode - Use Cases\"}, {\"start_message_uuid\": \"1b5683e0-1f52-422a-96fb-49806494e5ccd\", \"end_message_uuid\": \"1b5683e0-1f52-422a-96fb-49806494e5ccd\", \"label\": \"High Resolution Mode - Use Cases\"}, {\"start_message_uuid\": \"1b5683e0-1f52-422a-96fb-49806494e5ccd\", \"end_message_uuid\": \"1b5683e0-1f52-422a-96fb-49806494e5ccd\", \"label\": \"High Resolution Mode - Use Cases\"}, {\"start_message_uuid\": \"1b5683e0-1f52-422a-96fb-49806494e5ccd\", \"end_mes",
+      "ms": 92857
+    },
+    {
+      "id": "019e4d54-f0cb-74e0-a4cc-36c524895d38",
+      "name": "Untitled",
+      "mc": 4,
+      "promptHash": "f4d158822b2f7dbd",
+      "chunks": [],
+      "anomalies": [
+        "ERROR — invalid JSON"
+      ],
+      "uncovered": [],
+      "error": "invalid JSON",
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"19e4d54-f0cb-74e0-a4cc-36c524895d38-msg-0\", \"end_message_uuid\": \"19e4d54-f0cb-74e0-a4cc-36c524895d38-msg-1\", \"label\": \"\"}, {\"start_message_uuid\": \"20b46a\", \"end_message_uuid\": \"20b46a\", \"label\": \"Presentations\"}, {\"start_message_uuid\": \"1e189d\", \"end_message_uuid\": \"1e189d\", \"label\": \"\"}, {\"start_message_uuid\": \"2e4d3d\", \"end_message_uuid\": \"2e4d3d\", \"label\": \"\"}, \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d\", \"0c3d3d",
+      "ms": 113842
+    },
+    {
+      "id": "9f7e3acb-4a5d-4b63-b47d-21fc956bd36d",
+      "name": "Camera Sensor vs. Display",
+      "mc": 8,
+      "promptHash": "2feac688589e1a86",
+      "chunks": [],
+      "anomalies": [
+        "ERROR — invalid JSON"
+      ],
+      "uncovered": [],
+      "error": "invalid JSON",
+      "rawResponse": "{\"chunks\": [{\"start_message_uuid\": \"9f7e3acb-4a5d-4b63-b47d-21fc956bd36d\", \"end_message_uuid\": \"9f7e3acb-4a5d-4b63-b47d-21fc956bd36d\", \"label\": \"Conversation Summary\"}, {\"start_message_uuid\": \"aaa2bd63-2402-4954-89e5-3772353ca644\", \"end_message_uuid\": \"aaa2bd63-2402-4954-89e5-3772353ca644\", \"label\": \"User Identifies Topic\"}, {\"start_message_uuid\": \"50c05cbf-c199-4978-8ab8-ded397c1721a\", \"end_message_uuid\": \"50c05cbf-c199-4978-8ab8-ded397c1721a\", \"label\": \"Question: Is a camera sensor similar to a display?\"}, {\"start_message_uuid\": \"aaa272ca-acdf-45d9-9ab0-cd8ee08e01fc\", \"end_message_uuid\": \"aaa272ca-acdf-45d9-9ab0-cd8ee08e01fc\", \"label\": \"Question: Explain Quad Bayer\"}, {\"start_message_uuid\": \"5dc40454-9186-4c4b-90bd-2ed9cf5fcf18\", \"end_message_uuid\": \"5dc40454-9186-4c4b-90bd-2ed9cf5fcf18\", \"label\": \"Question: Is it possible to take a 48 MP camera...\"}, {\"start_message_uuid\": \"aaa295b3-523b-4ba8-beee-d50146354e49\", \"end_message_uuid\": \"aaa295b3-523b-4ba8-beee-d50146354e49\", \"label\": \"Question: Is it possible to take a 48 MP camera which uses a sensor size of 1/1.3 Inches...\"}, {\"start_message_uuid\": \"2042ab1d-5070-4b77-b382-083044a71196\", \"end_message_uuid\": \"2042ab1d-5070-4b77-b382-083044a71196\", \"label\": \"Answer: Yes, it's possible to take a 48 MP camera which uses a sensor size of 1/1.3 Inches...\"}, {\"start_message_uuid\": \"5dc40454-9186-4c4b-90bd-2ed9cf5fcf18\", \"end_message_uuid\": \"5dc40454-9186-4c4b-90bd-2ed9cf5fcf18\", \"label\": \"Question: well, yeah, that is what I am curious about, for a given image, I can take a 48 MP Image, then I can take a 12 MP image of the same scene, then if I compare those two images, can't I use some of the information in the 48 MP image to inform my decisions in creating a 24 MP image\"},}, {\"start_message_uuid\": \"e8062489-121a-4b8a-afcb-0b67d1b39c62\", \"end_message_uuid\": \"e8062489-121a-4b8a-afcb-0b67d1b39c62\", \"label\": \"Question: can't I use some of the information in the 48 MP image to inform my decisions in creating a 24 MP image\"},},],",
+      "ms": 6445
+    }
+  ]
+}

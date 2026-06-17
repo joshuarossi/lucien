@@ -1,0 +1,331 @@
+{
+  "label": "gemma-e4b-base",
+  "goldTag": "db",
+  "judge": "claude-opus-4-8 (Claude Code)",
+  "judgedAt": "2026-06-16T00:00:00.000Z",
+  "convs": [
+    {
+      "id": "67e99628-77a4-8013-a2b8-fbdca8c68541",
+      "name": "How Anchors Work",
+      "mc": 6,
+      "boundary_score": 48,
+      "label_score": 78,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "over_split", "detail": "Production keeps the whole 0-5 anchor explanation as one chunk; candidate fragments it into 3 (0-1, 2-3, 4-5)."}
+      ],
+      "agreements": ["Full message range 0-5 is covered with no gaps or hallucinations.", "Labels accurately track the anchor sub-topics."],
+      "summary": "A single coherent topic that production treats as one chunk is split into three. Labels are specific and correct, but the granularity is roughly triple the production reference."
+    },
+    {
+      "id": "f5ecbed4-5361-40ab-9442-670a86831969",
+      "name": "Divorce Rights in Mexico",
+      "mc": 10,
+      "boundary_score": 60,
+      "label_score": 80,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "over_split", "detail": "Production has one divorce chunk (0-7); candidate fragments it into four (0-1, 2-3, 4-5, 6-7)."}
+      ],
+      "agreements": ["Telenovela topic boundary at message 8 matches production exactly.", "Final chunk 8-9 aligns with gold."],
+      "summary": "The candidate correctly isolates the telenovela tail at 8-9, matching the production split, but over-fragments the divorce-rights body into four chunks where production kept one. Labels are accurate."
+    },
+    {
+      "id": "a5be3d4e-fa6f-4d09-9715-70b745578026",
+      "name": "Fixing JavaScript ES6 Error",
+      "mc": 30,
+      "boundary_score": 70,
+      "label_score": 76,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "hallucinated_anchor", "detail": "Chunk 18-19 end anchor is a spliced/chimera UUID (flagged endFlag chimera_prefix); a fabricated anchor is a real defect."},
+        {"type": "over_split", "detail": "Candidate emits 15 chunks vs production's 11; production's 4-7, 8-11, 18-21, 22-25 blocks are each split into halves."}
+      ],
+      "agreements": ["Topic ordering and command-by-command coverage closely tracks the granular production gold.", "ETARGET (26-27) and ERESOLVE (28-29) chunks match production boundaries exactly."],
+      "summary": "Production is already fine-grained here and the candidate aligns well on several boundaries, but it splits four of production's two-message blocks and emits a hallucinated chimera anchor at chunk 18-19. Labels are descriptive though some misname npm as RPM."
+    },
+    {
+      "id": "eff06c22-ad20-45d7-b670-7054bd9d6cbb",
+      "name": "First Hold: Climbing Starting Point",
+      "mc": 8,
+      "boundary_score": 45,
+      "label_score": 70,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "over_split", "detail": "Production keeps the entire 0-7 first-hold/challenge discussion as one chunk; candidate fragments it into four (0-1, 2-3, 4-5, 6-7)."}
+      ],
+      "agreements": ["Full 0-7 range covered without gaps."],
+      "summary": "A single venue-booking topic that production treats as one chunk is quartered. The over-splitting is the dominant defect; labels are reasonable but the granularity is 4x the reference."
+    },
+    {
+      "id": "ed94728c-eb45-41e8-8993-da8322e2cc44",
+      "name": "Encoded String Verification",
+      "mc": 9,
+      "boundary_score": 50,
+      "label_score": 72,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "over_split", "detail": "Production keeps the base64-decoding session as one chunk (0-8); candidate splits into three (0-3, 4-5, 6-8)."}
+      ],
+      "agreements": ["Full 0-8 range covered.", "Labels stay on the base64 decoding topic."],
+      "summary": "One continuous base64-decoding topic is split three ways against production's single chunk. Coverage is complete and labels on-topic, but the fragmentation is the key disagreement."
+    },
+    {
+      "id": "16be1a9f-3c61-453a-a536-5736a74a8921",
+      "name": "Mud versus clay differences",
+      "mc": 48,
+      "boundary_score": 55,
+      "label_score": 74,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "over_split", "detail": "Candidate emits 23 chunks vs production's 13; nearly every production multi-message block (4-7, 8-13, 18-23, 24-27, 28-31, 38-45) is broken into two-message pieces."},
+        {"type": "missed_content", "detail": "Messages 42-43 left uncovered (gold covers the full 0-47 range)."}
+      ],
+      "agreements": ["Major topic transitions (clay->space chemistry at 14, diamond economics) are present.", "Labels are specific and accurate per pair."],
+      "summary": "Production already chunks this long conversation into 13 spans; the candidate nearly doubles that to 23 by halving multi-message blocks, and drops messages 42-43. Labels are strong but granularity and a coverage gap pull boundary down."
+    },
+    {
+      "id": "f5515608-8e7e-4b79-b9ed-afc34fa7a400",
+      "name": "Comparing Microphone Audio",
+      "mc": 4,
+      "boundary_score": 62,
+      "label_score": 80,
+      "verdict": "minor_disagreement",
+      "disagreements": [
+        {"type": "over_split", "detail": "Production keeps 0-3 as one chunk; candidate splits into 0-1 (methodology) and 2-3 (software list)."}
+      ],
+      "agreements": ["Full 0-3 coverage.", "Both labels are accurate and specific."],
+      "summary": "A short conversation that production treats as one chunk is split into a defensible methodology/software-list pair. Mild over-split against the production granularity but the split is coherent."
+    },
+    {
+      "id": "86397ce8-e28f-44ea-8cb4-bfce24e0d13d",
+      "name": "Avoid Banding in DaVinci.",
+      "mc": 14,
+      "boundary_score": 58,
+      "label_score": 80,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "over_split", "detail": "Production has 3 chunks (0-1, 2-7, 8-13); candidate emits 7, splitting the DaVinci block 2-7 into three and the nitroglycerin block 8-13 into three."}
+      ],
+      "agreements": ["DaVinci->nitroglycerin topic shift at message 8 matches production exactly.", "Opening banding chunk 0-1 matches production."],
+      "summary": "Candidate nails the two production topic boundaries (0-1 banding, then the shift to nitroglycerin at 8) but over-fragments both the DaVinci capabilities block and the chemistry block. Labels are accurate."
+    },
+    {
+      "id": "78da6fe3-60bc-482f-9346-49c600780d47",
+      "name": "Service Table Design for SIMS",
+      "mc": 4,
+      "boundary_score": 96,
+      "label_score": 88,
+      "verdict": "agree",
+      "disagreements": [],
+      "agreements": ["Both chunk boundaries (0-1, 2-3) match production exactly.", "Labels (service table design, SurrealQL inquiry) match production intent."],
+      "summary": "Exact boundary match with production: 0-1 schema design and 2-3 SurrealQL. Labels are specific and equivalent to the gold."
+    },
+    {
+      "id": "67a82605-6540-8013-a892-60288bbf7b50",
+      "name": "File Size Creation Date",
+      "mc": 20,
+      "boundary_score": 66,
+      "label_score": 82,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "over_split", "detail": "Production has 7 chunks; candidate emits 10, splitting production's 0-3 (Node fs), 8-11 (Arca-Swiss rig), and 12-15 (plate binding) blocks."}
+      ],
+      "agreements": ["All major topic transitions (RAW formats, Arca-Swiss, MP4/MOV, DaVinci waveform) are present and ordered.", "Labels are specific and accurate."],
+      "summary": "Coverage and topic ordering track production well, but several production multi-message blocks are halved, yielding 10 chunks vs 7. Labels are strong."
+    },
+    {
+      "id": "2427687a-75a4-4b05-8ee1-4602879db37c",
+      "name": "New chat",
+      "mc": 5,
+      "boundary_score": 100,
+      "label_score": 90,
+      "verdict": "agree",
+      "disagreements": [],
+      "agreements": ["Single chunk 0-4 matches production exactly.", "Label (Spanish translation for photographic film) matches gold intent."],
+      "summary": "Perfect single-chunk match with production over the full 0-4 range, with an accurate label."
+    },
+    {
+      "id": "18e1ea4c-106a-4212-8531-28342d0cc3e7",
+      "name": "Toyota's Kaizen Culture",
+      "mc": 4,
+      "boundary_score": 64,
+      "label_score": 82,
+      "verdict": "minor_disagreement",
+      "disagreements": [
+        {"type": "over_split", "detail": "Production keeps 0-3 as one chunk; candidate splits into 0-1 (Kaizen) and 2-3 (Lexus LFA)."}
+      ],
+      "agreements": ["Full 0-3 coverage.", "Both labels accurate and tied to the Toyota theme."],
+      "summary": "Production treats this as one Toyota/Lexus chunk; candidate splits into a defensible Kaizen vs LFA pair. Mild over-split relative to production granularity."
+    },
+    {
+      "id": "c3c8b072-143e-4b97-8d28-088f4d78cb8e",
+      "name": "if you look at the articles in articles, you might see that they have a lot of c",
+      "mc": 49,
+      "boundary_score": 50,
+      "label_score": 80,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "over_split", "detail": "Production keeps the whole citation-migration effort as one chunk (0-46); candidate fragments it into 12 chunks."},
+        {"type": "missed_content", "detail": "Trailing messages 47-48 (download Anthropic email attachment) uncovered; production captures this as a distinct second chunk."}
+      ],
+      "agreements": ["Labels accurately narrate the iterative citation-migration steps."],
+      "summary": "Production sees two topics here (the 0-46 citation migration and the 47-48 attachment download); the candidate over-fragments the migration into 12 chunks AND misses the attachment tail entirely, so it both over-splits the main topic and drops the one real secondary topic."
+    },
+    {
+      "id": "57ab528b-8f4d-42cd-b35c-70e53b57dfe6",
+      "name": "Comparing Mac computers for local AI performance",
+      "mc": 74,
+      "boundary_score": null,
+      "label_score": null,
+      "verdict": "no_reference",
+      "disagreements": [],
+      "agreements": [],
+      "summary": "No production reference exists; excluded from scoring."
+    },
+    {
+      "id": "67257e17-fc64-8013-a928-142fafd36c6b",
+      "name": "EDGE Network Rollout Timeline",
+      "mc": 14,
+      "boundary_score": 64,
+      "label_score": 82,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "over_split", "detail": "Production has 3 chunks (0-5 EDGE history, 6-9 iPhone/2003, 10-13 Wi-Fi); candidate emits 6, splitting each production block in two."}
+      ],
+      "agreements": ["All chunk boundaries nest cleanly inside production's three spans.", "Labels accurately track EDGE history, legacy-network support, and Wi-Fi timeline."],
+      "summary": "Candidate's six chunks subdivide each of production's three spans into halves; boundaries nest correctly and labels are specific, but the granularity is double the reference."
+    },
+    {
+      "id": "ddcc93cd-18e5-4bfd-b28d-6d4a43da3a78",
+      "name": "SR-71s never downed",
+      "mc": 20,
+      "boundary_score": 55,
+      "label_score": 78,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "over_split", "detail": "Production has 2 chunks (0-15 SR-71, 16-19 drifting); candidate splits the SR-71 body into five chunks."},
+        {"type": "extra_overlap", "detail": "Drifting chunks 16-19 and 18-19 overlap by 2 messages (flagged anomaly; policy allows <=1 boundary message)."}
+      ],
+      "agreements": ["SR-71 -> drifting topic shift around message 16 matches production.", "Labels are accurate per span."],
+      "summary": "Candidate finds the correct high-level SR-71/drifting split but over-fragments the SR-71 block into five pieces and introduces a 2-message overlap in the drifting tail. Labels are good."
+    },
+    {
+      "id": "7b7e0d0d-d8e9-455c-8383-cf150b365ce6",
+      "name": "Policy Document Database Import",
+      "mc": 12,
+      "boundary_score": 78,
+      "label_score": 80,
+      "verdict": "minor_disagreement",
+      "disagreements": [
+        {"type": "over_split", "detail": "Production has 5 chunks; candidate emits 6, splitting production's 0-3 DISCOVER step into 0-1 and 2-3."}
+      ],
+      "agreements": ["Schema design, apply, and parse boundaries align with production's stepwise chunks.", "Labels track the DISCOVER/SCHEMA/APPLY/PARSE workflow accurately."],
+      "summary": "Boundaries align closely with production's 5-chunk stepwise structure; the only divergence is splitting the discovery step in two. Labels are descriptive and accurate."
+    },
+    {
+      "id": "670e2fd5-08fc-8013-86f1-eb0ad8d54d93",
+      "name": "WebSocket Message Queueing Fix",
+      "mc": 14,
+      "boundary_score": 42,
+      "label_score": 80,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "over_split", "detail": "Production has 5 chunks (0-1, 2-3, 4-7, 8-10, 11-13); candidate emits 12 single-message chunks, atomizing nearly every message."},
+        {"type": "missed_content", "detail": "Trailing messages 12-13 (Deno rewrite tail) uncovered."}
+      ],
+      "agreements": ["Labels accurately describe each WebSocket/Proxy/event step."],
+      "summary": "The candidate atomizes this into 12 one-message chunks against production's 5 multi-message spans and drops the 12-13 tail. Severe over-fragmentation plus a coverage gap; labels are accurate but the structure is far from the reference."
+    },
+    {
+      "id": "c8f1088f-2584-479f-ad31-69f2e208b4ce",
+      "name": "LUT effects on image appearance",
+      "mc": 8,
+      "boundary_score": 76,
+      "label_score": 80,
+      "verdict": "minor_disagreement",
+      "disagreements": [
+        {"type": "over_split", "detail": "Production has 3 chunks (0-1, 2-5, 6-7); candidate splits production's 2-5 SOOC block into 2-3 and 4-5."}
+      ],
+      "agreements": ["Opening LUT-as-film-stock chunk (0-1) and closing curated-LUT chunk (6-7) match production exactly.", "Labels are specific and on-theme."],
+      "summary": "Two of three production boundaries match exactly; the only divergence is halving the SOOC philosophy block. Mild over-split with accurate labels."
+    },
+    {
+      "id": "67dc568a-9128-8013-946e-304354396075",
+      "name": "NinjaOne RMM Overview",
+      "mc": 10,
+      "boundary_score": 62,
+      "label_score": 80,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "over_split", "detail": "Production has 3 chunks (0-1 overview, 2-7 Gatekeeper, 8-9 TeamViewer decline); candidate splits the 2-7 Gatekeeper block into three chunks."}
+      ],
+      "agreements": ["Opening overview chunk (0-1) matches production.", "TeamViewer decline correctly isolated as the final chunk (8-9)."],
+      "summary": "Candidate matches production's opening and closing boundaries but over-fragments the macOS Gatekeeper block (2-7) into three pieces. Labels are accurate."
+    },
+    {
+      "id": "68265d39-6344-8013-a724-365431cbdb8e",
+      "name": "Telemedicine Opportunity Decision Analysis",
+      "mc": 26,
+      "boundary_score": 62,
+      "label_score": 82,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "over_split", "detail": "Production has 7 chunks; candidate emits 14, roughly doubling granularity by splitting each of production's 4-message blocks into two-message pieces."}
+      ],
+      "agreements": ["Topic flow (decision framing, valuation, SWOT, risk buckets, scoring, Go/No-Go) matches production ordering.", "Labels are specific and accurate."],
+      "summary": "The candidate preserves production's topic sequence and label quality but doubles the chunk count by subdividing every production block. Classic over-split at roughly 2x the reference granularity."
+    },
+    {
+      "id": "f471869f-bd14-4d4f-a372-fa6e4283be7c",
+      "name": "Google Drive Folder Search",
+      "mc": 14,
+      "boundary_score": 98,
+      "label_score": 86,
+      "verdict": "agree",
+      "disagreements": [],
+      "agreements": ["All 7 chunk boundaries match production exactly (0-1, 2-3, 4-5, 6-7, 8-9, 10-11, 12-13).", "Labels closely mirror production's topic intent."],
+      "summary": "Exact 7-chunk boundary match with production across the entire conversation. Labels are specific and aligned with the gold."
+    },
+    {
+      "id": "676ce76d-1b14-8013-9fab-bdf9b5e00ccb",
+      "name": "S5IIX High Resolution Mode",
+      "mc": 18,
+      "boundary_score": 76,
+      "label_score": 84,
+      "verdict": "minor_disagreement",
+      "disagreements": [
+        {"type": "over_split", "detail": "Production has 7 chunks; candidate emits 9, splitting production's 0-3 (Hi-Res/astro) and 4-7 (astro settings/time-lapse) blocks."}
+      ],
+      "agreements": ["Later boundaries (focus, timer vs tether, setup guide) align with production.", "Labels are specific and accurate to the astrophotography workflow."],
+      "summary": "Candidate's nine chunks largely nest within production's seven, splitting the two opening blocks. Mild over-split with strong, specific labels."
+    },
+    {
+      "id": "019e4d54-f0cb-74e0-a4cc-36c524895d38",
+      "name": "Untitled",
+      "mc": 4,
+      "boundary_score": 38,
+      "label_score": 70,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "over_split", "detail": "Production keeps 0-3 as one chunk; candidate emits four chunks (0-1, 2-2, 2-3, 3-3)."},
+        {"type": "extra_overlap", "detail": "Two chunks both start at message 2 (2-2 and 2-3) and two both touch message 3 (2-3 and 3-3), producing overlapping/duplicate boundaries."}
+      ],
+      "agreements": ["Full 0-3 range covered.", "Labels stay on the Archie deck topic."],
+      "summary": "A 4-message conversation that production treats as one chunk is split into four with overlapping boundaries (repeated start at 2, repeated 3). Both over-split and overlap defects against a single-chunk reference."
+    },
+    {
+      "id": "9f7e3acb-4a5d-4b63-b47d-21fc956bd36d",
+      "name": "Camera Sensor vs. Display",
+      "mc": 8,
+      "boundary_score": 76,
+      "label_score": 84,
+      "verdict": "minor_disagreement",
+      "disagreements": [
+        {"type": "over_split", "detail": "Production has 3 chunks (0-1, 2-5, 6-7); candidate splits production's 2-5 Quad Bayer/binning block into 2-3 and 4-5."}
+      ],
+      "agreements": ["Opening sensor-vs-display chunk (0-1) and closing super-resolution chunk (6-7) match production exactly.", "Labels are specific and accurate."],
+      "summary": "Two of three production boundaries match exactly; the only divergence is halving the Quad Bayer block. Mild over-split with accurate, specific labels."
+    }
+  ]
+}

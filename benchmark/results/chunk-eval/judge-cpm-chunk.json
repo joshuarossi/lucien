@@ -1,0 +1,339 @@
+{
+  "label": "cpm-chunk",
+  "judge": "claude-opus-4-8 (Claude Code)",
+  "judgedAt": "2026-06-17T00:17:03Z",
+  "convs": [
+    {
+      "id": "67e99628-77a4-8013-a2b8-fbdca8c68541",
+      "name": "How Anchors Work",
+      "mc": 6,
+      "boundary_score": 35,
+      "label_score": 70,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "missed_content", "detail": "Only covers messages 0-1; messages 2-5 (the bulk of the single-topic conversation gold spans as 0-5) are left uncovered (TAIL GAP)."}
+      ],
+      "agreements": ["Correct topic identification (vessel anchor mechanics)", "Single chunk matches gold's single-topic verdict"],
+      "summary": "Gold treats the whole conversation as one anchor-mechanics topic (0-5); the candidate identifies the same topic but truncates its chunk at message 1, dropping four substantive messages. Label is accurate but coverage is badly short."
+    },
+    {
+      "id": "f5ecbed4-5361-40ab-9442-670a86831969",
+      "name": "Divorce Rights in Mexico",
+      "mc": 10,
+      "boundary_score": 45,
+      "label_score": 55,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "under_split", "detail": "Emits one chunk 0-9 where gold finds three distinct topics: divorce consent law (0-3), history of divorce rights (4-7), and the telenovela production dates (8-9)."}
+      ],
+      "agreements": ["Full coverage 0-9", "Label acknowledges both the divorce and telenovela subjects"],
+      "summary": "Coverage is complete and well-formed, but the candidate collapses three clearly separable topics into a single span. The compound label gestures at the split it failed to make."
+    },
+    {
+      "id": "a5be3d4e-fa6f-4d09-9715-70b745578026",
+      "name": "Fixing JavaScript ES6 Error",
+      "mc": 30,
+      "boundary_score": 8,
+      "label_score": 30,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "under_split", "detail": "One chunk 0-23 where gold finds twelve distinct npm/git troubleshooting topics."},
+        {"type": "hallucinated_anchor", "detail": "End anchor is a spliced/chimera UUID (chimera_prefix), not a real message uuid."},
+        {"type": "missed_content", "detail": "Messages 24-29 uncovered (TAIL GAP)."}
+      ],
+      "agreements": ["Opening topic (ES6 transpilation error) correctly identified"],
+      "summary": "Severe under-segmentation: a twelve-topic conversation reduced to one span that also fabricates its end anchor and drops the final six messages. Among the worst cases."
+    },
+    {
+      "id": "eff06c22-ad20-45d7-b670-7054bd9d6cbb",
+      "name": "First Hold: Climbing Starting Point",
+      "mc": 8,
+      "boundary_score": 60,
+      "label_score": 70,
+      "verdict": "minor_disagreement",
+      "disagreements": [
+        {"type": "under_split", "detail": "One chunk 0-7 where gold splits into first-hold definition (0-3) and the challenge mechanism (4-7)."}
+      ],
+      "agreements": ["Full coverage", "Label captures both the definition and challenge aspects"],
+      "summary": "Complete coverage with a reasonable compound label, but merges gold's two topics into one. A mild under-split on a short conversation."
+    },
+    {
+      "id": "ed94728c-eb45-41e8-8993-da8322e2cc44",
+      "name": "Encoded String Verification",
+      "mc": 9,
+      "boundary_score": 60,
+      "label_score": 72,
+      "verdict": "minor_disagreement",
+      "disagreements": [
+        {"type": "under_split", "detail": "One chunk 0-8 where gold separates base64 decoding (0-5) from ASCII interpretation (6-8)."}
+      ],
+      "agreements": ["Full coverage", "Label names both the decode-verification and ASCII-interpretation phases"],
+      "summary": "Closely related two-phase task collapsed into one span; coverage is complete and the compound label is accurate. A defensible but coarser-than-gold call."
+    },
+    {
+      "id": "16be1a9f-3c61-453a-a536-5736a74a8921",
+      "name": "Mud versus clay differences",
+      "mc": 48,
+      "boundary_score": 0,
+      "label_score": 5,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "hallucinated_anchor", "detail": "End anchor does not resolve to any message (unresolved); the chunk yields no valid span and all 48 messages (gold finds 24 topics) are uncovered."}
+      ],
+      "agreements": [],
+      "summary": "Effectively no valid segmentation: the lone chunk has an unresolved hallucinated end anchor, leaving the entire 24-topic conversation uncovered. A functional failure."
+    },
+    {
+      "id": "f5515608-8e7e-4b79-b9ed-afc34fa7a400",
+      "name": "Comparing Microphone Audio",
+      "mc": 4,
+      "boundary_score": 60,
+      "label_score": 72,
+      "verdict": "minor_disagreement",
+      "disagreements": [
+        {"type": "under_split", "detail": "One chunk 0-3 where gold separates comparison methodology (0-1) from audio analysis software options (2-3)."}
+      ],
+      "agreements": ["Full coverage", "Label names both methodology and analysis software"],
+      "summary": "Two adjacent topics merged into one fully-covered span with an accurate compound label. Minor under-split on a 4-message conversation."
+    },
+    {
+      "id": "86397ce8-e28f-44ea-8cb4-bfce24e0d13d",
+      "name": "Avoid Banding in DaVinci.",
+      "mc": 14,
+      "boundary_score": 25,
+      "label_score": 45,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "under_split", "detail": "One chunk 0-5 where gold finds six topics spanning Resolve banding/editing and a separate nitroglycerin detonation thread."},
+        {"type": "missed_content", "detail": "Messages 6-13 (the entire nitroglycerin/detonation discussion) uncovered (TAIL GAP)."}
+      ],
+      "agreements": ["Opening Resolve topic covered", "Label notices the topic crosses into nitroglycerin"],
+      "summary": "Covers only the first half and merges its topics; the entire detonation-temperature thread (6-13) is dropped. The label hints at the shift it failed to segment or cover."
+    },
+    {
+      "id": "78da6fe3-60bc-482f-9346-49c600780d47",
+      "name": "Service Table Design for SIMS",
+      "mc": 4,
+      "boundary_score": 60,
+      "label_score": 65,
+      "verdict": "minor_disagreement",
+      "disagreements": [
+        {"type": "under_split", "detail": "One chunk 0-3 where gold splits the table design (0-1) from the SurrealQL explanation request (2-3)."},
+        {"type": "vague_label", "detail": "Says 'inventory graph table' where gold reads it as a service graph; minor topical drift."}
+      ],
+      "agreements": ["Full coverage", "Captures both the table-design and SurrealQL aspects"],
+      "summary": "Complete coverage with a compound label, but merges gold's two topics and slightly mislabels the domain as inventory rather than service. Minor."
+    },
+    {
+      "id": "67a82605-6540-8013-a892-60288bbf7b50",
+      "name": "File Size Creation Date",
+      "mc": 20,
+      "boundary_score": 12,
+      "label_score": 40,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "missed_content", "detail": "Only covers 0-1; messages 2-19 uncovered (TAIL GAP), dropping seven of gold's eight topics (DNG, RW2, Arca-Swiss, MP4/MOV, Resolve waveform)."}
+      ],
+      "agreements": ["Opening Node.js file-metadata topic correctly identified"],
+      "summary": "Catches only the first topic and abandons the remaining 18 messages spanning seven distinct subjects. Severe under-coverage."
+    },
+    {
+      "id": "2427687a-75a4-4b05-8ee1-4602879db37c",
+      "name": "New chat",
+      "mc": 5,
+      "boundary_score": 50,
+      "label_score": 70,
+      "verdict": "minor_disagreement",
+      "disagreements": [
+        {"type": "missed_content", "detail": "Covers 0-2 but gold spans the whole single topic 0-4; messages 3-4 uncovered (TAIL GAP)."}
+      ],
+      "agreements": ["Correct single-topic identification (Spanish translation of 'film')", "Matches gold's single-chunk structure"],
+      "summary": "Gold treats this as one translation topic across 0-4; the candidate picks the right topic and single-chunk structure but truncates at message 2, dropping the tail."
+    },
+    {
+      "id": "18e1ea4c-106a-4212-8531-28342d0cc3e7",
+      "name": "Toyota's Kaizen Culture",
+      "mc": 4,
+      "boundary_score": 60,
+      "label_score": 70,
+      "verdict": "minor_disagreement",
+      "disagreements": [
+        {"type": "under_split", "detail": "One chunk 0-3 where gold separates the kaizen-culture identification (0-1) from the Lexus LFA influence (2-3)."}
+      ],
+      "agreements": ["Full coverage", "Label captures both kaizen culture and the LFA connection"],
+      "summary": "Two related Toyota topics merged into one fully-covered span with an accurate compound label. Minor under-split."
+    },
+    {
+      "id": "c3c8b072-143e-4b97-8d28-088f4d78cb8e",
+      "name": "if you look at the articles in articles, you might see that they have a lot of c",
+      "mc": 49,
+      "boundary_score": 10,
+      "label_score": 40,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "under_split", "detail": "One chunk 0-6 where gold finds seven topics across the citation-migration thread."},
+        {"type": "missed_content", "detail": "Messages 7-48 uncovered (TAIL GAP), dropping nearly the entire conversation (Obsidian rendering, footnotes, block references, final migration, email access)."}
+      ],
+      "agreements": ["Opening citation-conversion topic identified"],
+      "summary": "Covers only the first seven of 49 messages and merges those into one span; 42 messages of substantive content are dropped. Severe under-coverage."
+    },
+    {
+      "id": "57ab528b-8f4d-42cd-b35c-70e53b57dfe6",
+      "name": "Comparing Mac computers for local AI performance",
+      "mc": 74,
+      "boundary_score": 0,
+      "label_score": 5,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "hallucinated_anchor", "detail": "End anchor does not resolve to any message (unresolved); no valid span produced and all 74 messages (gold finds 21 topics) uncovered."}
+      ],
+      "agreements": [],
+      "summary": "Effectively no valid segmentation: the single chunk's end anchor is hallucinated and unresolved, leaving the entire 21-topic conversation uncovered. A functional failure, also the slowest run (101s)."
+    },
+    {
+      "id": "67257e17-fc64-8013-a928-142fafd36c6b",
+      "name": "EDGE Network Rollout Timeline",
+      "mc": 14,
+      "boundary_score": 45,
+      "label_score": 60,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "under_split", "detail": "One chunk 0-13 where gold finds three topics: EDGE rollout (0-5), modern iPhone vs 2003 networks (6-9), and Wi-Fi popularization (10-13)."}
+      ],
+      "agreements": ["Full coverage 0-13", "Label spans the rollout and iPhone/Wi-Fi range"],
+      "summary": "Complete coverage but the three distinct topics are collapsed into one span. The label notes both endpoints without segmenting the middle topic."
+    },
+    {
+      "id": "ddcc93cd-18e5-4bfd-b28d-6d4a43da3a78",
+      "name": "SR-71s never downed",
+      "mc": 20,
+      "boundary_score": 35,
+      "label_score": 55,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "under_split", "detail": "One chunk 0-19 where gold finds four topics including a clear shift from SR-71 subjects to drifting-vs-grip driving (16-19)."},
+        {"type": "hallucinated_anchor", "detail": "Start anchor is a spliced/chimera UUID (chimera_prefix), not a real message uuid."}
+      ],
+      "agreements": ["Full message-index coverage 0-19", "Label enumerates several real subtopics (crashes, range, pilots, drifting)"],
+      "summary": "Spans the whole conversation but merges four gold topics, including an off-subject driving thread, and fabricates its start anchor. The list-style label acknowledges the very topic diversity it failed to split."
+    },
+    {
+      "id": "7b7e0d0d-d8e9-455c-8383-cf150b365ce6",
+      "name": "Policy Document Database Import",
+      "mc": 12,
+      "boundary_score": 45,
+      "label_score": 58,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "under_split", "detail": "One chunk 0-11 where gold finds six steps: discovery attempt, Drive recheck, filesystem discovery, schema design, table creation, parsing kickoff."}
+      ],
+      "agreements": ["Full coverage", "Label captures the overarching import-workflow theme"],
+      "summary": "Complete coverage but the six-step workflow gold segments is flattened into one span. The single label is a fair umbrella but loses all the step structure."
+    },
+    {
+      "id": "670e2fd5-08fc-8013-86f1-eb0ad8d54d93",
+      "name": "WebSocket Message Queueing Fix",
+      "mc": 14,
+      "boundary_score": 12,
+      "label_score": 42,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "missed_content", "detail": "Only covers 0-1; messages 2-13 uncovered (TAIL GAP), dropping six of gold's topics (Proxy, event handlers, subscriptions, reconnect, Deno rewrite)."}
+      ],
+      "agreements": ["Opening queueing-fix topic identified", "Label notes the Proxy aspect that appears later"],
+      "summary": "Catches only the first topic and abandons the remaining 12 messages across six subjects. Severe under-coverage despite a label that gestures beyond its span."
+    },
+    {
+      "id": "c8f1088f-2584-479f-ad31-69f2e208b4ce",
+      "name": "LUT effects on image appearance",
+      "mc": 8,
+      "boundary_score": 50,
+      "label_score": 60,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "under_split", "detail": "One chunk 0-7 where gold finds four topics: LUT-as-film-stock, SOOC philosophy, LUT as constitutive variable, and Lumix LiveLUT system."}
+      ],
+      "agreements": ["Full coverage 0-7", "Label captures the LUT-on-color and film-roll-analogy themes"],
+      "summary": "Complete coverage but four distinct conceptual topics are merged into one span. The compound label touches two of the four threads."
+    },
+    {
+      "id": "67dc568a-9128-8013-946e-304354396075",
+      "name": "NinjaOne RMM Overview",
+      "mc": 10,
+      "boundary_score": 45,
+      "label_score": 58,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "under_split", "detail": "One chunk 0-9 where gold finds four topics: RMM background, Gatekeeper blocking, unsigned-installer diagnosis, and the TeamViewer avoidance decision."}
+      ],
+      "agreements": ["Full coverage", "Label captures both the platform overview and the notarization/signing angle"],
+      "summary": "Complete coverage but four topics collapsed into one span. The compound label spans the RMM and notarization ends while losing the middle structure."
+    },
+    {
+      "id": "68265d39-6344-8013-a724-365431cbdb8e",
+      "name": "Telemedicine Opportunity Decision Analysis",
+      "mc": 26,
+      "boundary_score": 8,
+      "label_score": 40,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "missed_content", "detail": "Only covers 0-1; messages 2-25 uncovered (TAIL GAP), dropping seven of gold's eight topics (pricing, SWOT, launch-failure risk, time conflict, risk taxonomy, scoring, decision matrix)."}
+      ],
+      "agreements": ["Opening decision-framework topic identified"],
+      "summary": "Catches only the opening framing and abandons 24 of 26 messages spanning a detailed decision analysis. Severe under-coverage."
+    },
+    {
+      "id": "f471869f-bd14-4d4f-a372-fa6e4283be7c",
+      "name": "Google Drive Folder Search",
+      "mc": 14,
+      "boundary_score": 45,
+      "label_score": 55,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "under_split", "detail": "One chunk 0-13 where gold finds seven topics from folder discovery through sales-objection analysis to a WhiteBit Jira ticket search."}
+      ],
+      "agreements": ["Full coverage 0-13", "Label spans the Drive-folder-search and Jira-ticket endpoints"],
+      "summary": "Complete coverage but seven distinct investigative topics are flattened into one span. The compound label captures the first and last subjects only."
+    },
+    {
+      "id": "676ce76d-1b14-8013-9fab-bdf9b5e00ccb",
+      "name": "S5IIX High Resolution Mode",
+      "mc": 18,
+      "boundary_score": 10,
+      "label_score": 42,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "missed_content", "detail": "Only covers 0-1; messages 2-17 uncovered (TAIL GAP), dropping eight of gold's nine topics (astro features, time-lapse, long exposure, infinity focus, remote control, setup checklist)."}
+      ],
+      "agreements": ["Opening high-res-mode topic identified", "Label foreshadows the astrophotography thread"],
+      "summary": "Catches only the first topic and abandons 16 of 18 messages across eight subjects. Severe under-coverage."
+    },
+    {
+      "id": "019e4d54-f0cb-74e0-a4cc-36c524895d38",
+      "name": "Untitled",
+      "mc": 4,
+      "boundary_score": 60,
+      "label_score": 55,
+      "verdict": "minor_disagreement",
+      "disagreements": [
+        {"type": "under_split", "detail": "One chunk 0-3 where gold finds five fine-grained topics (mostly stacked on message 2): PDF approval, thesis/audience framing, evidence sources, PowerPoint generation, revised approval."},
+        {"type": "vague_label", "detail": "Generic 'Codex agent history and tool call transcript' label misses the actual deck/Archie subject matter the gold labels capture."}
+      ],
+      "agreements": ["Full coverage 0-3", "Single-chunk granularity is defensible since gold's splits are unusually fine and heavily overlapping on one message"],
+      "summary": "Coverage is complete and the gold's hyper-fine five-way split on a 4-message conversation is itself questionable, so single-chunk granularity is partly excusable. However the label is generic and misses the Archie/deck subject the conversation is actually about."
+    },
+    {
+      "id": "9f7e3acb-4a5d-4b63-b47d-21fc956bd36d",
+      "name": "Camera Sensor vs. Display",
+      "mc": 8,
+      "boundary_score": 50,
+      "label_score": 65,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "under_split", "detail": "One chunk 0-7 where gold finds four topics: sensor-vs-display, Quad Bayer filter, 48MP-to-24MP creation, and 48MP detail for 24MP reconstruction."}
+      ],
+      "agreements": ["Full coverage 0-7", "Label enumerates real subtopics (sensor vs display, Quad Bayer, 48MP to 24MP super-resolution)"],
+      "summary": "Complete coverage and the list-style label names three of the four gold topics, but it merges them into a single span rather than segmenting. A coherent but under-split result."
+    }
+  ]
+}

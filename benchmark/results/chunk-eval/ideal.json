@@ -1,0 +1,1419 @@
+{
+  "benchmark": "gpt-5.5",
+  "provider": "openai-codex",
+  "generatedAt": "2026-06-16T23:53:07.715Z",
+  "convs": [
+    {
+      "id": "67e99628-77a4-8013-a2b8-fbdca8c68541",
+      "name": "How Anchors Work",
+      "mc": 6,
+      "promptHash": "0baee21860aad7ed",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 5,
+          "label": "Seagoing vessel anchor holding mechanics",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"0bd823f7-55e6-457b-a0cd-e9bb6ef493f6\",\"end_message_uuid\":\"cf28c0f1-4714-4c17-b7e7-60a86357f31b\",\"label\":\"Seagoing vessel anchor holding mechanics\"}]}\n",
+      "ms": 8003
+    },
+    {
+      "id": "f5ecbed4-5361-40ab-9442-670a86831969",
+      "name": "Divorce Rights in Mexico",
+      "mc": 10,
+      "promptHash": "bac670081dfffbc0",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 3,
+          "label": "Mexican divorce consent law explanation",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 7,
+          "label": "History of divorce rights in Mexico",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 9,
+          "label": "Lo Que La Vida Me Robó production dates",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"aaa2391d-aef6-4872-ab00-b487bdec8980\",\"end_message_uuid\":\"7b6637ca-6c6d-4bf3-a557-4e4744b4f588\",\"label\":\"Mexican divorce consent law explanation\"},{\"start_message_uuid\":\"aaa24e3b-6298-421a-88f9-c31c35c74711\",\"end_message_uuid\":\"bc3ff974-ab7c-4702-89aa-e6ba8c26b616\",\"label\":\"History of divorce rights in Mexico\"},{\"start_message_uuid\":\"aaa28a32-8f06-406d-a8a6-5ad0f84547f4\",\"end_message_uuid\":\"1afd71f0-15f0-4212-a404-109e221315fa\",\"label\":\"Lo Que La Vida Me Robó production dates\"}]}\n",
+      "ms": 12290
+    },
+    {
+      "id": "a5be3d4e-fa6f-4d09-9715-70b745578026",
+      "name": "Fixing JavaScript ES6 Error",
+      "mc": 30,
+      "promptHash": "e1fd709838ab91c8",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 3,
+          "label": "Create React App ES6 transpilation error",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 7,
+          "label": "Searching file content changes with git",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 11,
+          "label": "Searching npm dependency tree",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 12,
+          "end": 13,
+          "label": "Finding specific Git branches",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 14,
+          "end": 15,
+          "label": "Linking local npm libraries",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 16,
+          "end": 17,
+          "label": "Checking npm package versions remotely",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 18,
+          "end": 19,
+          "label": "RPM verbose mode option",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 20,
+          "end": 21,
+          "label": "Npm verbose logging configuration",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 22,
+          "end": 23,
+          "label": "RPM cache clearing",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 24,
+          "end": 25,
+          "label": "Npm cache clearing",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 26,
+          "end": 27,
+          "label": "Troubleshooting npm ETARGET version errors",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 28,
+          "end": 29,
+          "label": "Resolving npm peer dependency conflicts",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"aaa22a86-5653-4005-826d-a992aeeef517\",\"end_message_uuid\":\"c960d7ca-1a3a-49d9-b2e3-b3d595848b26\",\"label\":\"Create React App ES6 transpilation error\"},{\"start_message_uuid\":\"aaa236b2-0f33-46bc-8e6a-c19d2d94a469\",\"end_message_uuid\":\"96539612-811a-4880-abe7-30f2c4a44545\",\"label\":\"Searching file content changes with git\"},{\"start_message_uuid\":\"aaa27823-4cd6-4ade-9be3-1aac64257227\",\"end_message_uuid\":\"00799dc9-b1f8-4873-9018-00b5ec35d3eb\",\"label\":\"Searching npm dependency tree\"},{\"start_message_uuid\":\"aaa27b68-f449-4123-9fa4-d6935e0fe506\",\"end_message_uuid\":\"d293a9e0-395d-40e1-9f70-ad3d763a8243\",\"label\":\"Finding specific Git branches\"},{\"start_message_uuid\":\"aaa26487-d86f-4813-8529-b814408f320a\",\"end_message_uuid\":\"fec1b501-b574-4c01-bf59-65df80651a0b\",\"label\":\"Linking local npm libraries\"},{\"start_message_uuid\":\"aaa2e8b6-91dc-4307-b2c3-6f1911813626\",\"end_message_uuid\":\"14d9ca02-e87c-4d83-9a09-4fcdef7654c9\",\"label\":\"Checking npm package versions remotely\"},{\"start_message_uuid\":\"aaa27602-17a9-4a5e-8e3a-23eb3c4d011c\",\"end_message_uuid\":\"a9fa4e0d-faaa-4bfb-ad00-b115ec74f4e8\",\"label\":\"RPM verbose mode option\"},{\"start_message_uuid\":\"aaa2cefd-1e0b-4d50-bdde-d28d4d5f2023\",\"end_message_uuid\":\"0e0154f5-7cc8-4d2c-bebd-4d6bc0a8eb9c\",\"label\":\"Npm verbose logging configuration\"},{\"start_message_uuid\":\"aaa2d15b-0942-47e7-b6e8-f3264cb6be04\",\"end_message_uuid\":\"7fc20eee-352e-4530-8ada-8f151ad3c2e9\",\"label\":\"RPM cache clearing\"},{\"start_message_uuid\":\"aaa29f60-7df4-417a-908a-e1f1c6d3552e\",\"end_message_uuid\":\"2589dd7e-1a1b-472f-ab1b-a1b551af9c82\",\"label\":\"Npm cache clearing\"},{\"start_message_uuid\":\"aaa22954-e52c-4c5e-b3cb-ab11df1cd478\",\"end_message_uuid\":\"ffba6455-2546-4e22-9926-a9055eb3048c\",\"label\":\"Troubleshooting npm ETARGET version errors\"},{\"start_message_uuid\":\"aaa2ac7a-0902-4eeb-af01-8c698a33a763\",\"end_message_uuid\":\"fa0f5e3a-86ab-4ac2-8d83-9e9ac6906121\",\"label\":\"Resolving npm peer dependency conflicts\"}]}\n",
+      "ms": 29213
+    },
+    {
+      "id": "eff06c22-ad20-45d7-b670-7054bd9d6cbb",
+      "name": "First Hold: Climbing Starting Point",
+      "mc": 8,
+      "promptHash": "fd3304fc9b7fd858",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 3,
+          "label": "First hold booking definition clarification",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 7,
+          "label": "Challenge mechanism for booking holds",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"aaa2c97a-4ada-4a1e-ae26-ee2e9840cd27\",\"end_message_uuid\":\"6d777936-3899-4a38-99e5-cc1d5f971203\",\"label\":\"First hold booking definition clarification\"},{\"start_message_uuid\":\"aaa2d7cf-80ea-4d2c-bf4a-657a32913988\",\"end_message_uuid\":\"731e8281-9b39-405f-ac6c-22d6122fc0cd\",\"label\":\"Challenge mechanism for booking holds\"}]}\n",
+      "ms": 12391
+    },
+    {
+      "id": "ed94728c-eb45-41e8-8993-da8322e2cc44",
+      "name": "Encoded String Verification",
+      "mc": 9,
+      "promptHash": "b0b2d52678025f07",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 5,
+          "label": "Base64 decoding verification for encoded string",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 6,
+          "end": 8,
+          "label": "ASCII interpretation of decoded bytes",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"aaa22775-d407-4787-9345-bee16d480d1e\",\"end_message_uuid\":\"f33f43e9-2946-4859-bd80-490c479803fa\",\"label\":\"Base64 decoding verification for encoded string\"},{\"start_message_uuid\":\"aaa25f75-1a58-4f98-980b-38a0a0301f0a\",\"end_message_uuid\":\"8d443571-c7ae-4c67-bfd6-7679ae7a3c83\",\"label\":\"ASCII interpretation of decoded bytes\"}]}\n",
+      "ms": 10238
+    },
+    {
+      "id": "16be1a9f-3c61-453a-a536-5736a74a8921",
+      "name": "Mud versus clay differences",
+      "mc": 48,
+      "promptHash": "f013080280df1d53",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "Mud and clay material differences",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "Finding and processing natural clay",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "label": "Clay versus fired brick transformation",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 6,
+          "end": 7,
+          "label": "Irreversibility of fired brick powder",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 9,
+          "label": "Brick as a ceramic material",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 10,
+          "end": 11,
+          "label": "Porcelain glazing beyond waterproofing",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 12,
+          "end": 13,
+          "label": "Brick composition and clay impurities",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 14,
+          "end": 15,
+          "label": "Iron atom clouds in space",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 16,
+          "end": 17,
+          "label": "Iron and oxygen cloud reactions",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 18,
+          "end": 19,
+          "label": "Iron atoms bonding in space",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 20,
+          "end": 21,
+          "label": "Atomic bonding versus cold welding",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 22,
+          "end": 23,
+          "label": "Cold welding iron bars in vacuum",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 24,
+          "end": 25,
+          "label": "Iron carbon oxygen cloud chemistry",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 26,
+          "end": 27,
+          "label": "Carbon monoxide stability and astrochemistry",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 28,
+          "end": 29,
+          "label": "Solid carbon monoxide phase behavior",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 30,
+          "end": 31,
+          "label": "Bond strength versus material hardness",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 32,
+          "end": 33,
+          "label": "Silicon dioxide as network solid",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 34,
+          "end": 35,
+          "label": "Diamond hardness versus toughness",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 36,
+          "end": 37,
+          "label": "Synthetic diamond economics and scarcity",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 38,
+          "end": 39,
+          "label": "Diamond Age materials applications",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 40,
+          "end": 41,
+          "label": "Diamond car frame crash unsuitability",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 42,
+          "end": 43,
+          "label": "Diamond shrapnel failure mode dangers",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 44,
+          "end": 45,
+          "label": "Clarifying Stephenson diamondoid examples",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 46,
+          "end": 47,
+          "label": "Diamond screens and electronics applications",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"019e0517-4c04-7390-8fe8-ad94ecea4127\",\"end_message_uuid\":\"019e0517-4c04-7a2c-9c80-02ce41a863ef\",\"label\":\"Mud and clay material differences\"},{\"start_message_uuid\":\"019e0518-3a1d-7cae-94b8-8d9bb0abdc84\",\"end_message_uuid\":\"019e0518-3a1d-7a15-bca4-637168891e3d\",\"label\":\"Finding and processing natural clay\"},{\"start_message_uuid\":\"019e0519-18f9-73eb-88e6-adf666caddbe\",\"end_message_uuid\":\"019e0519-18f9-70fe-b33b-ae36b1c422c4\",\"label\":\"Clay versus fired brick transformation\"},{\"start_message_uuid\":\"019e051a-2003-7653-b06c-e96647fc6921\",\"end_message_uuid\":\"019e051a-2003-7461-ba42-461185006a5b\",\"label\":\"Irreversibility of fired brick powder\"},{\"start_message_uuid\":\"019e051b-e598-7a58-8a5a-0a93057f1db0\",\"end_message_uuid\":\"019e051b-e598-75d0-8cf5-4f07ce4e3137\",\"label\":\"Brick as a ceramic material\"},{\"start_message_uuid\":\"019e051d-08d1-7fd2-a8c9-9937c04e2117\",\"end_message_uuid\":\"019e051d-08d1-74ea-b292-b0aad96e2881\",\"label\":\"Porcelain glazing beyond waterproofing\"},{\"start_message_uuid\":\"019e051e-64f5-7506-85b2-369af85a7ae9\",\"end_message_uuid\":\"019e051e-64f5-7f49-8a4f-747fcbd2f587\",\"label\":\"Brick composition and clay impurities\"},{\"start_message_uuid\":\"019e051f-ec36-7b67-b154-3510e6c8f49a\",\"end_message_uuid\":\"019e051f-ec37-7999-8efa-5be2d174a5d4\",\"label\":\"Iron atom clouds in space\"},{\"start_message_uuid\":\"019e0521-a7f0-789d-8529-d5393be80513\",\"end_message_uuid\":\"019e0521-a7f0-7a35-9821-9b4733db5c4c\",\"label\":\"Iron and oxygen cloud reactions\"},{\"start_message_uuid\":\"019e0523-237e-7f00-a3b3-38ffcc41568d\",\"end_message_uuid\":\"019e0523-237e-7ef1-b4d1-8619b8b9cf6c\",\"label\":\"Iron atoms bonding in space\"},{\"start_message_uuid\":\"019e0524-b252-7cde-892d-b46e70565b38\",\"end_message_uuid\":\"019e0524-b252-773b-b750-cb489bbab780\",\"label\":\"Atomic bonding versus cold welding\"},{\"start_message_uuid\":\"019e0525-c839-719d-a176-4d2df01f9a76\",\"end_message_uuid\":\"019e0525-c839-707d-ada9-ca580ec55637\",\"label\":\"Cold welding iron bars in vacuum\"},{\"start_message_uuid\":\"019e0527-43d4-7672-a5e0-614279006232\",\"end_message_uuid\":\"019e0527-43d5-7951-a26b-922fdec07817\",\"label\":\"Iron carbon oxygen cloud chemistry\"},{\"start_message_uuid\":\"019e0528-e000-7eec-b2dc-287414093d72\",\"end_message_uuid\":\"019e0528-e000-717c-97e2-52678639b830\",\"label\":\"Carbon monoxide stability and astrochemistry\"},{\"start_message_uuid\":\"019e052d-42c2-72a3-80a9-fbbc53779bf4\",\"end_message_uuid\":\"019e052d-42c2-7245-8aac-7f84f83ce3df\",\"label\":\"Solid carbon monoxide phase behavior\"},{\"start_message_uuid\":\"019e052e-be89-7b9b-8606-2abfaf17e74a\",\"end_message_uuid\":\"019e052e-be89-78cc-959c-1e4bc9e04627\",\"label\":\"Bond strength versus material hardness\"},{\"start_message_uuid\":\"019e0530-dd51-7b74-919a-ecbf1a4e65a0\",\"end_message_uuid\":\"019e0530-dd51-7c2b-88c1-cc41de512223\",\"label\":\"Silicon dioxide as network solid\"},{\"start_message_uuid\":\"019e0533-c07c-7c97-8ffd-8f8db2fd7bb0\",\"end_message_uuid\":\"019e0533-c07c-7e94-b4a4-13d40407b774\",\"label\":\"Diamond hardness versus toughness\"},{\"start_message_uuid\":\"019e0537-212a-73cb-a895-84e66ced21ab\",\"end_message_uuid\":\"019e0537-212a-7954-b996-15d074252c60\",\"label\":\"Synthetic diamond economics and scarcity\"},{\"start_message_uuid\":\"019e053a-60a3-7d22-84e9-32573afe9a42\",\"end_message_uuid\":\"019e053a-60a3-781f-814b-16cc28d01bc7\",\"label\":\"Diamond Age materials applications\"},{\"start_message_uuid\":\"019e053d-43bd-7df5-b804-9d04e95b1268\",\"end_message_uuid\":\"019e053d-43bd-702b-ab8a-394611eac09c\",\"label\":\"Diamond car frame crash unsuitability\"},{\"start_message_uuid\":\"019e053e-67a1-7547-a3bb-8a20aa6e8c95\",\"end_message_uuid\":\"019e053e-67a1-7643-848a-7a1a416c78e8\",\"label\":\"Diamond shrapnel failure mode dangers\"},{\"start_message_uuid\":\"019e0540-9dfd-7e01-a61f-9959e319dcf6\",\"end_message_uuid\":\"019e0540-9dfd-7893-ba44-e721a19011e2\",\"label\":\"Clarifying Stephenson diamondoid examples\"},{\"start_message_uuid\":\"019e054f-73e9-76cb-84f6-c7cc82ee7ce9\",\"end_message_uuid\":\"019e054f-73ea-7f80-be3a-e7eb975ecff1\",\"label\":\"Diamond screens and electronics applications\"}]}",
+      "ms": 37532
+    },
+    {
+      "id": "f5515608-8e7e-4b79-b9ed-afc34fa7a400",
+      "name": "Comparing Microphone Audio",
+      "mc": 4,
+      "promptHash": "4377923fd08e7a9e",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "Scientific microphone audio comparison methodology",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "Audio analysis software options",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"aaa2c0c9-35e1-4d48-86a2-7f16f6d131e6\",\"end_message_uuid\":\"436f95c9-f2bb-4a17-a31b-5d44924ccbde\",\"label\":\"Scientific microphone audio comparison methodology\"},{\"start_message_uuid\":\"aaa2954f-688b-420f-882d-9e6109ec3250\",\"end_message_uuid\":\"6904b07c-552c-4ffa-a8fd-d7d2090056bb\",\"label\":\"Audio analysis software options\"}]}\n",
+      "ms": 9453
+    },
+    {
+      "id": "86397ce8-e28f-44ea-8cb4-bfce24e0d13d",
+      "name": "Avoid Banding in DaVinci.",
+      "mc": 14,
+      "promptHash": "0c15d2015564f667",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "Avoiding YouTube banding from Resolve",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "DaVinci Resolve 360-degree video editing",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "label": "DaVinci Resolve maximum resolution support",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 6,
+          "end": 7,
+          "label": "Hollywood films edited in Resolve",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 9,
+          "label": "Nitroglycerin shock detonation mechanism",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 10,
+          "end": 13,
+          "label": "Detonation temperature versus initiation energy",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"aaa230a5-459b-43c4-aa21-23a96e499710\",\"end_message_uuid\":\"e3758b32-a302-4a4a-951d-1b85dcf9117a\",\"label\":\"Avoiding YouTube banding from Resolve\"},{\"start_message_uuid\":\"aaa2fdfd-5451-4ac6-8b46-0b4947f2c058\",\"end_message_uuid\":\"0d054468-457d-4723-92ab-f8eb40905d1f\",\"label\":\"DaVinci Resolve 360-degree video editing\"},{\"start_message_uuid\":\"aaa2e520-f360-4cd8-a727-388efa8d8870\",\"end_message_uuid\":\"b942215a-40ed-471a-b1b8-4973b9806766\",\"label\":\"DaVinci Resolve maximum resolution support\"},{\"start_message_uuid\":\"aaa2487e-9ef3-4318-91fa-46ed9a6035a1\",\"end_message_uuid\":\"45a5b12a-7b3d-44f3-bd38-72cb58f2ba96\",\"label\":\"Hollywood films edited in Resolve\"},{\"start_message_uuid\":\"aaa268ef-638f-444a-9f68-cca8ccfed325\",\"end_message_uuid\":\"22466f59-5174-48e6-b4ad-41a35810c0a3\",\"label\":\"Nitroglycerin shock detonation mechanism\"},{\"start_message_uuid\":\"aaa2c47a-4fa8-4529-9169-ef577819fbee\",\"end_message_uuid\":\"8366a74e-d129-429f-bb6f-dcee9443854d\",\"label\":\"Detonation temperature versus initiation energy\"}]}\n",
+      "ms": 19223
+    },
+    {
+      "id": "78da6fe3-60bc-482f-9346-49c600780d47",
+      "name": "Service Table Design for SIMS",
+      "mc": 4,
+      "promptHash": "681bae6ed6e4c368",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "SIMS service graph table design",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "SurrealQL explanation request",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"aaa20d21-0372-4eec-b3c7-5e673c78268d\",\"end_message_uuid\":\"dfcb5deb-57d2-405d-8776-7437df16a5f7\",\"label\":\"SIMS service graph table design\"},{\"start_message_uuid\":\"aaa2b4f0-f0ee-41df-b116-d8917c07ff8e\",\"end_message_uuid\":\"90985f92-978d-4fb2-b390-03a16ca04b4b\",\"label\":\"SurrealQL explanation request\"}]}\n",
+      "ms": 9261
+    },
+    {
+      "id": "67a82605-6540-8013-a892-60288bbf7b50",
+      "name": "File Size Creation Date",
+      "mc": 20,
+      "promptHash": "5d24d824633b3a6c",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 3,
+          "label": "Node.js file size and creation metadata",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "label": "DNG as standard RAW photo format",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 6,
+          "end": 7,
+          "label": "RW2 to DNG conversion methods",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 9,
+          "label": "Arca-Swiss versus Manfrotto mounting systems",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 10,
+          "end": 11,
+          "label": "Arca-Swiss V-mount modular rig workflow",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 12,
+          "end": 15,
+          "label": "Arca-Swiss clamp sticking troubleshooting",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 16,
+          "end": 17,
+          "label": "MP4 versus MOV video containers",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 18,
+          "end": 19,
+          "label": "DaVinci Resolve waveform clip synchronization",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"21cf9dee-68d1-4106-b6e7-0e0f1c42477a\",\"end_message_uuid\":\"8ad664b2-2f78-45b1-86bf-c901a8037e55\",\"label\":\"Node.js file size and creation metadata\"},{\"start_message_uuid\":\"6b4467a3-3cff-45eb-9e87-345ac0862036\",\"end_message_uuid\":\"df756941-b267-4ef9-a5b0-ec2a1e43e301\",\"label\":\"DNG as standard RAW photo format\"},{\"start_message_uuid\":\"beb8d2c6-fcf0-4dc8-8c30-341ee1d2e7bd\",\"end_message_uuid\":\"dc5ff762-844b-4ff2-826e-e272f4853b0a\",\"label\":\"RW2 to DNG conversion methods\"},{\"start_message_uuid\":\"0a5bfeda-3f76-41e0-8f51-02119b35cb4a\",\"end_message_uuid\":\"5ebb15da-860f-46f7-974e-f8d6a557dff2\",\"label\":\"Arca-Swiss versus Manfrotto mounting systems\"},{\"start_message_uuid\":\"4da97d06-bd05-42dc-acd3-cf4e2d9812e5\",\"end_message_uuid\":\"e8b669ea-8793-4711-89e4-cb2951915a9d\",\"label\":\"Arca-Swiss V-mount modular rig workflow\"},{\"start_message_uuid\":\"308001bc-05be-4105-94d5-3b9c0a422881\",\"end_message_uuid\":\"fc25efe9-3a96-41b4-9879-588d4e7db866\",\"label\":\"Arca-Swiss clamp sticking troubleshooting\"},{\"start_message_uuid\":\"980bb0e1-7775-493c-94e5-5c45c370817e\",\"end_message_uuid\":\"02526c20-6f57-453e-8a75-ca50a12ddb5a\",\"label\":\"MP4 versus MOV video containers\"},{\"start_message_uuid\":\"0329b4da-5719-4c3e-8c1c-b8cab1834751\",\"end_message_uuid\":\"c9399cf0-9f8c-44d1-9cf4-35adae1af79a\",\"label\":\"DaVinci Resolve waveform clip synchronization\"}]}\n",
+      "ms": 20195
+    },
+    {
+      "id": "2427687a-75a4-4b05-8ee1-4602879db37c",
+      "name": "New chat",
+      "mc": 5,
+      "promptHash": "31a9d349594f659d",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 4,
+          "label": "Spanish translation of photographic film",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"d92779c3-085a-41e1-9ac1-984773247fd6\",\"end_message_uuid\":\"acb7fecb-c4ef-4975-8493-bf8aee8b4ffb\",\"label\":\"Spanish translation of photographic film\"}]}\n",
+      "ms": 9050
+    },
+    {
+      "id": "18e1ea4c-106a-4212-8531-28342d0cc3e7",
+      "name": "Toyota's Kaizen Culture",
+      "mc": 4,
+      "promptHash": "1f6df8d1fbb0ed41",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "Toyota kaizen culture identification",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "Toyota culture influence on Lexus LFA",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"aaa26a15-f1bd-4a2a-a0b5-ff6530dc60e4\",\"end_message_uuid\":\"7e6bac20-b827-416d-b68a-00aaf7443ffe\",\"label\":\"Toyota kaizen culture identification\"},{\"start_message_uuid\":\"aaa25756-56ac-4270-9b4d-9a5cfdad7907\",\"end_message_uuid\":\"f530e09f-6a29-483e-af77-81d947955dea\",\"label\":\"Toyota culture influence on Lexus LFA\"}]}\n",
+      "ms": 10788
+    },
+    {
+      "id": "c3c8b072-143e-4b97-8d28-088f4d78cb8e",
+      "name": "if you look at the articles in articles, you might see that they have a lot of c",
+      "mc": 49,
+      "promptHash": "0a05c8f08853696e",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 17,
+          "label": "Wikipedia-style citation migration and conventions update",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 18,
+          "end": 19,
+          "label": "Lucien synthesis prompt citation instructions",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 22,
+          "end": 27,
+          "label": "Obsidian rendering failure with HTML citations",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 28,
+          "end": 31,
+          "label": "Obsidian footnote citation conversion attempt",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 32,
+          "end": 40,
+          "label": "Obsidian block reference citation workaround",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 41,
+          "end": 46,
+          "label": "Final numeric footnote citation migration",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 47,
+          "end": 48,
+          "label": "Anthropic email download access request",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [
+        20,
+        21
+      ],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"89c61acd-a4b2-4492-bbb9-ef6f4243142b\",\"end_message_uuid\":\"be690a03-cf35-459c-ae30-e3930faaff81\",\"label\":\"Wikipedia-style citation migration and conventions update\"},{\"start_message_uuid\":\"14bbeb6b-6a00-462f-94c6-c7bc019f540c\",\"end_message_uuid\":\"16796c8c-0f53-47fe-a206-fad8d8fac6d4\",\"label\":\"Lucien synthesis prompt citation instructions\"},{\"start_message_uuid\":\"70e731ef-5b43-420c-ac9f-8423bb5cc459\",\"end_message_uuid\":\"a33f625c-f8fa-45eb-a1ac-5bd7aaacdd5a\",\"label\":\"Obsidian rendering failure with HTML citations\"},{\"start_message_uuid\":\"621a9b28-e89c-47cd-8da3-2683bdbe1997\",\"end_message_uuid\":\"0a8d7982-2590-4e1a-a074-9850d1279cd5\",\"label\":\"Obsidian footnote citation conversion attempt\"},{\"start_message_uuid\":\"ca1e05e3-cacb-4994-8416-5598c248e06f\",\"end_message_uuid\":\"0863deed-2cea-42ad-afaf-c7cfa1564d3b\",\"label\":\"Obsidian block reference citation workaround\"},{\"start_message_uuid\":\"47c05384-5c2e-4a20-ad38-f8f95a92bfc0\",\"end_message_uuid\":\"705c06e9-b044-40ad-81a8-0a9c8e729e2f\",\"label\":\"Final numeric footnote citation migration\"},{\"start_message_uuid\":\"b50f9963-8e62-4d81-a0df-3b87494e8063\",\"end_message_uuid\":\"1c44c99e-a328-4397-9abe-00aabf732472\",\"label\":\"Anthropic email download access request\"}]}\n",
+      "ms": 25580
+    },
+    {
+      "id": "57ab528b-8f4d-42cd-b35c-70e53b57dfe6",
+      "name": "Comparing Mac computers for local AI performance",
+      "mc": 74,
+      "promptHash": "25ae5b328521599f",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 3,
+          "label": "Mac local AI value comparison",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 7,
+          "label": "Dual M4 Max distributed MLX inference",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 9,
+          "label": "M4 Max fleet for team AI serving",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 10,
+          "end": 13,
+          "label": "Trillion model feasibility on Apple hardware",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 14,
+          "end": 15,
+          "label": "Mac Studio memory availability correction",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 16,
+          "end": 21,
+          "label": "Secondary market 512GB Ultra evaluation",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 22,
+          "end": 25,
+          "label": "M5 Ultra timing and M3 buying strategy",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 26,
+          "end": 27,
+          "label": "Benefits of larger local model sizes",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 28,
+          "end": 29,
+          "label": "Archie topology reliability correction",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 30,
+          "end": 31,
+          "label": "Single-task contracts versus long reasoning",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 32,
+          "end": 35,
+          "label": "Cages throughput and Toyota assembly-line analogy",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 36,
+          "end": 39,
+          "label": "Archie reducing model capability dependence",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 40,
+          "end": 41,
+          "label": "WOR-201 bounded dev and review trace",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 42,
+          "end": 43,
+          "label": "HTML report for WOR-201 pipeline",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 44,
+          "end": 47,
+          "label": "Full WOR-201 autonomous pipeline evidence",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 48,
+          "end": 49,
+          "label": "Test review against acceptance criteria",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 50,
+          "end": 53,
+          "label": "Small models large projects and interfaces",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 54,
+          "end": 57,
+          "label": "Open source as untrusted contributor proof",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 58,
+          "end": 61,
+          "label": "Claude Fable opposite architecture bet",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 62,
+          "end": 65,
+          "label": "Archie company economics using Fable",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 66,
+          "end": 73,
+          "label": "Flexible standard software engineering pipeline",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"019eacf7-3040-7f04-91ff-150a3d3087bc\",\"end_message_uuid\":\"019eacfa-7b10-700b-92fc-d755538ff35f\",\"label\":\"Mac local AI value comparison\"},{\"start_message_uuid\":\"019eacfd-73b5-7eb4-9ba9-1e0878494a69\",\"end_message_uuid\":\"019eacff-3fe2-7f6a-966f-7d169999363a\",\"label\":\"Dual M4 Max distributed MLX inference\"},{\"start_message_uuid\":\"019ead04-b3c7-77da-ac40-9bad9fd11d6d\",\"end_message_uuid\":\"019ead04-b3c7-7bdb-9fe2-8a22634a01a8\",\"label\":\"M4 Max fleet for team AI serving\"},{\"start_message_uuid\":\"019ead06-d995-74b8-8d44-efecf6c20be2\",\"end_message_uuid\":\"019ead09-04b3-776c-ab5c-1de49cf925a1\",\"label\":\"Trillion model feasibility on Apple hardware\"},{\"start_message_uuid\":\"019ead09-fae1-7b4a-8d34-9091a87618b4\",\"end_message_uuid\":\"019ead09-fae1-71dd-9858-d835f77acb90\",\"label\":\"Mac Studio memory availability correction\"},{\"start_message_uuid\":\"019ead0b-dc1c-7a26-a8c6-33e4e1eac0d3\",\"end_message_uuid\":\"019ead0f-5990-7aa4-959d-e825f2c8f458\",\"label\":\"Secondary market 512GB Ultra evaluation\"},{\"start_message_uuid\":\"019ead10-e2af-7765-83a1-61c7b9dc13e3\",\"end_message_uuid\":\"019ead12-34a5-754a-8d2e-2b08aee9abc2\",\"label\":\"M5 Ultra timing and M3 buying strategy\"},{\"start_message_uuid\":\"019ead14-8d61-7e38-9738-224be449a06b\",\"end_message_uuid\":\"019ead14-8d62-7fd0-a50d-90750adb2828\",\"label\":\"Benefits of larger local model sizes\"},{\"start_message_uuid\":\"019ead17-d1a1-7fe3-8e04-fa45c2819162\",\"end_message_uuid\":\"019ead17-d1a1-70ed-ab04-a98680dab97c\",\"label\":\"Archie topology reliability correction\"},{\"start_message_uuid\":\"019ead1d-7a2b-7ab4-8dc3-b273fc07be24\",\"end_message_uuid\":\"019ead1d-7a2b-78b1-a57e-357c483c7052\",\"label\":\"Single-task contracts versus long reasoning\"},{\"start_message_uuid\":\"019ead21-b6ee-7fd9-a7ba-52c61bbe0341\",\"end_message_uuid\":\"019ead23-5772-7594-ae9f-1c2284679ba8\",\"label\":\"Cages throughput and Toyota assembly-line analogy\"},{\"start_message_uuid\":\"019ead25-fd74-7ffe-a542-3783d0da5674\",\"end_message_uuid\":\"019ead27-dae6-7c1e-8887-cacf402ce8a3\",\"label\":\"Archie reducing model capability dependence\"},{\"start_message_uuid\":\"019ead2b-91a7-7ade-9ca6-a755e2c720ff\",\"end_message_uuid\":\"019ead2b-91a7-7d2d-a038-8be10e934594\",\"label\":\"WOR-201 bounded dev and review trace\"},{\"start_message_uuid\":\"019ead2e-2cb0-7048-9d2b-8de5629c916f\",\"end_message_uuid\":\"019ead2e-2cb0-780d-a93d-dfb764023ffb\",\"label\":\"HTML report for WOR-201 pipeline\"},{\"start_message_uuid\":\"019ead32-6ae6-765e-ad3c-7e5f45947777\",\"end_message_uuid\":\"019ead35-bfd1-794f-8c84-cee89ba43780\",\"label\":\"Full WOR-201 autonomous pipeline evidence\"},{\"start_message_uuid\":\"019ead3c-ee1e-777e-9a9b-4a04d12f7da7\",\"end_message_uuid\":\"019ead3c-ee1e-7db0-be6d-d502dbfdfd3d\",\"label\":\"Test review against acceptance criteria\"},{\"start_message_uuid\":\"019ead47-46cb-763f-9382-4a333a49fc16\",\"end_message_uuid\":\"019ead49-2913-7aef-82d9-a08f4efbd4e2\",\"label\":\"Small models large projects and interfaces\"},{\"start_message_uuid\":\"019ead4c-8f45-7dd2-afd5-75a283164fc7\",\"end_message_uuid\":\"019ead56-3c24-7591-b32a-c66378fd3da3\",\"label\":\"Open source as untrusted contributor proof\"},{\"start_message_uuid\":\"019ead6f-e5ef-7ba2-b0e9-ea8f15f11f16\",\"end_message_uuid\":\"019ead73-6563-70bb-9560-19c1445ba373\",\"label\":\"Claude Fable opposite architecture bet\"},{\"start_message_uuid\":\"019ead77-8048-7b0f-b3b7-22b76f23acf3\",\"end_message_uuid\":\"019ead7f-6a99-7962-b7e7-0cc820a25130\",\"label\":\"Archie company economics using Fable\"},{\"start_message_uuid\":\"019ead93-017b-79a2-99eb-07e383121117\",\"end_message_uuid\":\"019ead9b-b6c2-7810-9d37-5c9b66ba2fd2\",\"label\":\"Flexible standard software engineering pipeline\"}]}\n",
+      "ms": 44559
+    },
+    {
+      "id": "67257e17-fc64-8013-a928-142fafd36c6b",
+      "name": "EDGE Network Rollout Timeline",
+      "mc": 14,
+      "promptHash": "29a6ac951ff76f26",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 5,
+          "label": "EDGE rollout availability and predecessors",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 6,
+          "end": 9,
+          "label": "Modern iPhone compatibility with 2003 cellular networks",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 10,
+          "end": 13,
+          "label": "Wi-Fi popularization and iPhone support",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"94b8b24b-f192-4ce7-9414-3c13f66e20ba\",\"end_message_uuid\":\"9f528619-9bd0-475b-b1f5-e492b2440fd7\",\"label\":\"EDGE rollout availability and predecessors\"},{\"start_message_uuid\":\"50da2ad2-35f8-4e71-a8a7-06882cde4e60\",\"end_message_uuid\":\"3e0967b0-97eb-4f43-91b2-4ef4ad6960d3\",\"label\":\"Modern iPhone compatibility with 2003 cellular networks\"},{\"start_message_uuid\":\"65ade572-35d9-4158-a3e7-3cef69b587ed\",\"end_message_uuid\":\"38dcb7b2-880d-4ef8-b68b-4f0b90db5dfc\",\"label\":\"Wi-Fi popularization and iPhone support\"}]}\n",
+      "ms": 11631
+    },
+    {
+      "id": "ddcc93cd-18e5-4bfd-b28d-6d4a43da3a78",
+      "name": "SR-71s never downed",
+      "mc": 20,
+      "promptHash": "df8e7d6362cf4b3e",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 3,
+          "label": "SR-71 losses and crash history",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 7,
+          "label": "SR-71 range and weapons design",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 15,
+          "label": "SR-71 production missions pilots and patches",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 16,
+          "end": 19,
+          "label": "Drifting versus grip driving corner speed",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"aaa21cda-ebdd-4cbe-bf4e-b184a966205d\",\"end_message_uuid\":\"531798b7-8717-41ae-86c7-c7380e66f1b7\",\"label\":\"SR-71 losses and crash history\"},{\"start_message_uuid\":\"aaa2817a-5a39-4988-ad3f-f09eea3b813c\",\"end_message_uuid\":\"06e64524-f23d-4e27-aceb-1ae211447e4a\",\"label\":\"SR-71 range and weapons design\"},{\"start_message_uuid\":\"aaa24c9c-3a80-46c3-a2bd-872f62ec1c77\",\"end_message_uuid\":\"b048c997-377d-4877-85ba-f2dddf791575\",\"label\":\"SR-71 production missions pilots and patches\"},{\"start_message_uuid\":\"aaa269d6-4c13-4877-ae98-ee9b18667995\",\"end_message_uuid\":\"ce360bdd-ca1c-4dd9-b731-3b4eba7380ac\",\"label\":\"Drifting versus grip driving corner speed\"}]}\n",
+      "ms": 13851
+    },
+    {
+      "id": "7b7e0d0d-d8e9-455c-8383-cf150b365ce6",
+      "name": "Policy Document Database Import",
+      "mc": 12,
+      "promptHash": "8e521e4ec9f496b3",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "Initial policy import workflow discovery attempt",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "Rechecking policy folder via Google Drive search",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "label": "Filesystem discovery of 2025 policy documents",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 7,
+          "end": 7,
+          "label": "Policy compliance database schema design",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 9,
+          "end": 9,
+          "label": "SurrealDB policy tables and categories creation",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 11,
+          "end": 11,
+          "label": "Policy document parsing step kickoff",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [
+        6,
+        8,
+        10
+      ],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"e0564284-c2cf-471c-94c9-37e1251378bc\",\"end_message_uuid\":\"c0c4bff6-55b4-406b-8a29-7199fccaa92d\",\"label\":\"Initial policy import workflow discovery attempt\"},{\"start_message_uuid\":\"0a4dcf85-524f-4f19-842c-4737d75d179f\",\"end_message_uuid\":\"7250aed5-0040-4ede-a760-5aff4da9ee58\",\"label\":\"Rechecking policy folder via Google Drive search\"},{\"start_message_uuid\":\"565b6693-fc7f-4cf7-a4be-d7320e7436ac\",\"end_message_uuid\":\"775929ab-aba9-4ff3-a251-06a301be8289\",\"label\":\"Filesystem discovery of 2025 policy documents\"},{\"start_message_uuid\":\"91d6a344-7001-455e-bd04-b17aec8e3bee\",\"end_message_uuid\":\"91d6a344-7001-455e-bd04-b17aec8e3bee\",\"label\":\"Policy compliance database schema design\"},{\"start_message_uuid\":\"ad786f98-54bf-47a8-b6a2-f5fe656d7076\",\"end_message_uuid\":\"ad786f98-54bf-47a8-b6a2-f5fe656d7076\",\"label\":\"SurrealDB policy tables and categories creation\"},{\"start_message_uuid\":\"bb1619a7-a587-4fec-9ba2-9ffa53050c28\",\"end_message_uuid\":\"bb1619a7-a587-4fec-9ba2-9ffa53050c28\",\"label\":\"Policy document parsing step kickoff\"}]}\n",
+      "ms": 19882
+    },
+    {
+      "id": "670e2fd5-08fc-8013-86f1-eb0ad8d54d93",
+      "name": "WebSocket Message Queueing Fix",
+      "mc": 14,
+      "promptHash": "c8a5e4098cde138f",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "WebSocket queued send promise handling",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "Dynamic API methods with JavaScript Proxy",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "label": "WebSocket event handler registration design",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 6,
+          "end": 7,
+          "label": "Specific and global event subscriptions",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 10,
+          "label": "Future debug logging and autocomplete plans",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 10,
+          "label": "Reconnect logic and subscription state complexity",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 11,
+          "end": 13,
+          "label": "Deno rewrite and single executable bundling",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [
+        "OVERLAP — \"Future debug logging and autocomplete plans\" & \"Reconnect logic and subscription state complexity\" share 3 messages (policy allows ≤1 boundary message)"
+      ],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"540cc7b3-83c5-44c6-9b65-92b14b60850b\",\"end_message_uuid\":\"0eb70237-29d7-434b-8037-2780dc66cd8a\",\"label\":\"WebSocket queued send promise handling\"},{\"start_message_uuid\":\"d37d55fe-aea3-4e7a-9190-9e6b9f21e5ff\",\"end_message_uuid\":\"79937683-ad19-49ba-8068-598eb34ca7b9\",\"label\":\"Dynamic API methods with JavaScript Proxy\"},{\"start_message_uuid\":\"0b4d5893-eb9e-4b7d-bd82-0f56e38614c2\",\"end_message_uuid\":\"2046fbd6-172c-4173-9ed2-45ea10086d28\",\"label\":\"WebSocket event handler registration design\"},{\"start_message_uuid\":\"e471dd03-f191-4f63-96cc-1b89bd4ac87c\",\"end_message_uuid\":\"26041b2e-614c-4682-b2b7-a79c8b204256\",\"label\":\"Specific and global event subscriptions\"},{\"start_message_uuid\":\"3e554dd1-cc2d-4fe5-ba5f-e8f826df7cd9\",\"end_message_uuid\":\"cb6b9e01-ce0f-4ecf-b766-4946f38aff06\",\"label\":\"Future debug logging and autocomplete plans\"},{\"start_message_uuid\":\"3e554dd1-cc2d-4fe5-ba5f-e8f826df7cd9\",\"end_message_uuid\":\"cb6b9e01-ce0f-4ecf-b766-4946f38aff06\",\"label\":\"Reconnect logic and subscription state complexity\"},{\"start_message_uuid\":\"3d2917bc-512a-441d-bd2b-e3acd353924d\",\"end_message_uuid\":\"a7f24121-4987-4a2b-8d29-0e4800ba1480\",\"label\":\"Deno rewrite and single executable bundling\"}]}\n",
+      "ms": 23101
+    },
+    {
+      "id": "c8f1088f-2584-479f-ad31-69f2e208b4ce",
+      "name": "LUT effects on image appearance",
+      "mc": 8,
+      "promptHash": "b219c82900bc7efc",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "LUTs as digital film stock analogy",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "SOOC workflow as finished photograph philosophy",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "label": "Demonstrating LUT choice as constitutive variable",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 6,
+          "end": 7,
+          "label": "Curated Lumix LiveLUT in-camera look system",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"019e8993-5dda-77b1-83db-7c644d82f92e\",\"end_message_uuid\":\"019e8993-5dda-738d-97fd-ab1907d1091e\",\"label\":\"LUTs as digital film stock analogy\"},{\"start_message_uuid\":\"019e8995-14cd-7cb7-9e56-86d8eb6a42f1\",\"end_message_uuid\":\"019e8995-14cd-7c79-be7b-f4d2f63e2eb3\",\"label\":\"SOOC workflow as finished photograph philosophy\"},{\"start_message_uuid\":\"019e8995-d32a-7206-a874-481b34b95f7d\",\"end_message_uuid\":\"019e8995-d32a-776a-b301-7dfe8e7537f3\",\"label\":\"Demonstrating LUT choice as constitutive variable\"},{\"start_message_uuid\":\"019e8997-eab8-7034-8c28-fd8e3e0f98b6\",\"end_message_uuid\":\"019e8997-eab9-7710-a456-6cb46749ff4f\",\"label\":\"Curated Lumix LiveLUT in-camera look system\"}]}\n",
+      "ms": 11860
+    },
+    {
+      "id": "67dc568a-9128-8013-946e-304354396075",
+      "name": "NinjaOne RMM Overview",
+      "mc": 10,
+      "promptHash": "c69bf834eb68b7c5",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "NinjaOne RMM background and capabilities",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "macOS Gatekeeper blocking NinjaOne installer",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 7,
+          "label": "AlphaPoint package unsigned installer diagnosis",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 9,
+          "label": "Avoiding NinjaOne because it installs TeamViewer",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"c21155ca-de3d-4759-96f3-557ab5edad11\",\"end_message_uuid\":\"b2600d38-b5b5-4596-8a24-dc0b326a9022\",\"label\":\"NinjaOne RMM background and capabilities\"},{\"start_message_uuid\":\"c7029599-c74a-431a-a94c-1acdc8c35c0c\",\"end_message_uuid\":\"873189ee-ed06-47fd-b187-9dd75bda612c\",\"label\":\"macOS Gatekeeper blocking NinjaOne installer\"},{\"start_message_uuid\":\"3d1f8b4f-1695-4d22-af20-2bfb41b1d588\",\"end_message_uuid\":\"17a78175-fc0f-4d13-9533-c0ee6488aaf8\",\"label\":\"AlphaPoint package unsigned installer diagnosis\"},{\"start_message_uuid\":\"712fd04e-80b0-4917-bfe6-ee899cc9ea7e\",\"end_message_uuid\":\"1e313954-e648-4432-b6c3-8e709e72f585\",\"label\":\"Avoiding NinjaOne because it installs TeamViewer\"}]}\n",
+      "ms": 14230
+    },
+    {
+      "id": "68265d39-6344-8013-a724-365431cbdb8e",
+      "name": "Telemedicine Opportunity Decision Analysis",
+      "mc": 26,
+      "promptHash": "49a4171f6c026cf2",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 3,
+          "label": "Telemedicine opportunity decision and discovery framing",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 7,
+          "label": "Strategic alignment and project pricing estimate",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 9,
+          "label": "SWOT analysis for telemedicine proposal",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 10,
+          "end": 13,
+          "label": "Public launch failure and blame risk",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 14,
+          "end": 19,
+          "label": "Main job conflict and time availability",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 20,
+          "end": 21,
+          "label": "Two-category risk taxonomy and mitigations",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 22,
+          "end": 23,
+          "label": "Likelihood and severity risk scoring",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 24,
+          "end": 25,
+          "label": "Conditional go no-go decision matrix",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"37bfbd8e-3456-4df2-bf6e-dd2b4da2e994\",\"end_message_uuid\":\"3b029d4e-5084-4a0d-867e-f24209833eab\",\"label\":\"Telemedicine opportunity decision and discovery framing\"},{\"start_message_uuid\":\"d1d2b092-4b61-4d53-b250-4da3a72d40ef\",\"end_message_uuid\":\"5756de31-631f-49b6-9eae-92ed88e7cfcb\",\"label\":\"Strategic alignment and project pricing estimate\"},{\"start_message_uuid\":\"50f2d1e3-031b-4bbb-88ff-f9fea16fb7be\",\"end_message_uuid\":\"565aa79a-d07f-4daf-864b-f9c6285e1150\",\"label\":\"SWOT analysis for telemedicine proposal\"},{\"start_message_uuid\":\"157011d9-c3d5-413b-9d80-17d2cde22e8a\",\"end_message_uuid\":\"5273eb75-d148-4b33-b058-8d551d323b49\",\"label\":\"Public launch failure and blame risk\"},{\"start_message_uuid\":\"1b7193cb-d01d-4999-bc3b-ae568542682a\",\"end_message_uuid\":\"bc2b604c-71bd-4378-97ba-a9b50d5bd161\",\"label\":\"Main job conflict and time availability\"},{\"start_message_uuid\":\"fa80df0b-6543-4e99-b9ea-5485186a6c67\",\"end_message_uuid\":\"e88b9d2e-be4d-4ff3-ad5a-040f8454f818\",\"label\":\"Two-category risk taxonomy and mitigations\"},{\"start_message_uuid\":\"d2f48832-aaab-4f00-a0dd-c260e0e76cf4\",\"end_message_uuid\":\"9ea8fe37-2529-449d-9d0d-ca6af82bff7e\",\"label\":\"Likelihood and severity risk scoring\"},{\"start_message_uuid\":\"61611f3f-8427-46d0-8d9a-149e9b829454\",\"end_message_uuid\":\"1558b151-4410-44a8-8a75-38b316935f92\",\"label\":\"Conditional go no-go decision matrix\"}]}\n",
+      "ms": 22589
+    },
+    {
+      "id": "f471869f-bd14-4d4f-a372-fa6e4283be7c",
+      "name": "Google Drive Folder Search",
+      "mc": 14,
+      "promptHash": "802d30345a5c89e6",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "Finding All Meetings Google Drive folder",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "Listing All Meetings folder contents",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "label": "Exploring Sales meetings folder structure",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 6,
+          "end": 7,
+          "label": "Top prospect objections in sales transcripts",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 9,
+          "label": "Sales reps objection handling assessment",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 10,
+          "end": 11,
+          "label": "Gmail context for analyzed sales meetings",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 12,
+          "end": 13,
+          "label": "WhiteBit-related Jira ticket search",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"71038418-0db6-4c32-abde-2db9728939d1\",\"end_message_uuid\":\"f83fbd41-d1cb-4594-a8fc-5b4c1da040fc\",\"label\":\"Finding All Meetings Google Drive folder\"},{\"start_message_uuid\":\"dec947f6-bc65-4779-b7bc-4d7814191532\",\"end_message_uuid\":\"8d9c83e2-1ef2-4cf0-8def-ce4b2d72cecd\",\"label\":\"Listing All Meetings folder contents\"},{\"start_message_uuid\":\"60fe8e3d-7527-4093-a29e-b44ded34e8ae\",\"end_message_uuid\":\"010dcd0d-bc97-475c-aa4b-7281c10205c5\",\"label\":\"Exploring Sales meetings folder structure\"},{\"start_message_uuid\":\"11798497-4c2e-4298-8e3e-762c8def3f49\",\"end_message_uuid\":\"cb658156-6051-4059-a3b2-f3c770d5c2f8\",\"label\":\"Top prospect objections in sales transcripts\"},{\"start_message_uuid\":\"3043d598-4f50-4e02-b986-72ab7a3331a3\",\"end_message_uuid\":\"22015302-b21a-40d2-952a-b1616f80408b\",\"label\":\"Sales reps objection handling assessment\"},{\"start_message_uuid\":\"af0f2e49-2ecb-44cd-80ca-9d986d85f18a\",\"end_message_uuid\":\"d9782aa2-f46b-4033-bff8-ba82a225dd1f\",\"label\":\"Gmail context for analyzed sales meetings\"},{\"start_message_uuid\":\"06292940-e488-4107-b0d9-46fdb4732701\",\"end_message_uuid\":\"636bc976-14a5-4490-8490-522936065ff1\",\"label\":\"WhiteBit-related Jira ticket search\"}]}\n",
+      "ms": 17301
+    },
+    {
+      "id": "676ce76d-1b14-8013-9fab-bdf9b5e00ccb",
+      "name": "S5IIX High Resolution Mode",
+      "mc": 18,
+      "promptHash": "8168c9d865a18463",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "S5IIX high resolution mode overview",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "High resolution mode for astrophotography",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "label": "S5IIX astrophotography features and settings",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 6,
+          "end": 7,
+          "label": "Time-lapse mode with long exposures",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 9,
+          "label": "Distinguishing resolution, exposure, and time-lapse techniques",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 10,
+          "end": 11,
+          "label": "Capturing unseen stars with long exposure",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 12,
+          "end": 13,
+          "label": "Infinity focus limitations for stars",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 14,
+          "end": 15,
+          "label": "Timer delay versus Lumix remote control",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 16,
+          "end": 17,
+          "label": "S5IIX long exposure setup checklist",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"2d2d060c-4f21-4d3e-9bc6-84b093417668\",\"end_message_uuid\":\"877afa46-d7d4-4c5e-b74c-73078fd70d65\",\"label\":\"S5IIX high resolution mode overview\"},{\"start_message_uuid\":\"afc101c0-0632-4188-8a94-cfb1700ef360\",\"end_message_uuid\":\"1a5705ca-44a9-42a2-a206-cbb2c5ee66a1\",\"label\":\"High resolution mode for astrophotography\"},{\"start_message_uuid\":\"dd18e571-c6e8-4236-ab7b-ede6302b22ec\",\"end_message_uuid\":\"866793eb-3fb1-4455-9f54-2164b4a61a91\",\"label\":\"S5IIX astrophotography features and settings\"},{\"start_message_uuid\":\"61d69ac0-dc66-4229-b464-40913a074d76\",\"end_message_uuid\":\"ce3b38ec-b642-4412-ae13-9930bdb62624\",\"label\":\"Time-lapse mode with long exposures\"},{\"start_message_uuid\":\"847d74ed-01ed-433f-bc94-09327c7f476b\",\"end_message_uuid\":\"8441e87c-a378-49be-b184-6ad46901bf4d\",\"label\":\"Distinguishing resolution, exposure, and time-lapse techniques\"},{\"start_message_uuid\":\"97b3f5bc-7bac-409c-ad26-fa71b94b8271\",\"end_message_uuid\":\"d24380e7-455b-4158-9ead-cad6eaff8d87\",\"label\":\"Capturing unseen stars with long exposure\"},{\"start_message_uuid\":\"9e425057-957c-4aae-9a00-256164c12a8d\",\"end_message_uuid\":\"67757099-4a79-48f8-be64-cd3fad26cd72\",\"label\":\"Infinity focus limitations for stars\"},{\"start_message_uuid\":\"1d7f97eb-9186-4978-9a70-d87dd373827d\",\"end_message_uuid\":\"1b5683e0-1f52-422a-96fb-75bb4188d50a\",\"label\":\"Timer delay versus Lumix remote control\"},{\"start_message_uuid\":\"8928e1d8-0ea2-4676-9479-2dace4db80dd\",\"end_message_uuid\":\"fbaa40d0-d5bf-471f-900e-49806494e5cc\",\"label\":\"S5IIX long exposure setup checklist\"}]}\n",
+      "ms": 20401
+    },
+    {
+      "id": "019e4d54-f0cb-74e0-a4cc-36c524895d38",
+      "name": "Untitled",
+      "mc": 4,
+      "promptHash": "f4d158822b2f7dbd",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "Quick Look thumbnail approval for Archie PDF",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 2,
+          "label": "Archie progress report thesis and audience framing",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 2,
+          "label": "AI productivity evidence sources for deck",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 2,
+          "label": "Editable Archie v3 PowerPoint generation",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "Quick Look thumbnail approval for revised PowerPoint",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"019e4d54-f0cb-74e0-a4cc-36c524895d38-msg-0\",\"end_message_uuid\":\"019e4d54-f0cb-74e0-a4cc-36c524895d38-msg-1\",\"label\":\"Quick Look thumbnail approval for Archie PDF\"},{\"start_message_uuid\":\"019e4d54-f0cb-74e0-a4cc-36c524895d38-msg-2\",\"end_message_uuid\":\"019e4d54-f0cb-74e0-a4cc-36c524895d38-msg-2\",\"label\":\"Archie progress report thesis and audience framing\"},{\"start_message_uuid\":\"019e4d54-f0cb-74e0-a4cc-36c524895d38-msg-2\",\"end_message_uuid\":\"019e4d54-f0cb-74e0-a4cc-36c524895d38-msg-2\",\"label\":\"AI productivity evidence sources for deck\"},{\"start_message_uuid\":\"019e4d54-f0cb-74e0-a4cc-36c524895d38-msg-2\",\"end_message_uuid\":\"019e4d54-f0cb-74e0-a4cc-36c524895d38-msg-2\",\"label\":\"Editable Archie v3 PowerPoint generation\"},{\"start_message_uuid\":\"019e4d54-f0cb-74e0-a4cc-36c524895d38-msg-2\",\"end_message_uuid\":\"019e4d54-f0cb-74e0-a4cc-36c524895d38-msg-3\",\"label\":\"Quick Look thumbnail approval for revised PowerPoint\"}]}\n",
+      "ms": 19672
+    },
+    {
+      "id": "9f7e3acb-4a5d-4b63-b47d-21fc956bd36d",
+      "name": "Camera Sensor vs. Display",
+      "mc": 8,
+      "promptHash": "2feac688589e1a86",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "Camera sensors compared with displays",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "Quad Bayer sensor filter explanation",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "label": "Creating 24 MP images from 48 MP sensors",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 6,
+          "end": 7,
+          "label": "Using 48 MP detail for 24 MP reconstruction",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"aaa2bd63-2402-4954-89e5-3772353ca644\",\"end_message_uuid\":\"50c05cbf-c199-4978-8ab8-ded397c1721a\",\"label\":\"Camera sensors compared with displays\"},{\"start_message_uuid\":\"aaa272ca-acdf-45d9-9ab0-cd8ee08e01fc\",\"end_message_uuid\":\"5dc40454-9186-4c4b-90bd-2ed9cf5fcf18\",\"label\":\"Quad Bayer sensor filter explanation\"},{\"start_message_uuid\":\"aaa295b3-523b-4ba8-beee-d50146354e49\",\"end_message_uuid\":\"2042ab1d-5070-4b77-b382-083044a71196\",\"label\":\"Creating 24 MP images from 48 MP sensors\"},{\"start_message_uuid\":\"aaa26071-0a24-47fa-951c-112eb32e5b4f\",\"end_message_uuid\":\"e8062489-121a-4b8a-afcb-0b67d1b39c62\",\"label\":\"Using 48 MP detail for 24 MP reconstruction\"}]}\n",
+      "ms": 13589
+    }
+  ]
+}

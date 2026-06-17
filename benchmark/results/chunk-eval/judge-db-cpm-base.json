@@ -1,0 +1,421 @@
+{
+  "label": "cpm-base",
+  "judge": "claude-opus-4-8 (Claude Code)",
+  "judgedAt": "2026-06-17T00:15:05Z",
+  "convs": [
+    {
+      "id": "67e99628-77a4-8013-a2b8-fbdca8c68541",
+      "name": "How Anchors Work",
+      "mc": 6,
+      "boundary_score": 0,
+      "label_score": 0,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {
+          "type": "other",
+          "detail": "invalid JSON"
+        }
+      ],
+      "agreements": [],
+      "summary": "Candidate failed to emit valid JSON: it ran away into an unterminated, repeating list of duplicate single-message anchors and was truncated. No usable segmentation was produced against the gold's single anchor-mechanics chunk."
+    },
+    {
+      "id": "f5ecbed4-5361-40ab-9442-670a86831969",
+      "name": "Divorce Rights in Mexico",
+      "mc": 10,
+      "boundary_score": 0,
+      "label_score": 0,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {
+          "type": "other",
+          "detail": "invalid JSON"
+        }
+      ],
+      "agreements": [],
+      "summary": "Candidate emitted malformed JSON with broken object structure, fabricated/garbled UUIDs, and overlapping ranges. No valid segmentation was produced versus the gold's three divorce-law/telenovela chunks."
+    },
+    {
+      "id": "a5be3d4e-fa6f-4d09-9715-70b745578026",
+      "name": "Fixing JavaScript ES6 Error",
+      "mc": 30,
+      "boundary_score": 0,
+      "label_score": 0,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {
+          "type": "hallucinated_anchor",
+          "detail": "single chunk with start/end both null and empty label; anchors '{' and '}' resolve to no message (HALLUCINATED start and end)"
+        },
+        {
+          "type": "missed_content",
+          "detail": "all 30 messages uncovered"
+        }
+      ],
+      "agreements": [],
+      "summary": "Candidate produced one degenerate chunk with unresolved null anchors and an empty label, leaving the entire 30-message conversation uncovered. No valid segmentation against the gold's 12 npm/git troubleshooting chunks."
+    },
+    {
+      "id": "eff06c22-ad20-45d7-b670-7054bd9d6cbb",
+      "name": "First Hold: Climbing Starting Point",
+      "mc": 8,
+      "boundary_score": 0,
+      "label_score": 0,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {
+          "type": "other",
+          "detail": "invalid JSON"
+        }
+      ],
+      "agreements": [],
+      "summary": "Candidate emitted invalid JSON: placeholder '{\"' anchors and a long degenerate trailing run of stray braces. No usable segmentation versus the gold's two climbing/booking-hold chunks."
+    },
+    {
+      "id": "ed94728c-eb45-41e8-8993-da8322e2cc44",
+      "name": "Encoded String Verification",
+      "mc": 9,
+      "boundary_score": 0,
+      "label_score": 0,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {
+          "type": "hallucinated_anchor",
+          "detail": "single chunk with start/end both null; anchors '{' and '}' resolve to no message (HALLUCINATED start and end)"
+        },
+        {
+          "type": "missed_content",
+          "detail": "all 9 messages uncovered"
+        }
+      ],
+      "agreements": [],
+      "summary": "Candidate produced one degenerate chunk with unresolved null anchors, leaving the whole conversation uncovered. No valid segmentation versus the gold's base64-decode and ASCII-interpretation chunks."
+    },
+    {
+      "id": "16be1a9f-3c61-453a-a536-5736a74a8921",
+      "name": "Mud versus clay differences",
+      "mc": 48,
+      "boundary_score": 0,
+      "label_score": 0,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {
+          "type": "other",
+          "detail": "invalid JSON"
+        }
+      ],
+      "agreements": [],
+      "summary": "Candidate emitted malformed JSON with placeholder '{\"' anchors and broken object structure. No usable segmentation versus the gold's 24 fine-grained materials-science chunks."
+    },
+    {
+      "id": "f5515608-8e7e-4b79-b9ed-afc34fa7a400",
+      "name": "Comparing Microphone Audio",
+      "mc": 4,
+      "boundary_score": 0,
+      "label_score": 0,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {
+          "type": "other",
+          "detail": "invalid JSON"
+        }
+      ],
+      "agreements": [],
+      "summary": "Candidate emitted malformed JSON with broken object delimiters and conversation-level/role-level pseudo-chunks. No valid segmentation versus the gold's two microphone-comparison chunks."
+    },
+    {
+      "id": "86397ce8-e28f-44ea-8cb4-bfce24e0d13d",
+      "name": "Avoid Banding in DaVinci.",
+      "mc": 14,
+      "boundary_score": 0,
+      "label_score": 0,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {
+          "type": "other",
+          "detail": "invalid JSON"
+        }
+      ],
+      "agreements": [],
+      "summary": "Candidate degenerated into an unterminated loop repeating the same '{\"' placeholder anchors and an identical banding label, and was truncated. No usable segmentation versus the gold's six Resolve/detonation chunks."
+    },
+    {
+      "id": "78da6fe3-60bc-482f-9346-49c600780d47",
+      "name": "Service Table Design for SIMS",
+      "mc": 4,
+      "boundary_score": 0,
+      "label_score": 0,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {
+          "type": "other",
+          "detail": "invalid JSON"
+        }
+      ],
+      "agreements": [],
+      "summary": "Candidate emitted malformed JSON with corrupted UUIDs and a trailing comma. No valid segmentation versus the gold's two SIMS-table/SurrealQL chunks."
+    },
+    {
+      "id": "67a82605-6540-8013-a892-60288bbf7b50",
+      "name": "File Size Creation Date",
+      "mc": 20,
+      "boundary_score": 0,
+      "label_score": 0,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {
+          "type": "other",
+          "detail": "invalid JSON"
+        }
+      ],
+      "agreements": [],
+      "summary": "Candidate emitted invalid JSON that collapsed into a long repeating run of placeholder '{'/'}' anchors and a duplicated 'Adobe DNG Converter' label, then truncated. No usable segmentation versus the gold's eight chunks."
+    },
+    {
+      "id": "2427687a-75a4-4b05-8ee1-4602879db37c",
+      "name": "New chat",
+      "mc": 5,
+      "boundary_score": 0,
+      "label_score": 0,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {
+          "type": "other",
+          "detail": "invalid JSON"
+        }
+      ],
+      "agreements": [],
+      "summary": "Candidate emitted malformed JSON with broken object structure and corrupted UUIDs. No valid segmentation versus the gold's single Spanish-translation chunk."
+    },
+    {
+      "id": "18e1ea4c-106a-4212-8531-28342d0cc3e7",
+      "name": "Toyota's Kaizen Culture",
+      "mc": 4,
+      "boundary_score": 0,
+      "label_score": 0,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {
+          "type": "other",
+          "detail": "invalid JSON"
+        }
+      ],
+      "agreements": [],
+      "summary": "Candidate degenerated into an unterminated loop of placeholder '{' anchors and a repeated 'internal culture' label, then truncated. No usable segmentation versus the gold's two kaizen/Lexus chunks."
+    },
+    {
+      "id": "c3c8b072-143e-4b97-8d28-088f4d78cb8e",
+      "name": "if you look at the articles in articles, you might see that they have a lot of c",
+      "mc": 49,
+      "boundary_score": 0,
+      "label_score": 0,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {
+          "type": "other",
+          "detail": "invalid JSON"
+        }
+      ],
+      "agreements": [],
+      "summary": "Candidate emitted malformed JSON with '}' placeholder end anchors, hallucinated extra fields, and repeated login-error labels, then truncated. No usable segmentation versus the gold's seven citation-migration chunks."
+    },
+    {
+      "id": "57ab528b-8f4d-42cd-b35c-70e53b57dfe6",
+      "name": "Comparing Mac computers for local AI performance",
+      "mc": 74,
+      "boundary_score": 0,
+      "label_score": 0,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {
+          "type": "other",
+          "detail": "invalid JSON"
+        }
+      ],
+      "agreements": [],
+      "summary": "Candidate degenerated into an unterminated loop repeating one 'single task, no decomposition' chunk with a 'uuid: '-prefixed anchor (which would not resolve), and was truncated after ~232s. No usable segmentation versus the gold's 21 chunks."
+    },
+    {
+      "id": "67257e17-fc64-8013-a928-142fafd36c6b",
+      "name": "EDGE Network Rollout Timeline",
+      "mc": 14,
+      "boundary_score": 0,
+      "label_score": 0,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {
+          "type": "other",
+          "detail": "invalid JSON"
+        }
+      ],
+      "agreements": [],
+      "summary": "Candidate emitted invalid JSON (missing commas, placeholder anchors) and degenerated into a long repeating 'iphone 2007' label run, then truncated. No usable segmentation versus the gold's three EDGE/Wi-Fi chunks."
+    },
+    {
+      "id": "ddcc93cd-18e5-4bfd-b28d-6d4a43da3a78",
+      "name": "SR-71s never downed",
+      "mc": 20,
+      "boundary_score": 0,
+      "label_score": 0,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {
+          "type": "other",
+          "detail": "invalid JSON"
+        }
+      ],
+      "agreements": [],
+      "summary": "Candidate emitted malformed JSON with broken object structure and fabricated/garbled UUIDs. No valid segmentation versus the gold's four SR-71/driving chunks."
+    },
+    {
+      "id": "7b7e0d0d-d8e9-455c-8383-cf150b365ce6",
+      "name": "Policy Document Database Import",
+      "mc": 12,
+      "boundary_score": 0,
+      "label_score": 0,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {
+          "type": "other",
+          "detail": "invalid JSON"
+        }
+      ],
+      "agreements": [],
+      "summary": "Candidate emitted invalid JSON that collapsed into a repeating run of 'uuid: '-prefixed anchors and duplicated 'Step 2: SCHEMA' labels, then truncated. No usable segmentation versus the gold's six policy-import chunks."
+    },
+    {
+      "id": "670e2fd5-08fc-8013-86f1-eb0ad8d54d93",
+      "name": "WebSocket Message Queueing Fix",
+      "mc": 14,
+      "boundary_score": 0,
+      "label_score": 0,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {
+          "type": "other",
+          "detail": "invalid JSON"
+        }
+      ],
+      "agreements": [],
+      "summary": "Candidate emitted invalid JSON that degenerated into a repeating run of corrupted UUIDs all labeled 'WebSocket Message Queueing Fix', then truncated. No usable segmentation versus the gold's seven WebSocket-API chunks."
+    },
+    {
+      "id": "c8f1088f-2584-479f-ad31-69f2e208b4ce",
+      "name": "LUT effects on image appearance",
+      "mc": 8,
+      "boundary_score": 0,
+      "label_score": 0,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {
+          "type": "other",
+          "detail": "invalid JSON"
+        }
+      ],
+      "agreements": [],
+      "summary": "Candidate emitted invalid JSON that collapsed into a repeating run of the same UUID-suffix variant with an identical 'LUT effects on image appearance' label, then truncated. No usable segmentation versus the gold's four LUT/SOOC chunks."
+    },
+    {
+      "id": "67dc568a-9128-8013-946e-304354396075",
+      "name": "NinjaOne RMM Overview",
+      "mc": 10,
+      "boundary_score": 0,
+      "label_score": 0,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {
+          "type": "hallucinated_anchor",
+          "detail": "two chunks both with start/end null; '{' and '}' anchors resolve to no message (HALLUCINATED start and end on both chunks)"
+        },
+        {
+          "type": "missed_content",
+          "detail": "all 10 messages uncovered"
+        }
+      ],
+      "agreements": [],
+      "summary": "Candidate produced two degenerate chunks with unresolved null anchors, leaving the whole conversation uncovered. No valid segmentation versus the gold's four NinjaOne/Gatekeeper chunks."
+    },
+    {
+      "id": "68265d39-6344-8013-a724-365431cbdb8e",
+      "name": "Telemedicine Opportunity Decision Analysis",
+      "mc": 26,
+      "boundary_score": 0,
+      "label_score": 0,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {
+          "type": "other",
+          "detail": "invalid JSON"
+        }
+      ],
+      "agreements": [],
+      "summary": "Candidate emitted a single malformed object with placeholder anchors and broken delimiters. No valid segmentation versus the gold's eight telemedicine-decision chunks."
+    },
+    {
+      "id": "f471869f-bd14-4d4f-a372-fa6e4283be7c",
+      "name": "Google Drive Folder Search",
+      "mc": 14,
+      "boundary_score": 0,
+      "label_score": 0,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {
+          "type": "other",
+          "detail": "invalid JSON"
+        }
+      ],
+      "agreements": [],
+      "summary": "Candidate emitted a single malformed object with placeholder '{\"' / '}' anchors and an empty label. No valid segmentation versus the gold's seven Drive-search/Jira chunks."
+    },
+    {
+      "id": "676ce76d-1b14-8013-9fab-bdf9b5e00ccb",
+      "name": "S5IIX High Resolution Mode",
+      "mc": 18,
+      "boundary_score": 0,
+      "label_score": 0,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {
+          "type": "other",
+          "detail": "invalid JSON"
+        }
+      ],
+      "agreements": [],
+      "summary": "Candidate emitted invalid JSON (nested/broken first anchor) that degenerated into a repeating run of corrupted UUIDs all labeled 'High Resolution Mode - Use Cases', then truncated. No usable segmentation versus the gold's nine S5IIX chunks."
+    },
+    {
+      "id": "019e4d54-f0cb-74e0-a4cc-36c524895d38",
+      "name": "Untitled",
+      "mc": 4,
+      "boundary_score": 0,
+      "label_score": 0,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {
+          "type": "other",
+          "detail": "invalid JSON"
+        }
+      ],
+      "agreements": [],
+      "summary": "Candidate emitted invalid JSON that collapsed into an enormous run of bare '0c3d3d' string tokens, then truncated. No usable segmentation versus the gold's five Archie-deck chunks."
+    },
+    {
+      "id": "9f7e3acb-4a5d-4b63-b47d-21fc956bd36d",
+      "name": "Camera Sensor vs. Display",
+      "mc": 8,
+      "boundary_score": 0,
+      "label_score": 0,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {
+          "type": "other",
+          "detail": "invalid JSON"
+        }
+      ],
+      "agreements": [],
+      "summary": "Candidate emitted malformed JSON with stray double braces and trailing commas, plus conversation/role-level pseudo-chunks. No valid segmentation versus the gold's four camera-sensor chunks."
+    }
+  ],
+  "goldTag": "db",
+  "note": "base produces invalid JSON regardless of gold; judgments gold-invariant (copied from gpt5 gold)"
+}

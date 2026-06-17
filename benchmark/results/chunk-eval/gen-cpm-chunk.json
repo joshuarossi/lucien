@@ -1,0 +1,801 @@
+{
+  "label": "cpm-chunk",
+  "transport": "fetch",
+  "provider": null,
+  "model": "local",
+  "adapter": "chunk",
+  "baseUrl": "http://localhost:8090/v1",
+  "generatedAt": "2026-06-17T00:13:03.961Z",
+  "convs": [
+    {
+      "id": "67e99628-77a4-8013-a2b8-fbdca8c68541",
+      "name": "How Anchors Work",
+      "mc": 6,
+      "promptHash": "0baee21860aad7ed",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "How anchors work on a seagoing vessel",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [
+        "TAIL GAP — trailing messages [2, 5] uncovered"
+      ],
+      "uncovered": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"0bd823f7-55e6-457b-a0cd-e9bb6ef493f6\",\"end_message_uuid\":\"8b2ce35c-0cf1-412a-9534-317d20cd30b2\",\"label\":\"How anchors work on a seagoing vessel\"}]}",
+      "ms": 1633
+    },
+    {
+      "id": "f5ecbed4-5361-40ab-9442-670a86831969",
+      "name": "Divorce Rights in Mexico",
+      "mc": 10,
+      "promptHash": "bac670081dfffbc0",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 9,
+          "label": "Divorce rights in Mexico and telenovela La Que La Vida Me Robó",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"aaa2391d-aef6-4872-ab00-b487bdec8980\",\"end_message_uuid\":\"1afd71f0-15f0-4212-a404-109e221315fa\",\"label\":\"Divorce rights in Mexico and telenovela La Que La Vida Me Robó\"}]}",
+      "ms": 1707
+    },
+    {
+      "id": "a5be3d4e-fa6f-4d09-9715-70b745578026",
+      "name": "Fixing JavaScript ES6 Error",
+      "mc": 30,
+      "promptHash": "e1fd709838ab91c8",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 23,
+          "label": "Fixing ES6 spread operator error in node_modules",
+          "startFlag": "exact",
+          "endFlag": "chimera_prefix"
+        }
+      ],
+      "anomalies": [
+        "HALLUCINATED ANCHOR — \"Fixing ES6 spread operator error in node_modules\": end anchor is a spliced/chimera uuid (prefix-matched to msg 23)",
+        "TAIL GAP — trailing messages [24, 29] uncovered"
+      ],
+      "uncovered": [
+        24,
+        25,
+        26,
+        27,
+        28,
+        29
+      ],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"aaa22a86-5653-4005-826d-a992aeeef517\",\"end_message_uuid\":\"7fc20eee-352e-4530-8aada-8f151ad3c2e9\",\"label\":\"Fixing ES6 spread operator error in node_modules\"}]}",
+      "ms": 7482
+    },
+    {
+      "id": "eff06c22-ad20-45d7-b670-7054bd9d6cbb",
+      "name": "First Hold: Climbing Starting Point",
+      "mc": 8,
+      "promptHash": "fd3304fc9b7fd858",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 7,
+          "label": "First hold vs second hold booking challenge",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"aaa2c97a-4ada-4a1e-ae26-ee2e9840cd27\",\"end_message_uuid\":\"731e8281-9b39-405f-ac6c-22d6122fc0cd\",\"label\":\"First hold vs second hold booking challenge\"}]}",
+      "ms": 1464
+    },
+    {
+      "id": "ed94728c-eb45-41e8-8993-da8322e2cc44",
+      "name": "Encoded String Verification",
+      "mc": 9,
+      "promptHash": "b0b2d52678025f07",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 8,
+          "label": "Base64 decode verification and ASCII interpretation",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"aaa22775-d407-4787-9345-bee16d480d1e\",\"end_message_uuid\":\"8d443571-c7ae-4c67-bfd6-7679ae7a3c83\",\"label\":\"Base64 decode verification and ASCII interpretation\"}]}",
+      "ms": 2003
+    },
+    {
+      "id": "16be1a9f-3c61-453a-a536-5736a74a8921",
+      "name": "Mud versus clay differences",
+      "mc": 48,
+      "promptHash": "f013080280df1d53",
+      "chunks": [
+        {
+          "start": 0,
+          "end": null,
+          "label": "Mud vs clay and brick formation",
+          "startFlag": "exact",
+          "endFlag": "unresolved"
+        }
+      ],
+      "anomalies": [
+        "HALLUCINATED ANCHOR — \"Mud vs clay and brick formation\": end anchor does not resolve to any message"
+      ],
+      "uncovered": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47
+      ],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"019e0517-4c04-7390-8fe8-ad94ecea4127\",\"end_message_uuid\":\"019e0517-4c04-7c2c-9c80-02ce41a863ef\",\"label\":\"Mud vs clay and brick formation\"}]}",
+      "ms": 32953
+    },
+    {
+      "id": "f5515608-8e7e-4b79-b9ed-afc34fa7a400",
+      "name": "Comparing Microphone Audio",
+      "mc": 4,
+      "promptHash": "4377923fd08e7a9e",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 3,
+          "label": "Microphone audio comparison and analysis software",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"aaa2c0c9-35e1-4d48-86a2-7f16f6d131e6\",\"end_message_uuid\":\"6904b07c-552c-4ffa-a8fd-d7d2090056bb\",\"label\":\"Microphone audio comparison and analysis software\"}]}",
+      "ms": 2030
+    },
+    {
+      "id": "86397ce8-e28f-44ea-8cb4-bfce24e0d13d",
+      "name": "Avoid Banding in DaVinci.",
+      "mc": 14,
+      "promptHash": "0c15d2015564f667",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 5,
+          "label": "DaVinci Resolve 360-degree video editing and nitroglycerin detonation temperature question",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [
+        "TAIL GAP — trailing messages [6, 13] uncovered"
+      ],
+      "uncovered": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"aaa230a5-459b-43c4-aa21-23a96e499710\",\"end_message_uuid\":\"b942215a-40ed-471a-b1b8-4973b9806766\",\"label\":\"DaVinci Resolve 360-degree video editing and nitroglycerin detonation temperature question\"}]}",
+      "ms": 2360
+    },
+    {
+      "id": "78da6fe3-60bc-482f-9346-49c600780d47",
+      "name": "Service Table Design for SIMS",
+      "mc": 4,
+      "promptHash": "681bae6ed6e4c368",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 3,
+          "label": "SIMS inventory graph table design and SurrealQL",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"aaa20d21-0372-4eec-b3c7-5e673c78268d\",\"end_message_uuid\":\"90985f92-978d-4fb2-b390-03a16ca04b4b\",\"label\":\"SIMS inventory graph table design and SurrealQL\"}]}",
+      "ms": 1765
+    },
+    {
+      "id": "67a82605-6540-8013-a892-60288bbf7b50",
+      "name": "File Size Creation Date",
+      "mc": 20,
+      "promptHash": "5d24d824633b3a6c",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "Node.js file size and creation date conversion",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [
+        "TAIL GAP — trailing messages [2, 19] uncovered"
+      ],
+      "uncovered": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"21cf9dee-68d1-4106-b6e7-0e0f1c42477a\",\"end_message_uuid\":\"92507dea-c1a3-46c1-83ed-e8e646b5b87b\",\"label\":\"Node.js file size and creation date conversion\"}]}",
+      "ms": 6606
+    },
+    {
+      "id": "2427687a-75a4-4b05-8ee1-4602879db37c",
+      "name": "New chat",
+      "mc": 5,
+      "promptHash": "31a9d349594f659d",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 2,
+          "label": "Spanish translation of film word",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [
+        "TAIL GAP — trailing messages [3, 4] uncovered"
+      ],
+      "uncovered": [
+        3,
+        4
+      ],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"d92779c3-085a-41e1-9ac1-984773247fd6\",\"end_message_uuid\":\"eda6d2e6-f8a5-4bb5-924a-9e67a7e81c3b\",\"label\":\"Spanish translation of film word\"}]}",
+      "ms": 1359
+    },
+    {
+      "id": "18e1ea4c-106a-4212-8531-28342d0cc3e7",
+      "name": "Toyota's Kaizen Culture",
+      "mc": 4,
+      "promptHash": "1f6df8d1fbb0ed41",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 3,
+          "label": "Toyota Kaizen culture and LFA excellence",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"aaa26a15-f1bd-4a2a-a0b5-ff6530dc60e4\",\"end_message_uuid\":\"f530e09f-6a29-483e-af77-81d947955dea\",\"label\":\"Toyota Kaizen culture and LFA excellence\"}]}",
+      "ms": 1298
+    },
+    {
+      "id": "c3c8b072-143e-4b97-8d28-088f4d78cb8e",
+      "name": "if you look at the articles in articles, you might see that they have a lot of c",
+      "mc": 49,
+      "promptHash": "0a05c8f08853696e",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 6,
+          "label": "Citation format conversion and Obsidian rendering",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [
+        "TAIL GAP — trailing messages [7, 48] uncovered"
+      ],
+      "uncovered": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48
+      ],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"89c61acd-a4b2-4492-bbb9-ef6f4243142b\",\"end_message_uuid\":\"a492af8b-43e5-46d7-ab0e-5cbdbe85a604\",\"label\":\"Citation format conversion and Obsidian rendering\"}]}",
+      "ms": 6339
+    },
+    {
+      "id": "57ab528b-8f4d-42cd-b35c-70e53b57dfe6",
+      "name": "Comparing Mac computers for local AI performance",
+      "mc": 74,
+      "promptHash": "25ae5b328521599f",
+      "chunks": [
+        {
+          "start": 0,
+          "end": null,
+          "label": "Comparing three Mac Studio 64GB M4 Max and M3 Ultra 96GB M5 Max for local AI",
+          "startFlag": "exact",
+          "endFlag": "unresolved"
+        }
+      ],
+      "anomalies": [
+        "HALLUCINATED ANCHOR — \"Comparing three Mac Studio 64GB M4 Max and M3 Ultra 96GB M5 Max for local AI\": end anchor does not resolve to any message"
+      ],
+      "uncovered": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73
+      ],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"019eacf7-3040-7f04-91ff-150a3d3087bc\",\"end_message_uuid\":\"019eacfa-3040-7f04-91ff-150a3d3087bc\",\"label\":\"Comparing three Mac Studio 64GB M4 Max and M3 Ultra 96GB M5 Max for local AI\"}]}",
+      "ms": 101553
+    },
+    {
+      "id": "67257e17-fc64-8013-a928-142fafd36c6b",
+      "name": "EDGE Network Rollout Timeline",
+      "mc": 14,
+      "promptHash": "29a6ac951ff76f26",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 13,
+          "label": "EDGE network rollout timeline and iPhone Wi-Fi",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"94b8b24b-f192-4ce7-9414-3c13f66e20ba\",\"end_message_uuid\":\"38dcb7b2-880d-4ef8-b68b-4f0b90db5dfc\",\"label\":\"EDGE network rollout timeline and iPhone Wi-Fi\"}]}",
+      "ms": 2309
+    },
+    {
+      "id": "ddcc93cd-18e5-4bfd-b28d-6d4a43da3a78",
+      "name": "SR-71s never downed",
+      "mc": 20,
+      "promptHash": "df8e7d6362cf4b3e",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 19,
+          "label": "SR-71 Blackbird downed, crashes, range, pilots, drifting",
+          "startFlag": "chimera_prefix",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [
+        "HALLUCINATED ANCHOR — \"SR-71 Blackbird downed, crashes, range, pilots, drifting\": start anchor is a spliced/chimera uuid (prefix-matched to msg 0)"
+      ],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"aaa21cda-ebdd-4cbe-bf4e-b184a43da3a78\",\"end_message_uuid\":\"ce360bdd-ca1c-4dd9-b731-3b4eba7380ac\",\"label\":\"SR-71 Blackbird downed, crashes, range, pilots, drifting\"}]}",
+      "ms": 2153
+    },
+    {
+      "id": "7b7e0d0d-d8e9-455c-8383-cf150b365ce6",
+      "name": "Policy Document Database Import",
+      "mc": 12,
+      "promptHash": "8e521e4ec9f496b3",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 11,
+          "label": "SurrealDB database policy document import workflow",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"e0564284-c2cf-471c-94c9-37e1251378bc\",\"end_message_uuid\":\"bb1619a7-a587-4fec-9ba2-9ffa53050c28\",\"label\":\"SurrealDB database policy document import workflow\"}]}",
+      "ms": 5751
+    },
+    {
+      "id": "670e2fd5-08fc-8013-86f1-eb0ad8d54d93",
+      "name": "WebSocket Message Queueing Fix",
+      "mc": 14,
+      "promptHash": "c8a5e4098cde138f",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "WebSocket message queueing fix and dynamic function call proxy",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [
+        "TAIL GAP — trailing messages [2, 13] uncovered"
+      ],
+      "uncovered": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"540cc7b3-83c5-44c6-9b65-92b14b60850b\",\"end_message_uuid\":\"0eb70237-29d7-434b-8037-2780dc66cd8a\",\"label\":\"WebSocket message queueing fix and dynamic function call proxy\"}]}",
+      "ms": 6499
+    },
+    {
+      "id": "c8f1088f-2584-479f-ad31-69f2e208b4ce",
+      "name": "LUT effects on image appearance",
+      "mc": 8,
+      "promptHash": "b219c82900bc7efc",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 7,
+          "label": "LUT on image color and film-roll distinction",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"019e8993-5dda-77b1-83db-7c644d82f92e\",\"end_message_uuid\":\"019e8997-eab9-7710-a456-6cb46749ff4f\",\"label\":\"LUT on image color and film-roll distinction\"}]}",
+      "ms": 2594
+    },
+    {
+      "id": "67dc568a-9128-8013-946e-304354396075",
+      "name": "NinjaOne RMM Overview",
+      "mc": 10,
+      "promptHash": "c69bf834eb68b7c5",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 9,
+          "label": "NinjaOne RMM platform and macOS notarization",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"c21155ca-de3d-4759-96f3-557ab5edad11\",\"end_message_uuid\":\"1e313954-e648-4432-b6c3-8e709e72f585\",\"label\":\"NinjaOne RMM platform and macOS notarization\"}]}",
+      "ms": 3633
+    },
+    {
+      "id": "68265d39-6344-8013-a724-365431cbdb8e",
+      "name": "Telemedicine Opportunity Decision Analysis",
+      "mc": 26,
+      "promptHash": "49a4171f6c026cf2",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "Telemedicine opportunity decision framework",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [
+        "TAIL GAP — trailing messages [2, 25] uncovered"
+      ],
+      "uncovered": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"37bfbd8e-3456-4df2-bf6e-dd2b4da2e994\",\"end_message_uuid\":\"25095e53-43e6-4d8d-b2e2-20edb3fa2831\",\"label\":\"Telemedicine opportunity decision framework\"}]}",
+      "ms": 6323
+    },
+    {
+      "id": "f471869f-bd14-4d4f-a372-fa6e4283be7c",
+      "name": "Google Drive Folder Search",
+      "mc": 14,
+      "promptHash": "802d30345a5c89e6",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 13,
+          "label": "Google Drive All Meetings folder search and Jira tickets",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"71038418-0db6-4c32-abde-2db9728939d1\",\"end_message_uuid\":\"636bc976-14a5-4490-8490-522936065ff1\",\"label\":\"Google Drive All Meetings folder search and Jira tickets\"}]}",
+      "ms": 5390
+    },
+    {
+      "id": "676ce76d-1b14-8013-9fab-bdf9b5e00ccb",
+      "name": "S5IIX High Resolution Mode",
+      "mc": 18,
+      "promptHash": "8168c9d865a18463",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "S5IIX High-resolution mode and astrophotography setup",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [
+        "TAIL GAP — trailing messages [2, 17] uncovered"
+      ],
+      "uncovered": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"2d2d060c-4f21-4d3e-9bc6-84b093417668\",\"end_message_uuid\":\"877afa46-d7d4-4c5e-b74c-73078fd70d65\",\"label\":\"S5IIX High-resolution mode and astrophotography setup\"}]}",
+      "ms": 6881
+    },
+    {
+      "id": "019e4d54-f0cb-74e0-a4cc-36c524895d38",
+      "name": "Untitled",
+      "mc": 4,
+      "promptHash": "f4d158822b2f7dbd",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 3,
+          "label": "Codex agent history and tool call transcript",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"019e4d54-f0cb-74e0-a4cc-36c524895d38-msg-0\",\"end_message_uuid\":\"019e4d54-f0cb-74e0-a4cc-36c524895d38-msg-3\",\"label\":\"Codex agent history and tool call transcript\"}]}",
+      "ms": 22298
+    },
+    {
+      "id": "9f7e3acb-4a5d-4b63-b47d-21fc956bd36d",
+      "name": "Camera Sensor vs. Display",
+      "mc": 8,
+      "promptHash": "2feac688589e1a86",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 7,
+          "label": "Camera sensor vs display, Quad Bayer, 48MP to 24MP super-resolution",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"aaa2bd63-2402-4954-89e5-3772353ca644\",\"end_message_uuid\":\"e8062489-121a-4b8a-afcb-0b67d1b39c62\",\"label\":\"Camera sensor vs display, Quad Bayer, 48MP to 24MP super-resolution\"}]}",
+      "ms": 2986
+    }
+  ]
+}
