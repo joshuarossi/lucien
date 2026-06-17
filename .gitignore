@@ -35,3 +35,13 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 
 # Finder (MacOS) folder config
 .DS_Store
+
+# Claude Code local state (machine-specific)
+.claude/
+
+# Stray pi session exports (debug artifacts)
+pi-session-*.html
+
+# Large regenerable fine-tune training data — recipe is captured by each
+# dataset-info.json + scripts/make-finetune-data.ts / curate-chunk-v2.ts.
+benchmark/finetune/**/*.jsonl

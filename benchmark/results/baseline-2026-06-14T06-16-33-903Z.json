@@ -1,0 +1,935 @@
+{
+  "config": "baseline",
+  "ranAt": "2026-06-14T06:16:33.903Z",
+  "modelId": "I am a coding assistant operating inside pi.",
+  "datasetSha": "835dbac",
+  "limit": null,
+  "overall": 23.433333333333334,
+  "stages": [
+    {
+      "stage": "chunk",
+      "score": 26.133333333333336,
+      "cases": [
+        {
+          "id": "67e99628-77a4-8013-a2b8-fbdca8c68541",
+          "score": 0,
+          "jsonValid": false,
+          "checks": {
+            "json": 0
+          },
+          "detail": "invalid JSON"
+        },
+        {
+          "id": "f5ecbed4-5361-40ab-9442-670a86831969",
+          "score": 0,
+          "jsonValid": false,
+          "checks": {
+            "json": 0
+          },
+          "detail": "invalid JSON"
+        },
+        {
+          "id": "a5be3d4e-fa6f-4d09-9715-70b745578026",
+          "score": 0,
+          "jsonValid": false,
+          "checks": {
+            "json": 0
+          },
+          "detail": "invalid JSON"
+        },
+        {
+          "id": "eff06c22-ad20-45d7-b670-7054bd9d6cbb",
+          "score": 0,
+          "jsonValid": false,
+          "checks": {
+            "json": 0
+          },
+          "detail": "invalid JSON"
+        },
+        {
+          "id": "ed94728c-eb45-41e8-8993-da8322e2cc44",
+          "score": 100,
+          "jsonValid": true,
+          "checks": {
+            "json": 1,
+            "schema": 1,
+            "anchors": 1,
+            "labels": 1,
+            "nonempty": 1
+          },
+          "detail": "1 chunks"
+        },
+        {
+          "id": "16be1a9f-3c61-453a-a536-5736a74a8921",
+          "score": 0,
+          "jsonValid": false,
+          "checks": {
+            "json": 0
+          },
+          "detail": "invalid JSON"
+        },
+        {
+          "id": "f5515608-8e7e-4b79-b9ed-afc34fa7a400",
+          "score": 0,
+          "jsonValid": false,
+          "checks": {
+            "json": 0
+          },
+          "detail": "invalid JSON"
+        },
+        {
+          "id": "86397ce8-e28f-44ea-8cb4-bfce24e0d13d",
+          "score": 0,
+          "jsonValid": false,
+          "checks": {
+            "json": 0
+          },
+          "detail": "invalid JSON"
+        },
+        {
+          "id": "78da6fe3-60bc-482f-9346-49c600780d47",
+          "score": 100,
+          "jsonValid": true,
+          "checks": {
+            "json": 1,
+            "schema": 1,
+            "anchors": 1,
+            "labels": 1,
+            "nonempty": 1
+          },
+          "detail": "2 chunks"
+        },
+        {
+          "id": "67a82605-6540-8013-a892-60288bbf7b50",
+          "score": 97.08333333333334,
+          "jsonValid": true,
+          "checks": {
+            "json": 1,
+            "schema": 1,
+            "anchors": 0.9166666666666666,
+            "labels": 1,
+            "nonempty": 1
+          },
+          "detail": "6 chunks, 1 repairs"
+        },
+        {
+          "id": "2427687a-75a4-4b05-8ee1-4602879db37c",
+          "score": 0,
+          "jsonValid": true,
+          "checks": {
+            "json": 1,
+            "schema": 0
+          },
+          "detail": "no chunks array"
+        },
+        {
+          "id": "18e1ea4c-106a-4212-8531-28342d0cc3e7",
+          "score": 82.5,
+          "jsonValid": true,
+          "checks": {
+            "json": 1,
+            "schema": 1,
+            "anchors": 0.5,
+            "labels": 1,
+            "nonempty": 1
+          },
+          "detail": "1 chunks, 1 repairs"
+        },
+        {
+          "id": "c3c8b072-143e-4b97-8d28-088f4d78cb8e",
+          "score": 0,
+          "jsonValid": false,
+          "checks": {
+            "json": 0
+          },
+          "detail": "invalid JSON"
+        },
+        {
+          "id": "57ab528b-8f4d-42cd-b35c-70e53b57dfe6",
+          "score": 0,
+          "jsonValid": false,
+          "checks": {
+            "json": 0
+          },
+          "detail": "invalid JSON"
+        },
+        {
+          "id": "67257e17-fc64-8013-a928-142fafd36c6b",
+          "score": 0,
+          "jsonValid": false,
+          "checks": {
+            "json": 0
+          },
+          "detail": "invalid JSON"
+        },
+        {
+          "id": "ddcc93cd-18e5-4bfd-b28d-6d4a43da3a78",
+          "score": 91.25000000000001,
+          "jsonValid": true,
+          "checks": {
+            "json": 1,
+            "schema": 1,
+            "anchors": 0.75,
+            "labels": 1,
+            "nonempty": 1
+          },
+          "detail": "2 chunks, 1 repairs"
+        },
+        {
+          "id": "7b7e0d0d-d8e9-455c-8383-cf150b365ce6",
+          "score": 0,
+          "jsonValid": false,
+          "checks": {
+            "json": 0
+          },
+          "detail": "invalid JSON"
+        },
+        {
+          "id": "670e2fd5-08fc-8013-86f1-eb0ad8d54d93",
+          "score": 0,
+          "jsonValid": true,
+          "checks": {
+            "json": 1,
+            "schema": 0
+          },
+          "detail": "no chunks array"
+        },
+        {
+          "id": "c8f1088f-2584-479f-ad31-69f2e208b4ce",
+          "score": 0,
+          "jsonValid": false,
+          "checks": {
+            "json": 0
+          },
+          "detail": "invalid JSON"
+        },
+        {
+          "id": "67dc568a-9128-8013-946e-304354396075",
+          "score": 100,
+          "jsonValid": true,
+          "checks": {
+            "json": 1,
+            "schema": 1,
+            "anchors": 1,
+            "labels": 1,
+            "nonempty": 1
+          },
+          "detail": "4 chunks"
+        },
+        {
+          "id": "68265d39-6344-8013-a724-365431cbdb8e",
+          "score": 0,
+          "jsonValid": false,
+          "checks": {
+            "json": 0
+          },
+          "detail": "invalid JSON"
+        },
+        {
+          "id": "f471869f-bd14-4d4f-a372-fa6e4283be7c",
+          "score": 0,
+          "jsonValid": false,
+          "checks": {
+            "json": 0
+          },
+          "detail": "invalid JSON"
+        },
+        {
+          "id": "676ce76d-1b14-8013-9fab-bdf9b5e00ccb",
+          "score": 0,
+          "jsonValid": false,
+          "checks": {
+            "json": 0
+          },
+          "detail": "invalid JSON"
+        },
+        {
+          "id": "019e4d54-f0cb-74e0-a4cc-36c524895d38",
+          "score": 0,
+          "jsonValid": false,
+          "checks": {
+            "json": 0
+          },
+          "detail": "invalid JSON"
+        },
+        {
+          "id": "9f7e3acb-4a5d-4b63-b47d-21fc956bd36d",
+          "score": 82.5,
+          "jsonValid": true,
+          "checks": {
+            "json": 1,
+            "schema": 1,
+            "anchors": 0.5,
+            "labels": 1,
+            "nonempty": 1
+          },
+          "detail": "1 chunks, 1 repairs"
+        }
+      ],
+      "fallback": 0,
+      "avgMs": 49678.88,
+      "headline": {
+        "parse_rate": 0.36
+      }
+    },
+    {
+      "stage": "cluster",
+      "score": 0,
+      "cases": [],
+      "fallback": 0,
+      "avgMs": 75004,
+      "headline": {
+        "f1": 0,
+        "precision": 0,
+        "recall": 0,
+        "exact_match": 0,
+        "unknown_buckets": 0,
+        "new_proposals": 0,
+        "json_valid": 0
+      }
+    },
+    {
+      "stage": "synthesize",
+      "score": 38.4,
+      "cases": [
+        {
+          "id": "Poker_and_Betting_Theory",
+          "score": 25,
+          "checks": {
+            "h1": 1,
+            "refs": 0,
+            "footnote": 0,
+            "citations": 0,
+            "words": 1
+          },
+          "detail": "711w · 0 cites · footnotes 8 err"
+        },
+        {
+          "id": "Personal AGI Build Project",
+          "score": 25,
+          "checks": {
+            "h1": 1,
+            "refs": 0,
+            "footnote": 0,
+            "citations": 0,
+            "words": 1
+          },
+          "detail": "689w · 0 cites · footnotes 2 err"
+        },
+        {
+          "id": "Career_and_Identity",
+          "score": 0,
+          "checks": {
+            "sanitize": 0
+          },
+          "detail": "sanitizeArticleOutput: no markdown heading or {{stub}} found — output is not an "
+        },
+        {
+          "id": "Pharmaceuticals_and_Drug_Indications",
+          "score": 40,
+          "checks": {
+            "h1": 1,
+            "refs": 1,
+            "footnote": 0,
+            "citations": 0,
+            "words": 1
+          },
+          "detail": "421w · 0 cites · footnotes 5 err"
+        },
+        {
+          "id": "Software_Release_Engineering",
+          "score": 44.99999999999999,
+          "checks": {
+            "h1": 1,
+            "refs": 0,
+            "footnote": 0,
+            "citations": 1,
+            "words": 1
+          },
+          "detail": "440w · 4 cites · footnotes 5 err"
+        },
+        {
+          "id": "Bedtime_Story_App",
+          "score": 25,
+          "checks": {
+            "h1": 1,
+            "refs": 0,
+            "footnote": 0,
+            "citations": 0,
+            "words": 1
+          },
+          "detail": "660w · 0 cites · footnotes 12 err"
+        },
+        {
+          "id": "Conflict_Coach_Product",
+          "score": 25,
+          "checks": {
+            "h1": 1,
+            "refs": 0,
+            "footnote": 0,
+            "citations": 0,
+            "words": 1
+          },
+          "detail": "733w · 0 cites · footnotes 6 err"
+        },
+        {
+          "id": "Motorsport_and_Racing",
+          "score": 25,
+          "checks": {
+            "h1": 1,
+            "refs": 0,
+            "footnote": 0,
+            "citations": 0,
+            "words": 1
+          },
+          "detail": "721w · 0 cites · footnotes 20 err"
+        },
+        {
+          "id": "Recall.life_and_Don't_Wake_The_Baby",
+          "score": 40,
+          "checks": {
+            "h1": 1,
+            "refs": 1,
+            "footnote": 0,
+            "citations": 0,
+            "words": 1
+          },
+          "detail": "765w · 0 cites · footnotes 4 err"
+        },
+        {
+          "id": "Motorsport Safety Cars and Caution Procedures",
+          "score": 25,
+          "checks": {
+            "h1": 1,
+            "refs": 0,
+            "footnote": 0,
+            "citations": 0,
+            "words": 1
+          },
+          "detail": "755w · 0 cites · footnotes 5 err"
+        },
+        {
+          "id": "Truth_Seeking_and_Epistemics",
+          "score": 25,
+          "checks": {
+            "h1": 1,
+            "refs": 0,
+            "footnote": 0,
+            "citations": 0,
+            "words": 1
+          },
+          "detail": "762w · 0 cites · footnotes 10 err"
+        },
+        {
+          "id": "Drone_Hardware_and_Automation",
+          "score": 65,
+          "checks": {
+            "h1": 1,
+            "refs": 0,
+            "footnote": 1,
+            "citations": 0,
+            "words": 1
+          },
+          "detail": "472w · 0 cites · footnotes ok"
+        },
+        {
+          "id": "Treasury_and_Fintech_Products",
+          "score": 60,
+          "checks": {
+            "h1": 1,
+            "refs": 1,
+            "footnote": 0,
+            "citations": 1,
+            "words": 1
+          },
+          "detail": "689w · 2 cites · footnotes 8 err"
+        },
+        {
+          "id": "Drone_Video_Marketing_Business",
+          "score": 40,
+          "checks": {
+            "h1": 1,
+            "refs": 1,
+            "footnote": 0,
+            "citations": 0,
+            "words": 1
+          },
+          "detail": "716w · 0 cites · footnotes 5 err"
+        },
+        {
+          "id": "CSS Wide-Gamut Color",
+          "score": 60,
+          "checks": {
+            "h1": 1,
+            "refs": 1,
+            "footnote": 0,
+            "citations": 1,
+            "words": 1
+          },
+          "detail": "658w · 2 cites · footnotes 1 err"
+        },
+        {
+          "id": "Offsite Retrospective Mini-Documentary",
+          "score": 25,
+          "checks": {
+            "h1": 1,
+            "refs": 0,
+            "footnote": 0,
+            "citations": 0,
+            "words": 1
+          },
+          "detail": "694w · 0 cites · footnotes 5 err"
+        },
+        {
+          "id": "Desmos Graphing Calculator",
+          "score": 25,
+          "checks": {
+            "h1": 1,
+            "refs": 0,
+            "footnote": 0,
+            "citations": 0,
+            "words": 1
+          },
+          "detail": "592w · 0 cites · footnotes 4 err"
+        },
+        {
+          "id": "Audio Embeddings and Transcription",
+          "score": 44.99999999999999,
+          "checks": {
+            "h1": 1,
+            "refs": 0,
+            "footnote": 0,
+            "citations": 1,
+            "words": 1
+          },
+          "detail": "534w · 1 cites · footnotes 3 err"
+        },
+        {
+          "id": "Bedding_and_Comforters",
+          "score": 99.99999999999999,
+          "checks": {
+            "h1": 1,
+            "refs": 1,
+            "footnote": 1,
+            "citations": 1,
+            "words": 1
+          },
+          "detail": "686w · 1 cites · footnotes ok"
+        },
+        {
+          "id": "Professional Wrestling",
+          "score": 25,
+          "checks": {
+            "h1": 1,
+            "refs": 0,
+            "footnote": 0,
+            "citations": 0,
+            "words": 1
+          },
+          "detail": "742w · 0 cites · footnotes 10 err"
+        },
+        {
+          "id": "AI Financial Analyst MVP",
+          "score": 60,
+          "checks": {
+            "h1": 1,
+            "refs": 1,
+            "footnote": 0,
+            "citations": 1,
+            "words": 1
+          },
+          "detail": "571w · 1 cites · footnotes 5 err"
+        },
+        {
+          "id": "Pi_Editor_and_Cursor_Harness",
+          "score": 25,
+          "checks": {
+            "h1": 1,
+            "refs": 0,
+            "footnote": 0,
+            "citations": 0,
+            "words": 1
+          },
+          "detail": "702w · 0 cites · footnotes 13 err"
+        },
+        {
+          "id": "Mind_Maps_and_Knowledge_Structures",
+          "score": 65,
+          "checks": {
+            "h1": 1,
+            "refs": 0,
+            "footnote": 1,
+            "citations": 0,
+            "words": 1
+          },
+          "detail": "503w · 0 cites · footnotes ok"
+        },
+        {
+          "id": "Call of Duty Series",
+          "score": 40,
+          "checks": {
+            "h1": 1,
+            "refs": 1,
+            "footnote": 0,
+            "citations": 0,
+            "words": 1
+          },
+          "detail": "614w · 0 cites · footnotes 5 err"
+        },
+        {
+          "id": "US Government and Constitutional Structure",
+          "score": 25,
+          "checks": {
+            "h1": 1,
+            "refs": 0,
+            "footnote": 0,
+            "citations": 0,
+            "words": 1
+          },
+          "detail": "801w · 0 cites · footnotes 15 err"
+        }
+      ],
+      "fallback": 0,
+      "avgMs": 96797.56,
+      "headline": {
+        "footnote_ok_rate": 0.12
+      }
+    },
+    {
+      "stage": "wikify",
+      "score": 29.2,
+      "cases": [
+        {
+          "id": "YouTube_HDR_Video_Upload_Troubleshooting",
+          "score": 10,
+          "checks": {
+            "citations": 0,
+            "footnote": 0,
+            "refs": 0,
+            "floor": 0,
+            "h1": 1
+          },
+          "detail": "1939→702w · 4 gate err",
+          "gatePass": false
+        },
+        {
+          "id": "Etymology_and_Linguistics",
+          "score": 35,
+          "checks": {
+            "citations": 0,
+            "footnote": 1,
+            "refs": 0,
+            "floor": 0,
+            "h1": 1
+          },
+          "detail": "3638→708w · 57 gate err",
+          "gatePass": false
+        },
+        {
+          "id": "Audio_Mixing_and_Mastering",
+          "score": 25,
+          "checks": {
+            "citations": 0,
+            "footnote": 0,
+            "refs": 0,
+            "floor": 1,
+            "h1": 1
+          },
+          "detail": "658→755w · 5 gate err",
+          "gatePass": false
+        },
+        {
+          "id": "Password_Policy_and_Complexity_Rules",
+          "score": 75,
+          "checks": {
+            "citations": 1,
+            "footnote": 0,
+            "refs": 1,
+            "floor": 1,
+            "h1": 1
+          },
+          "detail": "503→486w · 1 gate err",
+          "gatePass": false
+        },
+        {
+          "id": "Immigration_and_Visas",
+          "score": 10,
+          "checks": {
+            "citations": 0,
+            "footnote": 0,
+            "refs": 0,
+            "floor": 0,
+            "h1": 1
+          },
+          "detail": "1346→689w · 7 gate err",
+          "gatePass": false
+        },
+        {
+          "id": "Affiliate_Payout_Script",
+          "score": 35,
+          "checks": {
+            "citations": 0,
+            "footnote": 1,
+            "refs": 0,
+            "floor": 0,
+            "h1": 1
+          },
+          "detail": "1499→128w · 5 gate err",
+          "gatePass": false
+        },
+        {
+          "id": "Special_Operations_and_Modern_Warfare",
+          "score": 25,
+          "checks": {
+            "citations": 0,
+            "footnote": 0,
+            "refs": 0,
+            "floor": 1,
+            "h1": 1
+          },
+          "detail": "1010→726w · 3 gate err",
+          "gatePass": false
+        },
+        {
+          "id": "Police_Organization_and_Ranks",
+          "score": 50,
+          "checks": {
+            "citations": 0,
+            "footnote": 1,
+            "refs": 0,
+            "floor": 1,
+            "h1": 1
+          },
+          "detail": "675→810w · 2 gate err",
+          "gatePass": false
+        },
+        {
+          "id": "Raw_Photo_Processing_Software",
+          "score": 10,
+          "checks": {
+            "citations": 0,
+            "footnote": 0,
+            "refs": 0,
+            "floor": 0,
+            "h1": 1
+          },
+          "detail": "1272→675w · 12 gate err",
+          "gatePass": false
+        },
+        {
+          "id": "SurrealDB_and_SurrealMCP",
+          "score": 10,
+          "checks": {
+            "citations": 0,
+            "footnote": 0,
+            "refs": 0,
+            "floor": 0,
+            "h1": 1
+          },
+          "detail": "2728→580w · 41 gate err",
+          "gatePass": false
+        },
+        {
+          "id": "Gain_and_Signal_Amplification",
+          "score": 10,
+          "checks": {
+            "citations": 0,
+            "footnote": 0,
+            "refs": 0,
+            "floor": 0,
+            "h1": 1
+          },
+          "detail": "1419→732w · 9 gate err",
+          "gatePass": false
+        },
+        {
+          "id": "Apollo_Moon_Landings",
+          "score": 25,
+          "checks": {
+            "citations": 0,
+            "footnote": 0,
+            "refs": 0,
+            "floor": 1,
+            "h1": 1
+          },
+          "detail": "1067→774w · 3 gate err",
+          "gatePass": false
+        },
+        {
+          "id": "Home_Server_and_NAS_Build",
+          "score": 35,
+          "checks": {
+            "citations": 0,
+            "footnote": 1,
+            "refs": 0,
+            "floor": 0,
+            "h1": 1
+          },
+          "detail": "1145→711w · 5 gate err",
+          "gatePass": false
+        },
+        {
+          "id": "Wireless_and_Cellular_Network_History",
+          "score": 40,
+          "checks": {
+            "citations": 0,
+            "footnote": 0,
+            "refs": 1,
+            "floor": 1,
+            "h1": 1
+          },
+          "detail": "764→598w · 7 gate err",
+          "gatePass": false
+        },
+        {
+          "id": "Apple_Log_Explainer_Video",
+          "score": 10,
+          "checks": {
+            "citations": 0,
+            "footnote": 0,
+            "refs": 0,
+            "floor": 0,
+            "h1": 1
+          },
+          "detail": "1024→650w · 10 gate err",
+          "gatePass": false
+        },
+        {
+          "id": "Television_Calibration_and_Picture_Settings",
+          "score": 75,
+          "checks": {
+            "citations": 1,
+            "footnote": 0,
+            "refs": 1,
+            "floor": 1,
+            "h1": 1
+          },
+          "detail": "710→643w · 1 gate err",
+          "gatePass": false
+        },
+        {
+          "id": "Video_Codecs_and_Compression",
+          "score": 10,
+          "checks": {
+            "citations": 0,
+            "footnote": 0,
+            "refs": 0,
+            "floor": 0,
+            "h1": 1
+          },
+          "detail": "1871→622w · 10 gate err",
+          "gatePass": false
+        },
+        {
+          "id": "Tolkien_Legendarium",
+          "score": 10,
+          "checks": {
+            "citations": 0,
+            "footnote": 0,
+            "refs": 0,
+            "floor": 0,
+            "h1": 1
+          },
+          "detail": "1307→643w · 4 gate err",
+          "gatePass": false
+        },
+        {
+          "id": "Apex_Web_Broker_B_Theming",
+          "score": 10,
+          "checks": {
+            "citations": 0,
+            "footnote": 0,
+            "refs": 0,
+            "floor": 0,
+            "h1": 1
+          },
+          "detail": "1006→533w · 6 gate err",
+          "gatePass": false
+        },
+        {
+          "id": "Human_Anatomy_and_Physiology",
+          "score": 85,
+          "checks": {
+            "citations": 1,
+            "footnote": 1,
+            "refs": 1,
+            "floor": 0,
+            "h1": 1
+          },
+          "detail": "837→533w · 1 gate err",
+          "gatePass": false
+        },
+        {
+          "id": "Compilers_and_Language_Tooling",
+          "score": 25,
+          "checks": {
+            "citations": 0,
+            "footnote": 0,
+            "refs": 0,
+            "floor": 1,
+            "h1": 1
+          },
+          "detail": "593→688w · 3 gate err",
+          "gatePass": false
+        },
+        {
+          "id": "Load_Testing_and_Benchmarking",
+          "score": 10,
+          "checks": {
+            "citations": 0,
+            "footnote": 0,
+            "refs": 0,
+            "floor": 0,
+            "h1": 1
+          },
+          "detail": "1042→640w · 11 gate err",
+          "gatePass": false
+        },
+        {
+          "id": "Google_Drive_Access",
+          "score": 25,
+          "checks": {
+            "citations": 0,
+            "footnote": 1,
+            "refs": 0,
+            "floor": 0,
+            "h1": 0
+          },
+          "detail": "1729→0w · 21 gate err",
+          "gatePass": false
+        },
+        {
+          "id": "Democratic_Backsliding_and_Authoritarianism",
+          "score": 50,
+          "checks": {
+            "citations": 0,
+            "footnote": 1,
+            "refs": 0,
+            "floor": 1,
+            "h1": 1
+          },
+          "detail": "968→804w · 2 gate err",
+          "gatePass": false
+        },
+        {
+          "id": "Personality_Typology_and_Self-Assessment",
+          "score": 25,
+          "checks": {
+            "citations": 0,
+            "footnote": 0,
+            "refs": 0,
+            "floor": 1,
+            "h1": 1
+          },
+          "detail": "399→704w · 5 gate err",
+          "gatePass": false
+        }
+      ],
+      "fallback": 0,
+      "avgMs": 49542.92,
+      "headline": {
+        "gate_pass_rate": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "stage": "wikify",
+  "builtAt": "2026-06-14T05:44:03.703Z",
+  "format": "messages (system+user+assistant)",
+  "systemPromptFrom": "benchmark/configs/sysprompt-v1.json",
+  "counts": {
+    "train": 291,
+    "valid": 10,
+    "total": 301
+  },
+  "excluded": {
+    "benchmarkQuarantineStems": 58,
+    "noParentVersion": 0,
+    "noopEdits": 0,
+    "oversized_over_maxChars": 122
+  },
+  "approxAvgCharsPerExample": 21581,
+  "approxAvgTokensPerExample": 5395,
+  "editorialCommitsScanned": 481,
+  "note": "gold = before(parent)→after(commit) of 'Editorial restructure:' commits in ~/Dreaming git history"
+}

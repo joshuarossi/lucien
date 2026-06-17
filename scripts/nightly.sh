@@ -70,7 +70,7 @@ run_stage "cluster-assign-recent" "$BUN" run scripts/cluster-assign-recent.ts ||
 # update:" commits land after this SHA).
 DREAM_BEFORE="$(git -C "$HOME/Dreaming" rev-parse HEAD 2>/dev/null || echo "")"
 
-run_stage "synthesize-dispatch"  "$BUN" run scripts/synthesize-dispatch.ts --concurrency 5 || exit 13
+run_stage "synthesize-dispatch"  "$BUN" run scripts/synthesize-dispatch.ts --concurrency 1 || exit 13
 
 # Stage 4a: deterministic footnote repair. Synthesis is *told* to keep
 # [^N] markers/definitions bijective and contiguous but violates it on

@@ -7,12 +7,13 @@ import { DB_PATH } from "./state-path.js";
 import { debugLogPath } from "./debug-log.js";
 import { LUCIEN_PROMPT_SENTINEL } from "./sentinel.js";
 import { canonicalBucketKey } from "./bucket-names.js";
+import { loadMetaPolicyBlock } from "./meta-inline.js";
 
 const BATCH_SIZE = 25;
 const CLAUDE_TIMEOUT_MS = 5 * 60 * 1000;
 const CLAUDE_CWD = join(homedir(), "Dreaming");
 
-const ASSIGN_OR_PROPOSE_PROMPT = `You are organizing chunks of conversation into a personal wiki's bucket taxonomy. You have a list of EXISTING buckets and a batch of NEW topic labels. For each label, decide whether it fits into one or more existing buckets, or whether it represents a genuinely new topic that needs its own bucket.
+export const ASSIGN_OR_PROPOSE_PROMPT = `You are organizing chunks of conversation into a personal wiki's bucket taxonomy. You have a list of EXISTING buckets and a batch of NEW topic labels. For each label, decide whether it fits into one or more existing buckets, or whether it represents a genuinely new topic that needs its own bucket.
 
 DECISION RULES:
 
@@ -23,7 +24,10 @@ DECISION RULES:
 - New bucket descriptions should be 1-2 sentences explaining what the bucket covers.
 - If a label is too thin or off-topic to deserve any bucket (existing or new), return empty buckets and no proposal.
 - Across this batch, if two labels would both warrant the SAME new bucket, use the SAME bucket name in your proposal — don't create duplicates.
-- POLICY: the user's editorial preferences — including how readily to create a new bucket versus merge into an existing one (i.e. a bias toward many small articles or fewer large ones) — may be defined in /Users/joshrossi/Dreaming/Meta/. Use the Read tool to consult the relevant documents there and follow them over the defaults above. This prompt defines WHAT to do; the Meta docs define HOW.
+- POLICY: the user's editorial preferences — including how readily to create a new bucket versus merge into an existing one (i.e. a bias toward many small articles or fewer large ones) — are defined in the Meta policy pages reproduced IN FULL below. Follow them over the defaults above; do not read any files — everything you need is in this prompt. This prompt defines WHAT to do; the Meta pages define HOW.
+
+META POLICY PAGES:
+{{META_DOCS}}
 
 OUTPUT FORMAT:
 Output ONLY a JSON object, nothing else. No markdown fences, no preamble.
@@ -40,28 +44,28 @@ The label_id corresponds to the number prefix in the input list.
 
 `;
 
-interface Bucket {
+export interface Bucket {
     name: string;
     description: string;
 }
 
-interface ChunkRow {
+export interface ChunkRow {
     id: number;
     label: string;
 }
 
-interface NewBucketProposal {
+export interface NewBucketProposal {
     name: string;
     description: string;
 }
 
-interface LLMAssignment {
+export interface LLMAssignment {
     label_id: number;
     existing_buckets: string[];
     new_bucket: NewBucketProposal | null;
 }
 
-interface LLMResponse {
+export interface LLMResponse {
     assignments: LLMAssignment[];
 }
 
@@ -69,7 +73,7 @@ function callClaude(prompt: string): Promise<string> {
     return new Promise((resolve, reject) => {
         // Prompt is passed via stdin, not argv: batched labels can exceed
         // the OS ARG_MAX limit and posix_spawn fails with E2BIG.
-        const proc = spawn("claude", ["-p", "--model", "opus"], {
+        const proc = spawn("pi", ["-p"], {
             cwd: CLAUDE_CWD,
             stdio: ["pipe", "pipe", "pipe"],
         });
@@ -136,7 +140,11 @@ function extractJSON(response: string): any {
     throw new Error("Could not extract valid JSON from response");
 }
 
-function buildPrompt(bucketsMap: Map<string, Bucket>, chunks: ChunkRow[]): string {
+export function buildPrompt(
+    metaBlock: string,
+    bucketsMap: Map<string, Bucket>,
+    chunks: ChunkRow[]
+): string {
     const bucketList = Array.from(bucketsMap.values());
     const bucketSection =
         "EXISTING BUCKETS:\n" +
@@ -144,7 +152,12 @@ function buildPrompt(bucketsMap: Map<string, Bucket>, chunks: ChunkRow[]): strin
     const labelSection =
         "LABELS TO ASSIGN:\n" +
         chunks.map((c, i) => `${i + 1}. ${c.label}`).join("\n");
-    return ASSIGN_OR_PROPOSE_PROMPT + bucketSection + "\n\n" + labelSection;
+    return (
+        ASSIGN_OR_PROPOSE_PROMPT.replace("{{META_DOCS}}", metaBlock) +
+        bucketSection +
+        "\n\n" +
+        labelSection
+    );
 }
 
 async function main() {
@@ -156,6 +169,9 @@ async function main() {
 
     console.log(`Opening database at ${DB_PATH}...`);
     const db = new Database(DB_PATH);
+
+    // Meta pages are inlined once per run; they change only by hand-edit.
+    const metaBlock = await loadMetaPolicyBlock();
 
     // Load buckets into a mutable Map so newly-proposed buckets are visible to subsequent batches
     const initialBuckets = db.query("SELECT name, description FROM buckets").all() as Bucket[];
@@ -219,7 +235,7 @@ async function main() {
             `[batch ${batchNum}/${totalBatches}] Assigning ${batch.length} chunks...`
         );
 
-        const prompt = buildPrompt(bucketsMap, batch);
+        const prompt = buildPrompt(metaBlock, bucketsMap, batch);
         let response: string | undefined;
 
         try {
@@ -416,4 +432,6 @@ async function main() {
     }
 }
 
-await main();
+if (import.meta.main) {
+    await main();
+}

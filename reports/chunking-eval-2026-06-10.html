@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chunk Boundary Evaluation — Local Model Run · 2026-06-10</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0b0e14;
+  --ink2:#10141d;
+  --panel:#141a26;
+  --panel2:#1a2233;
+  --line:#26304a;
+  --moon:#e8e3d5;
+  --dim:#8b93a7;
+  --faint:#5a6377;
+  --model:#e7a43c;   /* amber — the local model */
+  --model-dim:#7a5b2a;
+  --ideal:#5fd4c0;   /* teal — expert ideal */
+  --ideal-dim:#2e6b62;
+  --bad:#e25f5f;
+  --good:#7ec97e;
+  --warn:#e7a43c;
+  --serif:'Fraunces',Georgia,serif;
+  --mono:'IBM Plex Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink);
+  color:var(--moon);
+  font-family:var(--mono);
+  font-size:14px;
+  line-height:1.55;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(1200px 600px at 85% -10%, rgba(95,212,192,.06), transparent 60%),
+    radial-gradient(900px 500px at -10% 20%, rgba(231,164,60,.05), transparent 60%);
+}
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.35;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 32px 120px}
+
+/* ---------- masthead ---------- */
+header{padding:72px 0 40px;border-bottom:1px solid var(--line)}
+.kicker{font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--model);margin-bottom:18px}
+h1{font-family:var(--serif);font-weight:900;font-size:clamp(38px,5.5vw,64px);line-height:1.02;letter-spacing:-.01em}
+h1 em{font-style:italic;font-weight:300;color:var(--ideal)}
+.sub{margin-top:20px;color:var(--dim);max-width:72ch;font-size:13px}
+.sub b{color:var(--moon);font-weight:600}
+.runmeta{display:flex;gap:28px;flex-wrap:wrap;margin-top:26px;font-size:11px;color:var(--faint);letter-spacing:.08em;text-transform:uppercase}
+.runmeta span b{color:var(--dim);font-weight:500}
+
+/* ---------- verdict band ---------- */
+.band{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin:48px 0 0}
+.stat{background:var(--panel);padding:22px 20px 18px;position:relative;overflow:hidden}
+.stat .n{font-family:var(--serif);font-weight:600;font-size:42px;line-height:1;letter-spacing:-.02em}
+.stat .l{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-top:10px}
+.stat.hero .n{color:var(--model)}
+.stat .n small{font-size:18px;color:var(--faint);font-family:var(--mono);font-weight:400}
+.stat.alert .n{color:var(--bad)}
+.stat.fine .n{color:var(--good)}
+
+/* ---------- grade letter ---------- */
+.grade{display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:center;margin:56px 0;padding:36px 40px;background:linear-gradient(135deg,var(--panel) 0%,var(--ink2) 100%);border:1px solid var(--line);border-left:4px solid var(--model)}
+.grade .letter{font-family:var(--serif);font-weight:900;font-size:120px;line-height:.85;color:var(--model)}
+.grade .letter sup{font-size:48px;vertical-align:super}
+.grade p{color:var(--dim);font-size:13.5px;max-width:70ch}
+.grade p b{color:var(--moon)}
+
+/* ---------- sections ---------- */
+h2{font-family:var(--serif);font-weight:600;font-size:28px;margin:72px 0 8px;letter-spacing:-.01em}
+h2 .idx{color:var(--model);font-family:var(--mono);font-size:13px;vertical-align:middle;margin-right:14px;letter-spacing:.2em}
+.sectionnote{color:var(--faint);font-size:12px;margin-bottom:28px;max-width:80ch}
+
+/* ---------- issue taxonomy ---------- */
+.issues{display:flex;flex-direction:column;gap:10px;margin-top:24px}
+.issuerow{display:grid;grid-template-columns:230px 1fr 36px;gap:18px;align-items:center}
+.issuerow .name{font-size:12px;color:var(--dim)}
+.issuerow .name b{color:var(--moon);font-weight:500;display:block;font-size:13px}
+.bar{height:22px;background:var(--ink2);border:1px solid var(--line);position:relative}
+.bar i{position:absolute;inset:0 auto 0 0;display:block}
+.bar i.sev-high{background:repeating-linear-gradient(-45deg,var(--bad),var(--bad) 5px,#a84545 5px,#a84545 10px)}
+.bar i.sev-med{background:var(--model-dim)}
+.bar i.sev-low{background:var(--ideal-dim)}
+.issuerow .ct{font-family:var(--serif);font-size:22px;font-weight:600;text-align:right}
+
+/* ---------- legend ---------- */
+.legend{display:flex;gap:26px;flex-wrap:wrap;align-items:center;margin:18px 0 30px;font-size:11px;color:var(--dim)}
+.legend .sw{display:inline-block;width:26px;height:11px;margin-right:8px;vertical-align:-1px}
+.sw.m{background:var(--model)}
+.sw.i{background:var(--ideal)}
+.sw.gap{background:repeating-linear-gradient(-45deg,transparent,transparent 3px,var(--bad) 3px,var(--bad) 5px);border:1px solid var(--bad)}
+.sw.hal{background:var(--ink2);border:1px dashed var(--bad)}
+
+/* ---------- conversation cards ---------- */
+.card{background:var(--panel);border:1px solid var(--line);margin-bottom:22px;position:relative}
+.card.verdict-agree{border-left:4px solid var(--good)}
+.card.verdict-minor_disagreement{border-left:4px solid var(--model)}
+.card.verdict-major_disagreement{border-left:4px solid var(--bad)}
+.cardhead{display:flex;justify-content:space-between;gap:20px;align-items:baseline;padding:20px 26px 4px;flex-wrap:wrap}
+.cardhead h3{font-family:var(--serif);font-weight:600;font-size:19px;letter-spacing:-.01em;max-width:62ch}
+.chips{display:flex;gap:8px;align-items:center;flex-shrink:0}
+.chip{font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:4px 10px;border:1px solid var(--line);color:var(--dim);white-space:nowrap}
+.chip.v-agree{color:var(--good);border-color:var(--good)}
+.chip.v-minor_disagreement{color:var(--model);border-color:var(--model)}
+.chip.v-major_disagreement{color:var(--bad);border-color:var(--bad)}
+.scorepair{font-family:var(--mono);font-size:11px;color:var(--faint);padding:4px 0}
+.scorepair b{font-size:15px;color:var(--moon);font-weight:600}
+.cardmeta{padding:0 26px;font-size:11px;color:var(--faint);letter-spacing:.06em}
+
+/* tracks */
+.tracks{padding:18px 26px 6px}
+.trackrow{display:grid;grid-template-columns:52px 1fr;gap:14px;align-items:center;margin-bottom:7px}
+.trackrow .tl{font-size:9px;letter-spacing:.22em;text-transform:uppercase;text-align:right}
+.trackrow .tl.m{color:var(--model)}
+.trackrow .tl.i{color:var(--ideal)}
+.track{position:relative;background:var(--ink2);border:1px solid var(--line);min-height:20px}
+.track .lane{position:relative;height:18px}
+.track .lane + .lane{border-top:1px solid var(--ink)}
+.seg{position:absolute;top:2px;bottom:2px;min-width:3px;cursor:default;transition:filter .15s}
+.seg:hover{filter:brightness(1.35);z-index:3}
+.seg.m{background:var(--model);box-shadow:inset -1px 0 0 var(--ink),inset 1px 0 0 var(--ink)}
+.seg.i{background:var(--ideal);box-shadow:inset -1px 0 0 var(--ink),inset 1px 0 0 var(--ink)}
+.seg.hal{background:var(--ink2);border:1px dashed var(--bad)}
+.gapseg{position:absolute;top:2px;bottom:2px;background:repeating-linear-gradient(-45deg,transparent,transparent 3px,rgba(226,95,95,.7) 3px,rgba(226,95,95,.7) 5px)}
+.ruler{display:grid;grid-template-columns:52px 1fr;gap:14px;margin-top:2px}
+.ruler .scale{position:relative;height:14px;font-size:9px;color:var(--faint)}
+.ruler .tick{position:absolute;transform:translateX(-50%)}
+
+/* summary + findings */
+.cardbody{padding:14px 26px 22px;display:grid;grid-template-columns:1.1fr .9fr;gap:30px}
+@media(max-width:860px){.cardbody{grid-template-columns:1fr}}
+.summary{font-size:13px;color:var(--dim);border-top:1px solid var(--line);padding-top:14px}
+.summary::first-letter{font-family:var(--serif);font-size:21px;color:var(--moon)}
+.findings{border-top:1px solid var(--line);padding-top:14px}
+.findings h4{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:10px}
+.findings ul{list-style:none}
+.findings li{font-size:12px;color:var(--dim);padding-left:18px;position:relative;margin-bottom:8px}
+.findings li::before{content:"";position:absolute;left:0;top:6px;width:8px;height:8px}
+.findings li.d::before{background:var(--bad)}
+.findings li.a::before{background:var(--good);border-radius:50%}
+.findings li .t{color:var(--bad);font-size:10px;letter-spacing:.1em;text-transform:uppercase;margin-right:6px}
+details.chunklist{margin-top:6px;border-top:1px solid var(--line)}
+details.chunklist summary{cursor:pointer;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);padding:12px 0 6px;list-style:none}
+details.chunklist summary:hover{color:var(--moon)}
+details.chunklist summary::before{content:"+ "}
+details[open].chunklist summary::before{content:"− "}
+.chunkcols{display:grid;grid-template-columns:1fr 1fr;gap:22px;padding:8px 0 14px}
+@media(max-width:860px){.chunkcols{grid-template-columns:1fr}}
+.chunkcols h5{font-size:9px;letter-spacing:.22em;text-transform:uppercase;margin-bottom:8px}
+.chunkcols .mh{color:var(--model)}
+.chunkcols .ih{color:var(--ideal)}
+.chunkcols ol{list-style:none;font-size:11.5px}
+.chunkcols li{margin-bottom:5px;color:var(--dim)}
+.chunkcols li .rng{color:var(--faint);font-size:10px;margin-right:8px;display:inline-block;min-width:58px}
+.chunkcols li .rng.bad{color:var(--bad)}
+
+/* recommendations */
+.recs{counter-reset:rec;display:flex;flex-direction:column;gap:0;border:1px solid var(--line);margin-top:26px}
+.rec{display:grid;grid-template-columns:80px 1fr;gap:0;border-bottom:1px solid var(--line)}
+.rec:last-child{border-bottom:none}
+.rec .num{counter-increment:rec;background:var(--ink2);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:30px;font-weight:300;color:var(--model);border-right:1px solid var(--line)}
+.rec .num::before{content:counter(rec,decimal-leading-zero)}
+.rec .body{padding:20px 26px}
+.rec h3{font-family:var(--serif);font-size:17px;font-weight:600;margin-bottom:6px}
+.rec p{font-size:12.5px;color:var(--dim);max-width:90ch}
+.rec p code{color:var(--ideal);font-size:11.5px}
+footer{margin-top:90px;padding-top:24px;border-top:1px solid var(--line);font-size:11px;color:var(--faint);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">Lucien Pipeline · chunk-recent.ts · Stage Evaluation</div>
+  <h1>Where the model cut,<br><em>and where it should have.</em></h1>
+  <p class="sub">The 2026-06-10 run of <b>chunk-recent</b> segmented <b>26 conversations</b> into <b>108 chunks</b> using the local model (<b>pi → Qwen3.6-27B-OptiQ</b>). Every conversation was independently re-segmented by an expert reviewer; the model's boundaries were then compared against that ideal, scored, and the disagreements catalogued below.</p>
+  <div class="runmeta">
+    <span>Run <b>2026-06-10 00:30 UTC</b></span>
+    <span>Model <b>Qwen3.6-27B-OptiQ-4bit via pi -p</b></span>
+    <span>Evaluator <b>Claude Fable 5 × 8 parallel judges</b></span>
+    <span>Corpus <b>26 convs · 446 messages</b></span>
+  </div>
+</header>
+
+<div class="band">
+  <div class="stat hero"><div class="n" id="s-boundary">—</div><div class="l">Mean boundary score</div></div>
+  <div class="stat"><div class="n" id="s-label">—</div><div class="l">Mean label score</div></div>
+  <div class="stat fine"><div class="n" id="s-agree">—</div><div class="l">Verdict: agree</div></div>
+  <div class="stat"><div class="n" id="s-minor">—</div><div class="l">Minor disagreement</div></div>
+  <div class="stat fine"><div class="n" id="s-major">—</div><div class="l">Major disagreement</div></div>
+  <div class="stat alert"><div class="n">3<small>/108</small></div><div class="l">Hallucinated UUIDs</div></div>
+</div>
+
+<div class="grade">
+  <div class="letter">B<sup>+</sup></div>
+  <p><b>The local model reads topic structure like an expert but fumbles the mechanics.</b> In 14 of 26 conversations its segmentation was essentially identical to the ideal; in the other 12 the disagreements were structural quibbles, not failures of comprehension. Zero major disagreements. Its labels are consistently specific and accurate (mean 91). The real defects are clerical: <b>3 chunks anchor to message UUIDs that don't exist</b> (twice it pasted the conversation UUID as a start anchor, once it spliced two UUIDs together), and it occasionally <b>orphans the final substantive message</b> of a thread. Those are exactly the failure modes a small local model shows on long-ID transcription — and exactly the kind a validation pass can catch.</p>
+</div>
+
+<h2><span class="idx">§01</span>Failure taxonomy</h2>
+<p class="sectionnote">Every disagreement across all 26 evaluations, classified. Severity reflects downstream impact on synthesis: a hallucinated UUID breaks citation resolution entirely; an over-split just makes buckets slightly noisier.</p>
+<div class="issues" id="issues"></div>
+
+<h2><span class="idx">§02</span>Boundary maps — all 26 conversations</h2>
+<p class="sectionnote">Each conversation shows two tracks over the same message axis: <b style="color:var(--model)">amber = the model's chunks</b>, <b style="color:var(--ideal)">teal = the expert ideal</b>. Hover any segment for its label. Overlapping chunks stack into lanes. Cards are ordered worst-first by boundary score.</p>
+<div class="legend">
+  <span><i class="sw m"></i>Model chunk</span>
+  <span><i class="sw i"></i>Ideal chunk</span>
+  <span><i class="sw gap"></i>Uncovered substantive message (model track only)</span>
+  <span><i class="sw hal"></i>Hallucinated anchor — UUID not in conversation</span>
+</div>
+<div id="cards"></div>
+
+<h2><span class="idx">§03</span>Recommendations</h2>
+<div class="recs">
+  <div class="rec"><div class="num"></div><div class="body">
+    <h3>Validate anchors at insert time</h3>
+    <p>All 3 hallucinated UUIDs were near-misses (conversation UUID pasted as start anchor ×2; two message UUIDs spliced together ×1). In <code>chunk-recent.ts</code>, before <code>insertChunk.run(...)</code>, verify both UUIDs exist in the loaded message list — and when one doesn't, snap to the nearest plausible message (first message for a bad start, the message whose UUID shares the longest prefix for a splice) or re-prompt for that one chunk. This single check converts every hard failure in this run into a non-event.</p>
+  </div></div>
+  <div class="rec"><div class="num"></div><div class="body">
+    <h3>Check tail coverage</h3>
+    <p>The model dropped the final substantive exchange three times (trade report msg 34, MLX msgs 52–53, plus farewell tails). After parsing, diff the union of chunk ranges against the message list; if a trailing substantive message is uncovered, extend the last chunk. Cheap, deterministic, and recovers the most-recent — often most-valuable — content.</p>
+  </div></div>
+  <div class="rec"><div class="num"></div><div class="body">
+    <h3>Tame the overlap instinct</h3>
+    <p>The policy allows single-message dual-membership overlap, but the model twice produced multi-message envelopes (a 6-message overlap in the Ferrari conversation; a chunk fully containing another in the eval conversation). Consider tightening <code>Meta/Chunking.md</code>: "chunks may share at most one boundary message" — the model follows the Meta docs, so this is a config edit, not a code change.</p>
+  </div></div>
+  <div class="rec"><div class="num"></div><div class="body">
+    <h3>Accept the granularity as-is</h3>
+    <p>The model leans finer-grained than the ideal (29 chunks vs ~20 on the MLX conversation), but per <code>Meta/Chunking.md</code> aspect sub-chunks are explicitly permitted, and thin buckets are fine downstream. No action needed unless cluster noise becomes visible at synthesis.</p>
+  </div></div>
+</div>
+
+<footer>
+  <span>Generated 2026-06-10 · Lucien chunking evaluation · 8 independent judge agents, one pass</span>
+  <span style="color:var(--model)">amber cuts · <span style="color:var(--ideal)">teal truth</span></span>
+</footer>
+</div>
+
+<script>
+const DATA = [
+{u:"52b3e331",name:"Ferrari is my least favorite F1 team — why are Ferrari so bad?",mc:18,bs:62,ls:88,v:"minor_disagreement",
+ m:[[0,2,"Ferrari's chronic underperformance in F1"],[3,4,"F1 GOAT debate and 2021 Abu Dhabi controversy"],[4,12,"F1 stewarding, drama versus fairness, Masi"],[5,10,"McLaren drivers Norris Piastri and young talent pipeline"]],
+ i:[[0,2,"Ferrari's chronic F1 underperformance and fan heartbreak"],[3,4,"F1 GOAT debate and Abu Dhabi 2021 controversy"],[4,7,"Masi stewarding fairness and the sport-versus-wrestling line"],[5,10,"Norris, Piastri, and McLaren intra-team rivalry picks"],[8,17,"Mutual farewells closing the F1 conversation"]],
+ d:[["misaligned_boundary","Stewarding chunk runs 4–12, swallowing farewell messages 8–11 and the Piastri reply at 10; substantive stewarding content ends ~7."],["over_split","Chunks 3 (4–12) and 4 (5–10) overlap on six messages — far beyond legitimate single-message dual-membership."],["missed_content","Farewell tail 13–17 uncovered; low-substance, minor."]],
+ a:["First two topic boundaries match exactly","Spotted the out-of-order McLaren thread (5,10) despite relay interleaving — impressive","Labels uniformly specific and accurate"],
+ s:"The model nailed the first two topics and correctly spotted the out-of-order McLaren thread, which is impressive given the relay interleaving. However its stewarding chunk over-extends into the farewell sequence and overlaps the McLaren chunk by six messages, far beyond legitimate boundary dual-membership."},
+{u:"3310dfc0",name:"MLX-Optiq QLora fine-tuning approach",mc:62,bs:66,ls:84,v:"minor_disagreement",
+ m:[[0,1,"MLX-Optiq QLora fine-tuning approach analysis"],[2,3,"DSL reference confusion from prior conversation"],[4,5,"Qwen3.6-27B-OptiQ-4bit local throughput and KV cache"],[6,7,"MTP already active and serve script analysis"],[8,9,"Gemma 4 12B versus 31B model selection debate"],[10,12,"Vision support on Gemma 31B and Qwen models"],[13,15,"Missing MTP and vision sidecar files discovered"],[16,18,"MiniCPM5 1B as fine-tuning iteration target"],[18,20,"Broad fine-tuning exploration beyond DSL projects"],[20,21,"AI session instructions and memory block transparency"],[22,23,"Lucien skill not firing and Dreaming lookup"],[24,25,"Dreaming folder inspection and Downloads folder access"],[26,28,"ChatGPT export as fine-tuning corpus analysis"],[29,30,"Four datasets cut from ChatGPT export corpus"],[30,31,"Dreaming articles as training data and SFT overview"],[32,33,"Post-training stack walkthrough and acronym explanations"],[34,35,"Lucien as natural RLHF preference harvesting system"],[36,37,"Satisficing epistemology and context-dependent correctness"],[38,39,"Negative feedback loop self-healing with quesadilla example"],[40,41,"Trust versus indifference in non-review signals"],[42,43,"Human relationships as model plus correction contract"],[44,45,"AI memory push versus pull retrieval architecture"],[46,48,"Anthropic Dreaming feature convergence with Lucien architecture"],[48,49,"Dreaming deployed on agents instead of assistants"],[50,51,"50 First Dates analogy for memory tape purpose"],[54,56,"Claude -p pricing changes ending flat-rate automation"],[56,57,"Local models as only path to flat-rate delegation"],[58,59,"Local Qwen synthesis experiment run sheet"],[60,61,"Using pi for interactive local synthesis test"]],
+ i:[[0,1,"MLX-Optiq mixed-precision QLoRA approach evaluation"],[2,3,"Stale DSL memory reference from prior conversation"],[4,7,"Qwen3.6-27B local throughput, MTP, and KV cache tuning"],[8,12,"Gemma 12B versus 31B selection and vision support"],[13,15,"Missing MTP and vision sidecar files in snapshot"],[16,19,"MiniCPM5 and small-model fine-tuning targets"],[20,23,"Session instructions transparency and Lucien skill failure"],[24,25,"Dreaming catch-up and inaccessible Downloads export folder"],[26,29,"ChatGPT export cut into fine-tuning datasets"],[30,31,"Dreaming articles as training data and SFT overview"],[32,33,"Post-training stack ladder and RLHF/DPO/RLVR acronyms"],[34,35,"Lucien corrections as free RLHF preference signal"],[36,39,"Satisficing correctness and self-healing feedback loop"],[40,43,"Non-review trust signals and relationship-as-correction contract"],[44,45,"Push versus pull memory retrieval failure anatomy"],[46,49,"Anthropic Dreaming feature news and agent misdeployment"],[50,51,"Sourcing the Anthropic Dreaming announcement and leaks"],[52,53,"50 First Dates anterograde amnesia analogy for the Dreaming"],[54,57,"Claude -p metered billing and local-model response"],[58,61,"Running local Qwen synthesis immediately via pi"]],
+ d:[["missed_content","Messages 52–53 — the substantial 50 First Dates exchange — are covered by no chunk."],["bad_label","The 50–51 chunk is labeled '50 First Dates analogy' but those messages are actually about sourcing the Anthropic announcement; the label describes 52–53."],["over_split","Continuous threads fragmented into 2-message pairs: 4–7 (Qwen throughput/MTP), 26–29 (export corpus), 54–57 (pricing change)."],["misaligned_boundary","Overlap at message 20 is weak — it purely opens the system-instructions topic, not dual-membership."]],
+ a:["Nearly all boundaries land on genuine conversational seams; none cut mid-exchange","All major topic pivots isolated correctly across a 62-message conversation","Overlaps at 18, 30, 48, 56 are mostly genuine dual-membership","No hallucinated UUIDs across 29 chunks"],
+ s:"The model's 29 chunks track the conversation's real seams well and are mostly defensible sub-chunks of the arcs an expert would draw, with accurate labels throughout. Its real failures cluster at the end: the 50 First Dates label landed on the wrong messages, leaving the genuine exchange at 52–53 entirely uncovered. The rest is finer-grained than ideal but within policy."},
+{u:"6816ed0c",name:"this is a test",mc:2,bs:70,ls:85,v:"minor_disagreement",
+ m:[[0,1,"Session connectivity test"]],i:[],
+ d:[["over_split","Pure connectivity noise ('this is a test' / ack) should have produced zero chunks; the model emitted one."]],
+ a:["If a chunk were warranted, boundaries and label would both be accurate"],
+ s:"A bare connectivity test with no information worth synthesizing should have produced zero chunks. The label honestly describes it, so the cost is noise rather than misinformation — but emitting nothing was the better choice, and the model managed exactly that on the near-identical greeting conversation."},
+{u:"a5349f7d",name:"/graphify on the Chivo .NET codebase",mc:48,bs:75,ls:95,v:"minor_disagreement",
+ m:[[null,15,"Graphify pipeline blocked by security classifier"],[16,37,"Full graphify pipeline run on Chivo .NET codebase"],[38,47,"Tracing user withdrawal flow through Chivo codebase"]],
+ i:[[0,15,"First graphify attempt blocked by security classifier"],[16,39,"Graphify pipeline build on Chivo .NET codebase"],[40,47,"Tracing user withdrawal flow through OMS state machine"]],
+ d:[["hallucinated_uuid","Chunk 1's start anchor is the conversation UUID, not message 0's UUID — start_index unresolvable."],["misaligned_boundary","'Open the html report' epilogue (38–39) attached to the withdrawal chunk instead of the pipeline chunk; real shift is at 40."]],
+ a:["Three-chunk structure matches the ideal exactly","The 15/16 boundary (graphify re-invocation) is precisely right","Labels specific and accurate throughout"],
+ s:"The model found the same three-part structure an expert would: blocked first attempt, successful pipeline run, withdrawal-flow trace. Two flaws: it emitted the conversation UUID instead of message 0's UUID as the first anchor, and it attached the report-opening epilogue to the wrong chunk."},
+{u:"3e8edcb5",name:"what is the best current AI tool, and why?",mc:12,bs:75,ls:90,v:"minor_disagreement",
+ m:[[0,1,"Best AI tool comparison by use case"],[2,3,"Agentic work and long-horizon task interests"],[4,5,"Debugging interests and agentic failure patterns"],[6,7,"Race condition war story and grounding strategies"]],
+ i:[[0,1,"Best current AI tool depends on use case"],[2,5,"Agentic long-horizon work, debugging, and failure patterns"],[6,7,"Connection-pool race condition war story and anti-drift grounding"],[8,11,"Mutual farewells ending the relay conversation"]],
+ d:[["over_split","Chunks 2–3 and 4–5 are one continuous agentic-work thread; message 4 directly answers message 3's bounce-back."],["missed_content","Farewell tail 8–11 uncovered — minor, as it carries no substance."]],
+ a:["Boundaries at 0–1 and 6–7 match exactly","Correctly left the non-substantive farewell tail without a chunk","Labels specific and faithful"],
+ s:"The model segmented this relay chat per Q&A pair, which mostly works but fragments the continuous agentic-work thread (2–5) into two chunks. The boundaries it did draw are clean and the labels specific."},
+{u:"9aea2d3a",name:"Conversation evaluation request",mc:29,bs:76,ls:90,v:"minor_disagreement",
+ m:[[0,5,"Confabulated model name callout and search tool failure"],[6,9,"Claude Fable existence check and repeated verification failure"],[6,11,"Hardware deployment options for a 7B parameter model"],[10,16,"Measuring tokens-per-second with MLX on the 27B OptIQ model"],[16,28,"Benchmarking the 27B OptIQ — TPS results and prompt errors"]],
+ i:[[0,5,"Wrongly calling Qwen3.6-27B-OptiQ confabulated instead of searching"],[6,7,"Hardware requirements for running a trained 7B model"],[6,9,"Claude Fable existence check and repeated refusal to verify"],[10,15,"Measuring tokens-per-second with mlx-lm on the OptIQ 27B server"],[16,28,"Curl benchmark results, M1 Max bandwidth ceiling, max_tokens errors"]],
+ d:[["misaligned_boundary","Hardware chunk (6–11) overshoots: 8–9 are the Fable dispute, 10–11 are TPS measurement; it should end at 7."],["over_split","Chunks 2 and 3 overlap by four messages — chunk 3 fully contains chunk 2's range."]],
+ a:["All real topic shifts (0, 6, 10, 16) detected","Single-message overlap at 16 is a legitimate dual-membership call","Keeping 16–28 as one benchmarking chunk is defensible"],
+ s:"The model found all the real topic shifts and its labels are specific and accurate. The one structural flaw is the hardware chunk: it runs 6–11, fully enveloping the Fable chunk and bleeding into the TPS chunk, when the hardware Q&A is really just messages 6–7."},
+{u:"9a80f664",name:"Trade report analysis",mc:35,bs:80,ls:93,v:"minor_disagreement",
+ m:[[0,null,"Trade report analysis — overtrading and fee bleed diagnosis"],[2,3,"Evaluating old trading prompt; risk-first rewrite"],[4,5,"Correction: 93% of losses were fees not direction"],[6,7,"Fee ante model — break-even move as cost gate"],[8,9,"Reframing objective: minimize fee fraction"],[10,11,"Fee formula derivation and one-shot harness design"],[12,13,"One-shot harness pseudocode and validation rules"],[14,15,"Fee-adjusted move model formalization, k analysis"],[16,19,"Reconciling k=20 gate with 5% fee ceiling"],[20,25,"Account return table; fee brick wall vs drag"],[26,27,"Writing the slim trading prompt with live gates"],[28,29,"Harness handoff spec for prompt integration"],[30,33,"First live run with gpt-oss-20b — missing TP issues"]],
+ i:[[0,1,"Trade report review: overtrading and fee bleed diagnosis"],[2,3,"Evaluating old trading prompt and risk-first rewrite"],[4,7,"Fees-not-direction correction and break-even ante framing"],[8,9,"Reframing goal: fee fraction as behavioral metric"],[10,13,"Break-even formula derivation and one-shot harness design"],[14,15,"Formal fee-adjusted move model and k threshold analysis"],[16,19,"Reconciling fee gate with per-minute decision rules"],[20,25,"Return table, k=10 implied move, fee brick wall framing"],[26,29,"Slim prompt rewrite and harness handoff specification"],[30,34,"First live gpt-oss-20b run: missing TP and liquidation floor"]],
+ d:[["hallucinated_uuid","Chunk 1's end UUID is a splice of message 2's prefix and message 1's suffix — unresolvable."],["missed_content","Final substantive message (34, maintenance-margin explanation) covered by no chunk."],["misaligned_boundary","Ending the live-run chunk at 33 splits the margin question from its answer."]],
+ a:["11 of 13 boundaries coincide with ideal or acceptable sub-chunk boundaries","Merges at 16–19 and 20–25 match expert judgment exactly","Recognized 30+ as a distinct live-deployment phase","Sub-chunking of 4–9 and 26–29 within policy"],
+ s:"The segmentation tracks the conversation's natural phase structure very closely — diagnosis, critique, reframing, harness design, calibration, live run — and its merge/split decisions match expert judgment. Two real defects: a spliced (hallucinated) end UUID on chunk 1, and the final maintenance-margin message left uncovered."},
+{u:"f7b50f74",name:"Install graphify globally via uv",mc:24,bs:80,ls:88,v:"minor_disagreement",
+ m:[[0,23,"Global graphify installation via uv"]],
+ i:[[0,11,"Python tooling check and uv installation for graphify"],[12,14,"graphifyy PyPI typosquat verification before global install"],[15,23,"graphify CLI install, skill registration, PATH verification"]],
+ d:[["under_split","One chunk flattens distinguishable sub-aspects — the typosquat security verification (12–14) deserved its own sub-chunk."]],
+ a:["Correctly treated the whole conversation as one continuous installation task","Full coverage, no missed or duplicated content","Label names the tool, scope, and method"],
+ s:"The model collapsed a 24-message install workflow into one chunk. Defensible since it is genuinely one task, but the policy invites sub-chunks and the graphifyy typosquat verification episode deserved one. The only under-split in the entire run."},
+{u:"c24b3a06",name:"Swapping pipeline scripts from claude to pi",mc:20,bs:80,ls:92,v:"minor_disagreement",
+ m:[[6,14,"Swapping pipeline scripts from claude to pi for local testing"],[15,17,"Running the nightly pipeline test via detached loop session"],[18,19,"Reducing synthesis concurrency to 1 for local testing"]],
+ i:[[0,5,"Session setup: model set to Fable 5, effort set to high"],[6,14,"Switching eight pipeline scripts from claude -p to pi -p"],[15,19,"Launching the nightly pi test run, concurrency to 1"]],
+ d:[["missed_content","Messages 0–5 (/model and /effort command exchanges) covered by no chunk; low-substance but policy says cover everything."],["over_split","Chunk 3 (18–19) directly continues message 17's concurrency proposal; 15–19 is one exchange."]],
+ a:["Main implementation chunk (6–14) matches the ideal exactly","The 14/15 boundary (implementation → execution) is correct","Labels uniformly specific"],
+ s:"The model nailed the main implementation chunk and the shift from coding to test execution. It left six leading command-noise messages uncovered and split the concurrency follow-up off from the discussion it grew out of — a mild over-split."},
+{u:"e8ab3a4d",name:"Claude Fable 5 and Mythos 5 access on Max plan",mc:6,bs:85,ls:95,v:"minor_disagreement",
+ m:[[0,1,"Fable 5 / Mythos 5 announcement and Max plan access"],[2,3,"Archie cybersecurity classifier caveat correction"],[4,5,"Fable 5 staged rollout delay and troubleshooting steps"]],
+ i:[[0,3,"Fable 5 / Mythos 5 announcement, Max access, classifier correction"],[4,5,"Fable 5 staged rollout delay and access troubleshooting"]],
+ d:[["over_split","Splitting 2–3 (classifier correction) from 0–1 is per-turn segmentation of one continuous explanation — mild."]],
+ a:["The 4/5 boundary (comprehension → troubleshooting) matches exactly","Full coverage, no hallucinated UUIDs","Labels excellent — specific and well-scoped"],
+ s:"Essentially the right structure: the only quibble is splitting the Archie-classifier correction into its own chunk when it is a direct follow-up to the announcement explanation, which the policy tolerates as a sub-chunk."},
+{u:"fcfb15ff",name:"Two-AI tmux relay conversation build",mc:62,bs:88,ls:94,v:"minor_disagreement",
+ m:[[null,8,"Two-AI conversation concept and relay turn mechanism"],[9,17,"Architecture design — config files, 3-pane layout, pi model"],[18,27,"Building relay script, instruction files, and smoke test"],[28,38,"First live run reveals startup race condition"],[39,46,"Persona reframe, readiness poll, pi relay reliability"],[47,49,"Logging opening prompt to transcript"],[50,61,"Fixing conversation forking with turn lock and HTML renderer"]],
+ i:[[0,8,"Two-AI tmux conversation concept and relay-based turn signaling"],[9,17,"Design decisions: configs, prompt-as-argument, pi launch flags"],[18,27,"Implementing relay script, instruction files, isolated smoke test"],[28,38,"First detached live run and the dropped-first-message race"],[39,46,"Both-think-other-is-human persona reframe, readiness polling"],[47,49,"Logging the opening prompt as a labeled transcript line"],[50,61,"Turn-lock fix for forking, HTML renderer, executables explainer"]],
+ d:[["hallucinated_uuid","Chunk 1's start anchor is the conversation UUID, not message 0's UUID — null start_index."],["bad_label","Minor: the 50–61 label omits the executables explainer tangent."]],
+ a:["All seven boundaries match the ideal exactly across 62 messages","No over- or under-splitting anywhere — the phase structure is exactly right","No spurious overlaps; full substantive coverage","Labels specific, technical, faithful"],
+ s:"Segmentation of this 62-message build session is essentially identical to what an expert would produce — every phase boundary lands exactly where it should. The only real defect is mechanical: the first chunk's start anchor is the conversation UUID, yielding a null index downstream tooling cannot resolve. With that fixed this scores high-90s."},
+{u:"ce8a6e8b",name:"Local models: Odysseus vs MLX",mc:14,bs:93,ls:95,v:"agree",
+ m:[[0,4,"Does Odysseus use MLX as a backend"],[4,5,"llama.cpp versus MLX differences on Apple Silicon"],[6,7,"Fine-tuning feasibility on 32GB M1 Max with MLX"],[8,9,"Fine-tuning Qwen on a DSL for agentic validation"],[10,11,"Cross-entropy loss versus parse-rate as evaluation metric"],[12,13,"Closed-loop iterative fine-tuning with active learning"]],
+ i:[[0,3,"Whether Odysseus uses MLX as its inference backend"],[4,5,"llama.cpp versus MLX engine differences on Apple Silicon"],[6,7,"LoRA/QLoRA fine-tuning feasibility on a 32GB M1 Max"],[8,9,"Fine-tuning Qwen on a custom DSL for agentic validation"],[10,11,"Cross-entropy training loss versus DSL parse-rate metric"],[12,13,"Closed-loop curriculum: hard-example mining, iterative fine-tuning"]],
+ d:[["misaligned_boundary","Chunk 1 extends to 4, overlapping chunk 2's start; message 4 mostly opens the next question. Borderline-defensible, ±1 either way."]],
+ a:["Six-chunk structure matches the ideal exactly; five of six chunks identical","Every topic shift detected at the correct user message","Labels capture real technical substance"],
+ s:"The model produced the same six-part structure an expert would, with every topic shift detected at the correct user message. The only quibble is a one-message overlap at index 4, which is arguably legitimate dual membership."},
+{u:"468fff3b",name:"Installing the Ralph Loop plugin",mc:20,bs:95,ls:85,v:"agree",
+ m:[[0,3,"Brief greeting exchange"],[4,17,"Installing and exploring Ralph Loop plugin"],[18,19,"Autonomous loop check with no established work"]],
+ i:[[0,3,"Session start and greeting after /clear"],[4,17,"Installing the Ralph Loop plugin and learning how it works"],[18,19,"Autonomous loop tick finding no work, treated as no-op"]],
+ d:[["bad_label","Minor: 'Brief greeting exchange' under-describes the /clear reset; 'exploring' undersells the failed wrong-name install."]],
+ a:["All three boundaries match exactly, including grouping the failed install attempt with the successful one","Timer-fired autonomous tick correctly separated","Full coverage including command noise"],
+ s:"The model's structure matches the ideal: greeting, the full plugin install-and-help arc as one chunk, and the autonomous no-op tick separated out. Labels accurate, the greeting one slightly generic."},
+{u:"6798106e",name:"Perfume concentration types explained",mc:26,bs:96,ls:90,v:"agree",
+ m:[[0,1,"Perfume concentration terminology: absolu, extrait, elixir"],[2,3,"Creed Aventus Absolu review and drydown"],[4,7,"Fragrance preference profiling and scent recommendations"],[8,11,"New fragrance purchases haul and decant testing"],[12,13,"Fragrance color categories: blue, brown, amber"],[14,17,"MFK Gentle Fluidity Gold and Gaultier reissue"],[18,19,"BR540 Extrait large bottle pricing"],[20,25,"Core scent preferences and Tom Ford Oud Wood"]],
+ i:[[0,1,"Perfume concentration tiers: absolu, extrait, elixir meanings"],[2,3,"Creed Aventus Absolu impressions: aftershave opening, better drydown"],[4,7,"Fragrance favorites profile and Sauvage astringency dislike"],[8,11,"New haul (BR540, Vanilla Powder, Absolu) and decant-testing logic"],[12,13,"'Blue' fragrance slang and other color categories"],[14,17,"MFK Gentle Fluidity Gold decant and Gaultier squared reissue"],[18,19,"BR540 Extrait 200ml near-$1k pricing"],[20,25,"Core note preferences and Tom Ford Oud Wood impulse buy"]],
+ d:[["bad_label","Minor: 'blue, brown, amber' slightly overstates — the exchange defines blue in depth, other colors only briefly."]],
+ a:["All eight boundaries match the ideal exactly","Granularity well calibrated: pair-level for discrete aspects, merged for continuous threads","Full coverage, no gaps, overlaps, or hallucinated UUIDs"],
+ s:"The model's eight sub-chunks align with the ideal boundary-for-boundary, correctly tracking each conversational beat within the single broad fragrance topic. An excellent chunking overall."},
+{u:"019e999d",name:"Untitled — Dreaming maintenance & Archie restructure",mc:30,bs:97,ls:95,v:"agree",
+ m:[[0,11,"Investigating stray markdown files in Dreaming root"],[12,18,"Reading Archie_Project article; proposing condensed version"],[19,29,"Restructuring Archie wiki with hub page and sub-articles"]],
+ i:[[0,11,"Diagnosing stray root-level markdown files in Dreaming"],[12,18,"Wikipedia-editor pass: condensing Archie_Project article"],[19,29,"Creating Archie hub article and detailed sub-articles"]],
+ d:[["misaligned_boundary","Negligible: 12–14 (reading) could split from 15–18 (proposal); merging is equally defensible."]],
+ a:["All three boundaries match exactly on the user pivot messages","Full coverage, no gaps, no hallucinated UUIDs","Three-chunk structure matches the natural phases"],
+ s:"The model's segmentation is essentially identical to the ideal: three chunks tracking the stray-file investigation, the editorial pass, and the hub restructure, with every boundary on the exact pivot message. Close to a perfect chunking."},
+{u:"48112a61",name:"Please generate a 100 word poem",mc:11,bs:97,ls:88,v:"agree",
+ m:[[0,1,"Request for a 100 word poem"],[2,5,"Autonomous loop activation and initial check"],[6,10,"/loop help request and stopping the active loop"]],
+ i:[[0,1,"One-off request for a 100-word poem"],[2,5,"Starting /loop autonomous mode with nothing actionable"],[6,10,"/loop help explanation and cancelling the active loop"]],
+ d:[["bad_label","Quibble: loop-activation label could note the outcome (nothing actionable)."]],
+ a:["All three boundaries match exactly","Stop request correctly kept attached to the help exchange that surfaced the loop","Full coverage, no gaps"],
+ s:"Essentially identical to the ideal: poem, loop activation, help-plus-cancel as three clean chunks. The decision to keep the cancellation attached to the help exchange shows good boundary judgment."},
+{u:"6e20638f",name:"Investigating a gold trading bot's 12x returns",mc:8,bs:97,ls:95,v:"agree",
+ m:[[0,1,"How 12x gold returns are mechanically possible via leverage"],[2,3,"Automating exit strategies for leveraged gold positions"],[4,5,"Plain-language explanation of the momentum strategy"],[6,7,"Comparison of leverage instruments for gold and crypto"]],
+ i:[[0,1,"Friend's gold bot 12x returns explained as CFD leverage"],[2,3,"Automating the exit: ATR trails, breakeven staging, server stops"],[4,5,"Plain-language walkthrough of the leveraged momentum strategy"],[6,7,"Leverage instruments compared: CFDs, perps, margin, options"]],
+ d:[],
+ a:["All four boundaries match exactly — each Q&A pair a genuinely distinct aspect","Re-explanation correctly its own sub-chunk","Full coverage, no issues"],
+ s:"Essentially ideal segmentation: one broad topic correctly divided into four aspect sub-chunks matching the natural Q&A structure. No meaningful disagreement."},
+{u:"b90791e8",name:"create a sub agent to review this project",mc:4,bs:100,ls:92,v:"agree",
+ m:[[0,3,"TradingAnalysisBot project review via sub-agent"]],i:[[0,3,"Sub-agent safety review of TradingAnalysisBot spec"]],d:[],
+ a:["Single chunk for a short single-task conversation — exact match","Label names project and mechanism"],
+ s:"Perfect segmentation: a 4-message single-request conversation chunked as one unit with exact boundaries and a specific label."},
+{u:"6e3dec86",name:"Using dreaming to prioritize photo shoots",mc:2,bs:100,ls:95,v:"agree",
+ m:[[0,1,"EF 50mm f/1.2L first shoot prioritization via A/B test"]],i:[[0,1,"EF 50mm f/1.2L arrival first-shoot prioritization"]],d:[],
+ a:["Single chunk per short-conversation policy","Label names the lens and the recommendation"],
+ s:"Two-message single Q&A correctly captured as one chunk with exact boundaries and a specific, accurate label. Essentially ideal."},
+{u:"aeb3e59b",name:"Lucien's unique features in memory systems",mc:2,bs:100,ls:90,v:"agree",
+ m:[[0,1,"Lucien differentiation from other memory systems"]],i:[[0,1,"Lucien differentiation: synthesis vs recall-based memory"]],d:[],
+ a:["Correct single-chunk structure, exact boundaries"],
+ s:"Correct single chunk. The label is accurate, though it could have captured the answer's core claim (synthesis-as-hypothesis vs retrieval) for slightly more value."},
+{u:"b96a2393",name:"Archie project roadmap discovery",mc:2,bs:100,ls:98,v:"agree",
+ m:[[0,1,"Archie v3 roadmap next feature — sequencing manifest"]],i:[[0,1,"Archie v3 roadmap next feature: sequencing manifest"]],d:[],
+ a:["Exact match; label encodes both question subject and answer content"],
+ s:"Perfect match. One chunk with an excellent label that encodes the question's subject and the answer's content. Nothing to fault."},
+{u:"c1e83f08",name:"FBO approval and fiat integration middleware",mc:2,bs:100,ls:92,v:"agree",
+ m:[[0,1,"FBO definition for WBUS fiat integration"]],i:[[0,1,"FBO (For Benefit Of) account meaning in WBUS fiat integration"]],d:[],
+ a:["Label correctly scopes to the FBO definition, not the unanswered middleware questions in the quoted email"],
+ s:"Correct single-chunk segmentation with smart scoping: the quoted email contains broader middleware questions, but the exchange only covers the FBO definition, and the label reflects exactly that."},
+{u:"4d2efad4",name:"Secret number recall test (memory probe)",mc:5,bs:100,ls:75,v:"minor_disagreement",
+ m:[[2,4,"User asks about their secret number"]],i:[[2,4,"Secret number recall test fails — nothing in memory"]],
+ d:[["bad_label","Label restates the question, omitting the outcome (no record found) — the substantive content."]],
+ a:["Correctly excluded the /clear command noise at 0–1","Boundaries exactly match"],
+ s:"Segmentation is exactly right, including the non-obvious decision to skip the command-noise preamble. The label is accurate but shallow — it describes the prompt rather than what happened."},
+{u:"395ff469",name:"SurrealDB embedding model lookup",mc:2,bs:100,ls:95,v:"agree",
+ m:[[0,1,"SurrealDB gemini-embedding-001 model for sales calls"]],i:[[0,1,"SurrealDB lookup: sales-calls embedding is gemini-embedding-001"]],d:[],
+ a:["Strong answer-bearing label; API-key side note correctly kept in the same chunk"],
+ s:"Exact structural match with a strong, answer-bearing label. The hardcoded-API-key side note belongs to the same investigation, so one chunk is correct."},
+{u:"6a07b4bb",name:"Memory test: secret number 73",mc:4,bs:100,ls:90,v:"agree",
+ m:[[2,3,"Test message acknowledgment with secret number 73"]],i:[[2,3,"Memory test: user states secret number 73"]],d:[],
+ a:["Command noise correctly skipped","Label preserves the one retrievable fact (73)"],
+ s:"Correct handling: command noise excluded, the test exchange chunked exactly, and the label preserves the one fact worth remembering."},
+{u:"871c6662",name:"hey! what have you been up to today?",mc:2,bs:100,ls:100,v:"agree",
+ m:[],i:[],d:[],
+ a:["Correctly emitted zero chunks for a pure greeting with a contentless reply"],
+ s:"A greeting answered with 'Sent!' contains nothing substantive. Emitting zero chunks was exactly right — notably the model did this here while chunking the similar noise conversation 'this is a test', showing the right instinct is present if inconsistently applied."}
+];
+
+/* ---- aggregate stats ---- */
+const N = DATA.length;
+const meanB = Math.round(DATA.reduce((s,c)=>s+c.bs,0)/N);
+const meanL = Math.round(DATA.reduce((s,c)=>s+c.ls,0)/N);
+const agree = DATA.filter(c=>c.v==="agree").length;
+const minor = DATA.filter(c=>c.v==="minor_disagreement").length;
+const major = DATA.filter(c=>c.v==="major_disagreement").length;
+document.getElementById("s-boundary").textContent = meanB;
+document.getElementById("s-label").textContent = meanL;
+document.getElementById("s-agree").innerHTML = agree+"<small>/"+N+"</small>";
+document.getElementById("s-minor").innerHTML = minor+"<small>/"+N+"</small>";
+document.getElementById("s-major").innerHTML = major+"<small>/"+N+"</small>";
+
+/* ---- issue taxonomy ---- */
+const TYPES = {
+  hallucinated_uuid:{label:"Hallucinated UUID",sub:"chunk anchor not in conversation — breaks resolution",sev:"sev-high"},
+  missed_content:{label:"Missed content",sub:"substantive messages covered by no chunk",sev:"sev-high"},
+  misaligned_boundary:{label:"Misaligned boundary",sub:"right topic, edge off by 1–4 messages",sev:"sev-med"},
+  over_split:{label:"Over-split / over-overlap",sub:"one thread fragmented, or multi-message envelope overlap",sev:"sev-med"},
+  bad_label:{label:"Weak label",sub:"accurate but shallow, or describing the wrong span",sev:"sev-low"},
+  under_split:{label:"Under-split",sub:"distinct sub-aspects flattened into one chunk",sev:"sev-low"}
+};
+const counts = {};
+DATA.forEach(c=>c.d.forEach(d=>{counts[d[0]]=(counts[d[0]]||0)+1}));
+const maxCt = Math.max(...Object.values(counts));
+const iWrap = document.getElementById("issues");
+Object.entries(TYPES).sort((a,b)=>(counts[b[0]]||0)-(counts[a[0]]||0)).forEach(([k,t])=>{
+  const ct = counts[k]||0;
+  iWrap.insertAdjacentHTML("beforeend",
+    `<div class="issuerow"><div class="name"><b>${t.label}</b>${t.sub}</div>
+     <div class="bar"><i class="${t.sev}" style="width:${ct/maxCt*100}%"></i></div>
+     <div class="ct">${ct}</div></div>`);
+});
+
+/* ---- lane assignment for overlapping chunks ---- */
+function lanes(chunks){
+  const out = [];
+  chunks.forEach(ch=>{
+    let l = 0;
+    while(out.some(o=>o.lane===l && !(ch.e < o.s || ch.s > o.e))) l++;
+    out.push({...ch, lane:l});
+  });
+  return out;
+}
+function track(chunks, mc, cls, gaps){
+  const resolved = chunks.map(c=>({s:c[0]===null?0:c[0], e:c[1]===null?(c[0]===null?0:c[0]):c[1], label:c[2], hal:c[0]===null||c[1]===null}));
+  const laned = lanes(resolved);
+  const nLanes = laned.length ? Math.max(...laned.map(c=>c.lane))+1 : 1;
+  let html = "";
+  for(let l=0;l<nLanes;l++){
+    html += `<div class="lane">`;
+    laned.filter(c=>c.lane===l).forEach(c=>{
+      const left = c.s/mc*100, w = (c.e-c.s+1)/mc*100;
+      html += `<div class="seg ${c.hal?"hal":cls}" style="left:${left}%;width:${w}%" title="${c.hal?"⚠ hallucinated anchor — ":""}[${c.s}–${c.e}] ${c.label.replace(/"/g,"&quot;")}"></div>`;
+    });
+    if(l===0 && gaps) gaps.forEach(g=>{
+      html += `<div class="gapseg" style="left:${g[0]/mc*100}%;width:${(g[1]-g[0]+1)/mc*100}%" title="uncovered: messages ${g[0]}–${g[1]}"></div>`;
+    });
+    html += `</div>`;
+  }
+  return `<div class="track">${html}</div>`;
+}
+function gapsOf(chunks, mc){
+  const cov = new Set();
+  chunks.forEach(c=>{const s=c[0]===null?0:c[0], e=c[1]===null?s:c[1]; for(let i=s;i<=e;i++)cov.add(i)});
+  const gaps=[]; let run=null;
+  for(let i=0;i<mc;i++){
+    if(!cov.has(i)){ if(run===null)run=i; } else if(run!==null){gaps.push([run,i-1]);run=null;}
+  }
+  if(run!==null)gaps.push([run,mc-1]);
+  return gaps;
+}
+
+/* ---- render cards, worst first ---- */
+const cards = document.getElementById("cards");
+[...DATA].sort((a,b)=>a.bs-b.bs).forEach(c=>{
+  const vlabel = {agree:"agree",minor_disagreement:"minor disagreement",major_disagreement:"major disagreement"}[c.v];
+  const gaps = c.m.length ? gapsOf(c.m, c.mc) : [];
+  const ticks = [0, Math.floor((c.mc-1)/2), c.mc-1].filter((v,i,a)=>a.indexOf(v)===i);
+  const rngFmt = ch => `<span class="rng${ch[0]===null||ch[1]===null?" bad":""}">[${ch[0]===null?"⚠":ch[0]}–${ch[1]===null?"⚠":ch[1]}]</span>`;
+  cards.insertAdjacentHTML("beforeend",`
+  <div class="card verdict-${c.v}">
+    <div class="cardhead">
+      <h3>${c.name}</h3>
+      <div class="chips">
+        <span class="scorepair">bnd <b>${c.bs}</b></span>
+        <span class="scorepair">lbl <b>${c.ls}</b></span>
+        <span class="chip v-${c.v}">${vlabel}</span>
+      </div>
+    </div>
+    <div class="cardmeta">${c.mc} messages · ${c.m.length} model chunks vs ${c.i.length} ideal</div>
+    <div class="tracks">
+      <div class="trackrow"><div class="tl m">model</div>${c.m.length?track(c.m,c.mc,"m",gaps):'<div class="track"><div class="lane"></div></div>'}</div>
+      <div class="trackrow"><div class="tl i">ideal</div>${c.i.length?track(c.i,c.mc,"i",null):'<div class="track"><div class="lane"></div></div>'}</div>
+      <div class="ruler"><div></div><div class="scale">${ticks.map(t=>`<span class="tick" style="left:${(t+0.5)/c.mc*100}%">${t}</span>`).join("")}</div></div>
+    </div>
+    <div class="cardbody">
+      <div class="summary">${c.s}</div>
+      <div class="findings">
+        ${c.d.length?`<h4>Disagreements</h4><ul>${c.d.map(d=>`<li class="d"><span class="t">${d[0].replace(/_/g," ")}</span>${d[1]}</li>`).join("")}</ul>`:`<h4>Disagreements</h4><ul><li class="a">None — segmentation matches expert judgment.</li></ul>`}
+      </div>
+    </div>
+    <div style="padding:0 26px 18px">
+      <details class="chunklist"><summary>chunk labels — model vs ideal</summary>
+        <div class="chunkcols">
+          <div><h5 class="mh">Model (${c.m.length})</h5><ol>${c.m.map(ch=>`<li>${rngFmt(ch)}${ch[2]}</li>`).join("")||"<li>—</li>"}</ol></div>
+          <div><h5 class="ih">Ideal (${c.i.length})</h5><ol>${c.i.map(ch=>`<li>${rngFmt(ch)}${ch[2]}</li>`).join("")||"<li>— (zero chunks is correct)</li>"}</ol></div>
+        </div>
+      </details>
+    </div>
+  </div>`);
+});
+</script>
+</body>
+</html>

@@ -12,7 +12,7 @@ import { bucketToFilename, bucketToStem } from "./bucket-names.js";
 const DREAMING_PATH = join(homedir(), "Dreaming");
 const ARTICLES_PATH = join(DREAMING_PATH, "articles");
 
-const SYNTHESIS_PROMPT_BOOTSTRAP = `You are a Wikipedia editor maintaining a personal wiki — the Dreaming — for a user. The Dreaming captures what the user thinks, has worked on, and cares about, organized as Wikipedia-style articles synthesized from their conversations with AI assistants.
+export const SYNTHESIS_PROMPT_BOOTSTRAP = `You are a Wikipedia editor maintaining a personal wiki — the Dreaming — for a user. The Dreaming captures what the user thinks, has worked on, and cares about, organized as Wikipedia-style articles synthesized from their conversations with AI assistants.
 
 This is a bootstrap run: this article does not yet exist. You will create it from scratch using the source material below.
 
@@ -77,12 +77,12 @@ The article should start with the title as a level-1 heading (# Title), followed
 Before you finish, verify: every [^N] marker in the body has a matching [^N]: definition; every [^N]: definition has at least one [^N] marker; each definition line contains \`conv:HASH\` in backticks, not bare conv: text; numbers are contiguous from 1.
 `;
 
-interface Bucket {
+export interface Bucket {
     name: string;
     description: string;
 }
 
-interface Chunk {
+export interface Chunk {
     id: number;
     conversation_uuid: string;
     conversation_name: string;
@@ -100,7 +100,7 @@ interface MessageRow {
 
 function callClaude(prompt: string): Promise<string> {
     return new Promise((resolve, reject) => {
-        const proc = spawn("claude", ["-p", "--model", "opus"], {
+        const proc = spawn("pi", ["-p"], {
             cwd: DREAMING_PATH,
             stdio: ["pipe", "pipe", "pipe"],
         });
@@ -152,7 +152,7 @@ async function exists(path: string): Promise<boolean> {
     }
 }
 
-function formatChunks(chunks: Chunk[], db: Database): string {
+export function formatChunks(chunks: Chunk[], db: Database): string {
     const messagesQuery = db.query(`
     SELECT uuid, sender, text, position
     FROM messages
@@ -189,7 +189,7 @@ function formatChunks(chunks: Chunk[], db: Database): string {
     return parts.join("\n\n---\n\n");
 }
 
-function getOtherArticles(db: Database, excluding: string): string {
+export function getOtherArticles(db: Database, excluding: string): string {
     const others = db
         .query("SELECT name, description FROM buckets WHERE name != ? ORDER BY name")
         .all(excluding) as Bucket[];
@@ -360,4 +360,6 @@ async function main() {
     }
 }
 
-await main();
+if (import.meta.main) {
+    await main();
+}

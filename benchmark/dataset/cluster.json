@@ -1,0 +1,181 @@
+{
+  "cases": [
+    {
+      "id": 1,
+      "label": "Converting 3D LUT to 1D LUT via luminance",
+      "gold": [
+        "Cinematography_and_Color_Science",
+        "DaVinci_Resolve_Editing_and_Fusion"
+      ]
+    },
+    {
+      "id": 2,
+      "label": "Sand-to-glass melting temperature and sunlight concentration",
+      "gold": [
+        "Solar Sinter Glass Fabrication"
+      ]
+    },
+    {
+      "id": 3,
+      "label": "Stereo L/R channel separation setup",
+      "gold": [
+        "Video_Production_Rig_and_Workflow"
+      ]
+    },
+    {
+      "id": 4,
+      "label": "Pogo pin count for HDMI, USB PD, and screen control",
+      "gold": [
+        "Modular_Camcorder_Monitor_Project"
+      ]
+    },
+    {
+      "id": 5,
+      "label": "Sampling every 10th pixel for performance",
+      "gold": [
+        "DCTL_Color_Transform_Development"
+      ]
+    },
+    {
+      "id": 6,
+      "label": "Identifying mystery 2x black-tube anamorphic as Sankor",
+      "gold": [
+        "Anamorphic_Lens_Adapters"
+      ]
+    },
+    {
+      "id": 7,
+      "label": "Bayesian-update framing and editorial-pass future spec",
+      "gold": [
+        "Mental_Models_and_Aphorisms",
+        "Personal_Wiki_Editorial_Philosophy"
+      ]
+    },
+    {
+      "id": 8,
+      "label": "Golden hour sun positioning front vs backlighting",
+      "gold": [
+        "Photography_Theory_and_Practice"
+      ]
+    },
+    {
+      "id": 9,
+      "label": "Updating ticket status with promise-mysql2",
+      "gold": [
+        "MySQL_CLI_and_Scripting"
+      ]
+    },
+    {
+      "id": 10,
+      "label": "Videograph YouTube banner image design iteration",
+      "gold": [
+        "Graphic_Design_and_Typography_Layout"
+      ]
+    },
+    {
+      "id": 11,
+      "label": "White balance and ISO in RAW vs JPEG",
+      "gold": [
+        "Raw Photo Processing Software"
+      ]
+    },
+    {
+      "id": 12,
+      "label": "HDR as headroom and a 1000-nit Rec2020 transform",
+      "gold": [
+        "Tone_and_Gamut_Mapping"
+      ]
+    },
+    {
+      "id": 13,
+      "label": "Fool Me Once Harlan Coben page count",
+      "gold": [
+        "Book_Recommendations"
+      ]
+    },
+    {
+      "id": 14,
+      "label": "Golden hour timing and duration in San Salvador",
+      "gold": [
+        "El_Salvador_Life"
+      ]
+    },
+    {
+      "id": 15,
+      "label": "Application Default Credentials and project ID setup",
+      "gold": [
+        "BigQuery and Google Cloud Data Access"
+      ]
+    },
+    {
+      "id": 16,
+      "label": "Finding BlackMagic Camera App Store download counts",
+      "gold": [
+        "LUT Sharing Platform"
+      ]
+    },
+    {
+      "id": 17,
+      "label": "Gamut compression algorithms compared",
+      "gold": [
+        "Tone_and_Gamut_Mapping"
+      ]
+    },
+    {
+      "id": 18,
+      "label": "Why insulated magnet wire matters for windings",
+      "gold": [
+        "Physics_and_Engineering"
+      ]
+    },
+    {
+      "id": 19,
+      "label": "Kolari rear-mount OLPF deliberation for S5IIx anamorphic work",
+      "gold": [
+        "Camera_Gear_and_Lenses"
+      ]
+    },
+    {
+      "id": 20,
+      "label": "Conservation of matter, oxygen depletion, and oxygen candles",
+      "gold": [
+        "Confined-Space Survival and Life Support"
+      ]
+    },
+    {
+      "id": 21,
+      "label": "TikTok content calendar for real estate listing reviews",
+      "gold": [
+        "Short_Form_Video_Content_Ideation"
+      ]
+    },
+    {
+      "id": 22,
+      "label": "Ticket-rooted evidence chain replaces prompt slide",
+      "gold": [
+        "Archie_Project"
+      ]
+    },
+    {
+      "id": 23,
+      "label": "Modern zoom plus Helios prime combo, M42 mount and rehousing",
+      "gold": [
+        "Camera_Gear_and_Lenses"
+      ]
+    },
+    {
+      "id": 24,
+      "label": "Dinosaurs classified as reptiles",
+      "gold": [
+        "Paleontology_and_Prehistoric_Life"
+      ]
+    },
+    {
+      "id": 25,
+      "label": "BRAW vs ProRes open-gate shooting modes on S5IIX",
+      "gold": [
+        "Video Codecs and Compression"
+      ]
+    }
+  ]
+}

@@ -381,7 +381,7 @@ export function parseArgs(argv: string[]): CliArgs {
 
 function callClaude(prompt: string): Promise<string> {
     return new Promise((resolve, reject) => {
-        const proc = spawn("claude", ["-p", "--model", "opus"], {
+        const proc = spawn("pi", ["-p"], {
             cwd: DREAMING_PATH,
             stdio: ["pipe", "pipe", "pipe"],
         });

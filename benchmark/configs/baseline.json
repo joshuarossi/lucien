@@ -1,0 +1,12 @@
+{
+  "label": "baseline",
+  "description": "Current production behaviour: pi -p with the default coding-assistant system prompt, tools on, and CLAUDE.md/AGENTS.md context-file loading on. --no-session only, to avoid polluting session storage during benchmarking.",
+  "model": null,
+  "provider": null,
+  "stages": {
+    "chunk": { "flags": ["--no-session"], "systemPrompt": null },
+    "cluster": { "flags": ["--no-session"], "systemPrompt": null },
+    "synthesize": { "flags": ["--no-session"], "systemPrompt": null },
+    "wikify": { "flags": ["--no-session"], "systemPrompt": null }
+  }
+}

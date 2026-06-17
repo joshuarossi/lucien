@@ -1,0 +1,20 @@
+{
+  "stage": "synthesize",
+  "builtAt": "2026-06-14T05:43:42.900Z",
+  "format": "messages (system+user+assistant)",
+  "systemPromptFrom": "benchmark/configs/sysprompt-v1.json",
+  "counts": {
+    "train": 202,
+    "valid": 15,
+    "total": 217
+  },
+  "excluded": {
+    "benchmarkQuarantineBuckets": 50,
+    "benchmarkConvAsSource": 30,
+    "noOnDiskArticle": 6,
+    "oversized_over_maxChars": 68
+  },
+  "approxAvgCharsPerExample": 106607,
+  "approxAvgTokensPerExample": 26652,
+  "note": "gold = current on-disk article (post-editorial/normalize); unified quarantine excludes synth+wikify benchmark articles AND any bucket sourced from a benchmark chunk conversation"
+}

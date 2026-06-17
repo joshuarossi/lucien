@@ -1,0 +1,1492 @@
+{
+  "builtAt": "2026-06-14T04:47:20.970Z",
+  "repoSha": "835dbac",
+  "dreamingSha": "0ae1d64",
+  "meta": "--- Meta/Article_Conventions.md ---\n\n# Article Conventions\n\nEach article follows roughly this shape:\n\n1. **Lead paragraph** — a 2-4 sentence summary that captures what the article is about\n2. **Infobox** (optional) — for articles about specific entities (projects, tools, people)\n3. **Sections** — organized by sub-topic, in a logical reading order\n4. **See also** — links to related articles\n5. **References** — citations to source conversations and external sources\n\n## Citations\n\nCitations are Wikipedia-style numbered footnotes. Inline, each claim is followed by a clickable superscript number that jumps to the matching entry in the `## References` section at the bottom of the article.\n\nInline citation — Obsidian markdown footnote reference:\n\n```markdown\n...claim text.[^1]\n```\n\nReferences section — `## References` heading with numbered footnote definitions beneath it:\n\n```markdown\n## References\n\n[^1]: `conv:c7107ff6` (2024-03-12, claude-ai) — Conversation title or short description\n[^2]: `conv:1d1037a7` (2024-08-04, chatgpt) — Conversation title or short description\n[^3]: `conv:b9e2af07` (2026-02-09, codex-cli) — Conversation title or short description\n```\n\nConventions:\n\n- Numbers are assigned in order of first appearance in the article body.\n- The canonical conversation identifier in each definition is the first 8 hex chars of its UUID (lowercase, dashes stripped). Lucien may emit full UUIDs; normalize to 8 chars at conversion time.\n- **Each definition includes a date AND a source-provenance slug in `(YYYY-MM-DD, source)` form between the hash and the title.** Use the conversation's `updated_at` (latest-message date). The source slug is one of: `claude-code`, `claude-ai`, `chatgpt`, `codex-cli`, or `unknown` if not recorded. This makes the chronology and origin of a claim visible at a glance, which the editorial pass, the time-and-history policy, and cross-source contradiction handling all depend on.\n- Multiple inline citations of the same conversation in one article share the same number (e.g. `[^3]` may appear several times in the body, with one `[^3]:` definition under `## References`).\n- Each definition shows `` `conv:HASH` `` followed by `(YYYY-MM-DD, source)`, an em-dash, and the conversation title or brief description.\n- Keep the `## References` heading even though Obsidian renders its own \"Footnotes\" section — the heading is the stable place where definitions live.\n- Do not wrap citations in `<sup>` or HTML anchors. Do not use `(#references)` or `(#^ref-N)` link targets.\n- External citations are standard markdown links.\n\n## Stubs\n\nNew or thin articles should be marked at the top with:\n`{{stub}}`\n\nStub articles are legitimate. The Dreaming earns its value through coverage; depth comes through accumulation.\n\n## Links\n\nUse wikilinks for internal references: `[[Article Name]]`. Lucien will resolve these to the correct files during the link-maintenance pass.\n\n--- Meta/Bucketing.md ---\n\n# Bucketing Policy\n\nHow chunk labels are routed to buckets (articles). This documents the **current default behavior** — the pipeline already works this way; edit this page to change it.\n\n## Defaults\n\n- **Strongly prefer existing buckets.** Only propose a new bucket when no existing one is a reasonable fit — and even then, only when the topic is substantive enough to warrant its own article (not a single fleeting mention).\n- A label may belong to **multiple** existing buckets when it genuinely spans them.\n- If a label fits one or more existing buckets, do not also propose a new bucket for it. Existing buckets win in any tie.\n- Bucket names are Wikipedia-style: title-cased, descriptive, 2–6 words.\n- A label too thin or off-topic to deserve any bucket is left unassigned.\n\n## How to tune\n\n- **More, smaller articles:** lower the bar for proposing a new bucket (split readily; treat narrower topics as article-worthy).\n- **Fewer, larger articles:** raise the bar; prefer merging into an existing broad bucket over spawning a new one.\n\nThe router follows this page over its built-in defaults.\n\n--- Meta/Buckets.md ---\n\n# Buckets\n\nThis page lists the bucket taxonomy used to organize segments of conversation into articles. Buckets are emergent — they're derived from the actual content of conversations, not imposed in advance.\n\nThis list will be populated by the first synthesis run.\n\n--- Meta/Category_Definitions.md ---\n\n# Category Definitions\n\nCategories are tags applied to articles via frontmatter. An article can belong to multiple categories.\n\nThis list will be populated as the Dreaming grows.\n\n--- Meta/Chunking.md ---\n\n# Chunking Style\n\nHow the conversation-segmentation stage decides what a chunk is. This documents the **current default behavior** — the pipeline already works this way; edit this page to change it. (The mechanism — every conversation is segmented into topic chunks emitted in the fixed output schema — is not tunable here; only the style below is.)\n\n## Defaults\n\n- Most substantive conversations contain **multiple** chunks, not one. Look hard for topic shifts.\n- A topic shift is when the discussion moves from one subject to a **substantially different** subject (e.g. one feature → a different feature; a problem → a distinct related concern; topic X → topic Y).\n- Sub-chunks for specific aspects within a single broad topic are acceptable.\n- A short conversation (under ~4 messages, a single Q&A) may legitimately be one chunk. Most longer conversations are multiple.\n- A topic that recurs later in the same conversation is its **own separate chunk**, not merged with the earlier occurrence.\n- **Overlap:** two chunks may share **at most one boundary message**, and only when that message is genuinely substantive to *both* the topic ending and the one beginning (true dual-membership). Never overlap for connective filler (\"anyway, switching gears\"), and never let one chunk's range envelop several messages of another's — if two chunks would overlap by more than one message, redraw the boundary instead.\n- Labels are specific and descriptive, ~4–10 words (e.g. \"Archie webhook architecture decisions\", not \"Technical discussion\").\n\n## How to tune\n\nTo bias toward fewer, larger chunks: instruct fewer/coarser boundaries and discourage aspect sub-chunks. To bias toward more, smaller chunks: encourage finer aspect splits. To change overlap behavior: state how aggressively boundary messages should be shared. The chunker follows this page over its built-in defaults.\n\n--- Meta/Editorial_Guidelines.md ---\n\n# Editorial Guidelines\n\nThe Dreaming follows [Wikipedia's editorial conventions](https://en.wikipedia.org/wiki/Help:Introduction) except as noted below. When in doubt, do what Wikipedia would do.\n\n## Scope adaptations for a personal wiki\n\n- **Subject**: The user (you). Articles describe people, projects, ideas, tools, and topics relevant to your thinking.\n- **Sources**: Conversation transcripts with AI assistants. Each article cites the conversations that contributed to it.\n- **Neutral point of view**: Adapted. The Dreaming represents your actual views and reasoning. \"Neutral\" here means faithful to the evidence in your conversations, not pretending to be from no perspective.\n- **Notability**: Anything that recurs in your thinking is notable enough. Stub articles are encouraged for emerging topics.\n- **Conflict of interest**: Not applicable — this is a single-subject wiki you own.\n\n## Article structure\n\nSee `Article_Conventions.md`.\n\n## Maintenance disposition\n\nLucien operates as a Wikipedia editor making small, conservative contributions. Edits should integrate rather than replace. Trajectories (\"used to think X, now thinks Y\") should be preserved. Talk pages are for surfacing concerns rather than silently resolving them.\n\n## Time and history\n\nFollow Wikipedia's treatment. The article describes the **current state** — present tense, in the lead and body. When trajectory matters (explicit evolution, superseded positions that illuminate the current view), it lives in a dedicated **History section**, not as scattered caveats. Old material that is no longer the user's position should be **pruned**, not preserved as historical exhibit. *\"Initially X, later refined to Y\"* is the form when explicit evolution is load-bearing; silent supersession just gets cut. The Dreaming is a current-state ledger: backfill historical context only insofar as it illuminates how the present view was reached.\n\n--- Meta/Synthesis_Pipeline.md ---\n\n# Synthesis Pipeline\n\nLucien processes conversations in four stages:\n\n1. **Filter** — decide whether a conversation contains material worth synthesizing\n2. **Segment** — within each conversation, find topic boundaries and produce segments\n3. **Classify** — assign each segment to one or more buckets\n4. **Synthesize** — for each bucket, integrate the assigned segments into the bucket's article\n\nEach stage is independently cached so prompts can be iterated without re-running upstream work.\n\nThe synthesis is run by invoking Claude with the instruction to synthesize. Claude calls Lucien's tools, which orchestrate the pipeline.\n\n--- Meta/Topics_to_Ignore.md ---\n\n# Topics to Ignore\n\nThe chunker consults this page (mandatorily) before emitting chunks.\n\n**Current policy: nothing is ignored. Surface everything.** Emit chunks for all substantive content; do not omit any span on the basis of this page. There are no excluded topics, people, or content categories.\n\nTo change this later: add plain-text descriptions of topics/people/content that should not be synthesized into the Dreaming, one per line under a list below. Semantic matching catches related content even when phrasing differs. While this section says \"nothing is ignored,\" ignore nothing.",
+  "taxonomy": [
+    {
+      "name": "3D Printing and Printers",
+      "description": "Consumer and prosumer 3D printers and printing: model selection and comparison (e.g. Bambu, Prusa, Creality), capabilities, and printing workflows."
+    },
+    {
+      "name": "AI Financial Analyst MVP",
+      "description": "Scoping and definition of an AI financial-analyst / trading-assistant MVP raised at AlphaPoint: the product's intended scope, whether it touches production systems or only CSVs/databases, prototyping infrastructure needs, and reframing the concept from financial analyst to trading assistant."
+    },
+    {
+      "name": "AI Photo Culling Pipeline",
+      "description": "Designing an AI-assisted photo culling system: why a single agent fails at culling, staged multi-pass pipeline architecture, and applying the culler to personal photo sets including the local-script-versus-upload privacy tradeoff."
+    },
+    {
+      "name": "AI_Coding_Workflow",
+      "description": "Adversarial PRD-to-plan loops, mark4 plan critique, decomposition meta-skill, reviewer-vs-dev asymmetry, ralph loop, plan iteration evals"
+    },
+    {
+      "name": "AI_Image_Generation_Prompts",
+      "description": "Prompt engineering for AI image generators like Midjourney, including photorealistic style and prompt structure."
+    },
+    {
+      "name": "AI_Industry_and_Economics",
+      "description": "AI compute commoditization, financialization, post-product world, Karpathy talk, coordination cost reduction, frontier model constraints"
+    },
+    {
+      "name": "AI_Infrastructure_Theses",
+      "description": "Agent-native infrastructure, routing concentration risk, throughput norms, harness as observability ROI, three infra primitives for autonomous services"
+    },
+    {
+      "name": "AI_Memory_and_Agent_Systems",
+      "description": "Personal memory architecture, agent vs assistant divide, Managed Agents, namespace isolation, sliding window, hippocampus-neocortex analogy"
+    },
+    {
+      "name": "AI_Roleplay_and_Fiction_Prompts",
+      "description": "Roleplay scenarios and interactive fiction prompts directed at the assistant, including literary references like the Young Lady's Illustrated Primer."
+    },
+    {
+      "name": "AI_Service_Business_Plans",
+      "description": "Business plans and venture concepts for AI-powered services such as AI copywriting."
+    },
+    {
+      "name": "APEX Exchange API Integration",
+      "description": "Integrating with the APEX (AlphaPoint) exchange API in client code: WebSocket client implementation, porting classes across languages (JavaScript to C#), message and event handling such as OnMessageReceived, and authenticated usage patterns."
+    },
+    {
+      "name": "API_Training_Curriculum",
+      "description": "Development of training materials and slide decks teaching API concepts and usage, including outline expansion and per-slide content."
+    },
+    {
+      "name": "ARRI_Look_Emulation_Workflow",
+      "description": "Emulating the ARRI/Alexa LogC3 image on non-ARRI cameras (Panasonic V-Log, GH7): converting V-Log to LogC3, applying ARRI Look Library LUTs, building real-time conversion LUTs, identifying popular looks, and the legality, ethics, and YouTube video around distributing the resulting free LUT pack."
+    },
+    {
+      "name": "ARRI_Riedel_and_Camera_Industry",
+      "description": "ARRI acquisition, Riedel context, Blackmagic parallels, Stahl family, Mittelstand survival, why Sony/Blackmagic didn't acquire"
+    },
+    {
+      "name": "Access_to_Justice_Advocacy",
+      "description": "Policy talking points, framing, and advocacy materials around access-to-justice initiatives, including drafts prepared for political figures."
+    },
+    {
+      "name": "Accounting and Double-Entry Bookkeeping",
+      "description": "Fundamentals of accounting and bookkeeping: double-entry ledgers, account structures, flow-of-funds representations, and the mechanics of recording transactions such as asset buys and sells."
+    },
+    {
+      "name": "Affiliate Payout Script",
+      "description": "Building an affiliate/referral commission payout script (Deno/TypeScript) integrated with the APEX exchange WebSocket API: task spec and architecture decisions, referral-tree second-level lookups, AccountId-keyed payouts, HMAC-SHA256 authentication, and runtime/tooling fixes."
+    },
+    {
+      "name": "AirPlay_and_Display_Protocols",
+      "description": "AirPlay and related wireless display/streaming protocols, including implementing receivers on custom hardware."
+    },
+    {
+      "name": "Algorithmic Trading Strategies",
+      "description": "Designing and executing algorithmic trading strategies, particularly for a paper-trading contest: breakout detection via technical signals, winner-takes-all strategy selection, and capital allocation across crypto trading pairs."
+    },
+    {
+      "name": "AlphaPoint_Work_and_Politics",
+      "description": "AlphaPoint team dynamics, CEO/CTO relationships, capacity-expansion pitch, performance review, role positioning, audit prep, internal docs"
+    },
+    {
+      "name": "Anamorphic_Lens_Adapters",
+      "description": "Adapting vintage and projection anamorphic lenses (Sankor, Kowa, Iscorama, Isco, Bolex Möller, Schneider Cinelux, Panavision Superama) onto modern cameras: clamps and mounting, taking-lens pairing, single-focus modules and diopters for close focus, focal-length equivalence under squeeze, flares and character, modern alternatives like the Blazar Remus, and purchase/decision evaluations."
+    },
+    {
+      "name": "Angie_Creative_Writing",
+      "description": "Creative writing projects centered on Angie: Spanish-language poems, songs, novelas, and short stories generated for or about her."
+    },
+    {
+      "name": "Animal Behavior and Zoology",
+      "description": "Behavior, locomotion, traits, and natural-history facts about animals, excluding domestic dogs and prehistoric life."
+    },
+    {
+      "name": "Ansible_Inventory_and_Configuration",
+      "description": "Ansible inventory files (hosts.yaml, all.yml), parsing them, and inferring service topology from shared configuration."
+    },
+    {
+      "name": "Apex_Web_Broker_B_Theming",
+      "description": "Frontend theming and UI work on the apex-web Broker B project: color palettes, nav styling, TradingView chart integration, and logo treatments."
+    },
+    {
+      "name": "Apollo Moon Landings",
+      "description": "Evidence for the Apollo Moon landings and rebuttals to hoax claims: the feasibility of 1960s lunar-module landing and ascent, visibility of the landing sites from Earth, why there has been no crewed return in decades, independent verification methods (e.g. ham-radio Doppler tracking), and Bayesian reasoning about their authenticity."
+    },
+    {
+      "name": "Apple Log Explainer Video",
+      "description": "Producing a YouTube explainer video about Apple Log: video concept and content outline, and drafting and sequencing the 10-minute script."
+    },
+    {
+      "name": "Apple_Camera_Product_Concept",
+      "description": "Speculative design and market analysis of a hypothetical Apple-branded camera: sensor and lens-mount choices, Apple Silicon internals, 6K video capability, pricing and pro feature set, control ergonomics, and strategic fit within Apple's product portfolio."
+    },
+    {
+      "name": "Apple_Products_and_Announcements",
+      "description": "Apple's product lines, OS releases (e.g. macOS Server), WWDC hardware and software announcements, and feature/history trivia such as Siri voice options. Distinct from the speculative Apple_Camera_Product_Concept and from buying advice in Consumer_Computing_Device_Recommendations."
+    },
+    {
+      "name": "Archie_Project",
+      "description": "Internal AI agent platform: PRD pipeline, decomposition, harness vs orchestrator, jira-router, Archon workflows, Archie origin story and positioning"
+    },
+    {
+      "name": "Art, Intent, and Aesthetics",
+      "description": "Philosophy of art and aesthetics: whether commercial works such as advertisements qualify as art, and the central role of artistic intention in defining and evaluating creative work."
+    },
+    {
+      "name": "Astronomy and Planetary Science",
+      "description": "Astronomy and planetary science: planetary bodies and their properties, such as the presence of water on Mars."
+    },
+    {
+      "name": "Astrophotography",
+      "description": "Photographing the night sky: lens and camera choices for capturing stars, settings for long exposures and star trails, time-lapse astrophotography, and evaluating gear such as the LUMIX S5IIX for astro suitability."
+    },
+    {
+      "name": "Asynchronous Programming Models",
+      "description": "Concurrency and async/await primitives across languages: C# Task (including nested Task types) versus JavaScript Promise, and related execution and composition semantics."
+    },
+    {
+      "name": "Audio Embeddings and Transcription",
+      "description": "Generating embeddings and transcriptions from audio for AI pipelines: speech-to-text, raw-audio embeddings that capture non-verbal cues, and downstream applications such as evaluation pipelines and vector search."
+    },
+    {
+      "name": "Audio Mixing and Mastering",
+      "description": "Music studio audio engineering: mixing consoles, faders and signal routing, and the distinction between mixing and mastering."
+    },
+    {
+      "name": "Auth0 and JWT Token Handling",
+      "description": "Working with Auth0 and JSON Web Tokens: access versus ID tokens, namespaced custom claims, Auth0 Actions (PostLogin) and setCustomClaim, JWK/RSA-to-PEM public-key conversion, and JWKS endpoint lookups."
+    },
+    {
+      "name": "Automobile_Maintenance_and_Repair",
+      "description": "Personal car ownership topics: repair and part-replacement costs, vehicle features and components, and model-specific issues (e.g. Audi). Distinct from Motorsport_and_Racing."
+    },
+    {
+      "name": "Autonomous_Sailboat_Project",
+      "description": "Feasibility, prior art, and design considerations for autonomous/unmanned sailboats and related marine robotics."
+    },
+    {
+      "name": "Baby_and_Family_Photography",
+      "description": "Ella portrait critiques, family intimacy photos, tummy time shots, photo books, gender reveal video, home movie songs"
+    },
+    {
+      "name": "Backend_Architecture_and_Stacks",
+      "description": "NestJS vs Express, Hono, PostgreSQL vs SurrealDB, GraphQL/PostGraphile, BullMQ/NATS/Redis/Kafka, queue worker design"
+    },
+    {
+      "name": "Bar Exam and Legal Education",
+      "description": "Studying for and passing the bar exam (MBE practice drills across torts, contracts, constitutional law, criminal law, evidence, property, and civil procedure) and the path to legal licensure: JD programs, ABA accreditation, online and out-of-state options, program costs, and working while in law school."
+    },
+    {
+      "name": "BattleBots_and_Combat_Robotics",
+      "description": "Combat robotics competitions like BattleBots: allowed weapons, rules, and engineering of combat robots."
+    },
+    {
+      "name": "Bedding_and_Comforters",
+      "description": "Comforters, duvets, down vs synthetic fills, breathability, washing, and bedding product selection."
+    },
+    {
+      "name": "Bedtime_Story_App",
+      "description": "Product design and planning for a Bedtime Story mobile app: market analysis, SWOT, specification, user stories, and stack choices."
+    },
+    {
+      "name": "BigQuery and Google Cloud Data Access",
+      "description": "Querying BigQuery and authenticating to Google Cloud: gcloud CLI setup, Application Default Credentials, project-ID configuration, and Node.js client query scripts and auth debugging."
+    },
+    {
+      "name": "Binary TCP Protocol Implementation",
+      "description": "Implementing and testing a binary message protocol in JavaScript: serializing C#-style message structs to Buffers, generating and verifying binary buffers, and mock TCP servers with global socket state."
+    },
+    {
+      "name": "Bitcoin_and_Monetary_Theory",
+      "description": "Bitcoin as neutral exit, fiat locust dynamic, PE as locusts, US enforcement erosion, indexing as inflation hedge, sound money composition"
+    },
+    {
+      "name": "Boating_Licenses_and_Certifications",
+      "description": "Recreational boating license requirements, certifications, and regulatory overviews across jurisdictions."
+    },
+    {
+      "name": "Book_Recommendations",
+      "description": "Book recommendations and reading suggestions across genres like cyberpunk, technothriller, and other fiction."
+    },
+    {
+      "name": "Bookbinding Methods",
+      "description": "Methods and mechanics of binding books, photobooks, and zines: saddle stitch, Smyth-sewn signatures, screw post, and Swiss binding, including the geometry, thread paths, reconfigurability, and tradeoffs of each, and how to choose a binding for a given project."
+    },
+    {
+      "name": "Botany_and_Plant_Biology",
+      "description": "Plant biology and natural history: evolutionary antiquity of species like ginkgo, seed dispersal and orphaned dispersers, plant sexual systems, and self-pollination avoidance mechanisms."
+    },
+    {
+      "name": "Boxing_and_Combat_Sports",
+      "description": "Boxing weight classes, combat sports terminology, and related athletic competition concepts."
+    },
+    {
+      "name": "Broadcast_Engineering_and_Infrastructure",
+      "description": "Professional television and broadcast production infrastructure: SMPTE 2110 IP studio architecture and network topology, capture-to-broadcast workflows, and the business of sports broadcast ownership."
+    },
+    {
+      "name": "Brutalism_Architecture_and_Design",
+      "description": "Brutalist architecture and graphic design: defining characteristics, notable examples, and aesthetic principles across buildings and visual design."
+    },
+    {
+      "name": "Bun_and_TypeScript_Tooling",
+      "description": "Bun runtime preferences, TS/React/Postgres consolidation, graphql-codegen, URQL, Zeus/genql alternatives, tsconfig fixes"
+    },
+    {
+      "name": "C and C++ Programming",
+      "description": "The C and C++ programming languages and their relationship: preprocessor directives and include guards, whether C++ is a superset of C, and compile/build errors including in C++-derived languages like Apple's Metal shading language."
+    },
+    {
+      "name": "COPW Stablecoin Project",
+      "description": "The Aegis/DACC COPW stablecoin engagement: decoding the deal and meeting purpose, AlphaPoint's role as trading layer (not custody or issuance), issuance mechanics (Fireblocks, Polygon, Chainlink Proof of Reserve), and Mastercard card-spend distribution without merchant acceptance."
+    },
+    {
+      "name": "CSS Wide-Gamut Color",
+      "description": "Handling wide-gamut and high-bit-depth color on the web with CSS: Display-P3 and Rec2020 color (including hex-color gamuts and gradient differences), forcing 10-bit color channels, controlling transfer functions and display gamma, and rendering wide-gamut colors on SDR displays."
+    },
+    {
+      "name": "Call of Duty Series",
+      "description": "The Call of Duty video game franchise: differences between its subseries, campaign storylines and reboots (Modern Warfare, Black Ops), and the games' realism and portrayal of special operations units."
+    },
+    {
+      "name": "Camera Shoe Mounts",
+      "description": "History, mechanics, and terminology of camera hot shoe and cold shoe accessory mounts, including the etymology of the 'shoe' term and friction-mount designs."
+    },
+    {
+      "name": "Camera_Gear_and_Lenses",
+      "description": "S5IIx, BMPCC, iPhone Apple Log, Sirui Aurora, Viltrox, Brightin Star, Meike/Helios/Jupiter, anamorphic lenses, MFD, bokeh math"
+    },
+    {
+      "name": "Card_and_Digital_Games",
+      "description": "Recommendations and discussion of card and digital strategy games such as Hearthstone and its alternatives."
+    },
+    {
+      "name": "Career_and_Identity",
+      "description": "Paradigm gap, last-project framing, project-selection filter, threading helpfulness/replaceability, architect-of-future role, career fit"
+    },
+    {
+      "name": "Categories_and_Representation",
+      "description": "Standard Observer as theory of mind, essentialism dissolved, characters/glyphs/code points, Unicode layering, fonts as cryptographic keys"
+    },
+    {
+      "name": "Celebrity Impressions and Mimicry",
+      "description": "Performing impressions of celebrities: characteristic mannerisms, vocal traits, and signature gestures used to imitate public figures such as Denzel Washington."
+    },
+    {
+      "name": "ChatGPT Desktop Work with Apps",
+      "description": "The ChatGPT macOS desktop app's 'Work with Apps' feature: integrating with IDEs and the terminal, reading code from running applications, and executing terminal commands."
+    },
+    {
+      "name": "ChatGPT_API_Web_App_Experiments",
+      "description": "Early experiments building simple web apps against the ChatGPT/OpenAI API in HTML/CSS/JS and React, including API key acquisition and async patterns."
+    },
+    {
+      "name": "Chess_Endgames_and_Theory",
+      "description": "Chess endgame theory, draw conditions, and tactical principles across piece configurations."
+    },
+    {
+      "name": "Chess_Game_Analysis",
+      "description": "Move-by-move review and analysis of full chess games: opening choices and blunders, middlegame tactics, missed mates and winning lines, and board-reading corrections. Distinct from endgame theory."
+    },
+    {
+      "name": "Chivo BTC Rate Display Audit",
+      "description": "Read-only engineering audit of BTC-USD conversion rate displays across the Chivo wallet's mobile and backend code: enumerating every price-display location and rate-fetch method, bid/ask/mid rate semantics and the GetPrice execution flow, and synthesizing the findings into an HTML/PDF report. Distinct from the regulatory/handover framing in Chivo_and_PLSA."
+    },
+    {
+      "name": "Chivo_and_PLSA",
+      "description": "Chivo handover, PLSA proposal, IMF wind-down context, financial inclusion framing, Salvadoran fintech regulatory work"
+    },
+    {
+      "name": "Churches_and_Civic_Space",
+      "description": "The role of churches beyond worship: community function, underutilized space, and potential corporate or civic uses."
+    },
+    {
+      "name": "Cinematography_and_Color_Science",
+      "description": "Log workflows, V-Log/HLG/HDR, LUTs, dynamic range, bit depth, gain maps, ISO mechanics, Resolve color pipelines, scene-referred theory"
+    },
+    {
+      "name": "Clarity_Codebase_Review",
+      "description": "Read-only review of the Clarity repository: assessing the substance of partially-built code, scoping the review, and verifying against CI."
+    },
+    {
+      "name": "Clash_Royale_Strategy",
+      "description": "Clash Royale gameplay strategy, deck composition, and arena-specific tactics."
+    },
+    {
+      "name": "Claude_Code_and_Skills",
+      "description": "Claude Code configuration, MCP server setup, skills, hooks, slash commands, harness engineering, claude.ai vs Claude Code runtime"
+    },
+    {
+      "name": "Claude_on_Vertex_AI",
+      "description": "Accessing Claude models through Google Vertex AI, including framing against Anthropic's Agent Platform and choosing between Gemini and Claude in Vertex."
+    },
+    {
+      "name": "Coaching_and_Talent_Evaluation",
+      "description": "Coaching reports, candidate scoring, score bands, talent evaluation prompt optimization, structured JSON output schemas"
+    },
+    {
+      "name": "Color Grading Post Houses",
+      "description": "High-end post-production finishing and color grading facilities (Harbor, Company3, Fotokem): how to choose between them and their relative cost."
+    },
+    {
+      "name": "Color Metadata and Transfer Signaling",
+      "description": "Color signaling and metadata in the imaging pipeline: Rec709's undefined or ambiguous transfer function (1.96/2.2/2.4), NCLC and color-tag interpretation, how software reads or mishandles color metadata, and the comparatively standardized state of HDR metadata."
+    },
+    {
+      "name": "Color_Appearance_Models",
+      "description": "Color appearance models and colorimetric foundations for color transforms: CAM16/CAT16 chromatic adaptation, CIELab and XYZ conversions, FilmLight's TCAM, and implementing custom CAMs in code."
+    },
+    {
+      "name": "Compilers and Language Tooling",
+      "description": "Compiler and language-tooling concepts: abstract syntax trees and parsing, intermediate representations, and GPU compiler toolchains across platforms."
+    },
+    {
+      "name": "Confined-Space Survival and Life Support",
+      "description": "Human survival in sealed or confined environments: CO2 scrubbing chemistry (e.g. lithium hydroxide), oxygen supply and chemical oxygen generators, gas exchange and partial pressures, and survival-time calculations."
+    },
+    {
+      "name": "Conflict_Coach_Product",
+      "description": "ConflictCoach PRD critique, Epic decomposer design, story doc evaluation, product viability, file tree critique"
+    },
+    {
+      "name": "Consciousness_and_Philosophy_of_Mind",
+      "description": "Hard problem, qualia, epiphenomenalism, ghost models of people, simulation argument, observer-self, AI consciousness uncertainty"
+    },
+    {
+      "name": "Consumer Photo Printers",
+      "description": "Selecting and comparing home inkjet and photo printers (HP DeskJet/Smart Tank, Epson EcoTank): photo print quality, ink cost and vendor lock-in, supported sizes and glossy media, DPI/resolution sufficiency, Wi-Fi and feature differences, and price reasonableness for printing framed photo gifts."
+    },
+    {
+      "name": "Consumer_Computing_Device_Recommendations",
+      "description": "Recommendations for personal computing devices like laptops and tablets, including developer-focused and general-purpose buying advice."
+    },
+    {
+      "name": "Contact Lenses and Eye Care",
+      "description": "Wearing and caring for contact lenses and related eye-care products: night-vision and headlight glare while wearing contacts, rewetting versus saline solutions, lubricant eye-drop ingredients, and prescription diopter strength."
+    },
+    {
+      "name": "Context_Degradation_Research",
+      "description": "Research program on long-context degradation in LLMs: Lost in the Middle and related citations, benchmark design, and compaction-as-window-management framing."
+    },
+    {
+      "name": "Corporate Boards and Directorship",
+      "description": "Corporate boards of directors as an institution and a career path: becoming a board member, director responsibilities, deliverables, workload and compensation, how board seats are obtained through networking and reputation, and whether corporations are required to have boards or pay directors."
+    },
+    {
+      "name": "Creator_Economy_and_Channel_Acquisitions",
+      "description": "The business of YouTube channels and digital media brands: ownership and independence, acquisition valuations, and the economics of creator-driven media properties (e.g. Donut Media, Geek & Sundry, Emelia Hartford)."
+    },
+    {
+      "name": "Cross-Origin Resource Sharing (CORS)",
+      "description": "CORS as a browser-enforced security mechanism: why only browsers (not servers or non-browser clients) enforce it, configuring public APIs for cross-origin access, and CORS blocking browser-based clients."
+    },
+    {
+      "name": "Crypto_and_Web3",
+      "description": "Fireblocks self-custody, native perpetual futures, warm/sweep wallets, Bankerbot Grok exploit, DRB token, Satoshi rarity"
+    },
+    {
+      "name": "Cryptography_Concepts",
+      "description": "Cryptographic primitives and concepts such as nonces, hashes, signatures, and their roles in security protocols."
+    },
+    {
+      "name": "Culture_and_Memory",
+      "description": "Cultural entropy, beige asymptote, Joe Cocker as compression, collapse of shared visual memory, photography's mass-medium decline"
+    },
+    {
+      "name": "Custom Vehicle Builds and Road Legality",
+      "description": "Building custom or kit vehicles and making them street-legal: road-legality and registration requirements, emissions certification and EV exemptions, and safety equipment and structural build standards. Distinct from routine ownership in Automobile Maintenance and Repair."
+    },
+    {
+      "name": "DCTL_Color_Transform_Development",
+      "description": "Development and debugging of a DaVinci Color Transform Language (DCTL) script for converting between color spaces (DaVinci Wide Gamut Intermediate, Rec.709, HLG): gamut and tone-curve handling, switch-statement refactors, and compile/debug fixes."
+    },
+    {
+      "name": "DIY Variable Diopter Project",
+      "description": "Designing and 3D-printing a DIY variable diopter / single-focus module for close focus on anamorphic and other lenses: concentric-tube and helical-thread mechanical design, diopter-pair optical theory and focus-range simulation, element alignment and retention, PLA housing, and cost comparison to commercial products like the Rapido FVD."
+    },
+    {
+      "name": "DIY_Liquid_Lens_Camera_Project",
+      "description": "Design and fabrication of a DIY 3D-printed camera using a silicone-oil liquid lens, including mount adapters and material compatibility."
+    },
+    {
+      "name": "DaVinci_Resolve_Editing_and_Fusion",
+      "description": "DaVinci Resolve editing and Fusion compositing techniques: timing controls, transitions, node-based effects, and clip merging workflows."
+    },
+    {
+      "name": "DaVinci_Resolve_Scripting_and_Automation",
+      "description": "Automating DaVinci Resolve via its Python scripting API: running external scripts, grade/LUT methods like ApplyGradeFromDRX, SetLUT, and ExportLUT, batch LUT processing across grade-group permutations, and related environment setup and debugging. Distinct from manual editing and Fusion compositing."
+    },
+    {
+      "name": "Data Structures and Algorithms",
+      "description": "Classic algorithm and data-structure problems and interview-style exercises: linked-list manipulation such as palindrome detection in O(n) time and constant space, and finding shared/intersection nodes between lists."
+    },
+    {
+      "name": "Data Warehousing and Dimensional Modeling",
+      "description": "Data warehouse design and analytics engineering: normalization (3NF), ETL pipelines, fact and dimension tables, and Kimball bus-architecture dimensional modeling."
+    },
+    {
+      "name": "Data_Recovery_and_Disk_Forensics",
+      "description": "Recovering data from formatted, damaged, or lost storage media, and related disk forensics techniques."
+    },
+    {
+      "name": "Datamoshing",
+      "description": "The datamosh glitch-art technique and its tooling: removing or preserving I-frames to create motion-bleed effects, scripting the process with FFmpeg and Avidemux, and debugging artifacts like unwanted pausing."
+    },
+    {
+      "name": "Democratic Backsliding and Authoritarianism",
+      "description": "How democracies erode into authoritarian rule: removal of term limits and institutional capture (e.g. Chávez in Venezuela), comparative cases of backsliding, and downstream consequences such as mass emigration and diaspora."
+    },
+    {
+      "name": "Dental_Health_and_Treatment",
+      "description": "Personal dental health issues and treatment decisions: abscesses, root canals, extractions, full-mouth reconstruction, and weighing dentist recommendations."
+    },
+    {
+      "name": "Desmos Graphing Calculator",
+      "description": "Using the Desmos graphing calculator to plot and visualize functions: entering piecewise and power-curve equations, shading regions like a unit box, and graphing transfer curves."
+    },
+    {
+      "name": "DevOps_and_Server_Operations",
+      "description": "nginx routing, Docker Compose, HAProxy, GitHub Actions CI/CD, deploy previews, Convex previews, server git push workflows"
+    },
+    {
+      "name": "Diet_and_Weight_Loss",
+      "description": "Dietary approaches, intermittent fasting, and weight-loss strategies."
+    },
+    {
+      "name": "Digital_Hardware_Design",
+      "description": "Digital logic design and hardware description languages: Verilog, VHDL, CPU architecture, FPGA programming, and RTL design exercises."
+    },
+    {
+      "name": "Discord_Usage_and_Threads",
+      "description": "Using the Discord client: creating and navigating threads, jumping within long threads, and troubleshooting thread and UI behavior."
+    },
+    {
+      "name": "Display_and_Television_Technology",
+      "description": "Display hardware and television technology and its history: CRT versus modern LCD/OLED displays, pre-Rec709 television technology, and the evolution of consumer display and TV systems."
+    },
+    {
+      "name": "Dogs and Working Breeds",
+      "description": "Domestic dogs as companion and working animals: breed intelligence and trainability (e.g. Dobermans), and command training including German-language working-dog commands."
+    },
+    {
+      "name": "Dolly Zoom Effect and Rigging",
+      "description": "The dolly zoom (Vertigo) effect: the distance-and-focal-length math behind it, zoom-ring throw non-linearity, and mechanical gear/string/spool rigs built to drive the zoom in sync with dolly movement."
+    },
+    {
+      "name": "Drone_Hardware_and_Automation",
+      "description": "Consumer drone hardware (e.g. DJI Mini series), automation options, and operational workflows — distinct from drone-based business ventures."
+    },
+    {
+      "name": "Drone_Video_Marketing_Business",
+      "description": "Business proposal, pricing, and service positioning for a drone-based video marketing venture."
+    },
+    {
+      "name": "Drone_Waypoint_Mission_Planning",
+      "description": "Planning drone waypoint missions across Litchi, Dronelink, and KML/Google Earth: CSV formats, coordinate-to-waypoint generation, elevation paths, speed parameters, and file format inspection."
+    },
+    {
+      "name": "Duffel_API",
+      "description": "Duffel flight search API: usage, key management, and integration notes."
+    },
+    {
+      "name": "Dungeons_and_Dragons_Campaigns",
+      "description": "D&D campaign play and DM assistance: character setup, encounter narration, rules adjudication, and session-by-session progression through published modules like Lost Mine of Phandelver."
+    },
+    {
+      "name": "El Xolo Documentary Film",
+      "description": "A documentary film about the El Xolo restaurant and its chef: Maya heritage and Popol Vuh corn framing, the meaning of the name, festival-circuit ambitions, Jiro Dreams of Sushi as a tonal reference, family-level access to the chef, and stylistic choices such as a Lord of the Rings-style prologue with no forced narrative tension."
+    },
+    {
+      "name": "El Xolo Restaurant Project",
+      "description": "A personal photography project documenting the El Xolo restaurant — its concept, story, chef, and access — through food and interior photography, a producer-to-plate zine, a multi-volume series, and a photo book, including its purpose, intended audience, and collaboration framing with the chef."
+    },
+    {
+      "name": "El_Salvador_Google_Education_Plan",
+      "description": "Proposal and planning materials for an El Salvador Google-based education initiative: Chromebook production, ChromeOS migration, certifications, job fairs, and reference schools."
+    },
+    {
+      "name": "El_Salvador_Life",
+      "description": "Reshipping/customs, A-37 jets, low-flying aircraft, Salvadoran Pentecostal Hava Nagila, C-stand sourcing, private pediatrician pricing"
+    },
+    {
+      "name": "Ella_and_Parenting",
+      "description": "Baby development milestones, sleep training, bedsharing, feeding, vaccines, pediatrician, parenting epistemics, WFH with infant"
+    },
+    {
+      "name": "Engagement Rings and Proposals",
+      "description": "Selecting and buying engagement rings and the customs of proposing: diamond size and quality, lab-grown options, ring sizing and pricing/budget, and proposal and ring-wearing customs across cultures."
+    },
+    {
+      "name": "English_Language_Learning",
+      "description": "Teaching English to Spanish speakers: lessons, grammar correction, and tips for overcoming speaking anxiety."
+    },
+    {
+      "name": "Entropy, Cosmology, and the Arrow of Time",
+      "description": "Thermodynamics and cosmology: entropy and energy flow in open and closed systems, life as a dissipative process, black holes as high-entropy sinks, and decreasing-entropy or cyclic-universe scenarios."
+    },
+    {
+      "name": "Espionage and Intelligence Tradecraft",
+      "description": "The profession and practice of espionage: the spy's role and purpose, HUMINT and case officers, tradecraft techniques, recruitment paths, assassinations and 'wet work', the history of spying, and how real intelligence work differs from fictional portrayals like James Bond and Jack Ryan."
+    },
+    {
+      "name": "Ethics_and_Moral_Philosophy",
+      "description": "Moral philosophy and applied ethics: harm versus preference satisfaction, consent, and the ethics of aesthetic or cultural controversies."
+    },
+    {
+      "name": "Etymology_and_Linguistics",
+      "description": "Word origins, cross-language etymological connections, and linguistic history."
+    },
+    {
+      "name": "Eventure_Social_Events_Startup",
+      "description": "Eventure startup concept: a social events platform idea including naming, SWOT analysis, and project planning for a San Salvador launch."
+    },
+    {
+      "name": "Evolutionary_Biology_and_Tree_of_Life",
+      "description": "The tree of life and evolutionary history: domains of life, major taxonomic groups, common ancestors, extinctions, and the emergence and classification of plants, animals, fungi, and microbes."
+    },
+    {
+      "name": "Experimental_Design_and_Factorial_Testing",
+      "description": "Factorial experimental design terminology, higher-dimensional factorial structures, and their applicability and tradeoffs in software testing."
+    },
+    {
+      "name": "Exposure Tools and Zone Systems",
+      "description": "On-set and post exposure-evaluation tools and zone systems: false color, Ed Lachman's EL Zone System, stops-over-middle-gray exposure LUTs, and the Ansel Adams Zone System lineage."
+    },
+    {
+      "name": "Family Trusts and Asset Structuring",
+      "description": "Structuring family property and asset ownership through trusts (revocable, irrevocable, and nonprofit/501(c)(3)) and LLCs: fairness among siblings, rental arrangements, grant terms and revenue-share, governance roles, and cautionary precedents."
+    },
+    {
+      "name": "Film Burn and Light Leak Effects",
+      "description": "The film burn / light leak effect: its organic origins in overexposed photographic film, recreating it physically through exposure, and reproducing it digitally with overlays in editing and grading."
+    },
+    {
+      "name": "Film and TV Recommendations",
+      "description": "Recommendations of films and television to watch, filtered by criteria such as genre, language/audio, and streaming availability. Distinct from analytical commentary in Film_and_TV_Analysis."
+    },
+    {
+      "name": "Film_Distribution_and_Industry",
+      "description": "The business and mechanics of film distribution in the digital era: release windows, streaming vs theatrical, and the structure of the film industry."
+    },
+    {
+      "name": "Film_Formats_and_Film_Stock",
+      "description": "Analog and large-format film as a medium: IMAX and the IMAX Enhanced home certification, aspect ratios and format definitions, film stock characteristics and notable stock choices, and why theatrical prints differ from the filmmaker's master."
+    },
+    {
+      "name": "Film_and_TV_Analysis",
+      "description": "Analysis and commentary on film and television scenes, themes, and characters, including legal or thematic readings."
+    },
+    {
+      "name": "Filmmaking_Craft_and_Directing",
+      "description": "Directing, shot coverage, editing-in-prep, auteur vs committee filmmaking, and creative vision in narrative film production."
+    },
+    {
+      "name": "Fire, Smoke, and Combustion Byproducts",
+      "description": "Chemistry and hazards of fires: chemicals released by different fire types (campfire versus urban/structure fires), smoke damage to homes, and post-fire habitability and air-quality concerns."
+    },
+    {
+      "name": "Fitness_and_Mobility",
+      "description": "Physical exercise, mobility work, stretching, and bodyweight movements like child's pose and glute bridges."
+    },
+    {
+      "name": "Flash and Speedlight Photography",
+      "description": "Photographic flash and speedlight use: Godox speedlights and camera/mount compatibility (TTL, Four Thirds vs L-Mount), guide numbers and flash-distance calculation, and flash recommendations for cameras like the S5IIX."
+    },
+    {
+      "name": "Flowers_and_Floral_Symbolism",
+      "description": "Types of flowers by occasion, meaning, and symbolic associations."
+    },
+    {
+      "name": "Folklore_and_Mythology",
+      "description": "Folklore, mythological motifs, and traditional tales across cultures, including changelings and European folk traditions."
+    },
+    {
+      "name": "Food_and_Cuisine_Identification",
+      "description": "Identifying, defining, and categorizing foods and dishes — international cuisine, definitional edge cases, and culinary taxonomy."
+    },
+    {
+      "name": "Formula 1 Broadcast and Commercial Structure",
+      "description": "The business, governance, and broadcast production of Formula 1: the roles of the FIA, Liberty Media, and FOM; global feed rights versus nested regional producers; F1 TV as platform, show, and subscription; on-track camera systems and signal transmission; and media accreditation and pit-lane access."
+    },
+    {
+      "name": "Fragrance_and_Perfumery",
+      "description": "Personal fragrance exploration: Tom Ford Private Blend, MFK, vintage Gaultier hunts, perfumer attribution, decants, and preference mapping."
+    },
+    {
+      "name": "Freelance_Web_Project_Pricing",
+      "description": "Pricing and scoping freelance website and software build projects, including market-specific rate considerations."
+    },
+    {
+      "name": "FusionAuth_Identity_Platform",
+      "description": "FusionAuth identity and authentication platform: feature overview, JWT support, and integration considerations."
+    },
+    {
+      "name": "Gain and Signal Amplification",
+      "description": "Electrical gain and signal amplification fundamentals: gain theory and history, why weak signals must be amplified, gain versus volume and signal-to-noise ratio, the preamp's role in the audio chain, and the analogy between audio gain and camera ISO sensitivity."
+    },
+    {
+      "name": "General Aviation and Private Flying",
+      "description": "Recreational and general aviation in small aircraft: private pilot licensing and freedoms, flight planning, altitude and airspace sharing with commercial airliners, the cost of buying and operating a small plane, and aerobatics. Distinct from Military_Aviation_and_Air_Combat."
+    },
+    {
+      "name": "General_Health_and_Symptoms",
+      "description": "Everyday health questions and symptom interpretation outside of dental care, covering pain, common ailments, and lay medical reasoning."
+    },
+    {
+      "name": "Geography and Place Facts",
+      "description": "Geographic facts and comparisons: the relative size of U.S. states and countries, area rankings, and similar place-based trivia."
+    },
+    {
+      "name": "Geopolitics and Global Power",
+      "description": "International power dynamics and the global order: US hegemony and its potential decline, rival powers such as China filling power vacuums, Taiwan and semiconductor dominance, and US isolationism, NATO withdrawal, and trade wars."
+    },
+    {
+      "name": "Gift_Ideas_and_Shopping",
+      "description": "Gift recommendations and shopping suggestions for occasions, with budget and recipient considerations."
+    },
+    {
+      "name": "Git_Advanced_Usage",
+      "description": "Advanced git commands and workflows beyond basic commit/push: log pickaxe searches, branch filtering, history archaeology, and related power-user techniques."
+    },
+    {
+      "name": "Google_Drive_Access",
+      "description": "Drive connector availability, folder navigation, file access attempts, AP Meetings folder, shared drives, root listing"
+    },
+    {
+      "name": "Graphic_Design_and_Typography_Layout",
+      "description": "Graphic design and layout principles including title card design, mixed text sizing, spacing, and visual hierarchy in static compositions."
+    },
+    {
+      "name": "HDMI Signal Chain and Apple TV Output",
+      "description": "Configuring the HDMI signal chain from Apple TV to a 4K HDR TV: chroma subsampling and bit depth (4:2:0 10-bit vs 4:2:2 8-bit, YCbCr vs RGB), TMDS vs FRL signaling and HDMI 2.1 cable/bandwidth verification, Dolby Vision/HLG and codec color space, VRR, and Apple TV model and video-format setup."
+    },
+    {
+      "name": "HDR Photography and Gain Maps",
+      "description": "Creating and sharing high-dynamic-range still photos: the absence of HDR photo standards, HEIF and gain-map encoding, HLG/HSP capture (e.g. on the S5IIX), embedded HDR metadata, and platform support such as Instagram."
+    },
+    {
+      "name": "Hair_and_Grooming",
+      "description": "Caesar cut, Italian beard, modern mullet, finasteride/DHT, minoxidil, microneedling, thinning crown haircut strategy"
+    },
+    {
+      "name": "Hardware_Wearables",
+      "description": "RayNeo Air 4 Pro, HUD apps for OLED glasses, Vision Pro comparison, adapter passthrough, iPhone mirroring HDR"
+    },
+    {
+      "name": "Healthcare_Data_Standards",
+      "description": "Healthcare informatics data standards and disambiguation: SOAP web protocol versus SOAP clinical-note structure, and FHIR as a healthcare data model versus its JSON serialization."
+    },
+    {
+      "name": "Holography_and_Volumetric_Display",
+      "description": "Hologram technology, volumetric display techniques, Pepper's Ghost illusions, and the feasibility of life-sized holographic projection."
+    },
+    {
+      "name": "Home Media Library and Apple TV",
+      "description": "Managing and playing personal media libraries on Apple devices: macOS Home Sharing, locating media files on disk, and watching personal movies on Apple TV."
+    },
+    {
+      "name": "Home Server and NAS Build",
+      "description": "Personal home server and network-attached storage: NAS vs SAN, Raspberry Pi-based Plex/Pi-hole, drive hot-swapping and mounting, NVMe HATs, USB gadget mode, and consolidated build planning."
+    },
+    {
+      "name": "Household_Electrical_Noises",
+      "description": "Diagnosing buzzing, hissing, and crackling sounds from household electrical fixtures like fluorescent bulbs and bathroom lights."
+    },
+    {
+      "name": "Human Anatomy and Physiology",
+      "description": "Human body systems, organs, and physiological processes — including glandular secretions (salivary, mucous), reflexes, and digestive-tract anatomy and function."
+    },
+    {
+      "name": "IDN_and_Punycode",
+      "description": "Internationalized domain names, Punycode encoding, and Unicode-to-ASCII mapping for domains."
+    },
+    {
+      "name": "IPTV and Scene Media Sources",
+      "description": "Unofficial and alternative sources for movies and TV: IPTV provider services (e.g. BrokenTV) versus mainstream streaming, and scene release groups and their encodes (e.g. FLUX, NTb)."
+    },
+    {
+      "name": "Image_and_Media_File_Formats",
+      "description": "Internals and features of image and media file formats, including binary structure, frame definitions, and format-level capabilities (e.g. GIF)."
+    },
+    {
+      "name": "Immigration and Visas",
+      "description": "US immigration and visa processes relevant to the user, including the K-1 fiancé visa: eligibility, steps, timelines, and requirements."
+    },
+    {
+      "name": "Information, Signals, and Meaning",
+      "description": "Semiotics and information theory: what distinguishes a signal from a message from meaning, whether meaningless messages can exist, and the physicality of information in terms of energy, mass, and the brain."
+    },
+    {
+      "name": "Intelligence_Concepts_and_Definitions",
+      "description": "Philosophical and technical attempts to define intelligence, its varieties, and analogies used to describe it."
+    },
+    {
+      "name": "International_Wire_Transfers_and_Banking",
+      "description": "International wire transfers, intermediary/correspondent banks, and cross-border banking logistics."
+    },
+    {
+      "name": "Internet_Memes_and_Slang",
+      "description": "Explanations and origins of internet memes, slang, and viral cultural references."
+    },
+    {
+      "name": "IoT_and_Networking_Protocols",
+      "description": "IoT and networking protocols and their layering: Thread, Matter, OSI model mapping, and related connectivity standards."
+    },
+    {
+      "name": "Jack_Reacher_Series_Analysis",
+      "description": "Analysis of Lee Child's Jack Reacher novels: character appeal, recurring tropes, plot mechanics, and series-level critique."
+    },
+    {
+      "name": "JavaScript_Bundle_Reverse_Engineering",
+      "description": "Reverse engineering minified JavaScript bundles: beautification, searching for endpoints, request counters, and URLs in compiled client code."
+    },
+    {
+      "name": "JavaScript_and_Node_Backend_Patterns",
+      "description": "Node.js and JavaScript implementation patterns: module.exports and require caching, ESM top-level await, Proxy-based accessors and getters/setters, deep object equality and Map-based deduplication, and joining SQL rows into API-shaped users/accounts arrays with enum mappings."
+    },
+    {
+      "name": "Jira_and_Atlassian_Workflows",
+      "description": "Jira tickets, workflows, webhooks, Slack app approvals, board design, ticket transitions, GitHub integration, decomposer Epics"
+    },
+    {
+      "name": "KYC_SumSub_and_Compliance",
+      "description": "SumSub WebSDK, KYB integration, webhook signature verification, UBO child KYC, permalink iframing, Bitrank CIDR"
+    },
+    {
+      "name": "Karpathy_and_AI_Discourse",
+      "description": "Karpathy talk on post-product software, Reddit AI coworker post, frontier vs personal models, Symphony architectural convergence"
+    },
+    {
+      "name": "Kurzgesagt_Style_and_Animation",
+      "description": "Kurzgesagt's visual style and approaches to imitating its animation in tools like DaVinci Resolve Fusion."
+    },
+    {
+      "name": "LUT Internals and Interpolation",
+      "description": "The internals of color lookup tables: the .cube LUT file format and entry ordering, interpolation algorithms (trilinear vs tetrahedral), and the history and origins of look-up tables. Distinct from applying LUTs in color grading and from the LUT Sharing Platform project."
+    },
+    {
+      "name": "LUT Sharing Platform",
+      "description": "Design and build of a web platform for sharing color-grading LUTs: naming, in-browser LUT generation, JavaScript LUT libraries, color-space filtering, platform viability, and LUT intellectual property/licensing (derivative vs transformative use)."
+    },
+    {
+      "name": "Lambda_Calculus_and_Computation_Theory",
+      "description": "Theoretical computer science foundations: lambda calculus, fixed-point combinators, and computation theory."
+    },
+    {
+      "name": "Law and Legal Procedure",
+      "description": "Everyday legal questions and how legal mechanisms work in practice: service of process and its evasion, legal duties of witnesses and victims, and self-defense across jurisdictions. Distinct from boilerplate filings in Legal_Document_Templates."
+    },
+    {
+      "name": "League_of_Legends_Gameplay",
+      "description": "League of Legends and Wild Rift gameplay: champion matchups, counters, and in-game tactics, distinct from esports history."
+    },
+    {
+      "name": "League_of_Legends_and_Esports",
+      "description": "League of Legends competitive history, notable matches, and esports commentary."
+    },
+    {
+      "name": "Legal Profession and Law Firm Structure",
+      "description": "The legal profession as a career and institution: law firm hierarchy and roles (junior associates, equity partners), compensation, and jurisdictional role distinctions such as UK barristers versus solicitors. Distinct from legal procedure mechanics and bar licensure."
+    },
+    {
+      "name": "Legal_Document_Templates",
+      "description": "Example legal documents and templates such as articles of incorporation, motions, and other boilerplate filings."
+    },
+    {
+      "name": "Lens Mount Adaptation",
+      "description": "Adapting lenses across mounts onto modern mirrorless bodies (especially L-Mount): flange focal distance, mechanical adapters, PL-to-L-Mount adaptation, and DIY mount swaps via 3D-printed bayonets and lugs."
+    },
+    {
+      "name": "LessWrong_and_Rationalist_Canon",
+      "description": "LessWrong, Yudkowsky's Sequences, and the broader rationalist canon: core ideas, structure, and adaptations."
+    },
+    {
+      "name": "Lexar Professional Go Review Video",
+      "description": "Producing a YouTube review video for the Lexar Professional Go portable SSD: content outline, talking points, and script structure."
+    },
+    {
+      "name": "Licensed Music for Video Production",
+      "description": "Selecting royalty-cleared, licensable music (e.g. via Lickd) for b-roll and cinematic video content: building track shortlists, vibe-matching reference songs, and clearance and cover-version questions."
+    },
+    {
+      "name": "Linear_Algebra_and_ML_Math",
+      "description": "Mathematical foundations of machine learning: matrix multiplication, dot/outer products, autograd, and computation graph theory."
+    },
+    {
+      "name": "Link_Aggregation_and_Multi_WAN",
+      "description": "Combining multiple network or ISP connections for increased bandwidth or redundancy: link aggregation, channel bonding, multi-WAN configuration, and connecting a single device to several networks simultaneously."
+    },
+    {
+      "name": "Live Video Streaming Protocols",
+      "description": "Transport protocols for live and multi-camera video streaming — RTP, RTSP, and RTMP — including their technical differences, security trade-offs by use case, camera support and feature changes (e.g. on LUMIX bodies), and the relationship between RTP and SMPTE 2110-22."
+    },
+    {
+      "name": "Load_Testing_and_Benchmarking",
+      "description": "Load testing tools and workflows, especially k6: installation, configuration, distributed execution, metrics interpretation, and performance benchmarking of backend services."
+    },
+    {
+      "name": "Logic Puzzles and Riddles",
+      "description": "Classic logic puzzles and riddles, their solutions, and their formal structure — e.g. the two-guards/two-doors puzzle, NOT-logic and Boolean formalization, hidden assumptions, and connections to recursion and meta-programming."
+    },
+    {
+      "name": "Logistics and Order Fulfillment",
+      "description": "Warehouse and freight logistics operations: picking and packing, end-to-end order fulfillment, third-party logistics (3PL) workflows and tradeoffs, B2B fulfillment, and freight/LTL shipping terminology."
+    },
+    {
+      "name": "Lucien_Hosting_and_Product_Architecture",
+      "description": "Product and hosting architecture decisions for Lucien: reusing existing wiki engines, user editability, open-core hosting with graph view, end-to-end encryption with passkeys, multi-user staging, and encrypted cross-provider blob storage."
+    },
+    {
+      "name": "Lucien_Naming_and_Mythology",
+      "description": "Naming and mythological framing of the Lucien/Dreaming system: Morpheus, Sandman's the Dreaming as a realm, Matrix layering, and related mythic references."
+    },
+    {
+      "name": "Lucien_Packaging_and_Distribution",
+      "description": "Packaging the Lucien MCP server for distribution via npm and related channels, including release strategy and installation UX."
+    },
+    {
+      "name": "Lucien_Retrieval_and_Evaluation",
+      "description": "Evaluating whether Lucien works in practice: probing whether a cold AI consults the Dreaming before answering, conversation-resumption tests, MCP search and anti-narration priming behavior, and structured evaluation reports."
+    },
+    {
+      "name": "Lucien_Synthesis_Pipeline",
+      "description": "Lucien's offline synthesis pipeline: parallel chunking of Claude conversation exports, label generation, bucket assignment, article synthesis, and per-stage model selection."
+    },
+    {
+      "name": "Lucien_Wiki_Maintenance",
+      "description": "Maintenance of the Dreaming wiki on disk: link integrity, filename canonicalization, Obsidian wikilink fixes, and link-maintenance scripts."
+    },
+    {
+      "name": "MCP_Protocol_and_Servers",
+      "description": "MCP capabilities, Atlassian MCP migration, Google Drive connector, filesystem MCP, self-hosting, tools/resources/prompts model"
+    },
+    {
+      "name": "Manim_Video_Animation",
+      "description": "Producing explainer-style video animations with Manim, including asset workflows, prototyping, and production strategy."
+    },
+    {
+      "name": "Market Microstructure and Order Books",
+      "description": "Trading market microstructure: order book matching engines, how execution price is determined, price improvement, and related exchange mechanics."
+    },
+    {
+      "name": "Mass_Driver_Space_Launch_System",
+      "description": "Feasibility, engineering, and economics of a ground-based electromagnetic mass driver for launching payloads to orbit: propulsion and tube design, G-force and power requirements, construction materials and siting, cost versus rockets, payload and in-orbit manufacturing concepts, and military applications."
+    },
+    {
+      "name": "Materials_and_Manufacturing",
+      "description": "Diamond hardness, lab-grown economics, cold welding, clay to brick, porcelain glazing, silicon dioxide structure, CO solid"
+    },
+    {
+      "name": "Mathematics Concepts and Terminology",
+      "description": "Elementary mathematics concepts, terminology, and trivia: set theory, arithmetic and algebraic properties, combinatorics and counting, and basic geometry of shapes."
+    },
+    {
+      "name": "Meal Planning and Grocery Budgeting",
+      "description": "Personal weekly meal planning and menus (breakfast, lunch, dinner), grocery shopping lists, meal prep, and reducing food and delivery spend. Distinct from recipe-for-a-dish requests and from diet/weight-loss strategy."
+    },
+    {
+      "name": "Mechanical_Development_Manifesto",
+      "description": "Definition-first development, schema-driven CRUD generation, middleware automation, template-driven engineering, essay drafts and translations"
+    },
+    {
+      "name": "Medical Imaging Technology",
+      "description": "Imaging systems in medicine: surgical robot (e.g. da Vinci) 3D HD vision and image transmission, and achieving true-to-life color reproduction on medical displays."
+    },
+    {
+      "name": "Meeting_Sentiment_and_Sales_Analysis",
+      "description": "Fireflies/Glean transcript ingestion, objection handling analysis, speaker time queries, prospect call evaluations (Trey Poirier, Michael Kaleta, Gleec, etc.)"
+    },
+    {
+      "name": "Mental_Arithmetic_and_Estimation",
+      "description": "Mental math shortcuts and estimation techniques: reciprocals, ratio inversion, and quick approximation heuristics."
+    },
+    {
+      "name": "Mental_Models_and_Aphorisms",
+      "description": "Type 1 vs type 2 fun, Litany of Tarski, Bayesian updating, asymmetric bets, levels-thinking, Chesterton's fence, project-selection filters"
+    },
+    {
+      "name": "Microphones and Audio Recording",
+      "description": "Microphone types and selection for spoken-word and content recording: dynamic vs condenser operation, model comparisons (Shure SM7B/SM7dB, MV7/MV7X), placement, connectivity (USB vs XLR), portability, and audio-quality tradeoffs."
+    },
+    {
+      "name": "Military_Aviation_and_Air_Combat",
+      "description": "Military aviation and air combat mechanics: fighter jet systems, radar warning, air-to-air missiles, pilot procedures, and dogfighting."
+    },
+    {
+      "name": "Mind_Maps_and_Knowledge_Structures",
+      "description": "Knowledge-representation modalities for personal knowledge: mind maps (Buzan, concept maps), trees versus graphs, and the cross-linking tension between mind maps and wikis."
+    },
+    {
+      "name": "Mini Apps and Super App Platforms",
+      "description": "Mini-program / mini-app platforms embedded within super-apps (WeChat, Alipay, and similar): what they are, their architecture, and use cases."
+    },
+    {
+      "name": "Model_Rocketry_Pre_Launch_Checklists",
+      "description": "Pre-launch checklists and online platforms for amateur model rocketry."
+    },
+    {
+      "name": "Model_Training_and_Post_Training",
+      "description": "How models are trained and shaped: pretraining vs fine-tuning, post-training compute, agentic training via relabeled conversations, and expert demonstrations."
+    },
+    {
+      "name": "Model_UN_and_Debate",
+      "description": "Explanations of Model UN, debate formats, and related academic simulation activities."
+    },
+    {
+      "name": "Modular_Camcorder_Monitor_Project",
+      "description": "Design and development of a snap-on modular external monitor and hub accessory for iPhone cage rigs: display sourcing, pogo-pin connectors, PCB design, pricing strategy, and product concept."
+    },
+    {
+      "name": "Money Laundering and Financial Crime",
+      "description": "Concepts and terminology of money laundering and financial crime: the placement-layering-integration stages, and techniques such as bundling/aggregation versus structuring."
+    },
+    {
+      "name": "Motorcycles and Sport Bikes",
+      "description": "Consumer motorcycles and sport bikes: top speeds, model comparisons (e.g. Ninja 650, Hayabusa), and fastest-bike trivia. Distinct from racing in Motorsport_and_Racing."
+    },
+    {
+      "name": "Motorsport Safety Cars and Caution Procedures",
+      "description": "The theory, history, and critique of safety cars and virtual safety cars in motorsport: why cautions exist, restart and passing rules, physical car versus flag-based alternatives, and inconsistencies in the procedures."
+    },
+    {
+      "name": "Motorsport_and_Racing",
+      "description": "Motorsport events, racing series, and notable cars across formats like F1, endurance racing, and the Nürburgring 24 Hours."
+    },
+    {
+      "name": "Multimodal LLM Capabilities",
+      "description": "What input modalities large language models can process beyond text — vision and OCR, audio — and model-specific multimodal support such as Gemini."
+    },
+    {
+      "name": "Music Production and Sound Recreation",
+      "description": "Producing and recreating music on a computer/DAW: identifying the synths and sounds on existing recordings, rebuilding atmospheric synth pads in GarageBand, entering parts via Musical Typing, and working out the chord progressions of specific songs."
+    },
+    {
+      "name": "Music_Genres_and_Scenes",
+      "description": "Discussion and explanation of music genres, scenes, and labels (e.g. PC Music), distinct from era-specific nostalgia or curated playlists."
+    },
+    {
+      "name": "Music_Industry_Rights_and_Business",
+      "description": "The business of music: masters versus publishing rights, catalog sales, and recorded-music industry economics."
+    },
+    {
+      "name": "MySQL_CLI_and_Scripting",
+      "description": "Using the MySQL command-line client and scripting against MySQL: REPL access, default credentials, listing tables, running .sql files in sequence, and executing SQL via Node clients like promise-mysql2."
+    },
+    {
+      "name": "Network_Security_and_Exfiltration",
+      "description": "Offensive and defensive network security concepts: command-and-control infrastructure, data exfiltration techniques (DNS, HTTP), CDN abuse, and related security research and tooling."
+    },
+    {
+      "name": "Neural Vision Camera Concept",
+      "description": "Speculative design and feasibility of a camera that mimics human vision with neural networks rather than conventional optics: the premise that vision is neural-network-like, current-AI feasibility, an efficient 'SVG for video' representation, and real-time post-training efficiency."
+    },
+    {
+      "name": "Neurology_and_Autoimmune_Conditions",
+      "description": "Neurological and autoimmune conditions including diagnosis pathways, e.g. generalized myasthenia gravis."
+    },
+    {
+      "name": "Next.js App Development",
+      "description": "Building web applications with Next.js: project scaffolding, folder structure, and route setup for pages such as landing, login, and profile."
+    },
+    {
+      "name": "Nineties_Music_and_Nostalgia",
+      "description": "1990s music scenes, bands, and song meanings — especially Southern California acts like Sublime, Weezer, and Social Distortion — plus nostalgia-driven playlists and DJ setlists."
+    },
+    {
+      "name": "No-Loss_Lottery_Project",
+      "description": "Prize-linked savings smart contract project: design, implementation, frontend, plan execution, and public GitHub release."
+    },
+    {
+      "name": "No-Mistakes Agent Architecture",
+      "description": "Design of an AI agent engineered to avoid errors (the 'agi-no-mistakes' project): evaluation-first scaffolding, abstention paths, verified logic and memory domains, and a guarded capability layer gated by critic acceptance checks."
+    },
+    {
+      "name": "Offsite Retrospective Mini-Documentary",
+      "description": "Deliberation over a mini-documentary about a team/company offsite: its purpose, intended audience, and value, including reframing it as a 12-year anniversary retrospective."
+    },
+    {
+      "name": "Online Course and Instructor Credibility",
+      "description": "Evaluating the trustworthiness and sales practices of online course instructors: price concealment and sales-funnel ethics, high-pressure tactics, transparency, and assessing an instructor's professional track record."
+    },
+    {
+      "name": "Onshape and Parametric CAD",
+      "description": "Using the Onshape cloud parametric CAD tool for 3D part modeling: sketches, holes and threads, parametric features, viewport navigation, and duplicating or editing parts."
+    },
+    {
+      "name": "Open Source Licensing",
+      "description": "Open-source software licensing questions: determining a project's original license, forking and redistributing revoked or unlicensed code, GPLv3 copyleft obligations, and publishing no-license code with donation links."
+    },
+    {
+      "name": "Options and Derivatives Trading",
+      "description": "Options and derivatives trading concepts and strategies: profiting from volatility, the mechanics of strategies like straddles and spreads, and the risk/payoff structure of derivative positions. Distinct from order-book microstructure and personal-finance investment math."
+    },
+    {
+      "name": "Orange County Dining and Nightlife",
+      "description": "Local restaurant, breakfast spot, and bar recommendations and identification in Orange County and the greater Southern California area."
+    },
+    {
+      "name": "PDF Generation and Document Export",
+      "description": "Programmatically generating PDFs and exporting documents between formats, including Python's reportlab library and PDF-to-text conversion workflows."
+    },
+    {
+      "name": "Paleontology_and_Prehistoric_Life",
+      "description": "Prehistoric life and paleontology: dinosaurs, mass extinctions, fossil lineages, ancient megafauna, and major events like the Chicxulub impact."
+    },
+    {
+      "name": "Panama_Photo_Zine",
+      "description": "Panama Casco Viejo photo project: scene-by-scene critiques, sequencing, zine layout in Affinity, format debates, and submission/output decisions."
+    },
+    {
+      "name": "Parcheesi Rules and Strategy",
+      "description": "The board game Parcheesi: basic rules and gameplay, blockade mechanics including being forced to break your own blockade, and whether optimal strategic play exists."
+    },
+    {
+      "name": "Password Policy and Complexity Rules",
+      "description": "Password complexity requirements and their validation: regex breakdowns for password rules, custom complexity constraints (length, digit, and special-character requirements), and critiques of complexity rules as ineffective security."
+    },
+    {
+      "name": "Performance Cars and Hypercars",
+      "description": "High-performance road cars and hypercars: model lineups and trim naming (e.g. Porsche GT/RS/Carrera), heritage models, and benchmark performance figures such as Nürburgring lap times, quarter-mile times, acceleration, and top speed across brands like Porsche, Mercedes-AMG, Ferrari, Lamborghini, and Rimac. Distinct from racing competition in Motorsport_and_Racing."
+    },
+    {
+      "name": "Personal AGI Build Project",
+      "description": "The user's personal ambition and exploration of building artificial general intelligence as a system: plans to construct AGI, whether it requires training a new model versus composing existing ones, and rapid prototype-harness experiments. Distinct from the narrower No-Mistakes Agent Architecture project and from industry/economics discussion."
+    },
+    {
+      "name": "Personal Finance and Investment Math",
+      "description": "Personal finance and investment calculations: interest and APR on principal, compounding, recurring-contribution portfolio projections, and expected returns over time."
+    },
+    {
+      "name": "Personal_Productivity_and_Calendar",
+      "description": "Apple Calendar/Google Workspace sync, work hours estimation by project, lunch ordering automation, Gmail prospect context"
+    },
+    {
+      "name": "Personal_Wiki_Editorial_Philosophy",
+      "description": "Editorial principles for a personal wiki: notability versus Wikipedia, trajectory preservation, article length scaling, and synthesis discipline."
+    },
+    {
+      "name": "Personality Typology and Self-Assessment",
+      "description": "Personality frameworks and self-assessment, especially Myers-Briggs/MBTI typing (e.g. converging on ENTJ), including interpreting, validating, and sharing one's type results."
+    },
+    {
+      "name": "Pharmaceuticals_and_Drug_Indications",
+      "description": "Specific drugs, their indications, label expansion outlook, and pharmaceutical market questions."
+    },
+    {
+      "name": "Photo_Zine_Production_and_Publishing",
+      "description": "The craft and business of producing and publishing photo zines: culling and sequencing, page counting and two-up/spread layout, cover and center-spread design, white-border treatment, building a custom layout tool, editioning and numbered runs, and the zine market and souvenir-zine economics. Distinct from the project-specific Panama_Photo_Zine and from binding mechanics in Bookbinding_Methods."
+    },
+    {
+      "name": "Photographic Film Chemistry",
+      "description": "The chemistry and physics of how photographic film captures and develops images: latent image formation, negative-to-positive density inversion, color dye couplers and dye clouds, multi-layer film structure and spectral cross-talk, optical density, and modeling/simulating specific film stocks."
+    },
+    {
+      "name": "Photography_Theory_and_Practice",
+      "description": "Composition, Cartier-Bresson, Avedon, Leibovitz, no-crop discipline, what photographers do, decline of photography as mass medium"
+    },
+    {
+      "name": "Physics_and_Engineering",
+      "description": "F1 hybrid power, engine torque/HP, oxygen delivery, fuel cells, voltage and electrocution, transformer ratios, latent heat, plasma temperature"
+    },
+    {
+      "name": "Pi_Editor_and_Cursor_Harness",
+      "description": "The pi editor/harness ecosystem and its relationship to Cursor: Composer-as-model framing, harness portability, extension installation, and the pi-as-harness philosophy."
+    },
+    {
+      "name": "Pilot_Script_Generation",
+      "description": "Assistant-generated TV pilot scripts across genres: dark comedy detective, workplace comedy, and Spanish-language novelas."
+    },
+    {
+      "name": "Playlist_Curation_Requests",
+      "description": "Curated music playlists generated for specific eras, locations, or moods — e.g. Williamsburg 2008, El Salvador 2016."
+    },
+    {
+      "name": "Poetic_Meter_and_Verse_Forms",
+      "description": "Poetic meter and verse forms: iambic pentameter, dactylic hexameter, and other classical scansion patterns."
+    },
+    {
+      "name": "Poker_and_Betting_Theory",
+      "description": "A9 vs AT review, c-bet concept, villain ranges, combos/blockers, river equity vs pot odds, parlay EV, utility curves"
+    },
+    {
+      "name": "Police Organization and Ranks",
+      "description": "The structure of police and law enforcement agencies: rank hierarchies, titles, and how leadership such as chiefs and commissioners are appointed or selected."
+    },
+    {
+      "name": "Political Coalitions and Factional Dynamics",
+      "description": "US political coalition-building and factional dynamics: populist-left momentum, principal-agent drift in party institutions, Overton windows for coalitions, the politics of naming factions, and collective-action disintermediation via assurance contracts and AI agents."
+    },
+    {
+      "name": "Power_and_UPS_Systems",
+      "description": "DARAN vs Forza, Starlink power, battery-first topology, watt-hours, airline limits, graceful shutdown for internet gear"
+    },
+    {
+      "name": "Printing_Methods_and_Services",
+      "description": "Commercial printing for photos and zines: photo labs and fine-art printers, offset printing versus plotters, minilab fixed sizes and fitting formats like A4, and per-printed-side cost comparisons across formats."
+    },
+    {
+      "name": "Product_Management_Practice",
+      "description": "Product management deliverables, documentation types, and practices for understanding and communicating product scope."
+    },
+    {
+      "name": "Professional Wrestling",
+      "description": "Professional wrestling (WWE/WWF) as a scripted entertainment business: kayfabe and the scripted-versus-fake question, championships and promos as storytelling devices, branding and name-change history, and notable performers such as CM Punk, Roman Reigns, and The Undertaker."
+    },
+    {
+      "name": "Project_Hail_Mary_Analysis",
+      "description": "Critical analysis of Andy Weir's Project Hail Mary: plot mechanics, character decisions, scientific plausibility, and narrative implausibilities."
+    },
+    {
+      "name": "Python Environment and Packaging",
+      "description": "Managing Python development environments and dependencies on the local machine: virtual environment activation, pip/requirements.txt dependency conflicts, and interpreter symlink/alias fixes on macOS."
+    },
+    {
+      "name": "Python_vs_JavaScript",
+      "description": "Python critiques, f-strings vs template literals, lambdas vs arrows, list comprehensions, TensorFlow Python/JS, 2-to-3 transition"
+    },
+    {
+      "name": "Quantum Mechanics and Relativity",
+      "description": "Foundational modern physics: quantum interpretations (the universal wave function and rejection of collapse), entanglement and the no-faster-than-light-signaling constraint, probability as knowledge versus inherent randomness, Occam's-razor arguments between interpretations, and special-relativistic effects like time dilation and length contraction."
+    },
+    {
+      "name": "Raw Photo Processing Software",
+      "description": "Desktop applications for developing and editing raw photographs (e.g. Darktable), including the distinction between raw processors, darkroom apps, and general image editors."
+    },
+    {
+      "name": "React_Native_Mobile_Development",
+      "description": "Cross-platform mobile app development with React Native, including platform-specific integrations like SMS, contacts, and native module quirks."
+    },
+    {
+      "name": "Real Estate and Housing Market",
+      "description": "Residential real estate and housing costs: home purchase price ranges, market comparisons by location, and property affordability."
+    },
+    {
+      "name": "Recall.life_and_Don't_Wake_The_Baby",
+      "description": "Personal product ideation: Recall.life PRD, Don't Wake The Baby project, MemPalace critique"
+    },
+    {
+      "name": "Recipes_and_Cooking",
+      "description": "Recipe requests and cooking instructions for specific dishes."
+    },
+    {
+      "name": "Relationships_and_Social_Dynamics",
+      "description": "Interpersonal relationship questions and social dynamics: dating signals, friendship anxieties, partner emotional patterns, and friends' relationship situations."
+    },
+    {
+      "name": "Religious_History_and_Sociology",
+      "description": "Historical and sociological discussion of religions: how faiths spread, took hold in specific cultures, and shaped societies."
+    },
+    {
+      "name": "Remarketer and Order Execution",
+      "description": "AlphaPoint's Remarketer order-execution concept (e.g. for Mynt): limit-order execution, price-watch trigger mechanics, decoupled hedging versus smart order router tradeoffs, and explainer and communication materials."
+    },
+    {
+      "name": "Remote Monitoring and Device Management Software",
+      "description": "Remote monitoring and management (RMM) and corporate device-management tools such as NinjaOne: platform overview, bundled remote-access components like TeamViewer, installer code-signing and macOS Gatekeeper issues, and decisions about allowing employer software on personal machines."
+    },
+    {
+      "name": "Rust_Programming",
+      "description": "Rust language usage, idioms, and client/library implementation patterns including networking and serialization."
+    },
+    {
+      "name": "SIMS_Service_Inventory_Project",
+      "description": "SIMS service inventory CMS project: architecture, schema design, frontend component breakdown, wireframes, research areas, project plan, and Lunch and Learn documentation."
+    },
+    {
+      "name": "Sales Tax and Purchase Costs",
+      "description": "US state and local sales tax rates and computing the total landed cost of online purchases such as Amazon orders."
+    },
+    {
+      "name": "Screen Recording and Capture",
+      "description": "Capturing screen content for video: OBS and macOS screen recording settings, canvas resolution and pillarboxing, color space/bit-depth/codec choices, capture-to-Resolve workflows (ProRes/HLG), and SDR white level, range, and black-level handling."
+    },
+    {
+      "name": "Self_Publishing_and_KDP",
+      "description": "Self-publishing books through Amazon KDP and related channels, including paperback workflows and distribution."
+    },
+    {
+      "name": "Shell_and_Terminal_Setup",
+      "description": "tmux, zsh modular config, Starship, modern CLI tools, prefix history search, vim configuration, Jupyter vs Node REPL"
+    },
+    {
+      "name": "Shipping_Container_Boat_Project",
+      "description": "Feasibility and engineering of converting shipping containers into boats, and survival scenarios involving containers adrift at sea."
+    },
+    {
+      "name": "Short_Form_Video_Content_Ideation",
+      "description": "Ideation and scripting for short-form video content on platforms like TikTok and YouTube, including travel and lifestyle videos."
+    },
+    {
+      "name": "Small Business Software Stack",
+      "description": "Selecting operational software for small service businesses: comparing turnkey SaaS platforms (e.g. Fresha, Odoo) against custom builds for booking, POS, and back-office needs."
+    },
+    {
+      "name": "Software Localization and Internationalization",
+      "description": "Localizing and internationalizing software: translating gettext .pot/.po catalogs and JSON string files, and managing UI string translation across languages such as Spanish and Portuguese."
+    },
+    {
+      "name": "Software_Release_Engineering",
+      "description": "Software release processes and conventions: gold master workflows, release notes drafting, and versioning practices across vendors like Apple."
+    },
+    {
+      "name": "Solar Sinter Glass Fabrication",
+      "description": "Building a solar-powered machine that concentrates sunlight to sinter or melt desert sand into glass: feedstock prep, focusing optics and sun tracking, layer-by-layer sintering, molten-glass forming, and toughening and finishing the products."
+    },
+    {
+      "name": "Solid_js_Force_Graph_Visualization",
+      "description": "Building interactive force-directed graph visualizations in Solid.js with d3-force: component setup, drag behavior, node/edge labels, SVG sizing, click handlers, and arrow markers."
+    },
+    {
+      "name": "Song_Lyric_Generation",
+      "description": "Assistant-generated song lyrics in the style of specific artists or genres."
+    },
+    {
+      "name": "Song_Lyrics_and_Meaning_Analysis",
+      "description": "Interpretation and meaning of song lyrics across rock, blues, and other genres — what specific songs are about and their cultural references."
+    },
+    {
+      "name": "Spanish Vocabulary and Translation",
+      "description": "Translating specific English words and business terms into Spanish and looking up Spanish vocabulary, distinct from slang, interpersonal social messages, and software localization."
+    },
+    {
+      "name": "Spanish_Jokes_and_Humor",
+      "description": "Spanish-language jokes, puns, and humor pieces generated for casual social use."
+    },
+    {
+      "name": "Spanish_Slang_and_Idioms",
+      "description": "Regional Spanish slang, idioms, and colloquial expressions — meanings, usage, and cultural context across Latin American varieties."
+    },
+    {
+      "name": "Spanish_Social_Messages",
+      "description": "Spanish-language interpersonal messages drafted for the user: appreciation notes, invitations, introductions, and persuasive messages to friends and colleagues."
+    },
+    {
+      "name": "Special Operations and Modern Warfare",
+      "description": "Military special operations and modern warfare doctrine: JSOC and its units, color-coded task forces and intelligence/espionage terminology, the shift toward special operations and proxy conflicts, and assessments of military power."
+    },
+    {
+      "name": "Sports_Statistics_and_Trivia",
+      "description": "Sports statistics, team/player data, and trivia across leagues like the NBA."
+    },
+    {
+      "name": "Standardized Testing and Aptitude",
+      "description": "Standardized test performance and the theory of generalized test-taking ability: SAT/LSAT/bar score correlations, projecting one exam's score from another, and multiple-choice test-taking strategy."
+    },
+    {
+      "name": "Stunnel and TLS Tunneling",
+      "description": "Setting up and configuring stunnel TLS tunnels: config file structure, client certificates and mTLS/client auth, and securing connections to services such as exchange FIX gateways."
+    },
+    {
+      "name": "Supabase_and_Firebase_BaaS",
+      "description": "Backend-as-a-service platforms Supabase and Firebase: feature comparison, hosting roles, and integration with frontend frameworks like Next.js."
+    },
+    {
+      "name": "SurrealDB_and_SurrealMCP",
+      "description": "SurrealDB queries, schemas, MCP connector, namespace setup, FTS/HNSW indexes, embeddings storage, KNN search, connection troubleshooting"
+    },
+    {
+      "name": "Surround_Sound_and_Audio_Formats",
+      "description": "Consumer audio playback formats: Dolby Atmos, 5.1 surround, stereo downmixing, and how spatial audio formats render on various speaker configurations."
+    },
+    {
+      "name": "TLS Certificates and OpenSSL",
+      "description": "Managing TLS/SSL certificates: format conversion (PFX, PEM, CRT) with OpenSSL, installing certs on servers (Kestrel/Windows), and debugging Node.js certificate-chain 'unable to get local issuer certificate' trust errors."
+    },
+    {
+      "name": "Tailwind_CSS",
+      "description": "Tailwind CSS framework: utility-first styling, features, and usage patterns."
+    },
+    {
+      "name": "Tattoos_and_Body_Art",
+      "description": "Tattoo techniques, ink composition, and body art practices including DIY stick-and-poke methods."
+    },
+    {
+      "name": "Tech Nerd YouTube Channel",
+      "description": "Branding and concept development for a Spider-Man-themed \"Tech Nerd\" YouTube channel: channel name, content concept, logo design iterations, and tagline localization."
+    },
+    {
+      "name": "Technical and Creative in Image Making",
+      "description": "The conceptual boundary between technical, information-preserving processes (capture, encoding, display transforms) and subjective creative choices in forming an image — including thought experiments separating the 'how' (technical) from the 'what' (creative), and what it means to define creativity."
+    },
+    {
+      "name": "Telemedicine Receptionist Project",
+      "description": "Evaluation and development of a telemedicine virtual-receptionist venture: a bot that schedules and joins Google Meet calls for deferred doctor assignment (Calendar/Meet API automation, participant-less events, bots joining calls), plus the opportunity's SWOT, valuation, strategic alignment, delivery and reputational risk, paid discovery phase, and the risk it poses to the user's main AlphaPoint job."
+    },
+    {
+      "name": "Television Calibration and Picture Settings",
+      "description": "Calibrating consumer TVs (notably the LG C2 OLED) for accurate viewing and color-grading reference: TV model identification, picture mode selection, ISF Expert SDR calibration, Filmmaker Mode behavior and settings, and color, gamut, white-balance, and clarity adjustments."
+    },
+    {
+      "name": "Token Usage and Rate Limits",
+      "description": "Analyzing Claude token consumption and rate-limit windows: estimating token counts from transcripts, caching and overhead adjustments, trailing-week and per-5-hour usage, and decoding /usage percentages."
+    },
+    {
+      "name": "Tolkien Legendarium",
+      "description": "The mythology and cosmology of J.R.R. Tolkien's legendarium: the Ainur/Valar/Maiar/Istari hierarchy, Eru Ilúvatar, Morgoth (Melkor), the Silmarils, and the Rings of Power and their abilities."
+    },
+    {
+      "name": "Tone_and_Gamut_Mapping",
+      "description": "Designing tone mapping operators and gamut compression for output/display rendering transforms (ODT/DRT): path-to-white and detail preservation, per-channel versus luminance approaches, sigmoid/log/Daniele curves, dynamic-range compression in nits, and mapping wide-gamut imagery onto Rec.709/Rec.2020/DCI-P3 and HDR displays."
+    },
+    {
+      "name": "Toyota_Production_System_and_Lean",
+      "description": "Toyota Production System and lean manufacturing philosophy as applied to software: plan-slow-build-fast, process-over-results, Ohno's disposition, genchi genbutsu, and the factory-properties analogy for development pipelines."
+    },
+    {
+      "name": "Trade_Shows_and_Booth_Strategy",
+      "description": "Strategies for standing out at convention booths and trade shows."
+    },
+    {
+      "name": "Transactional Email and Templating",
+      "description": "Sending transactional email and building email templates: SendGrid integration, HTML email parameters, placeholder/token substitution, and debugging template query data."
+    },
+    {
+      "name": "Transformer_Architecture_Internals",
+      "description": "Internals of transformer models: attention mechanisms, masks, dropout, tokenization, and architectural variants like sparse and subquadratic attention."
+    },
+    {
+      "name": "Travel_and_Logistics",
+      "description": "SAL trip planning, Avianca LAX-SAL, calendar sync, travel hacking skills, monthly visit cadence, appointment drift"
+    },
+    {
+      "name": "Treasury_and_Fintech_Products",
+      "description": "Treasury Platform, dashboard UI mockups, deposit/withdraw endpoints, multi-chain multi-token, by-token/by-chain toggles"
+    },
+    {
+      "name": "Tropical_Threads_Brand",
+      "description": "Tropical Threads brand assets: landing page copy, website code, Shopify integration, and creative fiction set in the brand's tropical universe."
+    },
+    {
+      "name": "Truth_Seeking_and_Epistemics",
+      "description": "Truth-seeking vs conclusion-defending, sycophancy critique, honesty about wants vs shoulds, fail-fast philosophy, trajectory reasoning"
+    },
+    {
+      "name": "Turkey IMEI Phone Registration",
+      "description": "Turkey's mandatory IMEI registration for imported mobile phones: how the system works, registration fees, device-lock workarounds, and the periodic-new-phone loophole."
+    },
+    {
+      "name": "Typography_and_Fonts",
+      "description": "Font identification, typography choices, and typeface history for media and design."
+    },
+    {
+      "name": "UI Component Libraries and Design Systems",
+      "description": "Evaluating and using frontend UI component libraries and design systems (e.g. AlignUI): component coverage, performance, and design-to-development handoff."
+    },
+    {
+      "name": "US Government and Constitutional Structure",
+      "description": "The structure and mechanics of US federal government: the vice president's role in the executive branch, presidential power to remove officials, arrest and detention of sitting officeholders, impeachment, and the 25th Amendment."
+    },
+    {
+      "name": "USB Power and Charging",
+      "description": "USB power delivery and charging: voltage/current limits (USB-A 5V), cable voltage drop, PD negotiation over Thunderbolt/USB-C, charger wattage adequacy, and charging diagnostics."
+    },
+    {
+      "name": "USB-C and DisplayPort Connectivity",
+      "description": "Routing display signals over USB-C: Alt Mode video, DisplayPort splitting and mirroring through hubs, and how data, power, and video share a single connection."
+    },
+    {
+      "name": "Uber_Eats_API_Integration",
+      "description": "Integrating with the Uber Eats API for transaction retrieval and related order data, including Node.js client patterns."
+    },
+    {
+      "name": "Ultimate_Frisbee",
+      "description": "Ultimate Frisbee rules, gameplay, positions, officiating, Spirit of the Game, club and pro scene, and team formation."
+    },
+    {
+      "name": "Video Codecs and Compression",
+      "description": "Acquisition and delivery video codecs and their tradeoffs: ProRes versus H.265/HEVC, resolution and bitrate, chroma subsampling, and quality-versus-efficiency comparisons."
+    },
+    {
+      "name": "Video Game Genres and Design",
+      "description": "Definitions and characteristics of video game genres and their design conventions, such as the souls-like action RPG genre. Distinct from specific titles like League of Legends or Clash Royale."
+    },
+    {
+      "name": "Video_Production_Rig_and_Workflow",
+      "description": "Cage setup, power architecture, audio routing, BMVA recorder, V10/V30 cards, capture cards, Neewer accessories, multi-track audio"
+    },
+    {
+      "name": "Video_and_Subtitle_CLI_Tools",
+      "description": "Command-line tools for video and subtitle processing, such as MKVToolNix, ffmpeg, and related muxing/extraction workflows."
+    },
+    {
+      "name": "Videograph_Channel_Project",
+      "description": "Development of the Videograph YouTube channel brand: concept, naming, identity design, and channel strategy."
+    },
+    {
+      "name": "Vision and Visual Perception",
+      "description": "The neuroscience and computational theory of human vision: how the visual cortex processes stimuli (e.g. Hubel & Wiesel's Nobel work), Gestalt perception, color constancy (Edwin Land/retinex), and predictive-coding frameworks like the free energy principle."
+    },
+    {
+      "name": "VistaAlta_Drone_Company",
+      "description": "VistaAlta/AltaVista SV drone services company: bilingual marketing copy, incorporation, and operations in El Salvador."
+    },
+    {
+      "name": "WMS/TMS Services Contract Review",
+      "description": "Review, gap analysis, redrafting, and document export of a warehouse/transport management systems (WMS/TMS) services contract, including added clauses and PDF output fixes."
+    },
+    {
+      "name": "Watches and Horology",
+      "description": "Mechanical watches and the craft of horology: complications such as the tourbillon, movement mechanics, and watchmaking terminology."
+    },
+    {
+      "name": "Web App Authentication and OAuth",
+      "description": "Adding authentication to web apps: Google OAuth integration (e.g. Auth.js in SolidStart), retrieving user profile data after login, and persisting users (such as keying user records by email)."
+    },
+    {
+      "name": "Web Crawling and SEO Standards",
+      "description": "Web crawler directives and site-discovery standards: robots.txt, sitemaps, and related search-indexing/SEO concepts, including presentation material on them."
+    },
+    {
+      "name": "Web Embedding and Iframe Integration",
+      "description": "Embedding third-party web content and applications via iframes and APIs: X-Frame-Options and cross-origin restrictions that block embedding, and integrating external functionality such as Google Meet into a host page."
+    },
+    {
+      "name": "WebAssembly",
+      "description": "WebAssembly as a compilation target and runtime: basic examples, the Wasm/JavaScript relationship and interop, and the role of Wasm in web and edge computing."
+    },
+    {
+      "name": "WebSockets_and_Realtime_Protocols",
+      "description": "WebSocket protocol internals, use cases, statefulness and TCP semantics, browser scope and isolation, in-memory storage, and message inspection or injection via DevTools."
+    },
+    {
+      "name": "Webcam_and_Video_Call_Setup",
+      "description": "Lighting critiques, framing, COB key, window exposure, shallow DOF debates, professional video call presentation"
+    },
+    {
+      "name": "WhatsApp_Mac_Issues",
+      "description": "WhatsApp desktop client troubleshooting on macOS: crashes, duplicate installs, gray screen bugs, and UI rendering issues."
+    },
+    {
+      "name": "Wireless and Cellular Network History",
+      "description": "History and evolution of wireless connectivity: cellular data standards (GPRS, EDGE, and successors), Wi-Fi adoption timelines, and historical device network compatibility such as early iPhone support."
+    },
+    {
+      "name": "Writing_and_Essays",
+      "description": "Essay drafts, New Yorker viability, manifesto translation, Bayesian framing in writing, refactoring around theses, layered metaphors"
+    },
+    {
+      "name": "YouTube_API_and_Playlists",
+      "description": "Working with the YouTube Data API and playlist URLs: building playlist links, creating playlists programmatically, and OAuth 2.0 flows for YouTube access."
+    },
+    {
+      "name": "YouTube_HDR_Video_Upload_Troubleshooting",
+      "description": "Diagnosing why an HDR video uploaded to YouTube fails to render in HDR: SDR-mistag diagnosis, file-tag verification, container and codec remux tests, YouTube-side processing behavior and toggles, upload/visibility mechanics, and single-variable debugging across a prolonged troubleshooting effort."
+    },
+    {
+      "name": "eBPF_and_Kernel_Tracing",
+      "description": "eBPF programs, kprobes, kernel tracing concepts, and platform support for eBPF tooling."
+    },
+    {
+      "name": "iPhone RAW Video Capture",
+      "description": "Building RAW photo and video capture on iPhone in Swift: AVCapturePhotoOutput RAW stills, capturing RAW frames at 24fps for RAW video, and writing single-frame and minimal CinemaDNG/DNG files on-device."
+    },
+    {
+      "name": "macOS Usage and Troubleshooting",
+      "description": "Operating and troubleshooting Apple computers and connected devices: diagnosing macOS performance issues from system daemons, accessing iPhone files from a Mac, and related Mac usage and maintenance questions."
+    },
+    {
+      "name": "n8n_Workflow_Automation",
+      "description": "n8n queue mode, DOCX/PDF extraction, JSON merging, credentials backup, Google Sheets rate limiting, Docker upgrades"
+    },
+    {
+      "name": "npm_CLI_Usage",
+      "description": "Using the npm CLI for dependency inspection, linking, registry queries, cache management, and troubleshooting install errors."
+    }
+  ]
+}

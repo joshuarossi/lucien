@@ -47,7 +47,7 @@ function callClaude(prompt: string): Promise<string> {
     return new Promise((resolve, reject) => {
         // Prompt is passed via stdin, not argv: batched labels can exceed
         // the OS ARG_MAX limit and posix_spawn fails with E2BIG.
-        const proc = spawn("claude", ["-p", "--model", "opus"], {
+        const proc = spawn("pi", ["-p"], {
             cwd: CLAUDE_CWD,
             stdio: ["pipe", "pipe", "pipe"],
         });

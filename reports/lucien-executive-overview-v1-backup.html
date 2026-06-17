@@ -1,0 +1,1365 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lucien Executive Overview</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #050507;
+      --paper: #f5f1e8;
+      --ink: #14120f;
+      --muted: #8e8b84;
+      --line: rgba(255,255,255,.14);
+      --line-dark: rgba(0,0,0,.14);
+      --gold: #d8b86a;
+      --aqua: #7ed7d1;
+      --rose: #ed8c91;
+      --violet: #a59cff;
+      --green: #a6d67d;
+      --blue: #78aee8;
+      --shadow: 0 30px 80px rgba(0,0,0,.45);
+      --radius: 8px;
+      --max: 1180px;
+      --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", sans-serif;
+      --mono: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(126,215,209,.16), transparent 34rem),
+        radial-gradient(circle at 90% 18%, rgba(216,184,106,.18), transparent 34rem),
+        linear-gradient(180deg, #050507 0%, #0b0c0d 55%, #050507 100%);
+      color: white;
+      font-family: var(--font);
+      letter-spacing: 0;
+    }
+
+    a { color: inherit; text-decoration-color: rgba(255,255,255,.35); }
+    p { margin: 0; line-height: 1.55; }
+    strong { color: #fff; }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(5,5,7,.72);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    .mark {
+      width: 28px;
+      height: 28px;
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 50%;
+      background:
+        conic-gradient(from 220deg, var(--gold), var(--aqua), var(--violet), var(--gold));
+      box-shadow: 0 0 28px rgba(216,184,106,.24);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 16px;
+      font-size: 13px;
+      color: rgba(255,255,255,.68);
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      transition: color .2s ease;
+    }
+
+    .nav-links a:hover { color: white; }
+
+    .section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 92px 24px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .section.compact { min-height: auto; }
+
+    .wrap {
+      width: 100%;
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 22px;
+      color: var(--gold);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      font-weight: 700;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 36px;
+      height: 1px;
+      background: currentColor;
+      opacity: .7;
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      letter-spacing: 0;
+      line-height: .98;
+    }
+
+    h1 {
+      max-width: 980px;
+      font-size: clamp(54px, 9vw, 124px);
+      font-weight: 760;
+    }
+
+    h2 {
+      max-width: 960px;
+      font-size: clamp(40px, 6vw, 82px);
+      font-weight: 740;
+    }
+
+    h3 {
+      font-size: clamp(22px, 3vw, 36px);
+      font-weight: 720;
+      line-height: 1.08;
+    }
+
+    .lead {
+      max-width: 800px;
+      margin-top: 26px;
+      color: rgba(255,255,255,.75);
+      font-size: clamp(20px, 2.2vw, 29px);
+      line-height: 1.35;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.08fr .92fr;
+      gap: 42px;
+      align-items: end;
+      margin-top: 58px;
+    }
+
+    .glass {
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.04));
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+    }
+
+    .terminal {
+      padding: 24px;
+      font-family: var(--mono);
+      color: rgba(255,255,255,.8);
+      font-size: 13px;
+      line-height: 1.55;
+      overflow: hidden;
+    }
+
+    .terminal .bar {
+      display: flex;
+      gap: 7px;
+      margin-bottom: 18px;
+    }
+
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: #ff5f57; }
+    .dot:nth-child(2) { background: #ffbd2e; }
+    .dot:nth-child(3) { background: #28c840; }
+
+    .prompt { color: var(--aqua); }
+    .path { color: var(--gold); }
+    .ok { color: var(--green); }
+    .dim { color: rgba(255,255,255,.45); }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .stat {
+      padding: 22px;
+      min-height: 135px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .stat .num {
+      font-size: clamp(32px, 4vw, 56px);
+      font-weight: 760;
+      line-height: 1;
+    }
+
+    .stat .label {
+      color: rgba(255,255,255,.62);
+      font-size: 13px;
+      line-height: 1.35;
+      margin-top: 14px;
+    }
+
+    .two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 34px;
+      align-items: start;
+    }
+
+    .three {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 38px;
+    }
+
+    .card {
+      padding: 26px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      border-radius: var(--radius);
+    }
+
+    .card h3 {
+      font-size: 26px;
+      margin-bottom: 14px;
+    }
+
+    .card p, .small {
+      color: rgba(255,255,255,.67);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .paper {
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    .paper .eyebrow { color: #9b7134; }
+    .paper .lead { color: rgba(20,18,15,.68); }
+    .paper .card {
+      background: rgba(255,255,255,.55);
+      border-color: var(--line-dark);
+      box-shadow: 0 20px 60px rgba(60,45,20,.08);
+    }
+    .paper .card p, .paper .small { color: rgba(20,18,15,.68); }
+    .paper strong { color: var(--ink); }
+
+    .split-claim {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 42px;
+      align-items: center;
+      margin-top: 46px;
+    }
+
+    .claim-big {
+      font-size: clamp(34px, 4.6vw, 64px);
+      font-weight: 760;
+      line-height: 1;
+    }
+
+    .claim-box {
+      padding: 34px;
+      border: 1px solid rgba(0,0,0,.13);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.72), rgba(255,255,255,.22)),
+        linear-gradient(180deg, rgba(216,184,106,.18), transparent);
+    }
+
+    .mini-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      font-weight: 760;
+      color: #8f6931;
+      margin-bottom: 12px;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 44px;
+    }
+
+    .flow-step {
+      position: relative;
+      padding: 24px 20px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      min-height: 190px;
+      background: rgba(255,255,255,.055);
+    }
+
+    .flow-step::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: -13px;
+      width: 14px;
+      height: 1px;
+      background: rgba(255,255,255,.34);
+    }
+
+    .flow-step:last-child::after { display: none; }
+
+    .step-num {
+      color: var(--aqua);
+      font-family: var(--mono);
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+
+    .flow-step h3 {
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    .artifact {
+      margin-top: 42px;
+      display: grid;
+      grid-template-columns: .82fr 1.18fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .messages, .article {
+      border-radius: var(--radius);
+      padding: 22px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.055);
+    }
+
+    .artifact.warning .messages {
+      border-color: rgba(237,140,145,.34);
+      background: rgba(237,140,145,.075);
+    }
+
+    .artifact.warning .article {
+      border-color: rgba(126,215,209,.28);
+      background: rgba(126,215,209,.06);
+    }
+
+    .messages h4, .article h4 {
+      margin: 0 0 14px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      color: rgba(255,255,255,.55);
+    }
+
+    .msg {
+      margin-top: 12px;
+      padding: 14px;
+      border-left: 2px solid rgba(126,215,209,.75);
+      background: rgba(126,215,209,.08);
+      font-size: 14px;
+      line-height: 1.48;
+      color: rgba(255,255,255,.76);
+    }
+
+    .synthesis {
+      font-size: 19px;
+      line-height: 1.5;
+      color: rgba(255,255,255,.9);
+    }
+
+    .belief {
+      margin-top: 18px;
+      padding: 16px;
+      background: rgba(216,184,106,.12);
+      border: 1px solid rgba(216,184,106,.26);
+      border-radius: var(--radius);
+      color: rgba(255,255,255,.83);
+      font-size: 15px;
+      line-height: 1.52;
+    }
+
+    .belief b { color: var(--gold); }
+
+    .tag-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .tag {
+      border: 1px solid rgba(255,255,255,.18);
+      color: rgba(255,255,255,.72);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-family: var(--mono);
+      background: rgba(255,255,255,.055);
+    }
+
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 18px;
+      margin-top: 40px;
+    }
+
+    .compare-card {
+      min-height: 320px;
+      padding: 26px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line-dark);
+      background: rgba(255,255,255,.56);
+    }
+
+    .compare-card h3 { font-size: 26px; color: var(--ink); }
+    .compare-card p { margin-top: 14px; color: rgba(20,18,15,.67); font-size: 15px; }
+    .compare-card .signal {
+      display: inline-block;
+      margin-top: 18px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: #7c5a2b;
+      border-top: 1px solid rgba(0,0,0,.13);
+      padding-top: 14px;
+    }
+
+    .timeline {
+      margin-top: 42px;
+      border-left: 1px solid rgba(255,255,255,.22);
+      padding-left: 26px;
+    }
+
+    .moment {
+      position: relative;
+      margin-bottom: 28px;
+      padding: 20px 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.05);
+    }
+
+    .moment::before {
+      content: "";
+      position: absolute;
+      left: -33px;
+      top: 24px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(216,184,106,.15);
+    }
+
+    .moment h3 {
+      font-size: 23px;
+      margin-bottom: 9px;
+    }
+
+    .cycle {
+      margin-top: 44px;
+      position: relative;
+      min-height: 720px;
+      max-width: 1080px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cycle-node {
+      position: absolute;
+      width: min(300px, 28%);
+      padding: 26px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.105), rgba(255,255,255,.045)),
+        rgba(255,255,255,.055);
+      min-height: 190px;
+      z-index: 2;
+      box-shadow: 0 24px 70px rgba(0,0,0,.24);
+    }
+
+    .cycle-node h3 {
+      font-size: 25px;
+      margin-bottom: 10px;
+    }
+
+    .cycle-node p {
+      color: rgba(255,255,255,.66);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .cycle-node.conversations {
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .cycle-node.nightly {
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .cycle-node.articles {
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .cycle-node.assistant {
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .cycle-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(310px, 36%);
+      color: var(--gold);
+      font-family: var(--mono);
+      font-size: 13px;
+      text-align: center;
+      letter-spacing: .08em;
+      line-height: 1.35;
+      border: 1px solid rgba(216,184,106,.35);
+      background: rgba(216,184,106,.06);
+      border-radius: var(--radius);
+      padding: 14px;
+      z-index: 2;
+    }
+
+    .cycle-svg {
+      position: absolute;
+      inset: 82px 130px;
+      width: calc(100% - 260px);
+      height: calc(100% - 164px);
+      overflow: visible;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .cycle-svg path {
+      fill: none;
+      stroke: rgba(216,184,106,.44);
+      stroke-width: 8;
+      stroke-linecap: round;
+    }
+
+    .cycle-svg .shadow-path {
+      stroke: rgba(255,255,255,.12);
+      stroke-width: 14;
+    }
+
+    .cycle-note {
+      margin-top: 24px;
+      padding: 18px 20px;
+      border: 1px solid rgba(216,184,106,.25);
+      border-radius: var(--radius);
+      background: rgba(216,184,106,.1);
+      color: rgba(255,255,255,.78);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .source-note {
+      margin-top: 32px;
+      color: rgba(255,255,255,.48);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .scoreboard {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 24px;
+      align-items: stretch;
+      margin-top: 44px;
+    }
+
+    .score-big {
+      padding: 34px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(135deg, rgba(126,215,209,.16), rgba(255,255,255,.045)),
+        rgba(255,255,255,.05);
+    }
+
+    .score-big .number {
+      font-size: clamp(76px, 10vw, 150px);
+      line-height: .86;
+      font-weight: 780;
+      color: var(--aqua);
+    }
+
+    .score-big .caption {
+      margin-top: 18px;
+      color: rgba(255,255,255,.72);
+      font-size: 19px;
+      line-height: 1.35;
+    }
+
+    .spectrum {
+      display: grid;
+      gap: 12px;
+    }
+
+    .spectrum-row {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 14px;
+      align-items: center;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.055);
+    }
+
+    .spectrum-row b {
+      font-size: 26px;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .spectrum-row span {
+      display: block;
+      color: rgba(255,255,255,.65);
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .probe-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin-top: 32px;
+    }
+
+    .probe {
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.055);
+    }
+
+    .probe .q {
+      color: var(--gold);
+      font-size: 13px;
+      line-height: 1.4;
+      margin-bottom: 14px;
+      font-family: var(--mono);
+    }
+
+    .probe h3 {
+      font-size: 23px;
+      margin-bottom: 10px;
+    }
+
+    .probe p {
+      color: rgba(255,255,255,.68);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .answer-showcase {
+      display: grid;
+      grid-template-columns: .78fr 1.22fr;
+      gap: 22px;
+      margin-top: 34px;
+      align-items: stretch;
+    }
+
+    .ask-panel, .answer-panel {
+      padding: 26px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+    }
+
+    .ask-panel {
+      background: rgba(216,184,106,.09);
+    }
+
+    .answer-panel {
+      background:
+        linear-gradient(135deg, rgba(126,215,209,.12), rgba(255,255,255,.045)),
+        rgba(255,255,255,.055);
+    }
+
+    .kicker {
+      color: var(--gold);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      font-weight: 760;
+      margin-bottom: 14px;
+    }
+
+    .ask-panel p {
+      color: rgba(255,255,255,.82);
+      font-size: 23px;
+      line-height: 1.25;
+      font-weight: 680;
+    }
+
+    .answer-panel p {
+      color: rgba(255,255,255,.86);
+      font-size: clamp(22px, 2.5vw, 34px);
+      line-height: 1.16;
+      font-weight: 710;
+    }
+
+    .answer-panel .why {
+      margin-top: 18px;
+      color: rgba(255,255,255,.62);
+      font-size: 15px;
+      line-height: 1.5;
+      font-weight: 400;
+    }
+
+    .principle-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 30px;
+    }
+
+    .principle {
+      padding: 18px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.045);
+    }
+
+    .principle b {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--aqua);
+    }
+
+    .principle span {
+      color: rgba(255,255,255,.64);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .paper .source-note { color: rgba(20,18,15,.5); }
+
+    .quote {
+      margin-top: 34px;
+      font-size: clamp(26px, 3.4vw, 48px);
+      line-height: 1.12;
+      font-weight: 720;
+      color: rgba(255,255,255,.92);
+      max-width: 980px;
+    }
+
+    .quote span { color: var(--gold); }
+
+    .implementation {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 28px;
+      margin-top: 44px;
+    }
+
+    .codebox {
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.6;
+      color: rgba(255,255,255,.74);
+      white-space: pre-wrap;
+      padding: 22px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,.32);
+    }
+
+    .final-band {
+      padding: 92px 24px;
+      background: #fff;
+      color: #0d0d0f;
+    }
+
+    .final-band h2 {
+      color: #0d0d0f;
+      max-width: 980px;
+    }
+
+    .final-band .lead { color: rgba(13,13,15,.65); }
+
+    .sources {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 30px;
+      color: rgba(13,13,15,.62);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .sources p {
+      margin: 0;
+      padding: 18px 20px;
+      border: 1px solid rgba(13,13,15,.12);
+      border-radius: var(--radius);
+      background: rgba(13,13,15,.035);
+      overflow-wrap: anywhere;
+      text-align: left;
+    }
+
+    .sources strong {
+      display: block;
+      margin-bottom: 6px;
+      color: rgba(13,13,15,.9);
+    }
+
+    .sources a { color: #165e86; }
+
+    @media (max-width: 900px) {
+      .nav-inner { align-items: flex-start; flex-direction: column; }
+      .nav-links { justify-content: flex-start; }
+      .hero-grid, .two, .split-claim, .artifact, .implementation {
+        grid-template-columns: 1fr;
+      }
+      .stats, .flow, .comparison, .three, .scoreboard, .probe-grid, .answer-showcase, .principle-strip { grid-template-columns: 1fr; }
+      .cycle { min-height: auto; max-width: none; }
+      .cycle-node, .cycle-center {
+        position: relative;
+        inset: auto;
+        left: auto;
+        right: auto;
+        top: auto;
+        bottom: auto;
+        transform: none;
+        width: 100%;
+        margin-top: 14px;
+      }
+      .cycle-svg { display: none; }
+      .cycle-center { min-height: auto; padding: 14px; border: 1px solid rgba(216,184,106,.35); }
+      .flow-step::after { display: none; }
+      .section { min-height: auto; padding: 74px 20px; }
+      .sources { grid-template-columns: 1fr; }
+    }
+
+    @media print {
+      body { background: white; color: black; }
+      .nav { display: none; }
+      .section { min-height: auto; break-after: page; color-adjust: exact; print-color-adjust: exact; }
+      .glass, .card, .messages, .article, .flow-step { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="brand"><div class="mark"></div><span>Lucien Executive Overview</span></div>
+      <div class="nav-links">
+        <a href="#why">Problem</a>
+        <a href="#examples">Failure</a>
+        <a href="#philosophy">State of Art</a>
+        <a href="#wikipedia">Wikipedia</a>
+        <a href="#what">Approach</a>
+        <a href="#validation">Proof</a>
+        <a href="#implementation">Build</a>
+        <a href="#sources">Sources</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="section" id="top">
+      <div class="wrap">
+        <div class="eyebrow">Personal AI memory that compounds</div>
+        <h1>Lucien turns conversations into understanding.</h1>
+        <p class="lead">A two-plane system: the nightly run ingests conversations and writes the Dreaming; the MCP server serves that synthesized knowledge to assistants. The Dreaming itself is a user-owned, Wikipedia-shaped markdown wiki.</p>
+
+        <div class="hero-grid">
+          <div class="terminal glass">
+            <div class="bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+            <div><span class="prompt">$</span> lucien_article_search "what does the user believe about memory?"</div>
+            <div class="dim">searching ~/Dreaming/articles...</div>
+            <div><span class="ok">hit</span> <span class="path">Personal_Wiki_Editorial_Philosophy.md</span></div>
+            <div><span class="ok">hit</span> <span class="path">AI_Memory_and_Agent_Systems.md</span></div>
+            <br />
+            <div class="dim">The answer is not a chat log. It is a maintained article with provenance, links, tensions, and current state.</div>
+          </div>
+
+          <div class="stats">
+            <div class="stat glass"><div class="num">1,934</div><div class="label">conversations in the local Lucien database</div></div>
+            <div class="stat glass"><div class="num">35,112</div><div class="label">messages available as raw source material</div></div>
+            <div class="stat glass"><div class="num">6,442</div><div class="label">topic chunks produced from conversations</div></div>
+            <div class="stat glass"><div class="num">371</div><div class="label">buckets used as synthesis staging areas</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section paper" id="why">
+      <div class="wrap">
+        <div class="eyebrow">The problem</div>
+        <h2>AI has anterograde and retrograde amnesia.</h2>
+        <p class="lead">A fresh assistant does not know what happened before. A long-running assistant loses the thread as context rolls away. And when memory appears, it often arrives as disconnected facts instead of situated understanding.</p>
+
+        <div class="split-claim">
+          <div class="claim-big">Recall is not understanding.</div>
+          <div class="claim-box">
+            <div class="mini-title">So how do we solve this?</div>
+            <p>The obvious answer is to save more: notes, facts, summaries, embeddings, transcript search. But the hard part is not remembering that something was said. The hard part is knowing what matters now, why it matters, and when it is relevant.</p>
+          </div>
+        </div>
+
+        <div class="claim-box" style="margin-top:28px">
+          <div class="mini-title">The sharper failure mode</div>
+          <p>Bad memory is not only forgetting. It is also remembering the wrong thing at the wrong time: dragging an unrelated personal fact into the answer because it makes the assistant sound familiar. Lucien's standard is relevance, not recall performance.</p>
+        </div>
+
+        <div class="quote" style="color:rgba(20,18,15,.92)">The memory is there. <span style="color:#9b7134">The understanding is not.</span></div>
+      </div>
+    </section>
+
+    <section class="section" id="examples">
+      <div class="wrap">
+        <div class="eyebrow">Notes memory in the wild</div>
+        <h2>Sometimes the system remembers perfectly and still gets worse.</h2>
+        <p class="lead">This is the gap between "has facts about the user" and "understands the conversation." It can be funny. It is also worse than useless: familiarity while losing the plot. And this was using Fable, a current top-tier model.</p>
+
+        <div class="artifact warning">
+          <div class="messages">
+            <h4>The conversation</h4>
+            <div class="msg"><strong>Context:</strong> the discussion is about CLI options as UX: whether advanced controls should be exposed immediately or hidden behind sane defaults.</div>
+            <div class="msg"><strong>User:</strong> "Did you already know about OpenDRT? Jed released two separate versions, the stick shift one was later, I believe."</div>
+            <div class="msg"><strong>Assistant:</strong> "OpenDRT is Jed Smith's open-source display rendering transform... and it fits your fragrance-and-color-science world..."</div>
+            <div class="msg"><strong>User:</strong> "fragrance-and-color-science world??"</div>
+            <div class="msg"><strong>Assistant explanation:</strong> "That came from what I remember about you across our past conversations" - fragrance preferences plus color-science work. It then admitted OpenDRT was color science "full stop," and fragrance had nothing to do with it.</div>
+            <div class="msg"><strong>The confession:</strong> it had "bundled an unrelated interest" into the sentence to make the reference feel like it belonged in the user's world. In other words: injected memory made the answer worse.</div>
+            <div class="tag-row">
+              <span class="tag">Failure mode</span>
+              <span class="tag">performative recall</span>
+              <span class="tag">wrong relevance</span>
+              <span class="tag">UX context lost</span>
+            </div>
+          </div>
+          <div class="article">
+            <h4>What this demonstrates</h4>
+            <p class="synthesis">This is not a failure to remember. It is a failure to understand what the conversation is about. The assistant itself identified the mechanism: random user memories had been injected into its working context, then blended with the live topic. Color grading was relevant because OpenDRT was the analogy source. Fragrance was the non-sequitur.</p>
+            <div class="belief"><b>The Lucien bar:</b> this is a current problem that is not solved by "more intelligence." Memory should silently improve relevance. A good assistant would connect OpenDRT's two faces to CLI UX design, maybe verify the release chronology, and avoid mixing unrelated personal facts into the answer.</div>
+          </div>
+        </div>
+
+        <div class="comparison">
+          <div class="compare-card">
+            <h3>Notes-based memory</h3>
+            <p>Stores facts as isolated profile entries. It can remember "likes cologne" without knowing whether that belongs in a conversation about CLI application design.</p>
+            <span class="signal">Failure mode: plausible non-sequitur</span>
+          </div>
+          <div class="compare-card">
+            <h3>RAG over chat</h3>
+            <p>Finds similar passages at query time. Similarity is not relevance, and the model re-derives the same context repeatedly.</p>
+            <span class="signal">Failure mode: grep without understanding</span>
+          </div>
+          <div class="compare-card">
+            <h3>Lucien</h3>
+            <p>Maintains topic articles as a current-state ledger: what the user believes, how it evolved, what source conversations support it.</p>
+            <span class="signal">Target: "future assistants start warm"</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="philosophy">
+      <div class="wrap">
+        <div class="eyebrow">Current thinking</div>
+        <h2>The bleeding edge is converging on consolidation.</h2>
+        <p class="lead">The answer is not simply "retrieve more." The emerging pattern is to do interpretive work between sessions: compress experience into durable context that future agents can read before acting.</p>
+
+        <div class="three">
+          <div class="card">
+            <h3>Karpathy</h3>
+            <p>Frames personal knowledge bases and wiki-like artifacts as a better substrate than re-retrieving raw sources. Lucien agrees with the wiki shape, then flips the input: the user's conversations are the knowledge-capture layer.</p>
+          </div>
+          <div class="card">
+            <h3>Anthropic</h3>
+            <p>Managed-agent "dreaming" validates the idea that useful memory consolidation can happen between sessions. Lucien argues that the assistant case needs semantic memory, not just procedural continuity for task workers.</p>
+          </div>
+          <div class="card">
+            <h3>Lucien</h3>
+            <p>The Dreaming is not a model's private memory. It is a portable markdown substrate the user owns, edits, versions, and exposes to whichever assistant is useful today.</p>
+          </div>
+        </div>
+
+        <div class="principle-strip">
+          <div class="principle"><b>Do the hard work offline</b><span>Consolidation moves interpretation out of the live conversation. The next assistant reads the current model instead of re-deriving it under time pressure.</span></div>
+          <div class="principle"><b>Make memory inspectable</b><span>The durable artifact is markdown: visible, editable, linkable, and portable across assistants rather than trapped inside one vendor's hidden memory.</span></div>
+          <div class="principle"><b>Serve the present stance</b><span>The Dreaming is allowed to drift as evidence accumulates. The point is not perfect recall; it is a better current understanding.</span></div>
+        </div>
+
+        <div class="quote">The durable asset is not the chat transcript. <span>It is the structured understanding that survives the transcript.</span></div>
+      </div>
+    </section>
+
+    <section class="section paper" id="wikipedia">
+      <div class="wrap">
+        <div class="eyebrow">Why Wikipedia works</div>
+        <h2>Wikipedia solved the same shape of problem.</h2>
+        <p class="lead">It turns millions of uneven facts, citations, disputes, edits, and partial perspectives into an organized knowledge base people can actually use.</p>
+
+        <div class="split-claim">
+          <div class="claim-big">Random sources in. Coherent pages out.</div>
+          <div class="claim-box">
+            <div class="mini-title">The important insight</div>
+            <p>Wikipedia does not work because every contributor is a professional editor. It works because the page is the organizing unit. Facts are not left as isolated notes. They are integrated into a living article with structure, links, history, citations, and room for correction.</p>
+          </div>
+        </div>
+
+        <div class="three">
+          <div class="card">
+            <h3>Low ceremony</h3>
+            <p>No elaborate intake process is required before information can improve the system. A useful edit can start small, then be refined over time.</p>
+          </div>
+          <div class="card">
+            <h3>High structure</h3>
+            <p>The article absorbs fragments into sections, relationships, references, and current consensus. The structure comes from the page, not from perfect inputs.</p>
+          </div>
+          <div class="card">
+            <h3>Continuous correction</h3>
+            <p>The page is never final. It can drift toward accuracy as new evidence arrives, contradictions surface, and better summaries replace weaker ones.</p>
+          </div>
+        </div>
+
+        <div class="quote" style="color:rgba(20,18,15,.92)">That is the pattern Lucien borrows: <span style="color:#9b7134">not notes, articles.</span></div>
+      </div>
+    </section>
+
+    <section class="section paper" id="what">
+      <div class="wrap">
+        <div class="eyebrow">What it does</div>
+        <h2>The Dreaming is a personal Wikipedia.</h2>
+        <p class="lead">Not a transcript. Not a profile. A living set of topic pages about the user's relationship to the topic: history, current stance, reasoning, examples, and provenance.</p>
+
+        <div class="split-claim">
+          <div class="claim-box">
+            <div class="mini-title">Current corpus</div>
+            <p>The local Dreaming currently contains hundreds of markdown articles under <strong>~/Dreaming/articles</strong>, including Lucien's own pipeline, personal wiki philosophy, AI memory, career identity, software development philosophy, photography, camera gear, color science, Archie, and more.</p>
+          </div>
+          <div class="claim-big">A context layer any assistant can read.</div>
+        </div>
+
+        <div class="three">
+          <div class="card">
+            <h3>Owned</h3>
+            <p>Plain markdown files. Browse in Obsidian, edit in any editor, version with git, back up or delete normally.</p>
+          </div>
+          <div class="card">
+            <h3>Structured</h3>
+            <p>Articles, links, sections, references, and eventual talk-page conventions borrowed from Wikipedia rather than invented from scratch.</p>
+          </div>
+          <div class="card">
+            <h3>Operational</h3>
+            <p>The primary reader is the next AI session. Success is not prettier notes. Success is a cold assistant behaving like it has context.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="how">
+      <div class="wrap">
+        <div class="eyebrow">How it works</div>
+        <h2>Two separate planes: one writes, one serves.</h2>
+        <p class="lead">The nightly run is the ingestion and synthesis system. It reads new conversation data, updates the Dreaming, and advances pipeline state. The MCP server is separate: it reads the already-synthesized Dreaming and serves it to assistants during future conversations.</p>
+
+        <div class="two" style="margin-top:42px">
+          <div class="card">
+            <h3>Nightly Run</h3>
+            <p><strong>Role:</strong> writer and ingester.</p>
+            <p style="margin-top:12px">Pulls new conversations, chunks them, assigns chunks to buckets, synthesizes article updates, normalizes the wiki, and records pipeline state in SQLite. This is where new data enters Lucien.</p>
+          </div>
+          <div class="card">
+            <h3>MCP Server</h3>
+            <p><strong>Role:</strong> read-serving interface.</p>
+            <p style="margin-top:12px">Exposes search, article reads, section reads, TOCs, resources, and links so assistants can load the Dreaming as context. It does not ingest new conversations or run the nightly synthesis path.</p>
+          </div>
+        </div>
+
+        <div class="flow">
+          <div class="flow-step">
+            <div class="step-num">01</div>
+            <h3>Ingest</h3>
+            <p class="small">Normalize conversations from ChatGPT, Claude.ai, Claude Code, and Codex CLI into a local SQLite store.</p>
+          </div>
+          <div class="flow-step">
+            <div class="step-num">02</div>
+            <h3>Chunk</h3>
+            <p class="small">Segment long conversations into topic-coherent message ranges with labels and stable pointers to source messages.</p>
+          </div>
+          <div class="flow-step">
+            <div class="step-num">03</div>
+            <h3>Classify</h3>
+            <p class="small">Assign each chunk to one or more buckets. Buckets stage related chunks; they are not the same as articles.</p>
+          </div>
+          <div class="flow-step">
+            <div class="step-num">04</div>
+            <h3>Synthesize</h3>
+            <p class="small">Update or create article pages, preserving provenance through conversation footnotes and links.</p>
+          </div>
+        </div>
+
+        <div class="cycle">
+          <svg class="cycle-svg" viewBox="0 0 720 480" aria-hidden="true">
+            <defs>
+              <marker id="cycleArrow" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="8" markerHeight="8" orient="auto">
+                <path d="M 0 0 L 12 6 L 0 12 z" fill="#d8b86a" fill-opacity=".7"></path>
+              </marker>
+            </defs>
+            <path class="shadow-path" d="M 76 240 C 96 112 214 44 360 58"></path>
+            <path d="M 76 240 C 96 112 214 44 360 58" marker-end="url(#cycleArrow)"></path>
+            <path class="shadow-path" d="M 360 58 C 506 44 624 112 644 240"></path>
+            <path d="M 360 58 C 506 44 624 112 644 240" marker-end="url(#cycleArrow)"></path>
+            <path class="shadow-path" d="M 644 240 C 624 368 506 436 360 422"></path>
+            <path d="M 644 240 C 624 368 506 436 360 422" marker-end="url(#cycleArrow)"></path>
+            <path class="shadow-path" d="M 360 422 C 214 436 96 368 76 240"></path>
+            <path d="M 360 422 C 214 436 96 368 76 240" marker-end="url(#cycleArrow)"></path>
+          </svg>
+          <div class="cycle-node conversations">
+            <h3>Conversations</h3>
+            <p>Everything starts in ordinary assistant sessions: decisions, mistakes, corrections, analogies, preferences, and evolving beliefs.</p>
+          </div>
+          <div class="cycle-node nightly">
+            <h3>Nightly synthesis</h3>
+            <p>The nightly run ingests those conversations, chunks them, groups related material, and synthesizes updates.</p>
+          </div>
+          <div class="cycle-node articles">
+            <h3>Articles</h3>
+            <p>The Dreaming becomes a maintained set of current-state pages: stance, reasoning, provenance, links, and tensions.</p>
+          </div>
+          <div class="cycle-node assistant">
+            <h3>AI assistant</h3>
+            <p>The MCP server serves those articles as context, so the assistant enters the next conversation already up to speed.</p>
+          </div>
+          <div class="cycle-center">conversations -> nightly synthesis -> articles -> AI assistant -> conversations</div>
+        </div>
+
+        <div class="cycle-note"><strong>Error correction is not a separate path.</strong> A correction happens inside a conversation. That conversation feeds nightly synthesis. Nightly synthesis updates the articles. The articles shape the next assistant response, which creates the next conversation.</div>
+      </div>
+    </section>
+
+    <section class="section" id="validation">
+      <div class="wrap">
+        <div class="eyebrow">Cold-start proof</div>
+        <h2>A new assistant can enter mid-conversation and keep working.</h2>
+        <p class="lead">The test was deliberately unfair in the right way: 20 fresh sessions, no shared chat history, and prompts that assumed the assistant already knew the work. Could Josh keep going?</p>
+
+        <div class="scoreboard">
+          <div class="score-big">
+            <div class="number">18/20</div>
+            <div class="caption">cold-start probes passed the practical bar: the response was good enough to continue the work.</div>
+          </div>
+          <div class="spectrum">
+            <div class="spectrum-row"><b>8</b><span><strong>High end:</strong> felt like a colleague who had been in the prior conversation.</span></div>
+            <div class="spectrum-row"><b>10</b><span><strong>Middle:</strong> useful working partner; context seams visible, but not expensive.</span></div>
+            <div class="spectrum-row"><b>2</b><span><strong>Low:</strong> fresh-assistant feel, usually from over-explaining absence.</span></div>
+          </div>
+        </div>
+
+        <div class="answer-showcase">
+          <div class="ask-panel">
+            <div class="kicker">What Josh asks</div>
+            <p>What is the next falsifiable test for Archie?</p>
+          </div>
+          <div class="answer-panel">
+            <div class="kicker">Where Lucien lets the assistant start</div>
+            <p>"The next falsifiable test for Archie is project #3: a fresh build off a different PRD."</p>
+            <div class="why">What matters is what is missing: the assistant does not ask what Archie is, why project #3 matters, or what counts as falsification. It starts from the working frame.</div>
+          </div>
+        </div>
+
+        <div class="answer-showcase">
+          <div class="ask-panel">
+            <div class="kicker">What Josh asks</div>
+            <p>Steelman the "AI engineer" position against my factory thesis.</p>
+          </div>
+          <div class="answer-panel">
+            <div class="kicker">Where Lucien lets the assistant start</div>
+            <p>"Factory is right for the second time you build something; craftsman is right for the first."</p>
+            <div class="why">This is not biographical recall. It is using Josh's own conceptual machinery against him: the hallmark of a thinking partner rather than a searchable profile.</div>
+          </div>
+        </div>
+
+        <div class="probe-grid">
+          <div class="probe">
+            <div class="q">Prompt: "If I had to ship one v3 kaizen tomorrow, which carries the most evidence and least risk?"</div>
+            <h3>Answered as continuation</h3>
+            <p>The cold session gave a definite recommendation: start with the ordering manifest. It named the right Toyota Production System context and argued from evidence, risk, and cost rather than asking what "v3 kaizen" meant.</p>
+          </div>
+          <div class="probe">
+            <div class="q">Prompt: "Pressure-test my read on whether Conflict Coach is ready to run end-to-end again."</div>
+            <h3>Acted like a colleague</h3>
+            <p>The response split "where your read is right" from "where it's softer than it sounds," cited real code-level details, and proposed the cheapest disconfirmation step. It did not summarize the project back to the user.</p>
+          </div>
+          <div class="probe">
+            <div class="q">Prompt: "Steelman the 'AI engineer' position against my factory thesis."</div>
+            <h3>Used the user's frame against him</h3>
+            <p>The answer argued adversarially instead of reciting: "factory is right for the second time you build something; craftsman is right for the first." That is exactly the kind of thinking-partner move the Dreaming is meant to enable.</p>
+          </div>
+          <div class="probe">
+            <div class="q">Prompt: "Is the bucket-blind chunker still right?"</div>
+            <h3>Recovered the architecture</h3>
+            <p>The cold agent produced the core design defense: chunks are facts about the corpus; buckets are an opinion about it. Do not let the opinion rewrite the facts. That is a synthesized architectural stance, not a memorized fact.</p>
+          </div>
+        </div>
+
+        <div class="belief" style="margin-top:30px"><b>What this proves:</b> the MCP read path is not just searchable notes. In many cases, a fresh assistant can load the relevant article, use the user's vocabulary, and respond as if it had been in the prior work. The feeling is not "it knows facts about me." The feeling is "we can keep going."</div>
+      </div>
+    </section>
+
+    <section class="section" id="dreaming-examples">
+      <div class="wrap">
+        <div class="eyebrow">Article synthesis examples</div>
+        <h2>The Dreaming also preserves what individual messages cannot.</h2>
+        <p class="lead">These examples show the write side: how the nightly synthesis turns scattered statements into durable models an assistant can use.</p>
+
+        <div class="artifact">
+          <div class="messages">
+            <h4>Source messages</h4>
+            <div class="msg">"I feel like I can learn anything, quickly and deeply..."</div>
+            <div class="msg">"I don't memorize anything, I understand how it works..."</div>
+            <div class="msg">"I never take notes, I would rather pay attention to what the person is saying, and figure out why they are saying THAT."</div>
+            <div class="tag-row">
+              <span class="tag">conv:e0d45562</span>
+              <span class="tag">chunks 1205, 1206</span>
+              <span class="tag">Career_and_Identity</span>
+            </div>
+          </div>
+          <div class="article">
+            <h4>Synthesized model: learning algorithm</h4>
+            <p class="synthesis">The Career and Identity article does not merely say "Josh learns fast." It models a domain-independent learning algorithm: follow a thread to the foundation, discover the foundation is smaller than the mythology, internalize the structure, then use it to make decisions.</p>
+            <div class="belief"><b>What Lucien inferred:</b> a durable self-model. The user values structural understanding over memorized facts, and listens by reconstructing the generative model behind another person's speech.</div>
+          </div>
+        </div>
+
+        <div class="artifact">
+          <div class="messages">
+            <h4>Source messages</h4>
+            <div class="msg">"I have learned a lot... I have tons of equipment... all that is missing is a reason for any of that."</div>
+            <div class="msg">"Finding an interesting project, where I could spread my wings and see what I can do, is the point really."</div>
+            <div class="tag-row">
+              <span class="tag">conv:a1303acf</span>
+              <span class="tag">chunk 5128</span>
+              <span class="tag">Career_and_Identity</span>
+            </div>
+          </div>
+          <div class="article">
+            <h4>Synthesized model: capability allocation</h4>
+            <p class="synthesis">The article names a recurring pattern: "capability without an occasion." Equipment and skill are no longer the bottleneck; the live question is what subject or project deserves the accumulated capability.</p>
+            <div class="belief"><b>What Lucien inferred:</b> the user's creative problem has shifted from acquisition to selection. The system should not recommend more gear when the actual missing piece is a worthy occasion.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section paper" id="implementation">
+      <div class="wrap">
+        <div class="eyebrow">What exists today</div>
+        <h2>There is a working read surface and a separate nightly ingestion/synthesis line.</h2>
+        <p class="lead">Lucien is not a hosted app. It is a local markdown wiki plus two distinct executables paths: scripts that ingest and synthesize new data, and a Bun/TypeScript MCP server that serves the resulting articles.</p>
+
+        <div class="implementation">
+          <div class="claim-box">
+            <div class="mini-title">MCP server</div>
+            <p>The MCP server is the read-serving layer for assistants. Current tools include article search, full article read, section read, table of contents, link traversal, article resources, article listing, and setup. It is stdio-only and stateless between calls.</p>
+          </div>
+          <div class="codebox">src/index.ts
+src/tools/articles.ts
+src/tools/setup.ts
+scripts/ingest-recent.ts
+scripts/chunk-recent.ts
+scripts/cluster-assign-recent.ts
+scripts/synthesize-update.ts
+scripts/nightly.sh
+
+Commands:
+bun run dev
+bun run build
+bun test</div>
+        </div>
+
+        <div class="three">
+          <div class="card">
+            <h3>Local state</h3>
+            <p>The local project DB is at <strong>.lucien/lucien.db</strong>. It belongs to the nightly ingestion/synthesis side and stores conversations, messages, chunks, buckets, and synthesis bookkeeping.</p>
+          </div>
+          <div class="card">
+            <h3>Dreaming content</h3>
+            <p>The user-facing wiki is under <strong>~/Dreaming/articles</strong>. It is plain markdown and can be opened independently of Lucien.</p>
+          </div>
+          <div class="card">
+            <h3>Product gap</h3>
+            <p>The key architectural point is deliberate separation. The MCP package serves the Dreaming to assistants; the nightly scripts are the mechanism that ingests new data and writes updated articles.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="understanding">
+      <div class="wrap">
+        <div class="eyebrow">The executive takeaway</div>
+        <h2>Lucien is a bet on user-owned semantic memory.</h2>
+        <p class="lead">The project exists because the valuable thing is not that an AI can remember a fact. The valuable thing is that a future assistant can inherit a structured, evolving, inspectable understanding of the user and their work.</p>
+        <div class="quote">The cold-start problem disappears when the assistant can read the user's current-state ledger before speaking.</div>
+      </div>
+    </section>
+
+    <section class="final-band" id="sources">
+      <div class="wrap">
+        <div class="eyebrow">Sources and provenance</div>
+        <h2>Grounded in the repo, the Dreaming, and current external references.</h2>
+        <p class="lead">Local facts come from the Lucien repo, the local SQLite database, and Dreaming articles. External comparisons are included as context, not as dependencies.</p>
+        <div class="sources">
+          <p><strong>Local repo:</strong> README.md, docs/lucien-vision.md, docs/Lucien-PRD.md, src/index.ts, src/tools/articles.ts, package.json, scripts/*.ts.</p>
+          <p><strong>Local DB:</strong> .lucien/lucien.db counts: 1,934 conversations; 35,112 messages; 6,442 chunks; 371 buckets.</p>
+          <p><strong>Dreaming articles:</strong> Personal_Wiki_Editorial_Philosophy.md, AI_Memory_and_Agent_Systems.md, Lucien_Synthesis_Pipeline.md, Lucien_Retrieval_and_Evaluation.md, Career_and_Identity.md, Mechanical_Development_Manifesto.md, Karpathy_and_AI_Discourse.md, AI_Infrastructure_Theses.md.</p>
+          <p><strong>Example source conversations:</strong> conv:316c8cb3, conv:e0d45562, conv:7b2a5f21, conv:a1303acf, conv:f28e75c9.</p>
+          <p><strong>External context:</strong> <a href="https://www.businessinsider.com/anthropic-dreaming-ai-agents-2026-5">Business Insider reporting on Anthropic "dreaming" for agents</a>.</p>
+          <p><strong>External context:</strong> <a href="https://m.economictimes.com/tech/artificial-intelligence/why-should-you-create-personal-knowledge-bases-for-quicker-responses-to-queries-andrej-karpathy-explains/articleshow/130036489.cms">Economic Times summary of Karpathy's personal knowledge base / LLM wiki framing</a>.</p>
+          <p><strong>External context:</strong> <a href="https://arxiv.org/abs/2604.12034">Memory as Metabolism: companion knowledge systems</a> and <a href="https://arxiv.org/abs/2506.06326">MemoryOS for AI agents</a>, for broader memory-architecture landscape.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

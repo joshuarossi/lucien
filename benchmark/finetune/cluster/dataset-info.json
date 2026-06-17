@@ -1,0 +1,20 @@
+{
+  "stage": "cluster",
+  "builtAt": "2026-06-14T05:43:42.507Z",
+  "format": "messages (system+user+assistant)",
+  "systemPromptFrom": "benchmark/configs/sysprompt-v1.json",
+  "counts": {
+    "train": 232,
+    "valid": 12,
+    "total": 244
+  },
+  "excluded": {
+    "benchmarkHoldoutLabels": 116,
+    "oversized_over_maxChars": 0
+  },
+  "approxAvgCharsPerExample": 91459,
+  "approxAvgTokensPerExample": 22865,
+  "batchSize": 25,
+  "taxonomyBuckets": 371,
+  "note": "gold = existing chunk_buckets assignments; new_bucket always null (cannot reconstruct historical 'new at the time')"
+}

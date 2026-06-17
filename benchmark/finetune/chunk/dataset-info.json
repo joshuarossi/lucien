@@ -1,0 +1,20 @@
+{
+  "stage": "chunk",
+  "builtAt": "2026-06-14T05:43:42.339Z",
+  "format": "messages (system+user+assistant)",
+  "source": "gold chunks from lucien.db (Opus-era pipeline)",
+  "systemPromptFrom": "benchmark/configs/sysprompt-v1.json",
+  "counts": {
+    "train": 1375,
+    "valid": 80,
+    "total": 1455
+  },
+  "excluded": {
+    "benchmarkHoldout": 24,
+    "oversized_over_maxChars": 409,
+    "noGoldChunks": 0
+  },
+  "maxChars": 32000,
+  "approxAvgCharsPerExample": 18622,
+  "approxAvgTokensPerExample": 4656
+}

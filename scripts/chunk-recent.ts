@@ -4,8 +4,10 @@ import { writeFile } from "node:fs/promises";
 import { DB_PATH } from "./state-path.js";
 import { debugLogPath } from "./debug-log.js";
 import { LUCIEN_PROMPT_SENTINEL } from "./sentinel.js";
+import { validateChunks } from "./chunk-validation.js";
+import { loadMetaPolicyBlock } from "./meta-inline.js";
 
-const CHUNK_PROMPT = `You will analyze ONE conversation between a user and an AI assistant. Identify ALL distinct topic chunks within it.
+export const CHUNK_PROMPT = `You will analyze ONE conversation between a user and an AI assistant. Identify ALL distinct topic chunks within it.
 
 CRITICAL INSTRUCTIONS:
 - Most substantive conversations contain MULTIPLE chunks, not one. Look hard for topic shifts.
@@ -17,11 +19,13 @@ CRITICAL INSTRUCTIONS:
 - Short conversations (under 4 messages) with a single Q&A may legitimately be one chunk. Most longer conversations are multiple chunks.
 - Chunks MAY overlap. When a message at a topic boundary is genuinely substantive to BOTH the topic that is ending and the one beginning, include it in BOTH chunks — it is the end_message_uuid of one and falls within the range of the next. Do this only for genuine dual-membership, never for connective filler.
 
-POLICY — you MUST do this before emitting chunks:
-- Use the Read tool to read the documents in /Users/joshrossi/Dreaming/Meta/ (for example Topics_to_Ignore.md, a chunking-style page, and any others the user has added). Two things there govern you:
+POLICY — the user's editorial policy pages (from /Users/joshrossi/Dreaming/Meta/) are reproduced IN FULL under META POLICY PAGES below. Do not read any files; everything you need is in this prompt. Two things there govern you:
   (1) Ignore rules — do NOT emit a chunk for any span whose subject falls under one; simply omit it.
   (2) Chunking style — the instructions above (how fine a chunk is, how aggressively to overlap vs. draw hard boundaries, when a whole conversation is one chunk) are DEFAULTS. If a Meta doc specifies different chunking-style preferences, follow it over those defaults.
 - You MUST still segment the conversation into topic chunks in the output schema below — that is not optional and no Meta doc overrides it. This prompt defines WHAT to do (segment into chunks; this schema); the Meta docs define HOW (granularity, overlap aggressiveness, boundary hardness, what to ignore).
+
+META POLICY PAGES:
+{{META_DOCS}}
 
 For each chunk, output:
 - start_message_uuid: uuid of the first message in the chunk
@@ -46,13 +50,13 @@ If the conversation has no meaningful content (all messages empty or pure noise)
 Here is the conversation:
 `;
 
-interface Message {
+export interface Message {
     uuid: string;
     sender: string;
     text: string;
 }
 
-interface Conversation {
+export interface Conversation {
     uuid: string;
     name: string;
     messages: Message[];
@@ -62,7 +66,7 @@ function callClaude(prompt: string): Promise<string> {
     return new Promise((resolve, reject) => {
         // Prompt is passed via stdin, not argv: transcripts routinely exceed
         // the OS ARG_MAX limit and posix_spawn fails with E2BIG.
-        const proc = spawn("claude", ["-p", "--model", "opus"], {
+        const proc = spawn("pi", ["-p"], {
             stdio: ["pipe", "pipe", "pipe"],
         });
 
@@ -137,7 +141,7 @@ function isRefusalOrPlaceholder(response: string | undefined): boolean {
     return false;
 }
 
-function formatConversation(conv: Conversation): string {
+export function formatConversation(conv: Conversation): string {
     const messages = conv.messages
         .filter((m) => m.text && m.text.trim())
         .map((m) => `[${m.sender}] (uuid: ${m.uuid})\n${m.text}\n`)
@@ -148,6 +152,12 @@ function formatConversation(conv: Conversation): string {
 async function main() {
     console.log(`Opening database at ${DB_PATH}...`);
     const db = new Database(DB_PATH);
+
+    // Meta pages are inlined once per run; they change only by hand-edit.
+    const chunkPrompt = CHUNK_PROMPT.replace(
+        "{{META_DOCS}}",
+        await loadMetaPolicyBlock()
+    );
 
     db.exec(`
     CREATE TABLE IF NOT EXISTS chunked_conversations (
@@ -272,7 +282,7 @@ async function main() {
             name: convMeta.name,
             messages,
         };
-        const prompt = CHUNK_PROMPT + formatConversation(conv);
+        const prompt = chunkPrompt + formatConversation(conv);
 
         let response: string | undefined;
         try {
@@ -289,7 +299,17 @@ async function main() {
             }
 
             const result = extractJSON(response);
-            const chunks = result.chunks ?? [];
+            // Repair near-miss anchors (chimera uuids, conversation-uuid
+            // pastes) and trailing coverage gaps; throws into the catch
+            // below when an anchor is genuinely unresolvable.
+            const { chunks, repairs } = validateChunks(
+                result.chunks ?? [],
+                nonEmpty,
+                convMeta.uuid
+            );
+            for (const repair of repairs) {
+                console.log(`  repair: ${repair}`);
+            }
 
             db.transaction(() => {
                 for (const chunk of chunks) {
@@ -340,4 +360,6 @@ async function main() {
     console.log(`    Errored: ${stats.errored}`);
 }
 
-await main();
+if (import.meta.main) {
+    await main();
+}

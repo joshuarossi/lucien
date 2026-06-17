@@ -8,6 +8,7 @@ import { debugLogPath } from "./debug-log.js";
 import { LUCIEN_PROMPT_SENTINEL } from "./sentinel.js";
 import { sanitizeArticleOutput } from "./sanitize-article.js";
 import { bucketToFilename, bucketToStem } from "./bucket-names.js";
+import { loadMetaPolicyBlock } from "./meta-inline.js";
 
 // Bootstrap prompt for NEW buckets that have no article on disk and no synthesis history.
 // Copied verbatim from scripts/synthesize.ts (SYNTHESIS_PROMPT_BOOTSTRAP) — kept separate
@@ -70,7 +71,9 @@ Below are the chunks assigned to this bucket. Each chunk has a label, a source c
 {{CHUNKS}}
 
 EDITORIAL POLICY:
-This wiki keeps its own editorial-policy pages in /Users/joshrossi/Dreaming/Meta/ — for example Editorial_Guidelines.md and Article_Conventions.md, plus any others the user has added (a style page, an article-size or summarization policy, etc.). You are an editor of THIS wiki: use the Read tool to consult the documents there relevant to writing this article and follow them over your defaults. This prompt defines WHAT to produce and the non-negotiable invariants; the Meta docs define HOW (tone, length/summarization bias, how much historical detail to retain, structure).
+This wiki's editorial-policy pages (from /Users/joshrossi/Dreaming/Meta/ — Editorial_Guidelines.md, Article_Conventions.md, and any others the user has added) are reproduced IN FULL below. You are an editor of THIS wiki: follow them over your defaults; do not read any files — everything you need is in this prompt. This prompt defines WHAT to produce and the non-negotiable invariants; the Meta pages define HOW (tone, length/summarization bias, how much historical detail to retain, structure).
+
+{{META_DOCS}}
 
 OUTPUT:
 Output ONLY the markdown article. No preamble, no explanation, no JSON, no markdown code fences around the article. Just the article content as a markdown document, ready to be written to {{BUCKET_NAME}}.md.
@@ -144,7 +147,9 @@ Below are ONLY the new chunks not yet reflected in the article above. Read all o
 {{NEW_CHUNKS}}
 
 EDITORIAL POLICY:
-This wiki keeps its own editorial-policy pages in /Users/joshrossi/Dreaming/Meta/ — for example Editorial_Guidelines.md and Article_Conventions.md, plus any others the user has added (a style page, an article-size or summarization policy, etc.). You are an editor of THIS wiki: use the Read tool to consult the documents there relevant to updating this article and follow them over your defaults. This prompt defines WHAT to produce and the non-negotiable invariants; the Meta docs define HOW (tone, summarization vs. retention bias, structure).
+This wiki's editorial-policy pages (from /Users/joshrossi/Dreaming/Meta/ — Editorial_Guidelines.md, Article_Conventions.md, and any others the user has added) are reproduced IN FULL below. You are an editor of THIS wiki: follow them over your defaults; do not read any files — everything you need is in this prompt. This prompt defines WHAT to produce and the non-negotiable invariants; the Meta pages define HOW (tone, summarization vs. retention bias, structure).
+
+{{META_DOCS}}
 
 OUTPUT:
 Output ONLY the full updated markdown article. No preamble, no explanation, no JSON, no markdown code fences around the article. Just the complete article content as a markdown document, ready to overwrite the existing file.
@@ -179,7 +184,7 @@ interface MessageRow {
 
 function callClaude(prompt: string): Promise<string> {
     return new Promise((resolve, reject) => {
-        const proc = spawn("claude", ["-p", "--model", "opus"], {
+        const proc = spawn("pi", ["-p"], {
             cwd: DREAMING_PATH,
             stdio: ["pipe", "pipe", "pipe"],
         });
@@ -316,6 +321,9 @@ async function main() {
 
     console.log(`Opening database at ${DB_PATH}...`);
     const db = new Database(DB_PATH);
+
+    // Meta pages are inlined once per run; they change only by hand-edit.
+    const metaBlock = await loadMetaPolicyBlock();
 
     // Idempotent DDL for the tracking table.
     db.exec(`
@@ -477,6 +485,7 @@ async function main() {
             const otherArticles = getOtherArticles(db, bucket.name);
 
             const bootstrapPrompt = SYNTHESIS_PROMPT_BOOTSTRAP_NEW_BUCKET
+                .replace(/\{\{META_DOCS\}\}/g, metaBlock)
                 .replace(/\{\{BUCKET_NAME\}\}/g, bucket.name)
                 .replace(/\{\{BUCKET_DESCRIPTION\}\}/g, bucket.description)
                 .replace(/\{\{OTHER_ARTICLES\}\}/g, otherArticles)
@@ -556,6 +565,7 @@ async function main() {
             /\{\{BUCKET_NAME\}\}/g,
             bucket.name
         )
+            .replace(/\{\{META_DOCS\}\}/g, metaBlock)
             .replace(/\{\{BUCKET_DESCRIPTION\}\}/g, bucket.description)
             .replace(/\{\{OTHER_ARTICLES\}\}/g, otherArticles)
             .replace(/\{\{EXISTING_ARTICLE\}\}/g, existingArticle.trim())
@@ -568,6 +578,22 @@ async function main() {
             const callElapsed = ((Date.now() - callStart) / 1000).toFixed(1);
 
             const article = sanitizeArticleOutput(response);
+
+            // Truncation guard, mirroring wikify's 70% word floor. An update
+            // merges NEW material into the existing article, so the result
+            // should never be dramatically shorter than what's on disk — a
+            // big shrink means the model stopped early (e.g. output-token
+            // cap) and committing it would destroy synthesized history.
+            // Throwing routes into the catch below: debug dump, errored++,
+            // chunks stay unmarked and the bucket retries on a future run.
+            const existingWords = existingArticle.trim().split(/\s+/).length;
+            const mergedWords = article.split(/\s+/).length;
+            if (mergedWords < existingWords * 0.7) {
+                throw new Error(
+                    `merged article is ${mergedWords} words vs ${existingWords} existing ` +
+                    `(below 70% floor) — likely truncated output, refusing to write`
+                );
+            }
 
             await writeFile(filePath, article + "\n");
             synthesizedArticles.push(filename);

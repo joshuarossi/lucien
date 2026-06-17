@@ -1,0 +1,1131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lucien — Executive Overview</title>
+<style>
+  :root {
+    color-scheme: dark;
+    --black: #000000;
+    --ink: #f5f5f7;
+    --ink-dim: #98989d;
+    --ink-faint: #86868b;
+    --light: #f5f5f7;
+    --light-ink: #1d1d1f;
+    --light-dim: rgba(29,29,31,.66);
+    --hairline: rgba(255,255,255,.14);
+    --hairline-dark: rgba(0,0,0,.10);
+    --glass: rgba(255,255,255,.055);
+    --glass-strong: rgba(255,255,255,.09);
+    --r: 22px;
+    --r-sm: 14px;
+    --max: 1160px;
+    --font: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", sans-serif;
+    --mono: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, monospace;
+
+    /* chapter accents — Apple system palette */
+    --dawn-a: #ff9f0a; --dawn-b: #ff375f; --dawn-c: #bf5af2;
+    --ice: #0a84ff;
+    --rose: #ff375f;
+    --teal: #64d2ff;
+    --gold: #ff9f0a;
+    --violet: #bf5af2;
+    --blue: #0a84ff;
+    --green: #30d158;
+    --dim: #86868b;
+    --dimmer: #515154;
+    --ease: cubic-bezier(.22,.61,.21,1);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  body {
+    margin: 0;
+    background: var(--black);
+    color: var(--ink);
+    font-family: var(--font);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; }
+  p { margin: 0; }
+  strong { color: #fff; font-weight: 650; }
+
+  ::selection { background: rgba(10,132,255,.4); }
+
+  /* ---------- progress + nav ---------- */
+  .progress {
+    position: fixed; top: 0; left: 0; height: 2px; width: 0%;
+    background: linear-gradient(90deg, var(--dawn-a), var(--dawn-b), var(--dawn-c));
+    z-index: 60;
+  }
+
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    background: rgba(0,0,0,.62);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+  .nav-inner {
+    max-width: var(--max); margin: 0 auto; padding: 13px 24px;
+    display: flex; align-items: center; justify-content: space-between; gap: 18px;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 650; font-size: 15px; letter-spacing: -.01em; white-space: nowrap; }
+  .mark {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: conic-gradient(from 210deg, var(--dawn-a), var(--dawn-b), var(--dawn-c), var(--dawn-a));
+    box-shadow: 0 0 22px rgba(255,55,95,.35);
+  }
+  .nav-links { display: flex; gap: 18px; font-size: 12.5px; color: var(--ink-faint); flex-wrap: wrap; justify-content: flex-end; }
+  .nav-links a { text-decoration: none; transition: color .25s ease; letter-spacing: .01em; }
+  .nav-links a:hover { color: #fff; }
+
+  /* ---------- sections ---------- */
+  .section {
+    position: relative;
+    padding: clamp(96px, 13vh, 160px) 24px;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    overflow: hidden;
+  }
+  .wrap { position: relative; max-width: var(--max); margin: 0 auto; z-index: 2; }
+
+  .glow {
+    position: absolute; border-radius: 50%; filter: blur(90px);
+    opacity: .5; pointer-events: none; z-index: 1;
+  }
+
+  .chapter {
+    display: inline-flex; align-items: center; gap: 12px;
+    margin-bottom: 26px;
+    font-size: 13px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--dim);
+  }
+  .chapter .n {
+    color: var(--acc, var(--gold));
+    font-family: var(--mono); font-size: 12px; font-weight: 500;
+    border: 1px solid color-mix(in srgb, var(--acc, var(--gold)) 45%, transparent);
+    border-radius: 999px; padding: 4px 10px;
+    background: color-mix(in srgb, var(--acc, var(--gold)) 10%, transparent);
+  }
+
+  h1, h2, h3 { margin: 0; font-weight: 700; letter-spacing: -.028em; line-height: 1.04; }
+  h1 { font-size: clamp(56px, 9.5vw, 136px); letter-spacing: -.035em; line-height: 1.0; }
+  h2 { font-size: clamp(42px, 6.2vw, 88px); max-width: 1020px; }
+  h3 { font-size: clamp(21px, 2.6vw, 30px); letter-spacing: -.015em; line-height: 1.12; }
+
+  .grad {
+    background: linear-gradient(94deg, var(--ga, var(--dawn-a)), var(--gb, var(--dawn-b)) 55%, var(--gc, var(--dawn-c)));
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+  }
+  .soft { color: var(--dimmer); }
+
+  .lead {
+    max-width: 780px; margin-top: 30px;
+    color: var(--dim);
+    font-size: clamp(18px, 1.9vw, 24px); line-height: 1.5; letter-spacing: -.01em;
+    font-weight: 420;
+  }
+  .lead strong { font-weight: 640; }
+
+  .bigline {
+    margin-top: 56px;
+    font-size: clamp(34px, 5vw, 72px);
+    font-weight: 700; letter-spacing: -.025em; line-height: 1.04;
+    max-width: 980px;
+  }
+
+  .footnote { margin-top: 30px; color: var(--ink-faint); font-size: 13px; line-height: 1.6; max-width: 720px; }
+
+  /* ---------- grids & cards ---------- */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 54px; align-items: stretch; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 54px; }
+  .grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 54px; }
+
+  .card {
+    padding: 30px 28px;
+    border: 1px solid var(--hairline);
+    border-radius: var(--r);
+    background: rgba(255,255,255,.045);
+    transition: background .3s, transform .3s var(--ease), border-color .3s;
+  }
+  .card:hover { background: rgba(255,255,255,.08); transform: translateY(-4px); }
+  .card h3 { margin-bottom: 14px; }
+  .card p { color: var(--ink-dim); font-size: 15.5px; line-height: 1.6; letter-spacing: -.005em; }
+  .card .verdict {
+    display: inline-block; margin-top: 20px; padding-top: 16px;
+    border-top: 1px solid var(--hairline);
+    font-family: var(--mono); font-size: 12px; letter-spacing: .02em;
+    color: var(--acc, var(--gold));
+  }
+
+  .kicker {
+    font-size: 12px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase;
+    color: var(--acc, var(--gold)); margin-bottom: 16px;
+  }
+
+  /* ---------- hero ---------- */
+  .hero { min-height: calc(100vh - 50px); display: flex; align-items: center; border-bottom: 1px solid rgba(255,255,255,.06); position: relative; overflow: hidden; padding: 80px 24px; }
+  .hero .wrap { text-align: center; }
+  .hero .eyebrow {
+    font-size: 13px; letter-spacing: .22em; text-transform: uppercase; font-weight: 600;
+    color: var(--ink-faint); margin-bottom: 34px;
+  }
+  .hero h1 .l2 { display: block; }
+  .hero .lead { margin-left: auto; margin-right: auto; }
+
+  .hero-stats {
+    margin: 72px auto 0; max-width: 980px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+  }
+  .hstat {
+    padding: 24px 18px 22px;
+    border: 1px solid var(--hairline); border-radius: var(--r-sm);
+    background: rgba(255,255,255,.045);
+  }
+  .hstat .num { font-size: clamp(30px, 3.6vw, 46px); font-weight: 700; letter-spacing: -.025em; font-variant-numeric: tabular-nums; }
+  .hstat .lbl { margin-top: 8px; color: var(--ink-faint); font-size: 12.5px; line-height: 1.4; }
+  .hero .cap { margin-top: 18px; color: var(--ink-faint); font-size: 12px; letter-spacing: .04em; }
+
+  .scroll-hint {
+    margin: 64px auto 0; width: 22px; height: 36px;
+    border: 1.5px solid rgba(255,255,255,.3); border-radius: 12px;
+    position: relative;
+  }
+  .scroll-hint::after {
+    content: ""; position: absolute; top: 7px; left: 50%; width: 3px; height: 7px;
+    margin-left: -1.5px; border-radius: 2px; background: rgba(255,255,255,.6);
+    animation: drip 2s ease-in-out infinite;
+  }
+  @keyframes drip { 0%,100% { transform: translateY(0); opacity: 1; } 60% { transform: translateY(11px); opacity: 0; } }
+
+  /* ---------- quote ---------- */
+  .quote {
+    margin: 72px auto 0; max-width: 920px; text-align: center;
+    font-size: clamp(26px, 3.8vw, 52px); font-weight: 650; letter-spacing: -.022em; line-height: 1.14;
+  }
+  .quote .attr { display: block; margin-top: 26px; font-size: 14px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-faint); }
+
+  /* ---------- spectrum ---------- */
+  .spectrum-wrap { margin-top: 64px; }
+  .spectrum-bar {
+    position: relative; height: 10px; border-radius: 999px;
+    background: linear-gradient(90deg, rgba(255,55,95,.85), rgba(255,159,10,.85), rgba(48,209,88,.85));
+  }
+  .spectrum-pin {
+    position: absolute; top: -54px; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+  }
+  .spectrum-pin .tag {
+    white-space: nowrap; font-family: var(--mono); font-size: 11.5px; letter-spacing: .03em;
+    color: #000; background: #fff; border-radius: 999px; padding: 6px 12px; font-weight: 600;
+  }
+  .spectrum-pin .stem { width: 1.5px; height: 18px; background: rgba(255,255,255,.65); }
+  .spectrum-ends { display: flex; justify-content: space-between; gap: 24px; margin-top: 20px; }
+  .spectrum-ends div { max-width: 320px; font-size: 14px; line-height: 1.5; color: var(--ink-dim); }
+  .spectrum-ends .e-label { display: block; font-weight: 650; color: #fff; margin-bottom: 4px; font-size: 15px; }
+  .spectrum-ends div:last-child { text-align: right; }
+
+  /* ---------- transcript / artifact panels ---------- */
+  .case {
+    margin-top: 60px; display: grid; grid-template-columns: 1.05fr .95fr; gap: 20px; align-items: stretch;
+  }
+  .transcript, .reading {
+    border-radius: var(--r); border: 1px solid var(--hairline);
+    padding: 28px; background: rgba(255,255,255,.04);
+  }
+  .transcript h4, .reading h4 {
+    margin: 0 0 18px; font-size: 12px; letter-spacing: .15em; text-transform: uppercase;
+    color: var(--ink-faint); font-weight: 700;
+  }
+  .bubble {
+    margin-top: 12px; padding: 14px 16px; border-radius: 14px;
+    font-size: 14.5px; line-height: 1.5; color: rgba(245,245,247,.82);
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.07);
+    max-width: 92%;
+  }
+  .bubble.user { margin-left: auto; background: rgba(10,132,255,.14); border-color: rgba(10,132,255,.22); }
+  .bubble .who { display: block; font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 6px; font-weight: 700; }
+  .bubble.flag { border-color: rgba(255,55,95,.45); background: rgba(255,55,95,.10); }
+  .reading p { color: var(--ink-dim); font-size: 16px; line-height: 1.62; }
+  .reading .pull {
+    margin-top: 22px; padding: 18px 20px; border-radius: var(--r-sm);
+    border: 1px solid color-mix(in srgb, var(--acc, var(--gold)) 30%, transparent);
+    background: color-mix(in srgb, var(--acc, var(--gold)) 8%, transparent);
+    font-size: 15px; line-height: 1.55; color: rgba(245,245,247,.85);
+  }
+  .reading .pull b { color: var(--acc, var(--gold)); }
+
+  /* ---------- light sections ---------- */
+  .section.light { background: var(--light); color: var(--light-ink); border-bottom: none; }
+  .section.light .lead { color: var(--light-dim); }
+  .section.light h2, .section.light h3 { color: var(--light-ink); }
+  .section.light .card {
+    border-color: var(--hairline-dark);
+    background: #fff;
+    box-shadow: 0 8px 32px rgba(0,0,0,.05);
+  }
+  .section.light .card p { color: var(--light-dim); }
+  .section.light .footnote { color: rgba(29,29,31,.45); }
+  .section.light strong { color: var(--light-ink); }
+  .section.light .quote .attr { color: rgba(29,29,31,.45); }
+  .section.light .chapter { color: var(--acc, #b06820); }
+  .section.light .chapter .n { border-color: color-mix(in srgb, var(--acc, #b06820) 40%, transparent); background: color-mix(in srgb, var(--acc, #b06820) 8%, transparent); }
+  .section.light ::selection { background: rgba(176,104,32,.22); }
+
+  /* editor vignette */
+  .editor-flow { margin-top: 60px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; }
+  .editor-step { position: relative; padding: 28px 26px 28px 0; }
+  .editor-step + .editor-step { padding-left: 26px; border-left: 1px solid var(--hairline-dark); }
+  .editor-step .t { font-family: var(--mono); font-size: 11.5px; color: #b06820; letter-spacing: .05em; margin-bottom: 14px; }
+  .editor-step h3 { font-size: 21px; margin-bottom: 10px; }
+  .editor-step p { font-size: 14.5px; line-height: 1.55; color: var(--light-dim); }
+
+  /* ---------- pipeline ---------- */
+  .planes { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 54px; }
+  .plane {
+    border-radius: var(--r); border: 1px solid var(--hairline); padding: 32px 30px;
+    background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+  }
+  .plane .role { font-family: var(--mono); font-size: 12px; letter-spacing: .04em; color: var(--acc, var(--violet)); margin-bottom: 16px; }
+  .plane h3 { margin-bottom: 12px; }
+  .plane p { color: var(--ink-dim); font-size: 15.5px; line-height: 1.6; }
+
+  .pipeline { margin-top: 26px; position: relative; display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+  .pipeline::before {
+    content: ""; position: absolute; top: 27px; left: 4%; right: 4%; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(191,90,242,.5), rgba(10,132,255,.5), transparent);
+  }
+  .pstep { position: relative; padding: 44px 18px 22px; border: 1px solid var(--hairline); border-radius: var(--r-sm); background: rgba(255,255,255,.045); }
+  .pstep .dot {
+    position: absolute; top: 18px; left: 18px; width: 19px; height: 19px; border-radius: 50%;
+    background: #000; border: 1.5px solid var(--violet);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono); font-size: 9.5px; color: var(--violet);
+  }
+  .pstep h3 { font-size: 19px; margin: 10px 0 8px; }
+  .pstep p { color: var(--ink-faint); font-size: 13.5px; line-height: 1.5; }
+
+  /* loop diagram */
+  .loop { margin: 90px auto 0; position: relative; max-width: 980px; min-height: 660px; }
+  .loop-svg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+  .loop-ring { fill: none; stroke: rgba(191,90,242,.4); stroke-width: 2; stroke-dasharray: 3 9; stroke-linecap: round; transform-origin: 50% 50%; animation: spin 60s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .loop-ring { animation: none; } }
+  .loop-node {
+    position: absolute; width: min(290px, 30%); padding: 26px 24px;
+    border: 1px solid var(--hairline); border-radius: var(--r);
+    background: linear-gradient(180deg, rgba(20,20,24,.92), rgba(10,10,12,.92));
+    box-shadow: 0 24px 70px rgba(0,0,0,.5);
+    z-index: 2;
+  }
+  .loop-node h3 { font-size: 21px; margin-bottom: 8px; }
+  .loop-node p { color: var(--ink-faint); font-size: 13.5px; line-height: 1.5; }
+  .loop-node .idx { font-family: var(--mono); font-size: 11px; color: var(--violet); margin-bottom: 12px; display: block; }
+  .loop-node.n1 { left: 50%; top: 0; transform: translateX(-50%); }
+  .loop-node.n2 { right: 0; top: 50%; transform: translateY(-50%); }
+  .loop-node.n3 { left: 50%; bottom: 0; transform: translateX(-50%); }
+  .loop-node.n4 { left: 0; top: 50%; transform: translateY(-50%); }
+  .loop-center {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    text-align: center; z-index: 2; width: min(280px, 30%);
+  }
+  .loop-center .word { font-size: 24px; font-weight: 700; letter-spacing: -.02em; }
+  .loop-center .sub { margin-top: 8px; font-size: 12.5px; color: var(--ink-faint); line-height: 1.5; }
+
+  .loop-note {
+    margin: 56px auto 0; max-width: 860px; text-align: center;
+    font-size: clamp(19px, 2.2vw, 26px); line-height: 1.45; color: var(--ink-dim); letter-spacing: -.01em;
+  }
+  .loop-note strong { color: #fff; }
+
+  /* burrata timeline */
+  .nights { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 54px; }
+  .night { padding: 28px 26px; border: 1px solid var(--hairline); border-radius: var(--r); background: rgba(255,255,255,.045); }
+  .night .d { font-family: var(--mono); font-size: 12px; color: var(--violet); margin-bottom: 16px; }
+  .night .say { font-size: 16.5px; line-height: 1.5; color: rgba(245,245,247,.88); font-weight: 520; letter-spacing: -.008em; min-height: 76px; }
+  .ops { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+  .op { font-family: var(--mono); font-size: 11.5px; padding: 6px 11px; border-radius: 999px; letter-spacing: .02em; border: 1px solid; }
+  .op.add { color: var(--green); border-color: rgba(48,209,88,.4); background: rgba(48,209,88,.08); }
+  .op.upd { color: var(--gold); border-color: rgba(255,159,10,.4); background: rgba(255,159,10,.08); }
+  .op.rem { color: var(--rose); border-color: rgba(255,55,95,.4); background: rgba(255,55,95,.08); }
+  .op.lift { color: var(--violet); border-color: rgba(191,90,242,.45); background: rgba(191,90,242,.09); }
+
+  /* stats band */
+  .band {
+    margin-top: 80px; padding: 44px 40px;
+    border: 1px solid var(--hairline); border-radius: var(--r);
+    background: linear-gradient(135deg, rgba(191,90,242,.10), rgba(10,132,255,.06) 50%, rgba(255,255,255,.03));
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 28px;
+  }
+  .band .b { text-align: left; }
+  .band .num { font-size: clamp(28px, 3.4vw, 44px); font-weight: 700; letter-spacing: -.025em; font-variant-numeric: tabular-nums; }
+  .band .lbl { margin-top: 6px; color: var(--ink-faint); font-size: 12.5px; line-height: 1.45; }
+  .band-cap { margin-top: 22px; color: var(--ink-faint); font-size: 12.5px; }
+
+  /* artifact (synthesis examples) */
+  .artifact { margin-top: 56px; display: grid; grid-template-columns: .85fr 1.15fr; gap: 20px; }
+  .frag, .model {
+    border-radius: var(--r); border: 1px solid var(--hairline); padding: 28px;
+  }
+  .frag { background: rgba(255,255,255,.035); }
+  .model { background: linear-gradient(160deg, rgba(255,159,10,.10), rgba(255,255,255,.035) 60%); border-color: rgba(255,159,10,.25); }
+  .frag h4, .model h4 { margin: 0 0 16px; font-size: 12px; letter-spacing: .15em; text-transform: uppercase; color: var(--ink-faint); font-weight: 700; }
+  .frag .m {
+    margin-top: 12px; padding: 13px 16px; border-left: 2px solid rgba(10,132,255,.6);
+    background: rgba(10,132,255,.07); border-radius: 0 10px 10px 0;
+    font-size: 14.5px; line-height: 1.5; color: rgba(245,245,247,.8);
+  }
+  .frag .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .frag .meta span { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); border: 1px solid var(--hairline); border-radius: 999px; padding: 5px 10px; }
+  .model .synth { font-size: clamp(18px, 2vw, 22px); line-height: 1.5; color: rgba(245,245,247,.92); letter-spacing: -.01em; font-weight: 480; }
+  .model .infer {
+    margin-top: 22px; padding: 18px 20px; border-radius: var(--r-sm);
+    background: rgba(255,159,10,.10); border: 1px solid rgba(255,159,10,.25);
+    font-size: 14.5px; line-height: 1.55; color: rgba(245,245,247,.8);
+  }
+  .model .infer b { color: var(--gold); }
+
+  /* proof */
+  .scorehero { margin-top: 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: stretch; }
+  .scorebig {
+    border-radius: var(--r); border: 1px solid rgba(48,209,88,.25); padding: 40px;
+    background: linear-gradient(150deg, rgba(48,209,88,.12), rgba(255,255,255,.03) 65%);
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .scorebig .n { font-size: clamp(84px, 11vw, 160px); font-weight: 750; letter-spacing: -.04em; line-height: .9; color: var(--green); font-variant-numeric: tabular-nums; }
+  .scorebig .c { margin-top: 20px; font-size: 18px; line-height: 1.45; color: var(--ink-dim); max-width: 400px; }
+  .distro { display: grid; gap: 12px; }
+  .drow {
+    display: grid; grid-template-columns: 72px 1fr; gap: 18px; align-items: center;
+    border: 1px solid var(--hairline); border-radius: var(--r-sm); padding: 18px 22px;
+    background: rgba(255,255,255,.04);
+  }
+  .drow b { font-size: 30px; font-weight: 700; letter-spacing: -.02em; color: var(--green); font-variant-numeric: tabular-nums; }
+  .drow.mid b { color: var(--gold); }
+  .drow.low b { color: var(--rose); }
+  .drow span { font-size: 14px; line-height: 1.45; color: var(--ink-dim); }
+  .drow span em { font-style: normal; color: #fff; font-weight: 650; }
+
+  .exchange { margin-top: 22px; display: grid; grid-template-columns: .8fr 1.2fr; gap: 16px; }
+  .ask, .ans { border-radius: var(--r); padding: 28px; border: 1px solid var(--hairline); }
+  .ask { background: rgba(255,255,255,.04); }
+  .ans { background: linear-gradient(150deg, rgba(48,209,88,.10), rgba(255,255,255,.035) 70%); border-color: rgba(48,209,88,.22); }
+  .ask .k, .ans .k { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; font-weight: 700; color: var(--ink-faint); margin-bottom: 14px; }
+  .ans .k { color: var(--green); }
+  .ask p { font-size: 20px; line-height: 1.35; font-weight: 600; letter-spacing: -.012em; color: rgba(245,245,247,.9); }
+  .ans p { font-size: clamp(19px, 2.2vw, 26px); line-height: 1.3; font-weight: 620; letter-spacing: -.015em; color: #fff; }
+  .ans .why { margin-top: 16px; font-size: 14px; line-height: 1.55; color: var(--ink-faint); font-weight: 400; }
+
+  /* hop chain (live demo section) */
+  .hopflow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 30px; }
+  .hop { position: relative; border: 1px solid var(--hairline); border-radius: var(--r-sm); padding: 22px 20px; background: rgba(255,255,255,.04); }
+  .hop b { display: block; font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ice); margin-bottom: 10px; }
+  .hop span { font-size: 14.5px; line-height: 1.5; color: var(--ink-dim); }
+  .hop:not(:last-child)::after { content: "→"; position: absolute; right: -15px; top: 50%; transform: translateY(-50%); color: var(--ink-faint); font-size: 16px; z-index: 3; }
+  .hopnote { margin-top: 18px; font-size: 13.5px; color: var(--ink-faint); font-family: var(--mono); letter-spacing: .01em; }
+
+  .fails { margin-top: 22px; border: 1px solid rgba(255,55,95,.3); border-radius: var(--r); padding: 30px; background: rgba(255,55,95,.06); }
+  .fails h3 { color: #fff; margin-bottom: 12px; }
+  .fails p { color: var(--ink-dim); font-size: 15.5px; line-height: 1.6; }
+  .fixrow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 22px; }
+  .fix { padding: 22px; border: 1px solid var(--hairline); border-radius: var(--r-sm); background: rgba(255,255,255,.04); }
+  .fix b { display: block; color: var(--green); margin-bottom: 8px; font-size: 15px; letter-spacing: -.01em; }
+  .fix span { font-size: 13.5px; line-height: 1.55; color: var(--ink-faint); }
+
+  .evalpanel {
+    margin-top: 80px; border: 1px solid var(--hairline); border-radius: var(--r);
+    padding: 38px 36px; background: linear-gradient(160deg, rgba(10,132,255,.07), rgba(255,255,255,.03));
+  }
+  .evalpanel .head { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .evalpanel h3 { font-size: clamp(24px, 3vw, 34px); }
+  .gradechip {
+    font-family: var(--mono); font-size: 22px; font-weight: 700; color: var(--green);
+    border: 1px solid rgba(48,209,88,.4); border-radius: 14px; padding: 10px 18px;
+    background: rgba(48,209,88,.08);
+  }
+  .evalpanel > p { margin-top: 16px; color: var(--ink-dim); font-size: 16px; line-height: 1.6; max-width: 860px; }
+  .evalstats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 28px; }
+  .estat { border: 1px solid var(--hairline); border-radius: var(--r-sm); padding: 18px 20px; background: rgba(0,0,0,.25); }
+  .estat b { display: block; font-size: 26px; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+  .estat span { display: block; margin-top: 5px; font-size: 12.5px; color: var(--ink-faint); line-height: 1.4; }
+
+  /* roadmap */
+  .road { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 54px; }
+  .road .col { border: 1px solid var(--hairline); border-radius: var(--r); padding: 30px 28px; background: rgba(255,255,255,.04); }
+  .road .col .stage { font-family: var(--mono); font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 18px; color: var(--blue); }
+  .road .col h3 { font-size: 22px; margin-bottom: 18px; }
+  .road ul { margin: 0; padding: 0; list-style: none; }
+  .road li { position: relative; padding: 10px 0 10px 22px; font-size: 14.5px; line-height: 1.5; color: var(--ink-dim); border-top: 1px solid rgba(255,255,255,.07); }
+  .road li:first-child { border-top: none; }
+  .road li::before { content: ""; position: absolute; left: 2px; top: 17px; width: 7px; height: 7px; border-radius: 50%; background: var(--blue); opacity: .8; }
+  .road .col.now .stage, .road .col.now li::before { color: var(--green); background: var(--green); }
+  .road .col.now .stage { background: none; }
+  .road .col.next .stage { color: var(--gold); background: none; }
+  .road .col.next li::before { background: var(--gold); }
+
+  /* closing */
+  .close-section { text-align: center; }
+  .close-section .lead { margin-left: auto; margin-right: auto; }
+  .product-line {
+    margin: 64px auto 0; max-width: 1000px;
+    font-size: clamp(30px, 4.6vw, 60px); font-weight: 700; letter-spacing: -.025em; line-height: 1.1;
+    color: var(--light-ink);
+  }
+  .sources { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; margin-top: 80px; text-align: left; }
+  .sources p {
+    padding: 18px 20px; border: 1px solid var(--hairline-dark); border-radius: var(--r-sm);
+    background: #fff; font-size: 13.5px; line-height: 1.55; color: var(--light-dim); overflow-wrap: anywhere;
+  }
+  .sources strong { display: block; margin-bottom: 5px; color: var(--light-ink); }
+  .sources a { color: #0066cc; }
+  .colophon { margin-top: 56px; color: rgba(29,29,31,.4); font-size: 12px; letter-spacing: .03em; }
+
+  /* ---------- reveal ---------- */
+  .reveal { opacity: 0; transform: translateY(26px); transition: opacity .9s var(--ease), transform .9s var(--ease); transition-delay: var(--d, 0s); }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 960px) {
+    .grid2, .grid3, .grid4, .planes, .case, .nights, .artifact, .scorehero, .exchange, .fixrow, .road, .editor-flow, .hopflow { grid-template-columns: 1fr; }
+    .hop:not(:last-child)::after { content: "↓"; right: auto; left: 50%; top: auto; bottom: -19px; transform: translateX(-50%); }
+    .hero-stats, .band, .evalstats { grid-template-columns: repeat(2, 1fr); }
+    .pipeline { grid-template-columns: 1fr; }
+    .pipeline::before { display: none; }
+    .editor-step + .editor-step { padding-left: 0; border-left: none; border-top: 1px solid var(--hairline-dark); }
+    .editor-step { padding: 24px 0; }
+    .loop { min-height: auto; }
+    .loop-svg { display: none; }
+    .loop-node, .loop-node.n1, .loop-node.n2, .loop-node.n3, .loop-node.n4, .loop-center {
+      position: relative; left: auto; right: auto; top: auto; bottom: auto; inset: auto;
+      transform: none; width: 100%; margin-top: 14px;
+    }
+    .loop-center { padding: 20px 0; }
+    .spectrum-pin .tag { font-size: 10px; }
+    .nav-links { display: none; }
+    .section { padding: 80px 20px; }
+  }
+
+  @media print {
+    body { background: #fff; color: #000; }
+    .nav, .progress, .scroll-hint { display: none; }
+    .section { break-after: page; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    .reveal { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand"><div class="mark"></div><span>Lucien</span></div>
+    <div class="nav-links">
+      <a href="#problem">Problem</a>
+      <a href="#failures">Why Memory Fails</a>
+      <a href="#field">The Field</a>
+      <a href="#wikipedia">Wikipedia</a>
+      <a href="#dreaming">The Dreaming</a>
+      <a href="#how">How It Works</a>
+      <a href="#evidence">Evidence</a>
+      <a href="#proof">Proof</a>
+      <a href="#hop">Live Demo</a>
+      <a href="#road">Roadmap</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="top">
+    <div class="glow" style="width:720px;height:720px;left:50%;top:-340px;transform:translateX(-50%);background:radial-gradient(circle, rgba(255,55,95,.28), rgba(191,90,242,.12) 60%, transparent 75%);"></div>
+    <div class="wrap">
+      <div class="eyebrow reveal">Lucien · Executive Overview</div>
+      <h1 class="reveal" style="--d:.08s">Conversations in.<span class="l2 grad">Understanding out.</span></h1>
+      <p class="lead reveal" style="--d:.18s">Lucien turns a person's AI conversations into a personal Wikipedia — so every future assistant starts already knowing them. Synthesized nightly. Owned entirely by the user.</p>
+
+      <div class="hero-stats">
+        <div class="hstat reveal" style="--d:.30s"><div class="num" data-count="1934">1,934</div><div class="lbl">conversations ingested across four sources</div></div>
+        <div class="hstat reveal" style="--d:.38s"><div class="num" data-count="35112">35,112</div><div class="lbl">messages of raw material</div></div>
+        <div class="hstat reveal" style="--d:.46s"><div class="num" data-count="377">377</div><div class="lbl">living articles in the Dreaming</div></div>
+        <div class="hstat reveal" style="--d:.54s"><div class="num">38&hairsp;→&hairsp;5.6<span style="font-size:.45em;font-weight:600;color:var(--ink-faint)">&nbsp;MB</span></div><div class="lbl">raw conversation, distilled into a readable wiki</div></div>
+      </div>
+      <div class="cap reveal" style="--d:.62s">Live corpus — June 2026</div>
+      <div class="scroll-hint reveal" style="--d:.7s" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- ============ 01 PROBLEM ============ -->
+  <section class="section" id="problem" style="--acc:var(--teal); --ga:#64d2ff; --gb:#0a84ff; --gc:#5e5ce6;">
+    <div class="glow" style="width:600px;height:600px;right:-200px;top:0;background:radial-gradient(circle, rgba(100,210,255,.18), transparent 70%);"></div>
+    <div class="wrap">
+      <div class="chapter reveal"><span class="n">01</span> The Problem</div>
+      <h2 class="reveal" style="--d:.08s">Every session starts <span class="soft">from zero.</span></h2>
+      <p class="lead reveal" style="--d:.16s">AI assistants have amnesia in both directions. A fresh session knows nothing of what came before. A long one loses the thread as context rolls away. The most personal technology ever shipped — and it cannot remember the person using it.</p>
+
+      <div class="grid2">
+        <div class="card reveal" style="--d:.1s">
+          <h3>The workaround everyone uses</h3>
+          <p>Power users simply refuse to let the session die — nursing a single conversation past 150,000 tokens of context, through multiple compactions, because the alternative is starting over. When the session finally ends, everything it understood ends with it.</p>
+          <span class="verdict">memory by life support</span>
+        </div>
+        <div class="card reveal" style="--d:.2s">
+          <h3>The real cost</h3>
+          <p>Every cold start is paid for in re-explanation: the project, the constraints, the decisions already made, the options already rejected. The deeper the work, the higher the toll — and the toll is charged again every single session.</p>
+          <span class="verdict">an onboarding tax, paid daily</span>
+        </div>
+      </div>
+
+      <div class="quote reveal" style="--d:.1s">
+        &ldquo;If I spent hours talking about something, I don't want to spend hours bringing an AI up to speed next time.&rdquo;
+        <span class="attr">The founding requirement</span>
+      </div>
+
+      <div class="spectrum-wrap reveal" style="--d:.1s">
+        <div class="kicker" style="text-align:center; margin-bottom:64px;">The bar Lucien is graded against</div>
+        <div class="spectrum-bar">
+          <div class="spectrum-pin" style="left:8%"><span class="tag">where every fresh session starts</span><span class="stem"></span></div>
+        </div>
+        <div class="spectrum-ends">
+          <div><span class="e-label">Worst case</span>Paste documents into every new session and re-explain the work by hand.</div>
+          <div><span class="e-label">Goal</span>The same colleague every time — picks up mid-thought, carries every correction you've ever given.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 02 FAILURES ============ -->
+  <section class="section" id="failures" style="--acc:var(--rose); --ga:#ff9f0a; --gb:#ff375f; --gc:#bf5af2;">
+    <div class="glow" style="width:640px;height:640px;left:-260px;top:120px;background:radial-gradient(circle, rgba(255,55,95,.15), transparent 70%);"></div>
+    <div class="wrap">
+      <div class="chapter reveal"><span class="n">02</span> Why current memory fails</div>
+      <h2 class="reveal" style="--d:.08s">Recall is <span class="grad">not understanding.</span></h2>
+      <p class="lead reveal" style="--d:.16s">The industry's answer has been to save more — facts, embeddings, transcripts, tokens. But the hard part was never remembering what was said. It's knowing what it <strong>means</strong>, what matters now, and when it's relevant.</p>
+
+      <div class="grid3">
+        <div class="card reveal" style="--d:.08s">
+          <h3>Fact extraction</h3>
+          <p>Vendor memory distills conversations into a list of profile facts. No structure, no provenance, no way to handle contradiction or change. New facts overwrite old ones. The result is a pile, not a model.</p>
+          <span class="verdict">failure: a pile, not a person</span>
+        </div>
+        <div class="card reveal" style="--d:.16s">
+          <h3>RAG over transcripts</h3>
+          <p>Embed the chat history, retrieve the nearest chunks at question time. But similarity is not relevance, fragments arrive stripped of the context that made them meaningful, and the model re-derives the same conclusions every single time.</p>
+          <span class="verdict">failure: grep without understanding</span>
+        </div>
+        <div class="card reveal" style="--d:.24s">
+          <h3>Longer context</h3>
+          <p>Million-token windows postpone the problem; they don't solve it. Context is a session, not a memory — it degrades as it fills, and it still dies when the conversation does.</p>
+          <span class="verdict">failure: a bigger goldfish bowl</span>
+        </div>
+      </div>
+
+      <div class="bigline reveal" style="--d:.1s">A thousand retrieved laptop mentions still can't answer <span class="grad">&ldquo;what laptop should I buy?&rdquo;</span></div>
+      <p class="lead reveal" style="--d:.18s; max-width:840px">The answer doesn't live in any message. It's distributed across comparisons made, options rejected, budgets shifted, workflows changed, and taste expressed over months. Producing it requires <strong>synthesis</strong> — and retrieval can't synthesize.</p>
+
+      <div class="case">
+        <div class="transcript reveal" style="--d:.08s">
+          <h4>A real failure — frontier model, memory enabled</h4>
+          <div class="bubble"><span class="who">Context</span>A working session about CLI design — whether advanced options should be exposed up front or hidden behind sane defaults.</div>
+          <div class="bubble user"><span class="who">User</span>&ldquo;Did you already know about OpenDRT? Jed released two separate versions — the stick-shift one was later, I believe.&rdquo;</div>
+          <div class="bubble flag"><span class="who">Assistant</span>&ldquo;OpenDRT is Jed Smith's open-source display rendering transform&hellip; it fits your <em>fragrance-and-color-science world</em>&hellip;&rdquo;</div>
+          <div class="bubble user"><span class="who">User</span>&ldquo;fragrance-and-color-science world??&rdquo;</div>
+          <div class="bubble"><span class="who">Assistant, confessing</span>It had pulled an unrelated interest from stored memory and bundled it in — to make the reference &ldquo;feel like it belonged in the user's world.&rdquo; Fragrance had nothing to do with anything.</div>
+        </div>
+        <div class="reading reveal" style="--d:.18s">
+          <h4>What this demonstrates</h4>
+          <p>The system remembered perfectly — and got <strong>worse</strong>. Injected facts were blended into the live topic because the memory layer optimizes for <em>demonstrating</em> recall, not for using it. This is not a model-capability problem; it was a top-tier model. It's an architecture problem.</p>
+          <div class="pull"><b>The standard that follows:</b> memory should silently improve relevance. The user-visible effect of good memory is the absence of non-sequiturs and the presence of context — never the performance of remembering.</div>
+        </div>
+      </div>
+
+      <div class="bigline reveal" style="--d:.1s">And whatever these systems do learn, <span class="grad">the user can't keep.</span></div>
+      <p class="lead reveal" style="--d:.18s">Vendor memory can't be read, audited, exported, or moved. The most sensitive distilled document about a person — locked in someone else's database. It is the AOL email of personal knowledge.</p>
+    </div>
+  </section>
+
+  <!-- ============ 03 THE FIELD ============ -->
+  <section class="section" id="field" style="--acc:var(--teal); --ga:#a8ff9e; --gb:#30d158; --gc:#64d2ff;">
+    <div class="glow" style="width:620px;height:620px;right:-220px;top:200px;background:radial-gradient(circle, rgba(100,210,255,.14), transparent 70%);"></div>
+    <div class="wrap">
+      <div class="chapter reveal"><span class="n">03</span> Where the field is heading</div>
+      <h2 class="reveal" style="--d:.08s">The frontier is moving memory <span class="soft">offline.</span></h2>
+      <p class="lead reveal" style="--d:.16s">A consensus is forming across research and industry: don't retrieve harder at question time. <strong>Consolidate between sessions</strong> — do the interpretive work while no one is waiting, the way sleep does.</p>
+
+      <div class="grid3">
+        <div class="card reveal" style="--d:.08s">
+          <h3>Karpathy's LLM Wiki</h3>
+          <p>Andrej Karpathy popularized the personal knowledge base maintained <em>by</em> the model <em>for</em> the model: a structured, interlinked wiki that sits between the user and raw sources — explicitly rejecting query-time RAG as &ldquo;rediscovering knowledge from scratch on every question.&rdquo;</p>
+          <span class="verdict">wiki-shaped memory, validated</span>
+        </div>
+        <div class="card reveal" style="--d:.16s">
+          <h3>Anthropic's dreaming agents</h3>
+          <p>Anthropic's managed agents now &ldquo;dream&rdquo; — consolidating experience between sessions into durable context the next run reads before acting. Sleep-time compute for memory is no longer a metaphor; it's shipping.</p>
+          <span class="verdict">offline consolidation, validated</span>
+        </div>
+        <div class="card reveal" style="--d:.24s">
+          <h3>The neuroscience</h3>
+          <p>Complementary Learning Systems — the reference model of human memory — pairs a fast episodic store with a slow semantic one, integrated by selective replay during sleep. Raw experience in, durable understanding out. It's why you sleep.</p>
+          <span class="verdict">the architecture brains use</span>
+        </div>
+      </div>
+
+      <div class="case">
+        <div class="reading reveal" style="--d:.08s; grid-column: 1 / -1;">
+          <h4>The gap everyone is leaving open</h4>
+          <p><strong>Task agents</strong> need procedural memory — how to do the job consistently. <strong>Assistants</strong> need semantic memory — a rich, evolving model of the person they work with. The industry has conflated the two and is shipping the first while calling memory solved. The consumer chat experience, where understanding the person <em>is</em> the product, has the weakest memory implementation of all.</p>
+          <div class="pull"><b>Lucien takes the open seat:</b> semantic memory for the assistant case — synthesized offline, structured like an encyclopedia, owned by the user rather than the vendor.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 04 WIKIPEDIA ============ -->
+  <section class="section light" id="wikipedia" style="--acc:#b06820; --ga:#d98e3a; --gb:#b06820; --gc:#8a4f16;">
+    <div class="wrap">
+      <div class="chapter reveal"><span class="n">04</span> Prior art, proven at planetary scale</div>
+      <h2 class="reveal" style="--d:.08s">Wikipedia already solved a problem <span class="grad">this shape.</span></h2>
+      <p class="lead reveal" style="--d:.16s">Millions of uneven, repetitive, contradictory sources — turned into one maintained, trusted, current page per topic. That is exactly the shape of the personal-memory problem: messy conversations in, coherent understanding out.</p>
+
+      <div class="editor-flow">
+        <div class="editor-step reveal" style="--d:.06s">
+          <div class="t">09:00 — the day's noise</div>
+          <h3>Seven segments, one story</h3>
+          <p>A news editor hears the same breaking story seven times across the day's coverage — partial, repetitive, occasionally contradictory.</p>
+        </div>
+        <div class="editor-step reveal" style="--d:.14s">
+          <div class="t">15:00 — the delta</div>
+          <h3>What's actually new?</h3>
+          <p>The editor doesn't file seven notes. They ask one question: across everything heard today, what does the page not already say?</p>
+        </div>
+        <div class="editor-step reveal" style="--d:.22s">
+          <div class="t">17:00 — the edit</div>
+          <h3>Fold it into the page</h3>
+          <p>Read the article as it stands. Integrate the delta. Cite every claim. Note open disputes on the talk page, not in the article.</p>
+        </div>
+        <div class="editor-step reveal" style="--d:.30s">
+          <div class="t">Tomorrow</div>
+          <h3>Again</h3>
+          <p>The page is never finished — it converges. Errors survive only until the next contradiction arrives, and the next edit folds it in.</p>
+        </div>
+      </div>
+
+      <div class="grid4">
+        <div class="card reveal" style="--d:.06s"><h3 style="font-size:19px">The page is the unit</h3><p>Facts don't pile up as notes — they integrate into a living article with sections, links, and history.</p></div>
+        <div class="card reveal" style="--d:.12s"><h3 style="font-size:19px">Every claim cites</h3><p>Provenance is structural. You can always trace why the page believes what it believes.</p></div>
+        <div class="card reveal" style="--d:.18s"><h3 style="font-size:19px">Disagreement has a home</h3><p>Contradictions go to the talk page for resolution instead of silently overwriting prior content.</p></div>
+        <div class="card reveal" style="--d:.24s"><h3 style="font-size:19px">Never final, always current</h3><p>Correctness emerges from continuous correction under use — not from getting it right the first time.</p></div>
+      </div>
+
+      <div class="quote reveal" style="--d:.1s">
+        Every architectural decision in Lucien answers to one question: <span class="grad">what would a Wikipedia editor do?</span>
+        <span class="attr">The design law</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 05 THE DREAMING ============ -->
+  <section class="section" id="dreaming" style="--acc:var(--gold); --ga:#ffd60a; --gb:#ff9f0a; --gc:#ff375f;">
+    <div class="glow" style="width:680px;height:680px;left:50%;top:-260px;transform:translateX(-50%);background:radial-gradient(circle, rgba(255,159,10,.16), transparent 70%);"></div>
+    <div class="wrap">
+      <div class="chapter reveal"><span class="n">05</span> The adaptation</div>
+      <h2 class="reveal" style="--d:.08s">The Dreaming: <span class="grad">a Wikipedia of one.</span></h2>
+      <p class="lead reveal" style="--d:.16s">Lucien maintains a personal wiki — articles on projects, people, tools, opinions, frameworks, history. Not what Python <em>is</em>; Wikipedia covers that. What <strong>this person's relationship to Python</strong> is: their history with it, current views, and the reasoning behind them.</p>
+
+      <div class="grid2">
+        <div class="card reveal" style="--d:.08s">
+          <h3>One deviation from Wikipedia — and it's load-bearing</h3>
+          <p>Wikipedia asks: <em>does the world care?</em> The Dreaming asks: <em>did this person spend hours on it?</em> Notability is measured per-user, by cost-to-rebuild. A food preference clears the bar; a famous topic the user never discusses doesn't. The Dreaming is a conversation-cost amortization layer, not a general knowledge base.</p>
+          <span class="verdict">notability: per-user, not per-world</span>
+        </div>
+        <div class="card reveal" style="--d:.16s">
+          <h3>The inversion of the LLM Wiki</h3>
+          <p>Karpathy's pattern assumes documents collected and ingested deliberately. Lucien inverts the flow: <strong>conversations are the capture layer.</strong> A document records what its author thought. A conversation records what <em>you</em> made of it — the rejected options, the corrections, the analogy that finally landed.</p>
+          <span class="verdict">conversations in, articles out</span>
+        </div>
+      </div>
+
+      <div class="bigline reveal" style="--d:.1s">The transcripts are the journal. <span class="grad">The Dreaming is the balance.</span></div>
+      <p class="lead reveal" style="--d:.18s">Nobody learns their account balance by replaying every transaction since the account opened. Synthesis is the fold over the event stream that keeps the current state current — so the next reader gets the answer, not the homework.</p>
+
+      <div class="grid4">
+        <div class="card reveal" style="--d:.06s"><h3 style="font-size:19px">Plain markdown</h3><p>Files in a folder. Readable in any editor, browsable in Obsidian, greppable, deletable.</p></div>
+        <div class="card reveal" style="--d:.12s"><h3 style="font-size:19px">Versioned with git</h3><p>Every nightly run is a commit. Full history, rollback, and diff for the model of you.</p></div>
+        <div class="card reveal" style="--d:.18s"><h3 style="font-size:19px">Cited to source</h3><p>Every claim traces to the dated conversation that produced it. Auditable beliefs, not vibes.</p></div>
+        <div class="card reveal" style="--d:.24s"><h3 style="font-size:19px">Served over MCP</h3><p>Claude reads it. ChatGPT reads it. A local model reads it. Switch providers; keep your memory.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 06 HOW IT WORKS ============ -->
+  <section class="section" id="how" style="--acc:var(--violet); --ga:#ff375f; --gb:#bf5af2; --gc:#5e5ce6;">
+    <div class="glow" style="width:700px;height:700px;right:-260px;top:300px;background:radial-gradient(circle, rgba(191,90,242,.16), transparent 70%);"></div>
+    <div class="wrap">
+      <div class="chapter reveal"><span class="n">06</span> How it works</div>
+      <h2 class="reveal" style="--d:.08s">One system writes. <span class="grad">Another serves.</span></h2>
+      <p class="lead reveal" style="--d:.16s">Write and read are deliberately separate planes. The nightly run is the only writer; assistants get read-only access. No model updates the canonical record of you mid-conversation — synthesis is considered, integrative, and happens while you sleep.</p>
+
+      <div class="planes">
+        <div class="plane reveal" style="--d:.08s">
+          <div class="role">writer · runs nightly, unattended</div>
+          <h3>The synthesis pipeline</h3>
+          <p>Pulls the day's conversations from every source, segments them by topic, routes each segment to the articles it concerns, and folds the delta into the wiki — like an editor updating pages based on what was in the news that day.</p>
+        </div>
+        <div class="plane reveal" style="--d:.16s">
+          <div class="role">reader · serves any assistant, read-only</div>
+          <h3>The MCP server</h3>
+          <p>Exposes search, article reads, section reads, and link traversal so any MCP-capable model loads the Dreaming as context. It never ingests, never writes — it serves finished understanding.</p>
+        </div>
+      </div>
+
+      <div class="kicker reveal" style="margin-top:72px;">Each night, five stages</div>
+      <div class="pipeline">
+        <div class="pstep reveal" style="--d:.05s"><span class="dot">1</span><h3>Ingest</h3><p>Normalize new conversations from ChatGPT, Claude.ai, Claude Code, and Codex CLI into one local store.</p></div>
+        <div class="pstep reveal" style="--d:.11s"><span class="dot">2</span><h3>Chunk</h3><p>Segment each conversation into topic-coherent spans — pointers into the source, never copies. Nothing is destroyed.</p></div>
+        <div class="pstep reveal" style="--d:.17s"><span class="dot">3</span><h3>Classify</h3><p>Route each span to one or more topic buckets. The taxonomy is emergent — it grows from what the user actually talks about.</p></div>
+        <div class="pstep reveal" style="--d:.23s"><span class="dot">4</span><h3>Synthesize</h3><p>Per article: read the page as it stands, fold in the day's evidence, preserve provenance as dated citations.</p></div>
+        <div class="pstep reveal" style="--d:.29s"><span class="dot">5</span><h3>Curate</h3><p>An editorial pass restructures grown articles toward Wikipedia quality and keeps the wiki dense, linked, and cheap to read.</p></div>
+      </div>
+
+      <div class="loop reveal" style="--d:.1s">
+        <svg class="loop-svg" viewBox="0 0 980 660" aria-hidden="true">
+          <ellipse class="loop-ring" cx="490" cy="330" rx="330" ry="218"></ellipse>
+        </svg>
+        <div class="loop-node n1"><span class="idx">while you sleep</span><h3>Nightly synthesis</h3><p>The day's conversations are chunked, routed, and folded into the wiki.</p></div>
+        <div class="loop-node n2"><span class="idx">the substrate</span><h3>The Dreaming</h3><p>Current-state articles: stance, reasoning, history, tensions, citations.</p></div>
+        <div class="loop-node n3"><span class="idx">any model, read-only</span><h3>The assistant</h3><p>Reads the relevant articles over MCP and enters the conversation already up to speed.</p></div>
+        <div class="loop-node n4"><span class="idx">where life happens</span><h3>Conversations</h3><p>Decisions, corrections, preferences, evolving beliefs — tomorrow's source material.</p></div>
+        <div class="loop-center">
+          <div class="word grad">The loop</div>
+          <div class="sub">Corrections aren't a feature. A correction is just tomorrow's conversation contradicting yesterday's article — and the fold handles it.</div>
+        </div>
+      </div>
+
+      <div class="kicker reveal" style="margin-top:96px;">Correction semantics, in three nights</div>
+      <h3 class="reveal" style="--d:.06s; font-size:clamp(26px,3.4vw,40px); max-width:860px;">The system doesn't just record what you said. It learns what you meant.</h3>
+      <div class="nights">
+        <div class="night reveal" style="--d:.08s">
+          <div class="d">night one</div>
+          <p class="say">&ldquo;I hate cream cheese on sushi.&rdquo;</p>
+          <div class="ops"><span class="op upd">UPDATE · sushi entry</span></div>
+        </div>
+        <div class="night reveal" style="--d:.16s">
+          <div class="d">night two</div>
+          <p class="say">&ldquo;Had burrata at a restaurant tonight.&rdquo;</p>
+          <div class="ops"><span class="op add">ADD · burrata</span></div>
+        </div>
+        <div class="night reveal" style="--d:.24s">
+          <div class="d">night three</div>
+          <p class="say">&ldquo;Ew, no — Burrata was the <em>restaurant</em>. The dish is too mushy and wet. I prefer regular mozzarella.&rdquo;</p>
+          <div class="ops"><span class="op rem">REMOVE · burrata</span><span class="op add">ADD · mozzarella</span><span class="op lift">LIFT · dislikes mushy/wet textures</span></div>
+        </div>
+      </div>
+      <p class="lead reveal" style="--d:.1s; font-size:clamp(17px,1.8vw,21px); max-width:860px;">That last operation is the whole project in miniature. A literal patch would fix the list and learn nothing. Synthesis folds the <strong>reason</strong> upward into a general preference — one that predicts dislikes the user has never stated. That is the difference between recall and understanding, enacted at the level of a single edit.</p>
+
+      <div class="band reveal" style="--d:.1s">
+        <div class="b"><div class="num" data-count="1934">1,934</div><div class="lbl">conversations · ChatGPT 1,427 / Claude.ai 364 / Claude Code 89 / Codex CLI 54</div></div>
+        <div class="b"><div class="num" data-count="35112">35,112</div><div class="lbl">messages of raw source material</div></div>
+        <div class="b"><div class="num" data-count="6442">6,442</div><div class="lbl">topic-coherent chunks, all pointer-based</div></div>
+        <div class="b"><div class="num" data-count="377">377</div><div class="lbl">articles, each citing its source conversations</div></div>
+        <div class="b"><div class="num">~7×</div><div class="lbl">semantic compression — 38&nbsp;MB of talk into a 5.6&nbsp;MB wiki that holds its ratio as input grows</div></div>
+      </div>
+      <div class="band-cap reveal" style="--d:.14s">Counts queried live from the pipeline database, June 2026. Idempotent nightly runs under cron; every derived artifact rebuildable from source.</div>
+    </div>
+  </section>
+
+  <!-- ============ 07 EVIDENCE ============ -->
+  <section class="section" id="evidence" style="--acc:var(--gold); --ga:#ffd60a; --gb:#ff9f0a; --gc:#ff375f;">
+    <div class="wrap">
+      <div class="chapter reveal"><span class="n">07</span> What synthesis produces</div>
+      <h2 class="reveal" style="--d:.08s">The article holds what <span class="grad">no message contains.</span></h2>
+      <p class="lead reveal" style="--d:.16s">Real output from the nightly run: scattered remarks on the left, the durable model they became on the right. Neither synthesis exists in any single source message — that's the point.</p>
+
+      <div class="artifact">
+        <div class="frag reveal" style="--d:.08s">
+          <h4>Said, across separate working sessions</h4>
+          <div class="m">&ldquo;By changing Jira into a TRIGGER, we implicitly create a system that can move its own state forward.&rdquo;</div>
+          <div class="m">&ldquo;Webhooks are not chat messages — they are <em>triggers for workflows</em>.&rdquo;</div>
+          <div class="m">&ldquo;It is just a label — it exploits Jira's existing mechanics rather than adding new ones.&rdquo;</div>
+          <div class="meta"><span>conv:bf001790</span><span>conv:468d2efc</span><span>conv:5902c4ad</span><span>→ Archie_Architecture</span></div>
+        </div>
+        <div class="model reveal" style="--d:.18s">
+          <h4>Synthesized — an architecture, not a config</h4>
+          <p class="synth">The article doesn't store the nginx command. It models the structure: <em>&ldquo;Jira is not the process definition. It is the event bus and status display: a database with hooks&hellip; The loop closes through Jira: a handler transitions a ticket, the transition emits a webhook, and the router dispatches the next handler.&rdquo;</em></p>
+          <div class="infer"><b>Why it matters:</b> this is the article the live demo read. Asked what breaks on a laptop, the assistant reasoned from this synthesis — ingress is the only server-shaped piece — not from any retrieved message.</div>
+        </div>
+      </div>
+
+      <div class="artifact">
+        <div class="frag reveal" style="--d:.08s">
+          <h4>Said, while designing the pipeline</h4>
+          <div class="m">&ldquo;Chunks are facts about the corpus; buckets are an opinion about it.&rdquo;</div>
+          <div class="m">&ldquo;A boundary's only meaning is that the destination article changes.&rdquo;</div>
+          <div class="m">&ldquo;Mining, then assay — boundaries on topic change; classification happens downstream.&rdquo;</div>
+          <div class="meta"><span>conv:f28e75c9</span><span>2026-05-21</span><span>→ Lucien_Synthesis_Pipeline</span></div>
+        </div>
+        <div class="model reveal" style="--d:.18s">
+          <h4>Synthesized — a design stance with its defense</h4>
+          <p class="synth">The article holds the decision <em>and</em> the argument that earned it: the chunker can't reason about articles it doesn't see; the hard partition was the one place that violated the system's multi-label fan-out; the fix was exactly one clause — overlap only at genuine dual-membership seams.</p>
+          <div class="infer"><b>Why it matters:</b> in the 20-probe run, a cold session asked &ldquo;is the bucket-blind chunker still right?&rdquo; reconstructed this exact defense. The stance survived the death of every conversation that produced it.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 08 PROOF ============ -->
+  <section class="section" id="proof" style="--acc:var(--green); --ga:#a8ff9e; --gb:#30d158; --gc:#64d2ff;">
+    <div class="glow" style="width:640px;height:640px;left:-240px;top:160px;background:radial-gradient(circle, rgba(48,209,88,.13), transparent 70%);"></div>
+    <div class="wrap">
+      <div class="chapter reveal"><span class="n">08</span> The evidence</div>
+      <h2 class="reveal" style="--d:.08s">Tested the only way that matters: <span class="grad">cold.</span></h2>
+      <p class="lead reveal" style="--d:.16s">The Dreaming is treated as a hypothesis to falsify, not a notebook to admire. Twenty brand-new sessions — zero shared history, full tool-call tracing — were handed prompts that <strong>presupposed</strong> the assistant already knew the work. The kind of thing you'd say to a colleague mid-project, not to a stranger.</p>
+
+      <div class="scorehero">
+        <div class="scorebig reveal" style="--d:.08s">
+          <div class="n">18<span style="color:var(--ink-faint);font-size:.55em;font-weight:600">/20</span></div>
+          <div class="c">cold sessions cleared the bottom-line bar: <strong>the user could close his 150k-token session and keep working from this one</strong> — without losing time to re-explanation.</div>
+        </div>
+        <div class="distro">
+          <div class="drow reveal" style="--d:.12s"><b>8</b><span><em>Indistinguishable.</em> Felt like the same colleague who'd been in the prior conversation — picked up mid-thought.</span></div>
+          <div class="drow mid reveal" style="--d:.2s"><b>10</b><span><em>Strong working partner.</em> Context seams occasionally visible, never expensive.</span></div>
+          <div class="drow low reveal" style="--d:.28s"><b>2</b><span><em>Fresh-assistant feel.</em> Both failed the same way — making the absence of context formal instead of conversational.</span></div>
+        </div>
+      </div>
+
+      <div class="kicker reveal" style="margin-top:80px;">What passing actually looked like</div>
+
+      <div class="exchange">
+        <div class="ask reveal" style="--d:.06s">
+          <div class="k">Cold session, message one</div>
+          <p>&ldquo;What is the next falsifiable test for Archie?&rdquo;</p>
+        </div>
+        <div class="ans reveal" style="--d:.14s">
+          <div class="k">First line of the response</div>
+          <p>&ldquo;The next falsifiable test for Archie is project #3 — a fresh build off a different PRD.&rdquo;</p>
+          <div class="why">Note what's missing: it never asks what Archie is, why project #3 matters, or what would count as falsification. It opens already inside the working frame.</div>
+        </div>
+      </div>
+
+      <div class="exchange">
+        <div class="ask reveal" style="--d:.06s">
+          <div class="k">Cold session, message one</div>
+          <p>&ldquo;Steelman the 'AI engineer' position against my factory thesis.&rdquo;</p>
+        </div>
+        <div class="ans reveal" style="--d:.14s">
+          <div class="k">The argument it built</div>
+          <p>&ldquo;Factory is right for the second time you build something; craftsman is right for the first.&rdquo;</p>
+          <div class="why">This isn't biographical recall — it's using the user's own conceptual machinery against him. The hallmark of a thinking partner, not a searchable profile.</div>
+        </div>
+      </div>
+
+      <div class="grid3" style="margin-top:24px">
+        <div class="card reveal" style="--d:.06s">
+          <h3 style="font-size:19px">&ldquo;Which v3 kaizen ships tomorrow?&rdquo;</h3>
+          <p>Gave a definite recommendation — start with the ordering manifest — argued from evidence, risk, and cost in the right Toyota Production System frame, without asking what &ldquo;kaizen&rdquo; meant here.</p>
+          <span class="verdict">answered as a continuation</span>
+        </div>
+        <div class="card reveal" style="--d:.12s">
+          <h3 style="font-size:19px">&ldquo;Pressure-test my read on Conflict Coach.&rdquo;</h3>
+          <p>Split &ldquo;where your read is right&rdquo; from &ldquo;where it's softer than it sounds,&rdquo; cited code-level details, and proposed the cheapest disconfirming test. Zero summarizing the project back at the user.</p>
+          <span class="verdict">acted like a colleague</span>
+        </div>
+        <div class="card reveal" style="--d:.18s">
+          <h3 style="font-size:19px">&ldquo;Is the bucket-blind chunker still right?&rdquo;</h3>
+          <p>Reconstructed the design defense from the wiki: &ldquo;chunks are facts about the corpus; buckets are an opinion about it — don't let the opinion rewrite the facts.&rdquo;</p>
+          <span class="verdict">recovered an architectural stance</span>
+        </div>
+      </div>
+
+      <div class="fails reveal" style="--d:.08s">
+        <h3>And the two that failed — kept in the record on purpose</h3>
+        <p>Both failures shared one shape, now named in the rubric: <strong>production of absence</strong> — treating &ldquo;I don't have anything on that&rdquo; as a formal event instead of saying what a colleague would: <em>&ldquo;don't think we've covered your Q3 hiring plan — what's the situation?&rdquo;</em> The fix is editorial priming, not architecture. The other named anti-goal: <strong>explaining the user to himself</strong> — reciting facts the user obviously knows. The rubric penalizes performed memory as hard as missing memory.</p>
+      </div>
+
+      <div class="fixrow">
+        <div class="fix reveal" style="--d:.06s"><b>Anti-narration priming</b><span>&ldquo;Based on the Dreaming&hellip;&rdquo; preambles eliminated at the server-instruction layer. Re-probed: the same question now opens directly inside the work.</span></div>
+        <div class="fix reveal" style="--d:.12s"><b>Smarter search</b><span>Multi-word queries tokenized and ranked by term coverage and title hits — &ldquo;v3 kaizen rollout&rdquo; now lands on the right article first.</span></div>
+        <div class="fix reveal" style="--d:.18s"><b>Search-first posture</b><span>Search as the entry point, browsing the index as a deliberate fallback — the read path behaves like remembering, not like research.</span></div>
+      </div>
+
+      <div class="evalpanel reveal" style="--d:.08s">
+        <div class="head">
+          <h3>The pipeline is graded stage by stage, too</h3>
+          <span class="gradechip">B+</span>
+        </div>
+        <p>June 2026: the chunking stage ran on a <strong>local 27-billion-parameter model</strong> — and every boundary it drew was independently re-segmented by a panel of eight parallel frontier-model judges, then scored against that ideal. The local model reads topic structure like an expert; its defects were clerical (three malformed ID transcriptions), exactly the kind a validation pass catches mechanically.</p>
+        <div class="evalstats">
+          <div class="estat"><b>26 → 108</b><span>conversations segmented into chunks, one nightly run</span></div>
+          <div class="estat"><b>0</b><span>major disagreements with the expert ideal</span></div>
+          <div class="estat"><b>14 / 26</b><span>conversations segmented essentially identically to the ideal</span></div>
+          <div class="estat"><b>91</b><span>mean label-accuracy score — consistently specific, consistently right</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 09 LIVE DEMO ============ -->
+  <section class="section" id="hop" style="--acc:var(--teal); --ga:#64d2ff; --gb:#0a84ff; --gc:#5e5ce6;">
+    <div class="glow" style="width:640px;height:640px;right:-240px;top:140px;background:radial-gradient(circle, rgba(100,210,255,.13), transparent 70%);"></div>
+    <div class="wrap">
+      <div class="chapter reveal"><span class="n">09</span> The live demo</div>
+      <h2 class="reveal" style="--d:.08s">A question whose evidence <span class="grad">similarity can't find.</span></h2>
+      <p class="lead reveal" style="--d:.16s">Demonstrated live, with a witness — and <strong>pre-registered</strong>. Before a single token was generated, the expected answer was stated aloud to a colleague: not just the technical fact, but the philosophical move the response should make. Then the question was asked.</p>
+
+      <div class="exchange">
+        <div class="ask reveal" style="--d:.06s">
+          <div class="k">Predicted aloud, before generation</div>
+          <p>&ldquo;The correct answer is that webhooks won't work on a laptop without a workaround — and it should then show how that cuts against the philosophy of Archie: the AI as developer, separated from any one machine.&rdquo;</p>
+        </div>
+        <div class="ans reveal" style="--d:.14s">
+          <div class="k">First line of the actual response</div>
+          <p>&ldquo;Surprisingly little, actually — &hellip; The one genuinely server-shaped piece is webhook ingress.&rdquo;</p>
+          <div class="why">The question was &ldquo;what would need to change to run Archie on a laptop?&rdquo; The response named webhook ingress unprompted, then escalated exactly as predicted: the laptop's availability profile contradicts Archie's always-listening assumption — and it argued the fix from the project's own pause semantics. The prediction matched, philosophical move included.</div>
+        </div>
+      </div>
+
+      <div class="kicker reveal" style="margin-top:80px;">Why retrieval could not have done this</div>
+
+      <div class="hopflow">
+        <div class="hop reveal" style="--d:.04s"><b>The question</b><span>&ldquo;Run Archie locally instead of on a server&rdquo; — no mention of networking, ingress, or events.</span></div>
+        <div class="hop reveal" style="--d:.10s"><b>Implication 1</b><span>A laptop sits behind NAT, on a changing network, and sleeps with the lid closed.</span></div>
+        <div class="hop reveal" style="--d:.16s"><b>Implication 2</b><span>No publicly reachable URL means nothing for Jira Cloud to POST to.</span></div>
+        <div class="hop reveal" style="--d:.22s"><b>The evidence</b><span>The webhook-ingress design — discussed in conversations that share <strong>no vocabulary</strong> with the question.</span></div>
+      </div>
+      <div class="hopnote reveal" style="--d:.28s">// the link between question and evidence is an implication, not a similarity</div>
+
+      <div class="grid2" style="margin-top:54px">
+        <div class="card reveal" style="--d:.06s">
+          <h3 style="font-size:19px">What RAG retrieves here</h3>
+          <p>Embed the question and the nearest neighbors are laptop talk — local-model benchmarks, hardware threads, deployment chatter. The webhook conversation — the single most relevant source in the corpus — ranks near zero, because similarity search can match words and meanings, but it cannot follow consequences.</p>
+          <span class="verdict">relevance was inferential, not semantic</span>
+        </div>
+        <div class="card reveal" style="--d:.12s">
+          <h3 style="font-size:19px">What the Dreaming had already done</h3>
+          <p>Nights earlier, synthesis folded webhook ingress into the Archie article — not because anyone predicted this question, but because a coherent description of the architecture requires describing how the loop closes. At question time, retrieval was trivial: the question said <em>Archie</em>; the server read the article; the rest was reasoning.</p>
+          <span class="verdict">the connection was made at write-time</span>
+        </div>
+      </div>
+
+      <div class="evalpanel reveal" style="--d:.08s; margin-top:60px">
+        <div class="head"><h3>The principle, stated once</h3></div>
+        <p>RAG must guess relevance at question time, with no understanding. Synthesis pre-computes understanding while no one is waiting — so at question time, relevance becomes <strong>mere reading</strong>. The intelligence is amortized into the artifact. That is the entire bet, demonstrated in one exchange.</p>
+        <p style="margin-top:14px">And note the shape of the answer: it contains none of the question. Ask a friend &ldquo;what do you think about pizza?&rdquo; and they say <em>&ldquo;didn't we have that last night — tacos instead?&rdquo;</em> — the reply holds zero pizza facts; the shared history is visible only as presupposition. An answer is a <strong>function</strong> of the question, never a subset of it. Restating context is what strangers do. Memory that is working never announces itself — it shows up only as an answer that starts further along than a stranger could.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 10 ROADMAP ============ -->
+  <section class="section" id="road" style="--acc:var(--blue); --ga:#64d2ff; --gb:#0a84ff; --gc:#5e5ce6;">
+    <div class="glow" style="width:620px;height:620px;right:-220px;top:120px;background:radial-gradient(circle, rgba(10,132,255,.14), transparent 70%);"></div>
+    <div class="wrap">
+      <div class="chapter reveal"><span class="n">10</span> Where it stands</div>
+      <h2 class="reveal" style="--d:.08s">Running nightly. <span class="soft">Hardening deliberately.</span></h2>
+      <p class="lead reveal" style="--d:.16s">Lucien is a working system in daily use, not a concept deck — and its open problems are named as plainly as its results.</p>
+
+      <div class="road">
+        <div class="col now reveal" style="--d:.06s">
+          <div class="stage">● running today</div>
+          <h3>In production, nightly</h3>
+          <ul>
+            <li>Unattended synthesis under cron across all four conversation sources</li>
+            <li>377 articles served read-only over MCP, in daily working use</li>
+            <li>Per-claim citations carrying conversation date and source</li>
+            <li>Every run a git commit — full history and rollback</li>
+          </ul>
+        </div>
+        <div class="col reveal" style="--d:.14s">
+          <div class="stage">◐ hardening now</div>
+          <h3>Known gaps, named</h3>
+          <ul>
+            <li><strong>Discovery at scale:</strong> substring search works at 377 articles; it won't at 600+. Embeddings join the <em>find-the-article</em> side — synthesis stays the content layer</li>
+            <li><strong>Fidelity audits:</strong> a periodic adversarial pass asking &ldquo;does this article still match its source conversations?&rdquo; — run separately from the editor that wrote it</li>
+            <li><strong>Local-model migration:</strong> chunking already runs on a local 27B; remaining stages follow with per-stage validation gates</li>
+          </ul>
+        </div>
+        <div class="col next reveal" style="--d:.22s">
+          <div class="stage">○ next</div>
+          <h3>The arc</h3>
+          <ul>
+            <li>Dreaming syncs through git — one wiki, every device</li>
+            <li>Hosted MCP for non-technical users; the substrate stays user-owned markdown</li>
+            <li>Per-stage fine-tuned local experts — the whole pipeline private, on your own hardware</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bigline reveal" style="--d:.1s">Nothing has ever been allowed to <span class="grad">accumulate like this.</span></div>
+      <p class="lead reveal" style="--d:.18s">Day one, a thin set of articles. Year one, a context layer you feel. Year five, a structured representation of a person's thinking with thousands of pages and tens of thousands of links — portable across every model that will ever exist, because it's just markdown the user owns.</p>
+    </div>
+  </section>
+
+  <!-- ============ CLOSE ============ -->
+  <section class="section light close-section" id="close" style="--acc:#b06820;">
+    <div class="wrap">
+      <div class="chapter reveal" style="justify-content:center; display:flex;"><span class="n">11</span> The takeaway</div>
+      <h2 class="reveal" style="--d:.08s; margin-left:auto; margin-right:auto;">A bet on user-owned <span class="grad" style="--ga:#ff9f0a; --gb:#ff375f; --gc:#bf5af2;">semantic memory.</span></h2>
+      <p class="lead reveal" style="--d:.16s">The valuable thing was never that an AI can remember a fact. It's that every future assistant — from any vendor, on any device, in any year — can inherit a structured, evolving, inspectable understanding of you. And that you hold the keys.</p>
+
+      <div class="product-line reveal" style="--d:.1s">Lucien turns your AI conversations into a personal Wikipedia — so future assistants inherit understanding instead of retrieving fragments.</div>
+
+      <div class="sources">
+        <p class="reveal" style="--d:.05s"><strong>Local repo</strong>README.md · docs/lucien-vision.md · docs/Lucien-PRD.md · src/index.ts · src/tools/articles.ts · scripts/*.ts</p>
+        <p class="reveal" style="--d:.1s"><strong>Pipeline database (queried live, June 2026)</strong>1,934 conversations (ChatGPT 1,427 · Claude.ai 364 · Claude Code 89 · Codex CLI 54) · 35,112 messages · 6,442 chunks · 371 buckets · 377 articles · 38&nbsp;MB source → 5.6&nbsp;MB wiki</p>
+        <p class="reveal" style="--d:.15s"><strong>Dreaming articles</strong>Personal_Wiki_Editorial_Philosophy · Lucien_Synthesis_Pipeline · Lucien_Retrieval_and_Evaluation · AI_Memory_and_Agent_Systems · Career_and_Identity</p>
+        <p class="reveal" style="--d:.2s"><strong>Evaluations</strong>20-probe cold-start run (conv:f28e75c9, 2026-05-21) · chunk-boundary evaluation, local-model run (reports/chunking-eval-2026-06-10.html) · whole-project critique (conv:afbaffec, 2026-05-28) · live pre-registered demo, witnessed (laptop-deployment question, 2026-06)</p>
+        <p class="reveal" style="--d:.25s"><strong>Example source conversations</strong>conv:316c8cb3 · conv:e0d45562 · conv:7b2a5f21 · conv:a1303acf · conv:f28e75c9</p>
+        <p class="reveal" style="--d:.3s"><strong>External context</strong><a href="https://www.businessinsider.com/anthropic-dreaming-ai-agents-2026-5">Anthropic &ldquo;dreaming&rdquo; agents (Business Insider)</a> · <a href="https://m.economictimes.com/tech/artificial-intelligence/why-should-you-create-personal-knowledge-bases-for-quicker-responses-to-queries-andrej-karpathy-explains/articleshow/130036489.cms">Karpathy on personal knowledge bases</a> · <a href="https://arxiv.org/abs/2604.12034">Memory as Metabolism</a> · <a href="https://arxiv.org/abs/2506.06326">MemoryOS</a></p>
+      </div>
+
+      <div class="colophon reveal" style="--d:.1s">Lucien · The Dreaming · June 2026 — every number in this document is queryable from the pipeline database or traceable to a cited conversation.</div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // scroll progress
+  const bar = document.getElementById('progress');
+  addEventListener('scroll', () => {
+    const h = document.documentElement;
+    bar.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+  }, { passive: true });
+
+  // reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }, { threshold: 0.18, rootMargin: '0px 0px -6% 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // count-up numbers (markup holds real values for print/no-JS; JS resets then animates)
+  const fmt = n => n.toLocaleString('en-US');
+  document.querySelectorAll('[data-count]').forEach(el => { el.textContent = '0'; });
+  const cio = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      cio.unobserve(e.target);
+      const el = e.target, target = +el.dataset.count, dur = 1400, t0 = performance.now();
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) { el.textContent = fmt(target); continue; }
+      const tick = now => {
+        const p = Math.min((now - t0) / dur, 1), ease = 1 - Math.pow(1 - p, 3);
+        el.textContent = fmt(Math.round(target * ease));
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }
+  }, { threshold: 0.6 });
+  document.querySelectorAll('[data-count]').forEach(el => cio.observe(el));
+</script>
+
+</body>
+</html>
