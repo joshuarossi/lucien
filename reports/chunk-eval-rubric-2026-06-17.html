@@ -1,0 +1,262 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chunk Segmentation — reference-free rubric · 2026-06-17</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0b0e14;
+  --ink2:#10141d;
+  --panel:#141a26;
+  --panel2:#1a2233;
+  --line:#26304a;
+  --moon:#e8e3d5;
+  --dim:#8b93a7;
+  --faint:#5a6377;
+  --model:#e7a43c;   /* amber — the local model */
+  --model-dim:#7a5b2a;
+  --ideal:#5fd4c0;   /* teal — expert ideal */
+  --ideal-dim:#2e6b62;
+  --bad:#e25f5f;
+  --good:#7ec97e;
+  --warn:#e7a43c;
+  --serif:'Fraunces',Georgia,serif;
+  --mono:'IBM Plex Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink);
+  color:var(--moon);
+  font-family:var(--mono);
+  font-size:14px;
+  line-height:1.55;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(1200px 600px at 85% -10%, rgba(95,212,192,.06), transparent 60%),
+    radial-gradient(900px 500px at -10% 20%, rgba(231,164,60,.05), transparent 60%);
+}
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.35;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 32px 120px}
+
+/* ---------- masthead ---------- */
+header{padding:72px 0 40px;border-bottom:1px solid var(--line)}
+.kicker{font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--model);margin-bottom:18px}
+h1{font-family:var(--serif);font-weight:900;font-size:clamp(38px,5.5vw,64px);line-height:1.02;letter-spacing:-.01em}
+h1 em{font-style:italic;font-weight:300;color:var(--ideal)}
+.sub{margin-top:20px;color:var(--dim);max-width:72ch;font-size:13px}
+.sub b{color:var(--moon);font-weight:600}
+.runmeta{display:flex;gap:28px;flex-wrap:wrap;margin-top:26px;font-size:11px;color:var(--faint);letter-spacing:.08em;text-transform:uppercase}
+.runmeta span b{color:var(--dim);font-weight:500}
+
+/* ---------- verdict band ---------- */
+.band{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin:48px 0 0}
+.stat{background:var(--panel);padding:22px 20px 18px;position:relative;overflow:hidden}
+.stat .n{font-family:var(--serif);font-weight:600;font-size:42px;line-height:1;letter-spacing:-.02em}
+.stat .l{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-top:10px}
+.stat.hero .n{color:var(--model)}
+.stat .n small{font-size:18px;color:var(--faint);font-family:var(--mono);font-weight:400}
+.stat.alert .n{color:var(--bad)}
+.stat.fine .n{color:var(--good)}
+
+/* ---------- grade letter ---------- */
+.grade{display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:center;margin:56px 0;padding:36px 40px;background:linear-gradient(135deg,var(--panel) 0%,var(--ink2) 100%);border:1px solid var(--line);border-left:4px solid var(--model)}
+.grade .letter{font-family:var(--serif);font-weight:900;font-size:120px;line-height:.85;color:var(--model)}
+.grade .letter sup{font-size:48px;vertical-align:super}
+.grade p{color:var(--dim);font-size:13.5px;max-width:70ch}
+.grade p b{color:var(--moon)}
+
+/* ---------- sections ---------- */
+h2{font-family:var(--serif);font-weight:600;font-size:28px;margin:72px 0 8px;letter-spacing:-.01em}
+h2 .idx{color:var(--model);font-family:var(--mono);font-size:13px;vertical-align:middle;margin-right:14px;letter-spacing:.2em}
+.sectionnote{color:var(--faint);font-size:12px;margin-bottom:28px;max-width:80ch}
+
+/* ---------- issue taxonomy ---------- */
+.issues{display:flex;flex-direction:column;gap:10px;margin-top:24px}
+.issuerow{display:grid;grid-template-columns:230px 1fr 36px;gap:18px;align-items:center}
+.issuerow .name{font-size:12px;color:var(--dim)}
+.issuerow .name b{color:var(--moon);font-weight:500;display:block;font-size:13px}
+.bar{height:22px;background:var(--ink2);border:1px solid var(--line);position:relative}
+.bar i{position:absolute;inset:0 auto 0 0;display:block}
+.bar i.sev-high{background:repeating-linear-gradient(-45deg,var(--bad),var(--bad) 5px,#a84545 5px,#a84545 10px)}
+.bar i.sev-med{background:var(--model-dim)}
+.bar i.sev-low{background:var(--ideal-dim)}
+.issuerow .ct{font-family:var(--serif);font-size:22px;font-weight:600;text-align:right}
+
+/* ---------- legend ---------- */
+.legend{display:flex;gap:26px;flex-wrap:wrap;align-items:center;margin:18px 0 30px;font-size:11px;color:var(--dim)}
+.legend .sw{display:inline-block;width:26px;height:11px;margin-right:8px;vertical-align:-1px}
+.sw.m{background:var(--model)}
+.sw.i{background:var(--ideal)}
+.sw.gap{background:repeating-linear-gradient(-45deg,transparent,transparent 3px,var(--bad) 3px,var(--bad) 5px);border:1px solid var(--bad)}
+.sw.hal{background:var(--ink2);border:1px dashed var(--bad)}
+
+/* ---------- conversation cards ---------- */
+.card{background:var(--panel);border:1px solid var(--line);margin-bottom:22px;position:relative}
+.card.verdict-agree{border-left:4px solid var(--good)}
+.card.verdict-minor_disagreement{border-left:4px solid var(--model)}
+.card.verdict-major_disagreement{border-left:4px solid var(--bad)}
+.cardhead{display:flex;justify-content:space-between;gap:20px;align-items:baseline;padding:20px 26px 4px;flex-wrap:wrap}
+.cardhead h3{font-family:var(--serif);font-weight:600;font-size:19px;letter-spacing:-.01em;max-width:62ch}
+.chips{display:flex;gap:8px;align-items:center;flex-shrink:0}
+.chip{font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:4px 10px;border:1px solid var(--line);color:var(--dim);white-space:nowrap}
+.chip.v-agree{color:var(--good);border-color:var(--good)}
+.chip.v-minor_disagreement{color:var(--model);border-color:var(--model)}
+.chip.v-major_disagreement{color:var(--bad);border-color:var(--bad)}
+.scorepair{font-family:var(--mono);font-size:11px;color:var(--faint);padding:4px 0}
+.scorepair b{font-size:15px;color:var(--moon);font-weight:600}
+.cardmeta{padding:0 26px;font-size:11px;color:var(--faint);letter-spacing:.06em}
+
+/* tracks */
+.tracks{padding:18px 26px 6px}
+.trackrow{display:grid;grid-template-columns:52px 1fr;gap:14px;align-items:center;margin-bottom:7px}
+.trackrow .tl{font-size:9px;letter-spacing:.22em;text-transform:uppercase;text-align:right}
+.trackrow .tl.m{color:var(--model)}
+.trackrow .tl.i{color:var(--ideal)}
+.track{position:relative;background:var(--ink2);border:1px solid var(--line);min-height:20px}
+.track .lane{position:relative;height:18px}
+.track .lane + .lane{border-top:1px solid var(--ink)}
+.seg{position:absolute;top:2px;bottom:2px;min-width:3px;cursor:default;transition:filter .15s}
+.seg:hover{filter:brightness(1.35);z-index:3}
+.seg.m{background:var(--model);box-shadow:inset -1px 0 0 var(--ink),inset 1px 0 0 var(--ink)}
+.seg.i{background:var(--ideal);box-shadow:inset -1px 0 0 var(--ink),inset 1px 0 0 var(--ink)}
+.seg.hal{background:var(--ink2);border:1px dashed var(--bad)}
+.gapseg{position:absolute;top:2px;bottom:2px;background:repeating-linear-gradient(-45deg,transparent,transparent 3px,rgba(226,95,95,.7) 3px,rgba(226,95,95,.7) 5px)}
+.ruler{display:grid;grid-template-columns:52px 1fr;gap:14px;margin-top:2px}
+.ruler .scale{position:relative;height:14px;font-size:9px;color:var(--faint)}
+.ruler .tick{position:absolute;transform:translateX(-50%)}
+
+/* summary + findings */
+.cardbody{padding:14px 26px 22px;display:grid;grid-template-columns:1.1fr .9fr;gap:30px}
+@media(max-width:860px){.cardbody{grid-template-columns:1fr}}
+.summary{font-size:13px;color:var(--dim);border-top:1px solid var(--line);padding-top:14px}
+.summary::first-letter{font-family:var(--serif);font-size:21px;color:var(--moon)}
+.findings{border-top:1px solid var(--line);padding-top:14px}
+.findings h4{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:10px}
+.findings ul{list-style:none}
+.findings li{font-size:12px;color:var(--dim);padding-left:18px;position:relative;margin-bottom:8px}
+.findings li::before{content:"";position:absolute;left:0;top:6px;width:8px;height:8px}
+.findings li.d::before{background:var(--bad)}
+.findings li.a::before{background:var(--good);border-radius:50%}
+.findings li .t{color:var(--bad);font-size:10px;letter-spacing:.1em;text-transform:uppercase;margin-right:6px}
+details.chunklist{margin-top:6px;border-top:1px solid var(--line)}
+details.chunklist summary{cursor:pointer;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);padding:12px 0 6px;list-style:none}
+details.chunklist summary:hover{color:var(--moon)}
+details.chunklist summary::before{content:"+ "}
+details[open].chunklist summary::before{content:"− "}
+.chunkcols{display:grid;grid-template-columns:1fr 1fr;gap:22px;padding:8px 0 14px}
+@media(max-width:860px){.chunkcols{grid-template-columns:1fr}}
+.chunkcols h5{font-size:9px;letter-spacing:.22em;text-transform:uppercase;margin-bottom:8px}
+.chunkcols .mh{color:var(--model)}
+.chunkcols .ih{color:var(--ideal)}
+.chunkcols ol{list-style:none;font-size:11.5px}
+.chunkcols li{margin-bottom:5px;color:var(--dim)}
+.chunkcols li .rng{color:var(--faint);font-size:10px;margin-right:8px;display:inline-block;min-width:58px}
+.chunkcols li .rng.bad{color:var(--bad)}
+
+/* recommendations */
+.recs{counter-reset:rec;display:flex;flex-direction:column;gap:0;border:1px solid var(--line);margin-top:26px}
+.rec{display:grid;grid-template-columns:80px 1fr;gap:0;border-bottom:1px solid var(--line)}
+.rec:last-child{border-bottom:none}
+.rec .num{counter-increment:rec;background:var(--ink2);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:30px;font-weight:300;color:var(--model);border-right:1px solid var(--line)}
+.rec .num::before{content:counter(rec,decimal-leading-zero)}
+.rec .body{padding:20px 26px}
+.rec h3{font-family:var(--serif);font-size:17px;font-weight:600;margin-bottom:6px}
+.rec p{font-size:12.5px;color:var(--dim);max-width:90ch}
+.rec p code{color:var(--ideal);font-size:11.5px}
+footer{margin-top:90px;padding-top:24px;border-top:1px solid var(--line);font-size:11px;color:var(--faint);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+</style>
+<style>
+.cmptable{width:100%;border-collapse:collapse;margin:36px 0;font-size:12px}
+.cmptable th{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);text-align:right;padding:8px 12px;border-bottom:1px solid var(--line);font-weight:500}
+.cmptable th:first-child{text-align:left}
+.cmptable td{padding:12px;border-bottom:1px solid var(--ink2);text-align:right}
+.cmptable td.mlabel{text-align:left;color:var(--moon);font-size:13px}
+.cmptable td.num{font-family:var(--serif);font-size:18px}
+.cmptable td.num.hero{color:var(--model);font-size:22px}
+.cmptable td.num.bad{color:var(--bad)}
+.cmptable td.gradecell{font-family:var(--serif);font-weight:900;font-size:24px;color:var(--ideal)}
+.swatch{display:inline-block;width:11px;height:11px;margin-right:9px;vertical-align:0}
+.mtrack-label{font-size:9px;letter-spacing:.18em;text-transform:uppercase;text-align:right}
+.mverdict{font-size:11px;color:var(--dim);margin:6px 0 0;padding-left:66px}
+.mverdict b{color:var(--moon)}
+.deftag{color:var(--bad);font-family:var(--mono);font-size:10px;margin-left:6px}
+</style>
+</head><body><div class="wrap">
+<header>
+  <div class="kicker">Lucien · chunk stage · reference-free rubric</div>
+  <h1>How good is the segmentation, <em>on its own merits?</em></h1>
+  <p class="sub">No gold reference. Each contestant's chunking is scored directly against the Lucien chunking policy: <b>one chunk = one coherent topic = one article-update</b>. A multi-stage process is ONE topic, sub-topics are penalized, and a long single-topic conversation kept whole is correct. This is the "in the grand scheme, how good is it?" lens — the production-gold report is the separate "how closely did we match the running system?" lens.</p>
+  <div class="runmeta">
+    <span><b>Corpus</b> 25 convs · 433 messages</span>
+    <span><b>Reference</b> none — policy rubric</span>
+    <span><b>Judge</b> Opus 4.8</span>
+    <span><b>Generated</b> 2026-06-17</span>
+  </div>
+</header>
+
+<h2><span class="idx">§01</span> Scorecard</h2>
+<p class="sectionnote"><b>Coherence</b> = is each chunk internally one topic. <b>Boundary</b> = boundary placement + appropriate granularity (the core metric; not too coarse, not sub-topic-fine). <b>Label</b> = specificity/accuracy. <b>E/A/P</b> = excellent / acceptable / poor verdict counts. <b>Defects</b> = conversations with any overlap, nested range, gap, or hallucinated anchor (objectively invalid tilings).</p>
+<table class="cmptable">
+  <thead><tr>
+    <th>Model</th><th>Coherence</th><th>Boundary</th><th>Label</th><th>E/A/P</th><th>Defect convs</th><th>Grade</th>
+  </tr></thead>
+  <tbody>
+      <tr>
+        <td class="mlabel"><span class="swatch" style="background:var(--model)"></span>gemma-e4b-chunk-v2</td>
+        <td class="num">86</td>
+        <td class="num hero">79</td>
+        <td class="num">87</td>
+        <td class="num">11/12/2</td>
+        <td class="num bad">4/25</td>
+        <td class="gradecell">C+</td>
+      </tr></tbody>
+</table>
+
+<h2><span class="idx">§02</span> Boundary maps — all 25 conversations</h2>
+<p class="sectionnote">Each conversation shows every judged contestant's own segmentation (no gold track). Hover a segment for its label. Dashed = hallucinated anchor; hatched = uncovered message.</p>
+<div id="cards"></div>
+
+<footer style="margin-top:80px;color:var(--faint);font-size:11px;border-top:1px solid var(--line);padding-top:20px">
+  Generated 2026-06-17 · Lucien chunk segmentation · reference-free rubric · judge Opus 4.8 · 1 contestants
+</footer>
+</div>
+<script>
+const DATA = [{"id":"67e99628-77a4-8013-a2b8-fbdca8c68541","name":"How Anchors Work","mc":6,"models":{"gemma-e4b-chunk-v2":{"chunks":[[0,5,"How ship anchors dig into seabed"]],"coh":95,"bs":90,"ls":88,"v":"excellent","defects":[],"issues":[],"s":"A single coherent topic (ship anchors) kept whole as one chunk. The label slightly under-represents the disambiguation lead-in but accurately names the resolved subject. Clean tiling."}}},{"id":"f5ecbed4-5361-40ab-9442-670a86831969","name":"Divorce Rights in Mexico","mc":10,"models":{"gemma-e4b-chunk-v2":{"chunks":[[0,7,"Divorce rights and history in Mexico"],[8,9,"La Que La Vida Me Robo telenovela premiere date"]],"coh":95,"bs":92,"ls":90,"v":"excellent","defects":[],"issues":[],"s":"Two clean chunks: divorce rights/history as one topic, and the abrupt telenovela tangent as another. Boundary at #8 is exactly where the topic shifts. Labels accurate."}}},{"id":"a5be3d4e-fa6f-4d09-9715-70b745578026","name":"Fixing JavaScript ES6 Error","mc":30,"models":{"gemma-e4b-chunk-v2":{"chunks":[[0,3,"Fixing floating-ui ES6 spread operator Webpack error"],[4,7,"Searching file content changes across git history"],[8,11,"Inspecting dependency tree with npm ls"],[12,15,"Finding branches and linking local npm packages"],[16,17,"Checking remote npm registry for package versions"],[18,19,"Verbose mode for rpm command"],[20,25,"Clearing npm cache"],[26,27,"Resolving ETARGET and ERESOLVE npm installation errors"]],"coh":80,"bs":72,"ls":85,"v":"acceptable","defects":[],"issues":[{"type":"fused_topics","detail":"Chunk [12-15] fuses 'finding a git branch' (#12-13) with 'linking a local npm package' (#14-15) — two genuinely distinct how-tos."},{"type":"over_split","detail":"This is a string of independent micro-Q&As; chunks [16-17], [18-19], [20-25] are each tiny. Granularity is defensible since each Q is a distinct topic, but the boundaries are somewhat arbitrary (e.g. rpm verbose #18-19 split from npm verbose #20-21 which is then merged into cache #20-25)."}],"s":"A grab-bag of loosely related dev Q&As; the model mostly carves them sensibly but one chunk fuses git-branch and npm-link, and the rpm/npm verbose/cache groupings are inconsistent. Structurally clean and labels are specific."}}},{"id":"eff06c22-ad20-45d7-b670-7054bd9d6cbb","name":"First Hold: Climbing Starting Point","mc":8,"models":{"gemma-e4b-chunk-v2":{"chunks":[[0,7,"First hold/challenge booking system mechanics"]],"coh":95,"bs":92,"ls":90,"v":"excellent","defects":[],"issues":[],"s":"Single chunk spanning the whole conversation, correctly identifying that the booking-system mechanics are one evolving topic. Label is specific and accurate."}}},{"id":"ed94728c-eb45-41e8-8993-da8322e2cc44","name":"Encoded String Verification","mc":9,"models":{"gemma-e4b-chunk-v2":{"chunks":[[0,8,"Base64 decoding LgNHuFBNV61MSC08QsT3kA== to ASCII"]],"coh":95,"bs":92,"ls":90,"v":"excellent","defects":[],"issues":[],"s":"One coherent chunk for the whole encoded-string investigation. Multi-stage analysis (base64 -> bytes -> ASCII) correctly treated as one topic. Label accurate."}}},{"id":"16be1a9f-3c61-453a-a536-5736a74a8921","name":"Mud versus clay differences","mc":48,"models":{"gemma-e4b-chunk-v2":{"chunks":[[0,3,"Mud vs clay mineral distinction and sourcing"],[4,7,"Clay to brick transformation and firing irreversibility"],[8,13,"Brick vs fine ceramics and clay purity"],[10,11,"Porcelain glazing purpose and waterproofing"],[12,19,"Iron atoms in space: cold welding vs atomic bonding"],[16,17,"Iron-oxygen cloud collision: cosmic rust formation"],[18,21,"Two iron atoms vs two iron bars: atomic bonding vs cold welding"],[22,23,"Cold welding in vacuum: theory vs practical UHV requirements"],[24,25,"Three-cloud collision: iron-carbon-oxygen stellar dust chemistry"],[26,27,"Carbon monoxide stability and cosmic C/O ratio"],[28,29,"CO phase diagram: solid CO in space and cryogenics"],[30,31,"Solid CO hardness: molecular vs network solids"],[32,33,"Network solids: SiO2 vs CO bonding capacity"],[34,35,"Diamond hardness vs toughness: brittle fracture and shrapnel"],[36,37,"Diamond synthesis: HPHT vs CVD and the marketing fiction"],[38,39,"Diamondoid future: structural applications vs car frames"],[46,47,"Diamond for electronics: screens, semiconductors, and thermal management"]],"coh":70,"bs":45,"ls":82,"v":"poor","defects":[{"type":"nested","detail":"Chunk 4 [10-11] is fully inside chunk 3 [8-13]."},{"type":"nested","detail":"Chunk 6 [16-17] is fully inside chunk 5 [12-19]."},{"type":"overlap","detail":"Chunk 7 [18-21] overlaps chunk 5 [12-19] (shares #18-19)."},{"type":"gap","detail":"Messages #40-45 are not covered by any chunk (chunk 16 ends at #39, chunk 17 starts at #46)."}],"issues":[{"type":"over_split","detail":"The long space-chemistry arc (iron atoms -> cold welding -> CO stability -> CO phase -> hardness -> network solids) is one continuous exploratory thread; splitting it into ~8 separate chunks is sub-topic splitting."},{"type":"sub_topic_split","detail":"The diamond arc (#34-47) is one coherent 'diamond properties and diamondoid future' topic but is fragmented across multiple chunks."}],"s":"Serious structural defects: two nested chunks, one overlap, and an uncovered #40-45 gap. The granularity is also too fine for what are long continuous exploratory threads (space chemistry, diamond). The worst-tiled conversation in the set."}}},{"id":"f5515608-8e7e-4b79-b9ed-afc34fa7a400","name":"Comparing Microphone Audio","mc":4,"models":{"gemma-e4b-chunk-v2":{"chunks":[[0,1,"Scientifically comparing microphone audio with metrics"],[2,3,"Audio analysis software recommendations"]],"coh":90,"bs":80,"ls":90,"v":"acceptable","defects":[],"issues":[{"type":"over_split","detail":"'How to compare mic audio scientifically' and 'what audio-analysis software' are arguably one coherent topic (methods + tools for the same goal); splitting into two is defensible but borderline fine-grained for a 4-message conv."}],"s":"Two chunks split methodology from software tools. They are closely related parts of one task and could be one chunk, but the split is reasonable. Clean and accurate."}}},{"id":"86397ce8-e28f-44ea-8cb4-bfce24e0d13d","name":"Avoid Banding in DaVinci.","mc":14,"models":{"gemma-e4b-chunk-v2":{"chunks":[[0,5,"Avoiding banding and DaVinci Resolve capabilities"],[8,13,"Nitroglycerin detonation activation energy and shock initiation"]],"coh":78,"bs":75,"ls":80,"v":"acceptable","defects":[{"type":"gap","detail":"Messages #6-7 (Hollywood films edited in Resolve) are not covered — chunk 1 ends at #5, chunk 2 starts at #8."}],"issues":[{"type":"fused_topics","detail":"Chunk 1 [0-5] bundles banding-avoidance, 360 video, and max resolution — three distinct DaVinci capability questions, though loosely under one 'Resolve capabilities' umbrella."}],"s":"Good split between the DaVinci block and the nitroglycerin block, and nitroglycerin is correctly one chunk. But #6-7 is dropped (gap) and the DaVinci chunk loosely fuses several distinct capability questions."}}},{"id":"78da6fe3-60bc-482f-9346-49c600780d47","name":"Service Table Design for SIMS","mc":4,"models":{"gemma-e4b-chunk-v2":{"chunks":[[0,1,"SIMS service inventory table design for graph"],[2,3,"SurrealQL database query language overview"]],"coh":92,"bs":88,"ls":88,"v":"excellent","defects":[],"issues":[],"s":"Two clean chunks: SIMS service-table design and SurrealQL overview. Reasonable boundary, clean tiling, accurate labels."}}},{"id":"67a82605-6540-8013-a892-60288bbf7b50","name":"File Size Creation Date","mc":20,"models":{"gemma-e4b-chunk-v2":{"chunks":[[0,3,"Node.js fs.stat file size and birthtime in MB"],[4,7,"Standard RAW format DNG and RW2 to DNG conversion"],[8,11,"Arca-Swiss vs Manfrotto quick-release plate comparison"],[12,15,"Arca-Swiss clamp binding when dropping-in plates"],[16,17,"MP4 vs MOV container format differences"],[18,19,"Auto-syncing video clips by waveform in DaVinci Resolve"]],"coh":90,"bs":85,"ls":90,"v":"excellent","defects":[],"issues":[{"type":"other","detail":"Arca-Swiss content is split into comparison [8-11] and clamp-binding [12-15]; defensible as two topics, though they could be one Arca-Swiss thread."}],"s":"A topic-hopping photography/dev conversation segmented cleanly into six coherent chunks at the right boundaries. Splitting Arca-Swiss comparison from clamp-binding is borderline but reasonable. Strong."}}},{"id":"2427687a-75a4-4b05-8ee1-4602879db37c","name":"New chat","mc":5,"models":{"gemma-e4b-chunk-v2":{"chunks":[[0,4,"Spanish translation of photographic film (camera film)"]],"coh":95,"bs":92,"ls":92,"v":"excellent","defects":[],"issues":[],"s":"Single coherent chunk for the entire short conversation about translating 'film' (photographic) into Spanish. Accurate label, clean tiling."}}},{"id":"18e1ea4c-106a-4212-8531-28342d0cc3e7","name":"Toyota's Kaizen Culture","mc":4,"models":{"gemma-e4b-chunk-v2":{"chunks":[[0,3,"Toyota Kaizen culture and Lexus LFA quality"]],"coh":95,"bs":92,"ls":92,"v":"excellent","defects":[],"issues":[],"s":"One chunk covering Toyota's Kaizen culture and its expression in the Lexus LFA. Coherent single topic, accurate label."}}},{"id":"c3c8b072-143e-4b97-8d28-088f4d78cb8e","name":"if you look at the articles in articles, you might see that they have a lot of c","mc":49,"models":{"gemma-e4b-chunk-v2":{"chunks":[[0,46,"Migrating article citations to Obsidian-native footnotes"],[47,48,"Requesting Anthropic email download from alphapoint.com"]],"coh":88,"bs":88,"ls":90,"v":"excellent","defects":[],"issues":[],"s":"Exemplary application of the 'multi-stage process is one topic' rule: the long, iterative citation-format migration is kept whole, and the abrupt email-download request is correctly separated. Clean tiling, accurate labels."}}},{"id":"57ab528b-8f4d-42cd-b35c-70e53b57dfe6","name":"Comparing Mac computers for local AI performance","mc":74,"models":{"gemma-e4b-chunk-v2":{"chunks":[[0,25,"MacBook Pro vs Mac Studio for local LLM inference"],[26,55,"Archie as a factory line: bounded-context, stateless-worker thesis"],[51,73,"Linux kernel as 14k-contributor existence proof for bounded-context"],[58,63,"Claude Fable vs Archie: capability-as-a-service vs line-as-a-capital-asset"]],"coh":68,"bs":50,"ls":85,"v":"poor","defects":[{"type":"overlap","detail":"Chunk 3 [51-73] overlaps chunk 2 [26-55] (shares #51-55)."},{"type":"nested","detail":"Chunk 4 [58-63] is fully inside chunk 3 [51-73]."}],"issues":[{"type":"fused_topics","detail":"Chunk 1 [0-25] fuses the hardware-comparison portion with the eBay-scam-listings detour (#16-19) and the M5-Ultra-timing strategy (#22-25)."},{"type":"missed_shift","detail":"The conversation pivots hard at ~#28 from hardware to the Archie architecture thesis; the chunk boundary is at #26, close but the overlapping/nested chunks downstream muddle the segmentation of the thesis arc."}],"s":"The four thematic blocks are correctly perceived, but the chunks overlap and nest (chunk 4 inside chunk 3; chunk 3 overlaps chunk 2), making the tiling invalid. The big opening chunk also fuses several distinct topics. Strong labels can't offset the structural breakage."}}},{"id":"67257e17-fc64-8013-a928-142fafd36c6b","name":"EDGE Network Rollout Timeline","mc":14,"models":{"gemma-e4b-chunk-v2":{"chunks":[[0,7,"EDGE/GPRS rollout timeline and iPhone compatibility"],[8,9,"Hypothetical iPhone 2003 connectivity scenario"],[10,13,"Wi-Fi popularization and iPhone Wi-Fi support"]],"coh":82,"bs":72,"ls":85,"v":"acceptable","defects":[],"issues":[{"type":"over_split","detail":"The whole conversation is one continuous mobile/wireless-history thread (EDGE -> GPRS -> iPhone support -> time-travel hypothetical -> WiFi). Splitting the time-travel hypothetical [8-9] and WiFi [10-13] from the EDGE block is finer than the topic warrants; the hypothetical is a direct continuation of the iPhone-compatibility discussion."}],"s":"One coherent connectivity-history conversation split into three chunks. The split is defensible (cellular vs WiFi) but the time-travel hypothetical is really part of the iPhone-compatibility thread, making the middle chunk a sub-topic split. Structurally clean."}}},{"id":"ddcc93cd-18e5-4bfd-b28d-6d4a43da3a78","name":"SR-71s never downed","mc":20,"models":{"gemma-e4b-chunk-v2":{"chunks":[[0,13,"SR-71 Blackbird operational history and specs"],[14,15,"SR-71 pilot patches and crew recognition"],[16,19,"Drifting vs grip driving corner speed comparison"]],"coh":88,"bs":82,"ls":85,"v":"acceptable","defects":[],"issues":[{"type":"over_split","detail":"Chunk 2 [14-15] (pilot patches) is a fine sub-topic of the SR-71 facts thread [0-13]; could be merged into one SR-71 chunk."}],"s":"The SR-71 facts are sensibly consolidated and the drifting tangent correctly separated. Splitting the pilot-patch question into its own chunk is slightly over-fine, but defensible. Clean tiling, accurate labels."}}},{"id":"7b7e0d0d-d8e9-455c-8383-cf150b365ce6","name":"Policy Document Database Import","mc":12,"models":{"gemma-e4b-chunk-v2":{"chunks":[[0,11,"SurrealDB policy import workflow: Discover, Schema, Apply, Parse"]],"coh":92,"bs":90,"ls":90,"v":"excellent","defects":[],"issues":[],"s":"Single chunk for the entire staged SurrealDB policy-import workflow. Exactly the right granularity: the steps are phases of one task. Label names the process accurately."}}},{"id":"670e2fd5-08fc-8013-86f1-eb0ad8d54d93","name":"WebSocket Message Queueing Fix","mc":14,"models":{"gemma-e4b-chunk-v2":{"chunks":[[0,1,"WebSocket message queueing with promise support"],[2,3,"Dynamic method dispatch via Proxy for API calls"],[4,7,"Event subscription (specific and global) for WS events"],[8,10,"Future plans: debug, reconnect, autocomplete"],[11,13,"Rewriting library from Node.js to Deno"]],"coh":80,"bs":70,"ls":88,"v":"acceptable","defects":[],"issues":[{"type":"over_split","detail":"This is one continuous incremental build of a single WebSocket library; the five chunks (queueing, Proxy dispatch, event subscription, future plans, Deno rewrite) are sub-features of building one library and arguably one evolving topic. Splitting into 5 is finer than ideal for a single-artifact development thread."}],"s":"The incremental development of one WebSocket library is split into five feature-level chunks. Each chunk is internally coherent and well-labeled, but collectively they sub-divide what is essentially one continuous build of a single artifact. Structurally clean."}}},{"id":"c8f1088f-2584-479f-ad31-69f2e208b4ce","name":"LUT effects on image appearance","mc":8,"models":{"gemma-e4b-chunk-v2":{"chunks":[[0,7,"LUTs as capture-time stock choice in SOOC workflow"]],"coh":95,"bs":90,"ls":90,"v":"excellent","defects":[],"issues":[],"s":"One chunk for the entire conversation about LUTs as capture-time film-stock choices in a SOOC workflow. Single coherent topic, accurate label, clean tiling."}}},{"id":"67dc568a-9128-8013-946e-304354396075","name":"NinjaOne RMM Overview","mc":10,"models":{"gemma-e4b-chunk-v2":{"chunks":[[0,1,"NinjaOne RMM overview and background"],[2,9,"macOS Gatekeeper block on AlphaPoint installer and TeamViewer concern"]],"coh":88,"bs":85,"ls":88,"v":"acceptable","defects":[],"issues":[{"type":"other","detail":"The split between NinjaOne overview [0-1] and the Gatekeeper-block troubleshooting [2-9] is reasonable, but both concern the same product/install session; could be one chunk. The Gatekeeper chunk correctly consolidates the multi-turn debugging."}],"s":"Two chunks: product overview and the Gatekeeper-block troubleshooting thread. The troubleshooting is correctly kept whole. The overview/troubleshooting split is fine-but-defensible. Accurate labels."}}},{"id":"68265d39-6344-8013-a724-365431cbdb8e","name":"Telemedicine Opportunity Decision Analysis","mc":26,"models":{"gemma-e4b-chunk-v2":{"chunks":[[0,13,"El Salvador telemedicine middleware opportunity evaluation"],[14,15,"Personal bandwidth and time-allocation risks"],[20,23,"Risk assessment: delivery failure vs personal collateral damage"],[24,25,"Go/No-Go decision matrix for proposal"]],"coh":78,"bs":65,"ls":85,"v":"acceptable","defects":[{"type":"gap","detail":"Messages #16-19 (bandwidth: afternoon/evening allocation, front-loaded week) are uncovered — chunk 2 ends at #15, chunk 3 starts at #20."}],"issues":[{"type":"over_split","detail":"The entire conversation is one continuous decision-analysis of a single opportunity (framework -> pricing -> SWOT -> risks -> Go/No-Go). Splitting into four chunks sub-divides one coherent advisory thread; risk-assessment and Go/No-Go in particular are stages of the same analysis."}],"s":"One coherent opportunity-evaluation conversation split into four stage-chunks, which is finer than the single-topic test ideal, and #16-19 is dropped (gap). Defensible thematically but the gap and over-splitting of one advisory process pull the boundary score down."}}},{"id":"f471869f-bd14-4d4f-a372-fa6e4283be7c","name":"Google Drive Folder Search","mc":14,"models":{"gemma-e4b-chunk-v2":{"chunks":[[0,5,"Locating and exploring All Meetings sales folder"],[6,9,"Top 5 prospect objections from sales transcripts"],[10,11,"Email context for sales prospects (Sony, Glean)"],[12,13,"Searching Jira for WhiteBit tickets"]],"coh":88,"bs":85,"ls":88,"v":"acceptable","defects":[],"issues":[{"type":"over_split","detail":"Chunks 1-2 (folder navigation, then objection analysis) are part of one sales-intel exploration; defensible to split by deliverable, but the navigation [0-5] and objections [6-9] are closely coupled. Email [10-11] and Jira [12-13] are genuinely distinct data sources."}],"s":"A multi-tool sales-research session segmented by data source / deliverable into four chunks. Boundaries align with genuine source pivots; the folder-nav vs objections split is the only slightly fine one. Clean and accurate."}}},{"id":"676ce76d-1b14-8013-9fab-bdf9b5e00ccb","name":"S5IIX High Resolution Mode","mc":18,"models":{"gemma-e4b-chunk-v2":{"chunks":[[0,1,"S5IIX High Resolution Mode overview and use cases"],[2,3,"High Resolution Mode for astrophotography challenges"],[4,5,"S5IIX astrophotography-specific camera features"],[6,7,"Time-lapse mode long exposure for astrophotography"],[8,9,"Distinguishing high-res, long exposure, and time-lapse"],[10,11,"Capturing unseen stars with long exposure"],[12,13,"Why manual focus is better than infinity focus for stars"],[14,15,"Timer vs tethered shooting for astrophotography"],[16,17,"S5IIX long exposure setup with timer delay"]],"coh":72,"bs":55,"ls":85,"v":"acceptable","defects":[],"issues":[{"type":"over_split","detail":"Nine chunks for an 18-message conversation that is essentially one continuous thread about S5IIX modes for astrophotography (high-res, long exposure, time-lapse, focus, timer, final setup). Many chunks are single Q&A sub-topics of the same evolving goal; the long-exposure setup arc (#10-17) especially is one coherent how-to."}],"s":"Structurally clean but over-segmented: an essentially single-topic astrophotography-on-S5IIX conversation is cut into nine sub-topic chunks, several of which are stages of one how-to. Granularity is the main weakness; coherence within each chunk is fine."}}},{"id":"019e4d54-f0cb-74e0-a4cc-36c524895d38","name":"Untitled","mc":4,"models":{"gemma-e4b-chunk-v2":{"chunks":[[0,1,"Reviewing Archie_Board_Deck_v2.pdf with Codex"],[2,3,"Building Archie_Board_Deck_v3.pptx progress report"]],"coh":85,"bs":82,"ls":80,"v":"acceptable","defects":[],"issues":[{"type":"other","detail":"This is a Codex approval-assessment transcript (two allow decisions on the same deck-review task). Splitting PDF-review from PPTX-version is defensible, but both are the same continuous deck-review session; arguably one chunk."}],"s":"Two chunks over a short Codex approval transcript for reviewing the Archie board deck (PDF then PPTX). Both phases are the same task and could be one chunk, but the split is reasonable. Labels okay."}}},{"id":"9f7e3acb-4a5d-4b63-b47d-21fc956bd36d","name":"Camera Sensor vs. Display","mc":8,"models":{"gemma-e4b-chunk-v2":{"chunks":[[0,1,"Camera sensors vs display pixels"],[2,3,"Traditional vs Quad Bayer filter explained"],[4,5,"48MP sensor pixel binning to 24MP"],[6,7,"Using 48MP data to enhance 24MP image"]],"coh":82,"bs":72,"ls":88,"v":"acceptable","defects":[],"issues":[{"type":"over_split","detail":"The conversation is one continuous thread building from sensors-vs-displays -> Quad Bayer -> pixel binning -> super-resolution from 48MP data. Four chunks sub-divide a single evolving technical exploration; the binning [4-5] and super-resolution [6-7] chunks are tightly coupled stages of the same question."}],"s":"A single evolving sensor-imaging discussion split into four sub-topic chunks. Each chunk is coherent and well-labeled, but together they over-segment one continuous thread. Structurally clean."}}}];
+const LABELS = ["gemma-e4b-chunk-v2"];
+const COLORS = ["var(--model)","#7e9cd8","#c98ec9","#8fce8f"];
+const VCLASS = {"excellent":"v-agree","acceptable":"v-minor_disagreement","poor":"v-major_disagreement"};
+
+function lanes(chunks){const out=[];chunks.forEach(ch=>{let l=0;while(out.some(o=>o.lane===l&&!(ch.e<o.s||ch.s>o.e)))l++;out.push({...ch,lane:l});});return out;}
+function gapsOf(chunks,mc){const cov=new Set();chunks.forEach(c=>{const s=c[0]===null?0:c[0],e=c[1]===null?s:c[1];for(let i=s;i<=e;i++)cov.add(i);});const gaps=[];let run=null;for(let i=0;i<mc;i++){if(!cov.has(i)){if(run===null)run=i;}else if(run!==null){gaps.push([run,i-1]);run=null;}}if(run!==null)gaps.push([run,mc-1]);return gaps;}
+function track(chunks,mc,color,gaps){
+  const resolved=chunks.map(c=>({s:c[0]===null?0:c[0],e:c[1]===null?(c[0]===null?0:c[0]):c[1],label:c[2],hal:c[0]===null||c[1]===null}));
+  const laned=lanes(resolved);const nLanes=laned.length?Math.max(...laned.map(c=>c.lane))+1:1;let html="";
+  for(let l=0;l<nLanes;l++){html+='<div class="lane">';
+    laned.filter(c=>c.lane===l).forEach(c=>{const left=c.s/mc*100,w=(c.e-c.s+1)/mc*100;
+      html+='<div class="seg'+(c.hal?' hal':'')+'" style="left:'+left+'%;width:'+w+'%;'+(c.hal?'':'background:'+color)+'" title="'+(c.hal?'⚠ hallucinated anchor — ':'')+'['+c.s+'–'+c.e+'] '+(c.label||'').replace(/"/g,'&quot;')+'"></div>';});
+    if(l===0&&gaps)gaps.forEach(g=>{html+='<div class="gapseg" style="left:'+g[0]/mc*100+'%;width:'+(g[1]-g[0]+1)/mc*100+'%" title="uncovered: messages '+g[0]+'–'+g[1]+'"></div>';});
+    html+='</div>';}
+  return '<div class="track">'+html+'</div>';
+}
+const cards=document.getElementById("cards");
+DATA.forEach(d=>{
+  let tracks="",bodies="";
+  LABELS.forEach((lab,i)=>{
+    const m=d.models[lab];const gaps=gapsOf(m.chunks,d.mc);
+    tracks+='<div class="trackrow"><div class="mtrack-label" style="color:'+COLORS[i%COLORS.length]+'">'+lab+'</div>'+track(m.chunks,d.mc,COLORS[i%COLORS.length],gaps)+'</div>';
+    const chip=m.v?'<span class="chip '+(VCLASS[m.v]||"")+'">'+m.v+'</span>':'';
+    const scores=m.bs!==null?'<span class="scorepair">C <b>'+m.coh+'</b> · B <b>'+m.bs+'</b> · L <b>'+m.ls+'</b></span>':'';
+    const defs=(m.defects||[]).map(x=>'<span class="deftag">⚠ '+x.type+'</span>').join("");
+    bodies+='<div class="mverdict"><b>'+lab+'</b> '+chip+' '+scores+defs+(m.s?' — '+m.s.replace(/</g,"&lt;"):'')+'</div>';
+  });
+  cards.insertAdjacentHTML("beforeend",
+    '<div class="card"><div class="cardhead"><h3>'+d.name.replace(/</g,"&lt;")+'</h3><div class="chips"><span class="chip">'+d.mc+' msgs</span></div></div>'+
+    '<div class="tracks">'+tracks+'</div>'+bodies+'<div style="height:14px"></div></div>');
+});
+</script>
+</body></html>

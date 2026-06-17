@@ -332,3 +332,175 @@ DATA.forEach(d=>{
     for (const a of aggs) console.error(`  ${a.label.padEnd(12)} boundary=${a.meanB ?? "—"} label=${a.meanL ?? "—"} grade=${a.grade ?? "—"} halluc=${a.hallucinated} validJSON=${a.validJson}/${order.length}`);
     console.error(parityOK ? "\n✓ input parity verified" : "\n⚠ INPUT PARITY FAILED");
 }
+
+// ---------------------------------------------------------------------------
+// REFERENCE-FREE rubric report — the second lens. No gold track; each
+// contestant's own segmentation is scored on coherence / boundary+granularity /
+// label against the Lucien chunking policy. Reads judge-rubric-<label>.json.
+// ---------------------------------------------------------------------------
+interface RubricConv {
+    id: string; name: string; mc: number;
+    coherence_score: number | null; boundary_score: number | null; label_score: number | null;
+    structural_defects: { type: string; detail: string }[]; verdict: string;
+    issues: { type: string; detail: string }[]; strengths: string[]; summary: string; error?: boolean;
+}
+
+export async function renderRubricReport(outDir: string) {
+    const files = await readdir(outDir);
+    const genLabels = files.filter((f) => f.startsWith("gen-") && f.endsWith(".json")).map((f) => f.slice(4, -5));
+    const gens: Record<string, Map<string, GenConv>> = {};
+    const order: string[] = [];
+    const nameById = new Map<string, string>(), mcById = new Map<string, number>();
+    for (const label of genLabels) {
+        const j = JSON.parse(await readFile(join(outDir, `gen-${label}.json`), "utf8"));
+        gens[label] = new Map((j.convs as GenConv[]).map((c) => [c.id, c]));
+        for (const c of j.convs as GenConv[]) { if (!nameById.has(c.id)) { order.push(c.id); nameById.set(c.id, c.name); mcById.set(c.id, c.mc); } }
+    }
+    const judges: Record<string, Map<string, RubricConv>> = {};
+    const judged: string[] = [];
+    for (const label of genLabels) {
+        const fname = `judge-rubric-${label}.json`;
+        if (!files.includes(fname)) continue;
+        const j = JSON.parse(await readFile(join(outDir, fname), "utf8"));
+        judges[label] = new Map((j.convs as RubricConv[]).map((c) => [c.id, c]));
+        judged.push(label);
+    }
+    if (!judged.length) { console.error("no judge-rubric-*.json found — run judge-prep --mode rubric and score it first"); return; }
+
+    interface RAgg { label: string; meanCoh: number; meanB: number; meanL: number; excellent: number; acceptable: number; poor: number; defectConvs: number; n: number; grade: string }
+    const aggs: RAgg[] = judged.map((label) => {
+        const jd = judges[label];
+        let sc = 0, sb = 0, sl = 0, nb = 0, excellent = 0, acceptable = 0, poor = 0, defectConvs = 0;
+        for (const id of order) {
+            const v = jd.get(id); if (!v || v.error) continue;
+            nb++; sc += v.coherence_score ?? 0; sb += v.boundary_score ?? 0; sl += v.label_score ?? 0;
+            if (v.verdict === "excellent") excellent++; else if (v.verdict === "acceptable") acceptable++; else if (v.verdict === "poor") poor++;
+            if ((v.structural_defects ?? []).length) defectConvs++;
+        }
+        const meanB = nb ? Math.round(sb / nb) : 0;
+        return { label, meanCoh: nb ? Math.round(sc / nb) : 0, meanB, meanL: nb ? Math.round(sl / nb) : 0, excellent, acceptable, poor, defectConvs, n: nb, grade: grade(meanB) };
+    });
+
+    const DATA = order.map((id) => {
+        const models: Record<string, any> = {};
+        for (const label of judged) {
+            const c = gens[label].get(id); const v = judges[label].get(id);
+            models[label] = {
+                chunks: (c?.chunks ?? []).map((k) => [k.start, k.end, k.label]),
+                coh: v?.coherence_score ?? null, bs: v?.boundary_score ?? null, ls: v?.label_score ?? null,
+                v: v?.verdict ?? null, defects: v?.structural_defects ?? [], issues: v?.issues ?? [], s: v?.summary ?? "",
+            };
+        }
+        return { id, name: nameById.get(id), mc: mcById.get(id), models };
+    });
+
+    const origHtml = await readFile(ORIG_REPORT, "utf8");
+    const css = (origHtml.match(/<style>[\s\S]*?<\/style>/) || ["<style></style>"])[0];
+    const COLORS = ["var(--model)", "#7e9cd8", "#c98ec9", "#8fce8f"];
+    const date = new Date().toISOString().slice(0, 10);
+    const vClassMap: Record<string, string> = { excellent: "v-agree", acceptable: "v-minor_disagreement", poor: "v-major_disagreement" };
+
+    const scorecardRows = aggs.map((a, i) => `
+      <tr>
+        <td class="mlabel"><span class="swatch" style="background:${COLORS[i % COLORS.length]}"></span>${esc(a.label)}</td>
+        <td class="num">${a.meanCoh}</td>
+        <td class="num hero">${a.meanB}</td>
+        <td class="num">${a.meanL}</td>
+        <td class="num">${a.excellent}/${a.acceptable}/${a.poor}</td>
+        <td class="num ${a.defectConvs ? "bad" : ""}">${a.defectConvs}/${a.n}</td>
+        <td class="gradecell">${a.grade}</td>
+      </tr>`).join("");
+
+    const html = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chunk Segmentation — reference-free rubric · ${date}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+${css}
+<style>
+.cmptable{width:100%;border-collapse:collapse;margin:36px 0;font-size:12px}
+.cmptable th{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);text-align:right;padding:8px 12px;border-bottom:1px solid var(--line);font-weight:500}
+.cmptable th:first-child{text-align:left}
+.cmptable td{padding:12px;border-bottom:1px solid var(--ink2);text-align:right}
+.cmptable td.mlabel{text-align:left;color:var(--moon);font-size:13px}
+.cmptable td.num{font-family:var(--serif);font-size:18px}
+.cmptable td.num.hero{color:var(--model);font-size:22px}
+.cmptable td.num.bad{color:var(--bad)}
+.cmptable td.gradecell{font-family:var(--serif);font-weight:900;font-size:24px;color:var(--ideal)}
+.swatch{display:inline-block;width:11px;height:11px;margin-right:9px;vertical-align:0}
+.mtrack-label{font-size:9px;letter-spacing:.18em;text-transform:uppercase;text-align:right}
+.mverdict{font-size:11px;color:var(--dim);margin:6px 0 0;padding-left:66px}
+.mverdict b{color:var(--moon)}
+.deftag{color:var(--bad);font-family:var(--mono);font-size:10px;margin-left:6px}
+</style>
+</head><body><div class="wrap">
+<header>
+  <div class="kicker">Lucien · chunk stage · reference-free rubric</div>
+  <h1>How good is the segmentation, <em>on its own merits?</em></h1>
+  <p class="sub">No gold reference. Each contestant's chunking is scored directly against the Lucien chunking policy: <b>one chunk = one coherent topic = one article-update</b>. A multi-stage process is ONE topic, sub-topics are penalized, and a long single-topic conversation kept whole is correct. This is the "in the grand scheme, how good is it?" lens — the production-gold report is the separate "how closely did we match the running system?" lens.</p>
+  <div class="runmeta">
+    <span><b>Corpus</b> ${order.length} convs · ${DATA.reduce((s, d) => s + (d.mc ?? 0), 0)} messages</span>
+    <span><b>Reference</b> none — policy rubric</span>
+    <span><b>Judge</b> Opus 4.8</span>
+    <span><b>Generated</b> ${date}</span>
+  </div>
+</header>
+
+<h2><span class="idx">§01</span> Scorecard</h2>
+<p class="sectionnote"><b>Coherence</b> = is each chunk internally one topic. <b>Boundary</b> = boundary placement + appropriate granularity (the core metric; not too coarse, not sub-topic-fine). <b>Label</b> = specificity/accuracy. <b>E/A/P</b> = excellent / acceptable / poor verdict counts. <b>Defects</b> = conversations with any overlap, nested range, gap, or hallucinated anchor (objectively invalid tilings).</p>
+<table class="cmptable">
+  <thead><tr>
+    <th>Model</th><th>Coherence</th><th>Boundary</th><th>Label</th><th>E/A/P</th><th>Defect convs</th><th>Grade</th>
+  </tr></thead>
+  <tbody>${scorecardRows}</tbody>
+</table>
+
+<h2><span class="idx">§02</span> Boundary maps — all ${order.length} conversations</h2>
+<p class="sectionnote">Each conversation shows every judged contestant's own segmentation (no gold track). Hover a segment for its label. Dashed = hallucinated anchor; hatched = uncovered message.</p>
+<div id="cards"></div>
+
+<footer style="margin-top:80px;color:var(--faint);font-size:11px;border-top:1px solid var(--line);padding-top:20px">
+  Generated ${date} · Lucien chunk segmentation · reference-free rubric · judge Opus 4.8 · ${judged.length} contestants
+</footer>
+</div>
+<script>
+const DATA = ${JSON.stringify(DATA)};
+const LABELS = ${JSON.stringify(judged)};
+const COLORS = ${JSON.stringify(COLORS)};
+const VCLASS = ${JSON.stringify(vClassMap)};
+
+function lanes(chunks){const out=[];chunks.forEach(ch=>{let l=0;while(out.some(o=>o.lane===l&&!(ch.e<o.s||ch.s>o.e)))l++;out.push({...ch,lane:l});});return out;}
+function gapsOf(chunks,mc){const cov=new Set();chunks.forEach(c=>{const s=c[0]===null?0:c[0],e=c[1]===null?s:c[1];for(let i=s;i<=e;i++)cov.add(i);});const gaps=[];let run=null;for(let i=0;i<mc;i++){if(!cov.has(i)){if(run===null)run=i;}else if(run!==null){gaps.push([run,i-1]);run=null;}}if(run!==null)gaps.push([run,mc-1]);return gaps;}
+function track(chunks,mc,color,gaps){
+  const resolved=chunks.map(c=>({s:c[0]===null?0:c[0],e:c[1]===null?(c[0]===null?0:c[0]):c[1],label:c[2],hal:c[0]===null||c[1]===null}));
+  const laned=lanes(resolved);const nLanes=laned.length?Math.max(...laned.map(c=>c.lane))+1:1;let html="";
+  for(let l=0;l<nLanes;l++){html+='<div class="lane">';
+    laned.filter(c=>c.lane===l).forEach(c=>{const left=c.s/mc*100,w=(c.e-c.s+1)/mc*100;
+      html+='<div class="seg'+(c.hal?' hal':'')+'" style="left:'+left+'%;width:'+w+'%;'+(c.hal?'':'background:'+color)+'" title="'+(c.hal?'⚠ hallucinated anchor — ':'')+'['+c.s+'–'+c.e+'] '+(c.label||'').replace(/"/g,'&quot;')+'"></div>';});
+    if(l===0&&gaps)gaps.forEach(g=>{html+='<div class="gapseg" style="left:'+g[0]/mc*100+'%;width:'+(g[1]-g[0]+1)/mc*100+'%" title="uncovered: messages '+g[0]+'–'+g[1]+'"></div>';});
+    html+='</div>';}
+  return '<div class="track">'+html+'</div>';
+}
+const cards=document.getElementById("cards");
+DATA.forEach(d=>{
+  let tracks="",bodies="";
+  LABELS.forEach((lab,i)=>{
+    const m=d.models[lab];const gaps=gapsOf(m.chunks,d.mc);
+    tracks+='<div class="trackrow"><div class="mtrack-label" style="color:'+COLORS[i%COLORS.length]+'">'+lab+'</div>'+track(m.chunks,d.mc,COLORS[i%COLORS.length],gaps)+'</div>';
+    const chip=m.v?'<span class="chip '+(VCLASS[m.v]||"")+'">'+m.v+'</span>':'';
+    const scores=m.bs!==null?'<span class="scorepair">C <b>'+m.coh+'</b> · B <b>'+m.bs+'</b> · L <b>'+m.ls+'</b></span>':'';
+    const defs=(m.defects||[]).map(x=>'<span class="deftag">⚠ '+x.type+'</span>').join("");
+    bodies+='<div class="mverdict"><b>'+lab+'</b> '+chip+' '+scores+defs+(m.s?' — '+m.s.replace(/</g,"&lt;"):'')+'</div>';
+  });
+  cards.insertAdjacentHTML("beforeend",
+    '<div class="card"><div class="cardhead"><h3>'+d.name.replace(/</g,"&lt;")+'</h3><div class="chips"><span class="chip">'+d.mc+' msgs</span></div></div>'+
+    '<div class="tracks">'+tracks+'</div>'+bodies+'<div style="height:14px"></div></div>');
+});
+</script>
+</body></html>`;
+
+    const outPath = join(REPO_ROOT, "reports", `chunk-eval-rubric-${date}.html`);
+    await writeFile(outPath, html);
+    console.error(`Wrote ${outPath}`);
+    console.error(`\nRubric scorecard (reference-free):`);
+    for (const a of aggs) console.error(`  ${a.label.padEnd(20)} coherence=${a.meanCoh} boundary=${a.meanB} label=${a.meanL} grade=${a.grade} E/A/P=${a.excellent}/${a.acceptable}/${a.poor} defects=${a.defectConvs}/${a.n}`);
+}

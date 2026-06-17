@@ -1,0 +1,378 @@
+{
+  "label": "gemma-e4b-chunk-v2",
+  "mode": "reference-free-rubric",
+  "judge": "claude-opus-4-8 (sub-agent)",
+  "judgedAt": "2026-06-17T00:00:00Z",
+  "convs": [
+    {
+      "id": "67e99628-77a4-8013-a2b8-fbdca8c68541",
+      "name": "How Anchors Work",
+      "mc": 6,
+      "coherence_score": 95,
+      "boundary_score": 90,
+      "label_score": 88,
+      "structural_defects": [],
+      "verdict": "excellent",
+      "issues": [],
+      "strengths": ["Correctly kept the whole short conversation as one chunk; the HTML/regex disambiguation at the start is part of the same evolving 'how do anchors work' topic that resolves to ship anchors."],
+      "summary": "A single coherent topic (ship anchors) kept whole as one chunk. The label slightly under-represents the disambiguation lead-in but accurately names the resolved subject. Clean tiling."
+    },
+    {
+      "id": "f5ecbed4-5361-40ab-9442-670a86831969",
+      "name": "Divorce Rights in Mexico",
+      "mc": 10,
+      "coherence_score": 95,
+      "boundary_score": 92,
+      "label_score": 90,
+      "structural_defects": [],
+      "verdict": "excellent",
+      "issues": [],
+      "strengths": ["Kept the multi-turn divorce-law thread (including the Spanish translation of the same answer) as one chunk.", "Correctly split off the unrelated telenovela question at #8."],
+      "summary": "Two clean chunks: divorce rights/history as one topic, and the abrupt telenovela tangent as another. Boundary at #8 is exactly where the topic shifts. Labels accurate."
+    },
+    {
+      "id": "a5be3d4e-fa6f-4d09-9715-70b745578026",
+      "name": "Fixing JavaScript ES6 Error",
+      "mc": 30,
+      "coherence_score": 80,
+      "boundary_score": 72,
+      "label_score": 85,
+      "structural_defects": [],
+      "verdict": "acceptable",
+      "issues": [
+        {"type": "fused_topics", "detail": "Chunk [12-15] fuses 'finding a git branch' (#12-13) with 'linking a local npm package' (#14-15) — two genuinely distinct how-tos."},
+        {"type": "over_split", "detail": "This is a string of independent micro-Q&As; chunks [16-17], [18-19], [20-25] are each tiny. Granularity is defensible since each Q is a distinct topic, but the boundaries are somewhat arbitrary (e.g. rpm verbose #18-19 split from npm verbose #20-21 which is then merged into cache #20-25)."}
+      ],
+      "strengths": ["Clean tiling with no overlaps or gaps across 30 messages.", "Correctly isolated the opening floating-ui error and the closing ETARGET/ERESOLVE errors."],
+      "summary": "A grab-bag of loosely related dev Q&As; the model mostly carves them sensibly but one chunk fuses git-branch and npm-link, and the rpm/npm verbose/cache groupings are inconsistent. Structurally clean and labels are specific."
+    },
+    {
+      "id": "eff06c22-ad20-45d7-b670-7054bd9d6cbb",
+      "name": "First Hold: Climbing Starting Point",
+      "mc": 8,
+      "coherence_score": 95,
+      "boundary_score": 92,
+      "label_score": 90,
+      "structural_defects": [],
+      "verdict": "excellent",
+      "issues": [],
+      "strengths": ["Recognized that the climbing/booking disambiguation resolves into one coherent topic (the booking first-hold/challenge mechanic) and kept it whole."],
+      "summary": "Single chunk spanning the whole conversation, correctly identifying that the booking-system mechanics are one evolving topic. Label is specific and accurate."
+    },
+    {
+      "id": "ed94728c-eb45-41e8-8993-da8322e2cc44",
+      "name": "Encoded String Verification",
+      "mc": 9,
+      "coherence_score": 95,
+      "boundary_score": 92,
+      "label_score": 90,
+      "structural_defects": [],
+      "verdict": "excellent",
+      "issues": [],
+      "strengths": ["Correctly kept the entire base64-decoding investigation as one chunk; the ASCII follow-up is the same debugging thread, not a new topic."],
+      "summary": "One coherent chunk for the whole encoded-string investigation. Multi-stage analysis (base64 -> bytes -> ASCII) correctly treated as one topic. Label accurate."
+    },
+    {
+      "id": "16be1a9f-3c61-453a-a536-5736a74a8921",
+      "name": "Mud versus clay differences",
+      "mc": 48,
+      "coherence_score": 70,
+      "boundary_score": 45,
+      "label_score": 82,
+      "structural_defects": [
+        {"type": "nested", "detail": "Chunk 4 [10-11] is fully inside chunk 3 [8-13]."},
+        {"type": "nested", "detail": "Chunk 6 [16-17] is fully inside chunk 5 [12-19]."},
+        {"type": "overlap", "detail": "Chunk 7 [18-21] overlaps chunk 5 [12-19] (shares #18-19)."},
+        {"type": "gap", "detail": "Messages #40-45 are not covered by any chunk (chunk 16 ends at #39, chunk 17 starts at #46)."}
+      ],
+      "verdict": "poor",
+      "issues": [
+        {"type": "over_split", "detail": "The long space-chemistry arc (iron atoms -> cold welding -> CO stability -> CO phase -> hardness -> network solids) is one continuous exploratory thread; splitting it into ~8 separate chunks is sub-topic splitting."},
+        {"type": "sub_topic_split", "detail": "The diamond arc (#34-47) is one coherent 'diamond properties and diamondoid future' topic but is fragmented across multiple chunks."}
+      ],
+      "strengths": ["The clay/brick/ceramics opening arc (#0-13) is reasonably segmented.", "Many individual labels are specific and accurate."],
+      "summary": "Serious structural defects: two nested chunks, one overlap, and an uncovered #40-45 gap. The granularity is also too fine for what are long continuous exploratory threads (space chemistry, diamond). The worst-tiled conversation in the set."
+    },
+    {
+      "id": "f5515608-8e7e-4b79-b9ed-afc34fa7a400",
+      "name": "Comparing Microphone Audio",
+      "mc": 4,
+      "coherence_score": 90,
+      "boundary_score": 80,
+      "label_score": 90,
+      "structural_defects": [],
+      "verdict": "acceptable",
+      "issues": [
+        {"type": "over_split", "detail": "'How to compare mic audio scientifically' and 'what audio-analysis software' are arguably one coherent topic (methods + tools for the same goal); splitting into two is defensible but borderline fine-grained for a 4-message conv."}
+      ],
+      "strengths": ["Clean tiling.", "Labels precise."],
+      "summary": "Two chunks split methodology from software tools. They are closely related parts of one task and could be one chunk, but the split is reasonable. Clean and accurate."
+    },
+    {
+      "id": "86397ce8-e28f-44ea-8cb4-bfce24e0d13d",
+      "name": "Avoid Banding in DaVinci.",
+      "mc": 14,
+      "coherence_score": 78,
+      "boundary_score": 75,
+      "label_score": 80,
+      "structural_defects": [
+        {"type": "gap", "detail": "Messages #6-7 (Hollywood films edited in Resolve) are not covered — chunk 1 ends at #5, chunk 2 starts at #8."}
+      ],
+      "verdict": "acceptable",
+      "issues": [
+        {"type": "fused_topics", "detail": "Chunk 1 [0-5] bundles banding-avoidance, 360 video, and max resolution — three distinct DaVinci capability questions, though loosely under one 'Resolve capabilities' umbrella."}
+      ],
+      "strengths": ["Correctly separated the abrupt nitroglycerin tangent (#8-13) from the DaVinci thread.", "The nitroglycerin chunk is correctly kept whole as one activation-energy topic."],
+      "summary": "Good split between the DaVinci block and the nitroglycerin block, and nitroglycerin is correctly one chunk. But #6-7 is dropped (gap) and the DaVinci chunk loosely fuses several distinct capability questions."
+    },
+    {
+      "id": "78da6fe3-60bc-482f-9346-49c600780d47",
+      "name": "Service Table Design for SIMS",
+      "mc": 4,
+      "coherence_score": 92,
+      "boundary_score": 88,
+      "label_score": 88,
+      "structural_defects": [],
+      "verdict": "excellent",
+      "issues": [],
+      "strengths": ["Correctly split the SIMS table-design question from the SurrealQL question; they are related (same project) but distinct topics that feed different articles."],
+      "summary": "Two clean chunks: SIMS service-table design and SurrealQL overview. Reasonable boundary, clean tiling, accurate labels."
+    },
+    {
+      "id": "67a82605-6540-8013-a892-60288bbf7b50",
+      "name": "File Size Creation Date",
+      "mc": 20,
+      "coherence_score": 90,
+      "boundary_score": 85,
+      "label_score": 90,
+      "structural_defects": [],
+      "verdict": "excellent",
+      "issues": [
+        {"type": "other", "detail": "Arca-Swiss content is split into comparison [8-11] and clamp-binding [12-15]; defensible as two topics, though they could be one Arca-Swiss thread."}
+      ],
+      "strengths": ["Clean tiling across 20 messages.", "Correctly separated the distinct topics: fs.stat, RAW/DNG, Arca-Swiss, MP4/MOV, waveform sync.", "Boundaries fall at genuine topic shifts."],
+      "summary": "A topic-hopping photography/dev conversation segmented cleanly into six coherent chunks at the right boundaries. Splitting Arca-Swiss comparison from clamp-binding is borderline but reasonable. Strong."
+    },
+    {
+      "id": "2427687a-75a4-4b05-8ee1-4602879db37c",
+      "name": "New chat",
+      "mc": 5,
+      "coherence_score": 95,
+      "boundary_score": 92,
+      "label_score": 92,
+      "structural_defects": [],
+      "verdict": "excellent",
+      "issues": [],
+      "strengths": ["Correctly kept the whole 'Spanish translation of photographic film' clarification thread as one chunk."],
+      "summary": "Single coherent chunk for the entire short conversation about translating 'film' (photographic) into Spanish. Accurate label, clean tiling."
+    },
+    {
+      "id": "18e1ea4c-106a-4212-8531-28342d0cc3e7",
+      "name": "Toyota's Kaizen Culture",
+      "mc": 4,
+      "coherence_score": 95,
+      "boundary_score": 92,
+      "label_score": 92,
+      "structural_defects": [],
+      "verdict": "excellent",
+      "issues": [],
+      "strengths": ["Correctly merged the Kaizen-culture and LFA follow-up into one topic (the LFA is presented as an instance of the culture)."],
+      "summary": "One chunk covering Toyota's Kaizen culture and its expression in the Lexus LFA. Coherent single topic, accurate label."
+    },
+    {
+      "id": "c3c8b072-143e-4b97-8d28-088f4d78cb8e",
+      "name": "if you look at the articles in articles, you might see that they have a lot of c",
+      "mc": 49,
+      "coherence_score": 88,
+      "boundary_score": 88,
+      "label_score": 90,
+      "structural_defects": [],
+      "verdict": "excellent",
+      "issues": [],
+      "strengths": ["Correctly treated the entire 47-message citation-migration saga (many iterations, reverts, format changes) as ONE multi-stage process = one chunk, rather than over-splitting it by attempt.", "Cleanly split off the unrelated Anthropic-email request at #47-48."],
+      "summary": "Exemplary application of the 'multi-stage process is one topic' rule: the long, iterative citation-format migration is kept whole, and the abrupt email-download request is correctly separated. Clean tiling, accurate labels."
+    },
+    {
+      "id": "57ab528b-8f4d-42cd-b35c-70e53b57dfe6",
+      "name": "Comparing Mac computers for local AI performance",
+      "mc": 74,
+      "coherence_score": 68,
+      "boundary_score": 50,
+      "label_score": 85,
+      "structural_defects": [
+        {"type": "overlap", "detail": "Chunk 3 [51-73] overlaps chunk 2 [26-55] (shares #51-55)."},
+        {"type": "nested", "detail": "Chunk 4 [58-63] is fully inside chunk 3 [51-73]."}
+      ],
+      "verdict": "poor",
+      "issues": [
+        {"type": "fused_topics", "detail": "Chunk 1 [0-25] fuses the hardware-comparison portion with the eBay-scam-listings detour (#16-19) and the M5-Ultra-timing strategy (#22-25)."},
+        {"type": "missed_shift", "detail": "The conversation pivots hard at ~#28 from hardware to the Archie architecture thesis; the chunk boundary is at #26, close but the overlapping/nested chunks downstream muddle the segmentation of the thesis arc."}
+      ],
+      "strengths": ["Identified the major thematic blocks (hardware, Archie thesis, Linux-kernel proof, Fable).", "Labels are specific and capture the substance well."],
+      "summary": "The four thematic blocks are correctly perceived, but the chunks overlap and nest (chunk 4 inside chunk 3; chunk 3 overlaps chunk 2), making the tiling invalid. The big opening chunk also fuses several distinct topics. Strong labels can't offset the structural breakage."
+    },
+    {
+      "id": "67257e17-fc64-8013-a928-142fafd36c6b",
+      "name": "EDGE Network Rollout Timeline",
+      "mc": 14,
+      "coherence_score": 82,
+      "boundary_score": 72,
+      "label_score": 85,
+      "structural_defects": [],
+      "verdict": "acceptable",
+      "issues": [
+        {"type": "over_split", "detail": "The whole conversation is one continuous mobile/wireless-history thread (EDGE -> GPRS -> iPhone support -> time-travel hypothetical -> WiFi). Splitting the time-travel hypothetical [8-9] and WiFi [10-13] from the EDGE block is finer than the topic warrants; the hypothetical is a direct continuation of the iPhone-compatibility discussion."}
+      ],
+      "strengths": ["Clean tiling.", "Labels accurate."],
+      "summary": "One coherent connectivity-history conversation split into three chunks. The split is defensible (cellular vs WiFi) but the time-travel hypothetical is really part of the iPhone-compatibility thread, making the middle chunk a sub-topic split. Structurally clean."
+    },
+    {
+      "id": "ddcc93cd-18e5-4bfd-b28d-6d4a43da3a78",
+      "name": "SR-71s never downed",
+      "mc": 20,
+      "coherence_score": 88,
+      "boundary_score": 82,
+      "label_score": 85,
+      "structural_defects": [],
+      "verdict": "acceptable",
+      "issues": [
+        {"type": "over_split", "detail": "Chunk 2 [14-15] (pilot patches) is a fine sub-topic of the SR-71 facts thread [0-13]; could be merged into one SR-71 chunk."}
+      ],
+      "strengths": ["Correctly merged the long string of SR-71 fact Q&As (#0-13) into one chunk rather than one-per-question.", "Correctly split off the unrelated drifting-vs-grip-driving topic (#16-19)."],
+      "summary": "The SR-71 facts are sensibly consolidated and the drifting tangent correctly separated. Splitting the pilot-patch question into its own chunk is slightly over-fine, but defensible. Clean tiling, accurate labels."
+    },
+    {
+      "id": "7b7e0d0d-d8e9-455c-8383-cf150b365ce6",
+      "name": "Policy Document Database Import",
+      "mc": 12,
+      "coherence_score": 92,
+      "boundary_score": 90,
+      "label_score": 90,
+      "structural_defects": [],
+      "verdict": "excellent",
+      "issues": [],
+      "strengths": ["Correctly treated the multi-step SurrealDB import workflow (DISCOVER -> SCHEMA -> APPLY -> PARSE) as ONE topic/process rather than splitting by step — textbook application of the multi-stage-process rule."],
+      "summary": "Single chunk for the entire staged SurrealDB policy-import workflow. Exactly the right granularity: the steps are phases of one task. Label names the process accurately."
+    },
+    {
+      "id": "670e2fd5-08fc-8013-86f1-eb0ad8d54d93",
+      "name": "WebSocket Message Queueing Fix",
+      "mc": 14,
+      "coherence_score": 80,
+      "boundary_score": 70,
+      "label_score": 88,
+      "structural_defects": [],
+      "verdict": "acceptable",
+      "issues": [
+        {"type": "over_split", "detail": "This is one continuous incremental build of a single WebSocket library; the five chunks (queueing, Proxy dispatch, event subscription, future plans, Deno rewrite) are sub-features of building one library and arguably one evolving topic. Splitting into 5 is finer than ideal for a single-artifact development thread."}
+      ],
+      "strengths": ["Clean tiling.", "Labels are specific and technically accurate."],
+      "summary": "The incremental development of one WebSocket library is split into five feature-level chunks. Each chunk is internally coherent and well-labeled, but collectively they sub-divide what is essentially one continuous build of a single artifact. Structurally clean."
+    },
+    {
+      "id": "c8f1088f-2584-479f-ad31-69f2e208b4ce",
+      "name": "LUT effects on image appearance",
+      "mc": 8,
+      "coherence_score": 95,
+      "boundary_score": 90,
+      "label_score": 90,
+      "structural_defects": [],
+      "verdict": "excellent",
+      "issues": [],
+      "strengths": ["Correctly kept the whole LUT-as-stock / SOOC-workflow discussion as one coherent topic."],
+      "summary": "One chunk for the entire conversation about LUTs as capture-time film-stock choices in a SOOC workflow. Single coherent topic, accurate label, clean tiling."
+    },
+    {
+      "id": "67dc568a-9128-8013-946e-304354396075",
+      "name": "NinjaOne RMM Overview",
+      "mc": 10,
+      "coherence_score": 88,
+      "boundary_score": 85,
+      "label_score": 88,
+      "structural_defects": [],
+      "verdict": "acceptable",
+      "issues": [
+        {"type": "other", "detail": "The split between NinjaOne overview [0-1] and the Gatekeeper-block troubleshooting [2-9] is reasonable, but both concern the same product/install session; could be one chunk. The Gatekeeper chunk correctly consolidates the multi-turn debugging."}
+      ],
+      "strengths": ["Correctly consolidated the multi-turn macOS Gatekeeper troubleshooting (notarization -> signature -> TeamViewer concern) into one chunk.", "Clean tiling."],
+      "summary": "Two chunks: product overview and the Gatekeeper-block troubleshooting thread. The troubleshooting is correctly kept whole. The overview/troubleshooting split is fine-but-defensible. Accurate labels."
+    },
+    {
+      "id": "68265d39-6344-8013-a724-365431cbdb8e",
+      "name": "Telemedicine Opportunity Decision Analysis",
+      "mc": 26,
+      "coherence_score": 78,
+      "boundary_score": 65,
+      "label_score": 85,
+      "structural_defects": [
+        {"type": "gap", "detail": "Messages #16-19 (bandwidth: afternoon/evening allocation, front-loaded week) are uncovered — chunk 2 ends at #15, chunk 3 starts at #20."}
+      ],
+      "verdict": "acceptable",
+      "issues": [
+        {"type": "over_split", "detail": "The entire conversation is one continuous decision-analysis of a single opportunity (framework -> pricing -> SWOT -> risks -> Go/No-Go). Splitting into four chunks sub-divides one coherent advisory thread; risk-assessment and Go/No-Go in particular are stages of the same analysis."}
+      ],
+      "strengths": ["Labels capture the analytic stages well.", "Boundaries roughly track the analytic progression."],
+      "summary": "One coherent opportunity-evaluation conversation split into four stage-chunks, which is finer than the single-topic test ideal, and #16-19 is dropped (gap). Defensible thematically but the gap and over-splitting of one advisory process pull the boundary score down."
+    },
+    {
+      "id": "f471869f-bd14-4d4f-a372-fa6e4283be7c",
+      "name": "Google Drive Folder Search",
+      "mc": 14,
+      "coherence_score": 88,
+      "boundary_score": 85,
+      "label_score": 88,
+      "structural_defects": [],
+      "verdict": "acceptable",
+      "issues": [
+        {"type": "over_split", "detail": "Chunks 1-2 (folder navigation, then objection analysis) are part of one sales-intel exploration; defensible to split by deliverable, but the navigation [0-5] and objections [6-9] are closely coupled. Email [10-11] and Jira [12-13] are genuinely distinct data sources."}
+      ],
+      "strengths": ["Clean tiling.", "Correctly separated the distinct data-source pivots (Drive -> Gmail -> Jira).", "Labels specific."],
+      "summary": "A multi-tool sales-research session segmented by data source / deliverable into four chunks. Boundaries align with genuine source pivots; the folder-nav vs objections split is the only slightly fine one. Clean and accurate."
+    },
+    {
+      "id": "676ce76d-1b14-8013-9fab-bdf9b5e00ccb",
+      "name": "S5IIX High Resolution Mode",
+      "mc": 18,
+      "coherence_score": 72,
+      "boundary_score": 55,
+      "label_score": 85,
+      "structural_defects": [],
+      "verdict": "acceptable",
+      "issues": [
+        {"type": "over_split", "detail": "Nine chunks for an 18-message conversation that is essentially one continuous thread about S5IIX modes for astrophotography (high-res, long exposure, time-lapse, focus, timer, final setup). Many chunks are single Q&A sub-topics of the same evolving goal; the long-exposure setup arc (#10-17) especially is one coherent how-to."}
+      ],
+      "strengths": ["Clean tiling with no overlaps or gaps.", "Labels are specific and accurate to each span."],
+      "summary": "Structurally clean but over-segmented: an essentially single-topic astrophotography-on-S5IIX conversation is cut into nine sub-topic chunks, several of which are stages of one how-to. Granularity is the main weakness; coherence within each chunk is fine."
+    },
+    {
+      "id": "019e4d54-f0cb-74e0-a4cc-36c524895d38",
+      "name": "Untitled",
+      "mc": 4,
+      "coherence_score": 85,
+      "boundary_score": 82,
+      "label_score": 80,
+      "structural_defects": [],
+      "verdict": "acceptable",
+      "issues": [
+        {"type": "other", "detail": "This is a Codex approval-assessment transcript (two allow decisions on the same deck-review task). Splitting PDF-review from PPTX-version is defensible, but both are the same continuous deck-review session; arguably one chunk."}
+      ],
+      "strengths": ["Clean tiling.", "Labels reasonably capture the two phases (PDF review, PPTX progress report)."],
+      "summary": "Two chunks over a short Codex approval transcript for reviewing the Archie board deck (PDF then PPTX). Both phases are the same task and could be one chunk, but the split is reasonable. Labels okay."
+    },
+    {
+      "id": "9f7e3acb-4a5d-4b63-b47d-21fc956bd36d",
+      "name": "Camera Sensor vs. Display",
+      "mc": 8,
+      "coherence_score": 82,
+      "boundary_score": 72,
+      "label_score": 88,
+      "structural_defects": [],
+      "verdict": "acceptable",
+      "issues": [
+        {"type": "over_split", "detail": "The conversation is one continuous thread building from sensors-vs-displays -> Quad Bayer -> pixel binning -> super-resolution from 48MP data. Four chunks sub-divide a single evolving technical exploration; the binning [4-5] and super-resolution [6-7] chunks are tightly coupled stages of the same question."}
+      ],
+      "strengths": ["Clean tiling.", "Labels precise and technically accurate."],
+      "summary": "A single evolving sensor-imaging discussion split into four sub-topic chunks. Each chunk is coherent and well-labeled, but together they over-segment one continuous thread. Structurally clean."
+    }
+  ]
+}
