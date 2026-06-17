@@ -1,0 +1,325 @@
+{
+  "label": "gemma-e4b-chunk-v2",
+  "goldTag": "db",
+  "judge": "claude-opus-4-8 (sub-agent)",
+  "judgedAt": "2026-06-17T00:00:00Z",
+  "convs": [
+    {
+      "id": "67e99628-77a4-8013-a2b8-fbdca8c68541",
+      "name": "How Anchors Work",
+      "mc": 6,
+      "boundary_score": 100,
+      "label_score": 90,
+      "verdict": "agree",
+      "disagreements": [],
+      "agreements": ["Identical single-chunk range [0-5]", "Label correctly captures ship anchors digging into seabed"],
+      "summary": "Candidate matches the gold's single chunk exactly. The label is slightly less complete than gold (omits the 'holding by' framing) but is accurate and specific."
+    },
+    {
+      "id": "f5ecbed4-5361-40ab-9442-670a86831969",
+      "name": "Divorce Rights in Mexico",
+      "mc": 10,
+      "boundary_score": 100,
+      "label_score": 88,
+      "verdict": "agree",
+      "disagreements": [],
+      "agreements": ["Both chunk ranges [0-7] and [8-9] match gold exactly", "Correctly separated the telenovela topic from divorce law"],
+      "summary": "Both boundaries are identical to gold. Labels are accurate; the divorce label is marginally less detailed (drops 'women's legal standing') but captures the topic well."
+    },
+    {
+      "id": "a5be3d4e-fa6f-4d09-9715-70b745578026",
+      "name": "Fixing JavaScript ES6 Error",
+      "mc": 30,
+      "boundary_score": 62,
+      "label_score": 70,
+      "verdict": "minor_disagreement",
+      "disagreements": [
+        {"type": "under_split", "detail": "Candidate merges gold chunks 1+2 ([0-1] webpack error and [2-3] CRA customization) into a single [0-3] chunk, losing the distinct CRA topic"},
+        {"type": "under_split", "detail": "Candidate merges gold chunks 5+6 ([12-13] git branches and [14-15] npm link) into [12-15] under a combined label"},
+        {"type": "missed_content", "detail": "Gold splits [18-19] rpm verbose from [20-25] npm verbose/cache; candidate isolates [18-19] as 'rpm' then lumps [20-25] as 'clearing npm cache', mislabeling the [20-21] npm verbose content"},
+        {"type": "under_split", "detail": "Candidate folds the ETARGET [26-27] and ERESOLVE [28-29] errors into one [26-27]-anchored chunk, where gold keeps them as two distinct dependency issues"}
+      ],
+      "agreements": ["Correctly captured the git pickaxe -S topic [4-7]", "npm ls dependency tree [8-11] matches gold", "npm view remote versions [16-17] matches exactly"],
+      "summary": "Candidate produces 8 chunks against gold's 11, coherently coarser in several places but losing distinct sub-topics (CRA, npm verbose, ERESOLVE-vs-ETARGET). No hallucinated anchors and the broad structure tracks, but several merges erase real topic boundaries."
+    },
+    {
+      "id": "eff06c22-ad20-45d7-b670-7054bd9d6cbb",
+      "name": "First Hold: Climbing Starting Point",
+      "mc": 8,
+      "boundary_score": 100,
+      "label_score": 90,
+      "verdict": "agree",
+      "disagreements": [],
+      "agreements": ["Single chunk [0-7] matches gold exactly", "Label captures first-hold/challenge booking mechanics"],
+      "summary": "Identical single-chunk segmentation. Label is accurate and specific to the venue booking hold/challenge system."
+    },
+    {
+      "id": "ed94728c-eb45-41e8-8993-da8322e2cc44",
+      "name": "Encoded String Verification",
+      "mc": 9,
+      "boundary_score": 100,
+      "label_score": 92,
+      "verdict": "agree",
+      "disagreements": [],
+      "agreements": ["Single chunk [0-8] matches gold exactly", "Label includes the actual encoded string and the ASCII/Base64 angle"],
+      "summary": "Boundaries identical. The candidate label is arguably more specific than gold (cites the literal string and ASCII), faithfully describing the Base64 decoding attempt."
+    },
+    {
+      "id": "16be1a9f-3c61-453a-a536-5736a74a8921",
+      "name": "Mud versus clay differences",
+      "mc": 48,
+      "boundary_score": 55,
+      "label_score": 78,
+      "verdict": "minor_disagreement",
+      "disagreements": [
+        {"type": "extra_overlap", "detail": "Candidate chunk 4 [10-11] is fully nested inside chunk 3 [8-13], a duplicate/overlapping range rather than a clean boundary"},
+        {"type": "extra_overlap", "detail": "Candidate chunk 6 [16-17] is nested inside chunk 5 [12-19], again an internal overlap rather than a sequential split"},
+        {"type": "misaligned_boundary", "detail": "Candidate's [12-19] iron-in-space chunk pulls in messages 12-13 (still bricks-as-clay) which gold places in the bricks/ceramics chunk [8-13], misreading the topic shift at 14"},
+        {"type": "missed_content", "detail": "Candidate omits messages 40-45 entirely (gold's 'Diamond Age applications and failure modes' [38-45]); candidate jumps from [38-39] to [46-47]"}
+      ],
+      "agreements": ["Captured nearly all of the diamond/CO/network-solid topic progression with specific labels", "Clay-to-brick [4-7] and three-cloud [24-25] boundaries align with gold", "Labels are consistently detailed and topic-accurate"],
+      "summary": "Candidate is finer-grained than gold (17 vs 13 chunks) with excellent, specific labels, but the segmentation is structurally noisy: two chunks are nested inside larger ones (overlapping ranges) and a 6-message span (40-45) is dropped. Topical coverage is strong but boundary discipline is poor."
+    },
+    {
+      "id": "f5515608-8e7e-4b79-b9ed-afc34fa7a400",
+      "name": "Comparing Microphone Audio",
+      "mc": 4,
+      "boundary_score": 80,
+      "label_score": 88,
+      "verdict": "minor_disagreement",
+      "disagreements": [
+        {"type": "over_split", "detail": "Candidate splits into [0-1] mic comparison and [2-3] audio software, where gold keeps a single [0-3] chunk covering both"}
+      ],
+      "agreements": ["Both sub-topics labeled accurately and specifically", "Full message coverage with no hallucinated anchors"],
+      "summary": "Candidate over-splits a short conversation the gold treated as one chunk, but the split is coherent (mic methodology vs software list are genuinely distinct sub-topics). Labels are accurate, so this is a mild, defensible disagreement."
+    },
+    {
+      "id": "86397ce8-e28f-44ea-8cb4-bfce24e0d13d",
+      "name": "Avoid Banding in DaVinci.",
+      "mc": 14,
+      "boundary_score": 58,
+      "label_score": 72,
+      "verdict": "minor_disagreement",
+      "disagreements": [
+        {"type": "misaligned_boundary", "detail": "Candidate merges gold chunk 1 [0-1] (banding) and chunk 2 [2-7] (Resolve 360/resolution/Hollywood) into [0-5], and stops at 5 rather than 7"},
+        {"type": "missed_content", "detail": "Candidate omits messages 6-7 entirely (the Hollywood-films-edited-in-Resolve exchange), which gold includes in chunk 2"}
+      ],
+      "agreements": ["Nitroglycerin chunk [8-13] matches gold exactly with a strong label", "Correctly identified the major topic split between Resolve and explosives"],
+      "summary": "Candidate captures the two macro-topics (DaVinci Resolve, nitroglycerin) but collapses gold's banding/capabilities distinction and drops messages 6-7 from coverage. The nitroglycerin half is clean; the Resolve half is coarse and incomplete."
+    },
+    {
+      "id": "78da6fe3-60bc-482f-9346-49c600780d47",
+      "name": "Service Table Design for SIMS",
+      "mc": 4,
+      "boundary_score": 100,
+      "label_score": 92,
+      "verdict": "agree",
+      "disagreements": [],
+      "agreements": ["Both chunks [0-1] and [2-3] match gold exactly", "Labels accurately capture the SIMS schema and SurrealQL topics"],
+      "summary": "Identical segmentation. Labels are specific and correct for both the inventory schema design and the SurrealQL explanation request."
+    },
+    {
+      "id": "67a82605-6540-8013-a892-60288bbf7b50",
+      "name": "File Size Creation Date",
+      "mc": 20,
+      "boundary_score": 88,
+      "label_score": 88,
+      "verdict": "minor_disagreement",
+      "disagreements": [
+        {"type": "under_split", "detail": "Candidate merges gold chunks 2+3 (DNG standard [4-5] and RW2-to-DNG conversion [6-7]) into a single [4-7] chunk"}
+      ],
+      "agreements": ["5 of 6 chunk boundaries align with gold", "Arca-Swiss comparison [8-11] and binding troubleshooting [12-15] match exactly", "MP4/MOV [16-17] and waveform sync [18-19] match exactly", "Labels are consistently specific"],
+      "summary": "Very close to gold; the only deviation is merging the two RAW-format sub-topics into one coherent chunk. All other boundaries and labels track the gold precisely."
+    },
+    {
+      "id": "2427687a-75a4-4b05-8ee1-4602879db37c",
+      "name": "New chat",
+      "mc": 5,
+      "boundary_score": 100,
+      "label_score": 92,
+      "verdict": "agree",
+      "disagreements": [],
+      "agreements": ["Single chunk [0-4] matches gold exactly", "Label accurately captures the photographic-film translation topic"],
+      "summary": "Identical segmentation with an accurate, slightly more descriptive label clarifying the camera-film sense."
+    },
+    {
+      "id": "18e1ea4c-106a-4212-8531-28342d0cc3e7",
+      "name": "Toyota's Kaizen Culture",
+      "mc": 4,
+      "boundary_score": 100,
+      "label_score": 95,
+      "verdict": "agree",
+      "disagreements": [],
+      "agreements": ["Single chunk [0-3] matches gold exactly", "Label captures both Kaizen culture and Lexus LFA"],
+      "summary": "Identical segmentation and essentially identical label (quality vs excellence). A clean agreement."
+    },
+    {
+      "id": "c3c8b072-143e-4b97-8d28-088f4d78cb8e",
+      "name": "if you look at the articles in articles, you might see that they have a lot of c",
+      "mc": 49,
+      "boundary_score": 100,
+      "label_score": 92,
+      "verdict": "agree",
+      "disagreements": [],
+      "agreements": ["Both chunks [0-46] and [47-48] match gold exactly", "Correctly identified the long citation-migration arc as one chunk and the email-download request as separate"],
+      "summary": "Boundaries are identical to gold despite the conversation's length and meandering trial-and-error structure. Candidate's label says 'Obsidian-native footnotes' (accurate to the final state) where gold says 'Wikipedia-style' (the original ask) — both defensible."
+    },
+    {
+      "id": "57ab528b-8f4d-42cd-b35c-70e53b57dfe6",
+      "name": "Comparing Mac computers for local AI performance",
+      "mc": 74,
+      "boundary_score": 30,
+      "label_score": 75,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "extra_overlap", "detail": "Candidate chunk 3 [51-73] overlaps chunk 2 [26-55] across messages 51-55, and chunk 4 [58-63] is fully nested inside chunk 3, producing tangled non-sequential ranges"},
+        {"type": "other", "detail": "Gold left this conversation entirely unchunked ('(none)'), so there is no reference structure to align to; the candidate produced 4 chunks where the reference yields zero"}
+      ],
+      "agreements": ["Candidate's labels (local LLM inference, Archie factory thesis, Linux kernel proof, Fable-vs-Archie) are individually plausible and topic-accurate for the content"],
+      "summary": "Gold produced no segmentation for this 74-message conversation, so the candidate cannot align to a reference. Beyond that, the candidate's own ranges are internally inconsistent (overlapping [26-55]/[51-73] and a nested [58-63]). Labels are reasonable but the structure is unmatchable and self-overlapping."
+    },
+    {
+      "id": "67257e17-fc64-8013-a928-142fafd36c6b",
+      "name": "EDGE Network Rollout Timeline",
+      "mc": 14,
+      "boundary_score": 70,
+      "label_score": 82,
+      "verdict": "minor_disagreement",
+      "disagreements": [
+        {"type": "misaligned_boundary", "detail": "Candidate's chunk 1 [0-7] extends past gold's boundary at 5; gold splits EDGE history [0-5] from modern-iPhone-support/time-travel [6-9], while candidate cuts at 7 and isolates only [8-9] as the time-travel hypothetical"}
+      ],
+      "agreements": ["Wi-Fi chunk [10-13] matches gold exactly", "Three-chunk structure matches gold's count", "Labels are specific and accurate"],
+      "summary": "Candidate gets the Wi-Fi boundary right but misplaces the EDGE-history/iPhone-support boundary, folding the iPhone-2024 support question into the rollout chunk and over-isolating the time-travel hypothetical. Coherent but a one-boundary misread."
+    },
+    {
+      "id": "ddcc93cd-18e5-4bfd-b28d-6d4a43da3a78",
+      "name": "SR-71s never downed",
+      "mc": 20,
+      "boundary_score": 82,
+      "label_score": 88,
+      "verdict": "minor_disagreement",
+      "disagreements": [
+        {"type": "over_split", "detail": "Candidate splits gold's SR-71 chunk [0-15] into [0-13] specs/history and [14-15] pilot patches, a finer split than gold's single chunk"}
+      ],
+      "agreements": ["Drifting chunk [16-19] matches gold exactly", "Correctly identified the major topic break between SR-71 and drifting at 16", "Labels are specific and accurate"],
+      "summary": "Candidate matches the gold's key boundary at 16 and adds a coherent finer split of the SR-71 block into specs vs pilot-patch culture. The over-split is reasonable, so this is a mild disagreement."
+    },
+    {
+      "id": "7b7e0d0d-d8e9-455c-8383-cf150b365ce6",
+      "name": "Policy Document Database Import",
+      "mc": 12,
+      "boundary_score": 35,
+      "label_score": 70,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "under_split", "detail": "Candidate collapses gold's 5 stage-based chunks (DISCOVER [0-3], CloudStorage access [4-5], SCHEMA [6-7], APPLY [8-9], PARSE [10-11]) into a single [0-11] chunk, erasing the entire DISCOVER/SCHEMA/APPLY/PARSE workflow structure"}
+      ],
+      "agreements": ["Full message coverage [0-11]", "Label correctly names the four workflow stages"],
+      "summary": "Candidate produces one chunk where gold produces five aligned to the explicit workflow stages. While the label enumerates the stages, the segmentation discards all internal boundaries gold considered meaningful — a substantial under-split."
+    },
+    {
+      "id": "670e2fd5-08fc-8013-86f1-eb0ad8d54d93",
+      "name": "WebSocket Message Queueing Fix",
+      "mc": 14,
+      "boundary_score": 100,
+      "label_score": 95,
+      "verdict": "agree",
+      "disagreements": [],
+      "agreements": ["All 5 chunk ranges match gold exactly ([0-1],[2-3],[4-7],[8-10],[11-13])", "Labels precisely capture queueing, Proxy dispatch, event subscription, future plans, and Deno rewrite"],
+      "summary": "Perfect boundary alignment across all five chunks with detailed, accurate labels. Essentially identical to gold."
+    },
+    {
+      "id": "c8f1088f-2584-479f-ad31-69f2e208b4ce",
+      "name": "LUT effects on image appearance",
+      "mc": 8,
+      "boundary_score": 45,
+      "label_score": 72,
+      "verdict": "major_disagreement",
+      "disagreements": [
+        {"type": "under_split", "detail": "Candidate collapses gold's 3 chunks (film-stock analogy [0-1], SOOC thesis [2-5], curated LiveLUT canon [6-7]) into a single [0-7] chunk, losing the analogy and the in-camera-LUT-set sub-topics"}
+      ],
+      "agreements": ["Full message coverage", "Label correctly identifies the central SOOC capture-time stock framing"],
+      "summary": "Candidate treats the whole conversation as one chunk where gold finds three coherent sub-topics. The single label is accurate to the overall theme but the segmentation misses the analogy and curated-LiveLUT distinctions gold drew."
+    },
+    {
+      "id": "67dc568a-9128-8013-946e-304354396075",
+      "name": "NinjaOne RMM Overview",
+      "mc": 10,
+      "boundary_score": 82,
+      "label_score": 85,
+      "verdict": "minor_disagreement",
+      "disagreements": [
+        {"type": "under_split", "detail": "Candidate merges gold chunks 2 [2-7] (Gatekeeper blocking) and 3 [8-9] (declining over bundled TeamViewer) into a single [2-9] chunk"}
+      ],
+      "agreements": ["NinjaOne overview chunk [0-1] matches gold exactly", "Labels are accurate and mention both the Gatekeeper block and TeamViewer concern"],
+      "summary": "Candidate matches the first boundary and folds the TeamViewer-decline conclusion into the Gatekeeper chunk. The label still surfaces both ideas, so the merge is a minor structural simplification rather than a misread."
+    },
+    {
+      "id": "68265d39-6344-8013-a724-365431cbdb8e",
+      "name": "Telemedicine Opportunity Decision Analysis",
+      "mc": 26,
+      "boundary_score": 55,
+      "label_score": 78,
+      "verdict": "minor_disagreement",
+      "disagreements": [
+        {"type": "under_split", "detail": "Candidate's [0-13] merges gold chunks 1 (yes/no + paid discovery [0-3]), 2 (valuation/alignment [4-7]), 3 (SWOT [8-9]), and 4 (delivery/reputation risk [10-13]) into one chunk, losing the SWOT and valuation sub-topics"},
+        {"type": "missed_content", "detail": "Candidate covers [14-15] then jumps to [20-23], omitting messages 16-19 (time-allocation discussion gold groups in chunk 5 [14-19])"}
+      ],
+      "agreements": ["Risk-buckets chunk [20-23] aligns with gold", "Go/No-Go matrix [24-25] matches gold exactly", "Labels are specific and decision-analysis-aware"],
+      "summary": "Candidate captures the back half (risk buckets, Go/No-Go) well but heavily under-splits the front half into one [0-13] block and drops messages 16-19 from coverage. Coherent labels, but real boundaries and some content are lost."
+    },
+    {
+      "id": "f471869f-bd14-4d4f-a372-fa6e4283be7c",
+      "name": "Google Drive Folder Search",
+      "mc": 14,
+      "boundary_score": 78,
+      "label_score": 85,
+      "verdict": "minor_disagreement",
+      "disagreements": [
+        {"type": "under_split", "detail": "Candidate merges gold chunks 1-3 (locate folder [0-1], list contents [2-3], Sales folder [4-5]) into a single [0-5] chunk"},
+        {"type": "under_split", "detail": "Candidate merges gold chunks 4+5 (top-5 objections [6-7] and objection-handling evaluation [8-9]) into [6-9]"}
+      ],
+      "agreements": ["Gmail context [10-11] and Jira WhiteBit [12-13] match gold exactly", "Labels are specific and name the right entities"],
+      "summary": "Candidate produces a coherent coarser segmentation (4 vs 7 chunks), correctly isolating the Gmail and Jira topics but merging the Drive-navigation steps and the two objection sub-topics. No hallucinated anchors; the merges are defensible groupings."
+    },
+    {
+      "id": "676ce76d-1b14-8013-9fab-bdf9b5e00ccb",
+      "name": "S5IIX High Resolution Mode",
+      "mc": 18,
+      "boundary_score": 80,
+      "label_score": 88,
+      "verdict": "minor_disagreement",
+      "disagreements": [
+        {"type": "over_split", "detail": "Candidate splits gold chunk 1 [0-3] into [0-1] (HR mode overview) and [2-3] (HR for astro), and splits gold chunk 2 [4-7] into [4-5] (astro features) and [6-7] (time-lapse)"}
+      ],
+      "agreements": ["Chunks [8-9],[10-11],[12-13],[14-15],[16-17] all align with gold", "Labels are detailed and technically accurate throughout"],
+      "summary": "Candidate is finer-grained than gold at the front (9 vs 7 chunks) but every split is coherent and the back half matches gold message-for-message. A reasonable over-split with strong labels."
+    },
+    {
+      "id": "019e4d54-f0cb-74e0-a4cc-36c524895d38",
+      "name": "Untitled",
+      "mc": 4,
+      "boundary_score": 70,
+      "label_score": 80,
+      "verdict": "minor_disagreement",
+      "disagreements": [
+        {"type": "over_split", "detail": "Candidate splits the single review topic into [0-1] (PDF review) and [2-3] (PPTX rebuild), where gold treats it as one [0-3] chunk; the split tracks the format change but both halves are the same board-deck review task"}
+      ],
+      "agreements": ["Full message coverage", "Labels correctly identify the Archie board deck review/rebuild via Codex"],
+      "summary": "Candidate over-splits the gold's single chunk along the PDF-to-PPTX format handoff. The split is coherent and labels are accurate, but it fragments what gold (reasonably) saw as one continuous deck-review task."
+    },
+    {
+      "id": "9f7e3acb-4a5d-4b63-b47d-21fc956bd36d",
+      "name": "Camera Sensor vs. Display",
+      "mc": 8,
+      "boundary_score": 85,
+      "label_score": 90,
+      "verdict": "minor_disagreement",
+      "disagreements": [
+        {"type": "over_split", "detail": "Candidate splits gold chunk 2 [2-5] (Quad Bayer + pixel binning) into [2-3] (Quad Bayer) and [4-5] (binning to 24MP)"}
+      ],
+      "agreements": ["Sensor-vs-display chunk [0-1] matches gold exactly", "Super-resolution chunk [6-7] matches gold exactly", "Labels are specific and accurate"],
+      "summary": "Candidate matches gold's outer boundaries and adds one coherent finer split of the Quad Bayer / pixel-binning block. Labels are precise, making this a minor, defensible over-split."
+    }
+  ]
+}

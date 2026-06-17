@@ -1,0 +1,980 @@
+{
+  "label": "gemma-e4b-chunk-v2",
+  "transport": "fetch",
+  "provider": null,
+  "model": "mlx-community/gemma-4-e4b-it-OptiQ-4bit",
+  "adapter": "chunk-v2",
+  "baseUrl": "http://localhost:8090/v1",
+  "generatedAt": "2026-06-17T14:20:40.625Z",
+  "convs": [
+    {
+      "id": "67e99628-77a4-8013-a2b8-fbdca8c68541",
+      "name": "How Anchors Work",
+      "mc": 6,
+      "promptHash": "0baee21860aad7ed",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 5,
+          "label": "How ship anchors dig into seabed",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"0bd823f7-55e6-457b-a0cd-e9bb6ef493f6\",\"end_message_uuid\":\"cf28c0f1-4714-4c17-b7e7-60a86357f31b\",\"label\":\"How ship anchors dig into seabed\"}]}",
+      "ms": 10497
+    },
+    {
+      "id": "f5ecbed4-5361-40ab-9442-670a86831969",
+      "name": "Divorce Rights in Mexico",
+      "mc": 10,
+      "promptHash": "bac670081dfffbc0",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 7,
+          "label": "Divorce rights and history in Mexico",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 9,
+          "label": "La Que La Vida Me Robo telenovela premiere date",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"aaa2391d-aef6-4872-ab00-b487bdec8980\",\"end_message_uuid\":\"bc3ff974-ab7c-4702-89aa-e6ba8c26b616\",\"label\":\"Divorce rights and history in Mexico\"},{\"start_message_uuid\":\"aaa28a32-8f06-406d-a8a6-5ad0f84547f4\",\"end_message_uuid\":\"1afd71f0-15f0-4212-a404-109e221315fa\",\"label\":\"La Que La Vida Me Robo telenovela premiere date\"}]}",
+      "ms": 14274
+    },
+    {
+      "id": "a5be3d4e-fa6f-4d09-9715-70b745578026",
+      "name": "Fixing JavaScript ES6 Error",
+      "mc": 30,
+      "promptHash": "e1fd709838ab91c8",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 3,
+          "label": "Fixing floating-ui ES6 spread operator Webpack error",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 7,
+          "label": "Searching file content changes across git history",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 11,
+          "label": "Inspecting dependency tree with npm ls",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 12,
+          "end": 15,
+          "label": "Finding branches and linking local npm packages",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 16,
+          "end": 17,
+          "label": "Checking remote npm registry for package versions",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 18,
+          "end": 19,
+          "label": "Verbose mode for rpm command",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 20,
+          "end": 25,
+          "label": "Clearing npm cache",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 26,
+          "end": 27,
+          "label": "Resolving ETARGET and ERESOLVE npm installation errors",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [
+        "TAIL GAP — trailing messages [28, 29] uncovered"
+      ],
+      "uncovered": [
+        28,
+        29
+      ],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"aaa22a86-5653-4005-826d-a992aeeef517\",\"end_message_uuid\":\"c960d7ca-1a3a-49d9-b2e3-b3d595848b26\",\"label\":\"Fixing floating-ui ES6 spread operator Webpack error\"},{\"start_message_uuid\":\"aaa236b2-0f33-46bc-8e6a-c19d2d94a469\",\"end_message_uuid\":\"96539612-811a-4880-abe7-30f2c4a44545\",\"label\":\"Searching file content changes across git history\"},{\"start_message_uuid\":\"aaa27823-4cd6-4ade-9be3-1aac64257227\",\"end_message_uuid\":\"00799dc9-b1f8-4873-9018-00b5ec35d3eb\",\"label\":\"Inspecting dependency tree with npm ls\"},{\"start_message_uuid\":\"aaa27b68-f449-4123-9fa4-d6935e0fe506\",\"end_message_uuid\":\"fec1b501-b574-4c01-bf59-65df80651a0b\",\"label\":\"Finding branches and linking local npm packages\"},{\"start_message_uuid\":\"aaa2e8b6-91dc-4307-b2c3-6f1911813626\",\"end_message_uuid\":\"14d9ca02-e87c-4d83-9a09-4fcdef7654c9\",\"label\":\"Checking remote npm registry for package versions\"},{\"start_message_uuid\":\"aaa27602-17a9-4a5e-8e3a-23eb3c4d011c\",\"end_message_uuid\":\"a9fa4e0d-faaa-4bfb-ad00-b115ec74f4e8\",\"label\":\"Verbose mode for rpm command\"},{\"start_message_uuid\":\"aaa2cefd-1e0b-4d50-bdde-d28d4d5f2023\",\"end_message_uuid\":\"2589dd7e-1a1b-472f-ab1b-a1b551af9c82\",\"label\":\"Clearing npm cache\"},{\"start_message_uuid\":\"aaa22954-e52c-4c5e-b3cb-ab11df1cd478\",\"end_message_uuid\":\"ffba6455-2546-4e22-9926-a9055eb3048c\",\"label\":\"Resolving ETARGET and ERESOLVE npm installation errors\"}]}",
+      "ms": 44208
+    },
+    {
+      "id": "eff06c22-ad20-45d7-b670-7054bd9d6cbb",
+      "name": "First Hold: Climbing Starting Point",
+      "mc": 8,
+      "promptHash": "fd3304fc9b7fd858",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 7,
+          "label": "First hold/challenge booking system mechanics",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"aaa2c97a-4ada-4a1e-ae26-ee2e9840cd27\",\"end_message_uuid\":\"731e8281-9b39-405f-ac6c-22d6122fc0cd\",\"label\":\"First hold/challenge booking system mechanics\"}]}",
+      "ms": 9876
+    },
+    {
+      "id": "ed94728c-eb45-41e8-8993-da8322e2cc44",
+      "name": "Encoded String Verification",
+      "mc": 9,
+      "promptHash": "b0b2d52678025f07",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 8,
+          "label": "Base64 decoding LgNHuFBNV61MSC08QsT3kA== to ASCII",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"aaa22775-d407-4787-9345-bee16d480d1e\",\"end_message_uuid\":\"8d443571-c7ae-4c67-bfd6-7679ae7a3c83\",\"label\":\"Base64 decoding LgNHuFBNV61MSC08QsT3kA== to ASCII\"}]}",
+      "ms": 10585
+    },
+    {
+      "id": "16be1a9f-3c61-453a-a536-5736a74a8921",
+      "name": "Mud versus clay differences",
+      "mc": 48,
+      "promptHash": "f013080280df1d53",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 3,
+          "label": "Mud vs clay mineral distinction and sourcing",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 7,
+          "label": "Clay to brick transformation and firing irreversibility",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 13,
+          "label": "Brick vs fine ceramics and clay purity",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 10,
+          "end": 11,
+          "label": "Porcelain glazing purpose and waterproofing",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 12,
+          "end": 19,
+          "label": "Iron atoms in space: cold welding vs atomic bonding",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 16,
+          "end": 17,
+          "label": "Iron-oxygen cloud collision: cosmic rust formation",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 18,
+          "end": 21,
+          "label": "Two iron atoms vs two iron bars: atomic bonding vs cold welding",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 22,
+          "end": 23,
+          "label": "Cold welding in vacuum: theory vs practical UHV requirements",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 24,
+          "end": 25,
+          "label": "Three-cloud collision: iron-carbon-oxygen stellar dust chemistry",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 26,
+          "end": 27,
+          "label": "Carbon monoxide stability and cosmic C/O ratio",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 28,
+          "end": 29,
+          "label": "CO phase diagram: solid CO in space and cryogenics",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 30,
+          "end": 31,
+          "label": "Solid CO hardness: molecular vs network solids",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 32,
+          "end": 33,
+          "label": "Network solids: SiO2 vs CO bonding capacity",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 34,
+          "end": 35,
+          "label": "Diamond hardness vs toughness: brittle fracture and shrapnel",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 36,
+          "end": 37,
+          "label": "Diamond synthesis: HPHT vs CVD and the marketing fiction",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 38,
+          "end": 39,
+          "label": "Diamondoid future: structural applications vs car frames",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 46,
+          "end": 47,
+          "label": "Diamond for electronics: screens, semiconductors, and thermal management",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [
+        "OVERLAP — \"Brick vs fine ceramics and clay purity\" & \"Porcelain glazing purpose and waterproofing\" share 2 messages (policy allows ≤1 boundary message)",
+        "OVERLAP — \"Brick vs fine ceramics and clay purity\" & \"Iron atoms in space: cold welding vs atomic bonding\" share 2 messages (policy allows ≤1 boundary message)",
+        "OVERLAP — \"Iron atoms in space: cold welding vs atomic bonding\" & \"Iron-oxygen cloud collision: cosmic rust formation\" share 2 messages (policy allows ≤1 boundary message)",
+        "OVERLAP — \"Iron atoms in space: cold welding vs atomic bonding\" & \"Two iron atoms vs two iron bars: atomic bonding vs cold welding\" share 2 messages (policy allows ≤1 boundary message)"
+      ],
+      "uncovered": [
+        40,
+        41,
+        42,
+        43,
+        44,
+        45
+      ],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"019e0517-4c04-7390-8fe8-ad94ecea4127\",\"end_message_uuid\":\"019e0518-3a1d-7a15-bca4-637168891e3d\",\"label\":\"Mud vs clay mineral distinction and sourcing\"},{\"start_message_uuid\":\"019e0519-18f9-73eb-88e6-adf666caddbe\",\"end_message_uuid\":\"019e051a-2003-7461-ba42-461185006a5b\",\"label\":\"Clay to brick transformation and firing irreversibility\"},{\"start_message_uuid\":\"019e051b-e598-7a58-8a5a-0a93057f1db0\",\"end_message_uuid\":\"019e051e-64f5-7f49-8a4f-747fcbd2f587\",\"label\":\"Brick vs fine ceramics and clay purity\"},{\"start_message_uuid\":\"019e051d-08d1-7fd2-a8c9-9937c04e2117\",\"end_message_uuid\":\"019e051d-08d1-74ea-b292-b0aad96e2881\",\"label\":\"Porcelain glazing purpose and waterproofing\"},{\"start_message_uuid\":\"019e051e-64f5-7506-85b2-369af85a7ae9\",\"end_message_uuid\":\"019e0523-237e-7ef1-b4d1-8619b8b9cf6c\",\"label\":\"Iron atoms in space: cold welding vs atomic bonding\"},{\"start_message_uuid\":\"019e0521-a7f0-789d-8529-d5393be80513\",\"end_message_uuid\":\"019e0521-a7f0-7a35-9821-9b4733db5c4c\",\"label\":\"Iron-oxygen cloud collision: cosmic rust formation\"},{\"start_message_uuid\":\"019e0523-237e-7f00-a3b3-38ffcc41568d\",\"end_message_uuid\":\"019e0524-b252-773b-b750-cb489bbab780\",\"label\":\"Two iron atoms vs two iron bars: atomic bonding vs cold welding\"},{\"start_message_uuid\":\"019e0525-c839-719d-a176-4d2df01f9a76\",\"end_message_uuid\":\"019e0525-c839-707d-ada9-ca580ec55637\",\"label\":\"Cold welding in vacuum: theory vs practical UHV requirements\"},{\"start_message_uuid\":\"019e0527-43d4-7672-a5e0-614279006232\",\"end_message_uuid\":\"019e0527-43d5-7951-a26b-922fdec07817\",\"label\":\"Three-cloud collision: iron-carbon-oxygen stellar dust chemistry\"},{\"start_message_uuid\":\"019e0528-e000-7eec-b2dc-287414093d72\",\"end_message_uuid\":\"019e0528-e000-717c-97e2-52678639b830\",\"label\":\"Carbon monoxide stability and cosmic C/O ratio\"},{\"start_message_uuid\":\"019e052d-42c2-72a3-80a9-fbbc53779bf4\",\"end_message_uuid\":\"019e052d-42c2-7245-8aac-7f84f83ce3df\",\"label\":\"CO phase diagram: solid CO in space and cryogenics\"},{\"start_message_uuid\":\"019e052e-be89-7b9b-8606-2abfaf17e74a\",\"end_message_uuid\":\"019e052e-be89-78cc-959c-1e4bc9e04627\",\"label\":\"Solid CO hardness: molecular vs network solids\"},{\"start_message_uuid\":\"019e0530-dd51-7b74-919a-ecbf1a4e65a0\",\"end_message_uuid\":\"019e0530-dd51-7c2b-88c1-cc41de512223\",\"label\":\"Network solids: SiO2 vs CO bonding capacity\"},{\"start_message_uuid\":\"019e0533-c07c-7c97-8ffd-8f8db2fd7bb0\",\"end_message_uuid\":\"019e0533-c07c-7e94-b4a4-13d40407b774\",\"label\":\"Diamond hardness vs toughness: brittle fracture and shrapnel\"},{\"start_message_uuid\":\"019e0537-212a-73cb-a895-84e66ced21ab\",\"end_message_uuid\":\"019e0537-212a-7954-b996-15d074252c60\",\"label\":\"Diamond synthesis: HPHT vs CVD and the marketing fiction\"},{\"start_message_uuid\":\"019e053a-60a3-7d22-84e9-32573afe9a42\",\"end_message_uuid\":\"019e053a-60a3-781f-814b-16cc28d01bc7\",\"label\":\"Diamondoid future: structural applications vs car frames\"},{\"start_message_uuid\":\"019e054f-73e9-76cb-84f6-c7cc82ee7ce9\",\"end_message_uuid\":\"019e054f-73ea-7f80-be3a-e7eb975ecff1\",\"label\":\"Diamond for electronics: screens, semiconductors, and thermal management\"}]}",
+      "ms": 110827
+    },
+    {
+      "id": "f5515608-8e7e-4b79-b9ed-afc34fa7a400",
+      "name": "Comparing Microphone Audio",
+      "mc": 4,
+      "promptHash": "4377923fd08e7a9e",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "Scientifically comparing microphone audio with metrics",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "Audio analysis software recommendations",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"aaa2c0c9-35e1-4d48-86a2-7f16f6d131e6\",\"end_message_uuid\":\"436f95c9-f2bb-4a17-a31b-5d44924ccbde\",\"label\":\"Scientifically comparing microphone audio with metrics\"},{\"start_message_uuid\":\"aaa2954f-688b-420f-882d-9e6109ec3250\",\"end_message_uuid\":\"6904b07c-552c-4ffa-a8fd-d7d2090056bb\",\"label\":\"Audio analysis software recommendations\"}]}",
+      "ms": 13103
+    },
+    {
+      "id": "86397ce8-e28f-44ea-8cb4-bfce24e0d13d",
+      "name": "Avoid Banding in DaVinci.",
+      "mc": 14,
+      "promptHash": "0c15d2015564f667",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 5,
+          "label": "Avoiding banding and DaVinci Resolve capabilities",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 13,
+          "label": "Nitroglycerin detonation activation energy and shock initiation",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [
+        6,
+        7
+      ],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"aaa230a5-459b-43c4-aa21-23a96e499710\",\"end_message_uuid\":\"b942215a-40ed-471a-b1b8-4973b9806766\",\"label\":\"Avoiding banding and DaVinci Resolve capabilities\"},{\"start_message_uuid\":\"aaa268ef-638f-444a-9f68-cca8ccfed325\",\"end_message_uuid\":\"8366a74e-d129-429f-bb6f-dcee9443854d\",\"label\":\"Nitroglycerin detonation activation energy and shock initiation\"}]}",
+      "ms": 14098
+    },
+    {
+      "id": "78da6fe3-60bc-482f-9346-49c600780d47",
+      "name": "Service Table Design for SIMS",
+      "mc": 4,
+      "promptHash": "681bae6ed6e4c368",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "SIMS service inventory table design for graph",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "SurrealQL database query language overview",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"aaa20d21-0372-4eec-b3c7-5e673c78268d\",\"end_message_uuid\":\"dfcb5deb-57d2-405d-8776-7437df16a5f7\",\"label\":\"SIMS service inventory table design for graph\"},{\"start_message_uuid\":\"aaa2b4f0-f0ee-41df-b116-d8917c07ff8e\",\"end_message_uuid\":\"90985f92-978d-4fb2-b390-03a16ca04b4b\",\"label\":\"SurrealQL database query language overview\"}]}",
+      "ms": 14465
+    },
+    {
+      "id": "67a82605-6540-8013-a892-60288bbf7b50",
+      "name": "File Size Creation Date",
+      "mc": 20,
+      "promptHash": "5d24d824633b3a6c",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 3,
+          "label": "Node.js fs.stat file size and birthtime in MB",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 7,
+          "label": "Standard RAW format DNG and RW2 to DNG conversion",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 11,
+          "label": "Arca-Swiss vs Manfrotto quick-release plate comparison",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 12,
+          "end": 15,
+          "label": "Arca-Swiss clamp binding when dropping-in plates",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 16,
+          "end": 17,
+          "label": "MP4 vs MOV container format differences",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 18,
+          "end": 19,
+          "label": "Auto-syncing video clips by waveform in DaVinci Resolve",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"21cf9dee-68d1-4106-b6e7-0e0f1c42477a\",\"end_message_uuid\":\"8ad664b2-2f78-45b1-86bf-c901a8037e55\",\"label\":\"Node.js fs.stat file size and birthtime in MB\"},{\"start_message_uuid\":\"6b4467a3-3cff-45eb-9e87-345ac0862036\",\"end_message_uuid\":\"dc5ff762-844b-4ff2-826e-e272f4853b0a\",\"label\":\"Standard RAW format DNG and RW2 to DNG conversion\"},{\"start_message_uuid\":\"0a5bfeda-3f76-41e0-8f51-02119b35cb4a\",\"end_message_uuid\":\"e8b669ea-8793-4711-89e4-cb2951915a9d\",\"label\":\"Arca-Swiss vs Manfrotto quick-release plate comparison\"},{\"start_message_uuid\":\"308001bc-05be-4105-94d5-3b9c0a422881\",\"end_message_uuid\":\"fc25efe9-3a96-41b4-9879-588d4e7db866\",\"label\":\"Arca-Swiss clamp binding when dropping-in plates\"},{\"start_message_uuid\":\"980bb0e1-7775-493c-94e5-5c45c370817e\",\"end_message_uuid\":\"02526c20-6f57-453e-8a75-ca50a12ddb5a\",\"label\":\"MP4 vs MOV container format differences\"},{\"start_message_uuid\":\"0329b4da-5719-4c3e-8c1c-b8cab1834751\",\"end_message_uuid\":\"c9399cf0-9f8c-44d1-9cf4-35adae1af79a\",\"label\":\"Auto-syncing video clips by waveform in DaVinci Resolve\"}]}",
+      "ms": 37245
+    },
+    {
+      "id": "2427687a-75a4-4b05-8ee1-4602879db37c",
+      "name": "New chat",
+      "mc": 5,
+      "promptHash": "31a9d349594f659d",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 4,
+          "label": "Spanish translation of photographic film (camera film)",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"d92779c3-085a-41e1-9ac1-984773247fd6\",\"end_message_uuid\":\"acb7fecb-c4ef-4975-8493-bf8aee8b4ffb\",\"label\":\"Spanish translation of photographic film (camera film)\"}]}",
+      "ms": 9257
+    },
+    {
+      "id": "18e1ea4c-106a-4212-8531-28342d0cc3e7",
+      "name": "Toyota's Kaizen Culture",
+      "mc": 4,
+      "promptHash": "1f6df8d1fbb0ed41",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 3,
+          "label": "Toyota Kaizen culture and Lexus LFA quality",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"aaa26a15-f1bd-4a2a-a0b5-ff6530dc60e4\",\"end_message_uuid\":\"f530e09f-6a29-483e-af77-81d947955dea\",\"label\":\"Toyota Kaizen culture and Lexus LFA quality\"}]}",
+      "ms": 9268
+    },
+    {
+      "id": "c3c8b072-143e-4b97-8d28-088f4d78cb8e",
+      "name": "if you look at the articles in articles, you might see that they have a lot of c",
+      "mc": 49,
+      "promptHash": "0a05c8f08853696e",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 46,
+          "label": "Migrating article citations to Obsidian-native footnotes",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 47,
+          "end": 48,
+          "label": "Requesting Anthropic email download from alphapoint.com",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"89c61acd-a4b2-4492-bbb9-ef6f4243142b\",\"end_message_uuid\":\"705c06e9-b044-40ad-81a8-0a9c8e729e2f\",\"label\":\"Migrating article citations to Obsidian-native footnotes\"},{\"start_message_uuid\":\"b50f9963-8e62-4d81-a0df-3b87494e8063\",\"end_message_uuid\":\"1c44c99e-a328-4397-9abe-00aabf732472\",\"label\":\"Requesting Anthropic email download from alphapoint.com\"}]}",
+      "ms": 21853
+    },
+    {
+      "id": "57ab528b-8f4d-42cd-b35c-70e53b57dfe6",
+      "name": "Comparing Mac computers for local AI performance",
+      "mc": 74,
+      "promptHash": "25ae5b328521599f",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 25,
+          "label": "MacBook Pro vs Mac Studio for local LLM inference",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 26,
+          "end": 55,
+          "label": "Archie as a factory line: bounded-context, stateless-worker thesis",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 51,
+          "end": 73,
+          "label": "Linux kernel as 14k-contributor existence proof for bounded-context",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 58,
+          "end": 63,
+          "label": "Claude Fable vs Archie: capability-as-a-service vs line-as-a-capital-asset",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [
+        "OVERLAP — \"Archie as a factory line: bounded-context, stateless-worker thesis\" & \"Linux kernel as 14k-contributor existence proof for bounded-context\" share 5 messages (policy allows ≤1 boundary message)",
+        "OVERLAP — \"Linux kernel as 14k-contributor existence proof for bounded-context\" & \"Claude Fable vs Archie: capability-as-a-service vs line-as-a-capital-asset\" share 6 messages (policy allows ≤1 boundary message)"
+      ],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"019eacf7-3040-7f04-91ff-150a3d3087bc\",\"end_message_uuid\":\"019ead12-34a5-754a-8d2e-2b08aee9abc2\",\"label\":\"MacBook Pro vs Mac Studio for local LLM inference\"},{\"start_message_uuid\":\"019ead14-8d61-7e38-9738-224be449a06b\",\"end_message_uuid\":\"019ead4c-8f45-70ba-90d7-a9c6c8aed0c0\",\"label\":\"Archie as a factory line: bounded-context, stateless-worker thesis\"},{\"start_message_uuid\":\"019ead47-46cb-7a3f-9a57-628aeab7b815\",\"end_message_uuid\":\"019ead9b-b6c2-7810-9d37-5c9b66ba2fd2\",\"label\":\"Linux kernel as 14k-contributor existence proof for bounded-context\"},{\"start_message_uuid\":\"019ead6f-e5ef-7ba2-b0e9-ea8f15f11f16\",\"end_message_uuid\":\"019ead77-8049-7a83-8fb0-d15c929bc0ef\",\"label\":\"Claude Fable vs Archie: capability-as-a-service vs line-as-a-capital-asset\"}]}",
+      "ms": 101871
+    },
+    {
+      "id": "67257e17-fc64-8013-a928-142fafd36c6b",
+      "name": "EDGE Network Rollout Timeline",
+      "mc": 14,
+      "promptHash": "29a6ac951ff76f26",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 7,
+          "label": "EDGE/GPRS rollout timeline and iPhone compatibility",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 9,
+          "label": "Hypothetical iPhone 2003 connectivity scenario",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 10,
+          "end": 13,
+          "label": "Wi-Fi popularization and iPhone Wi-Fi support",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"94b8b24b-f192-4ce7-9414-3c13f66e20ba\",\"end_message_uuid\":\"4162e5d1-1933-4cdf-9e76-7a10eefc405a\",\"label\":\"EDGE/GPRS rollout timeline and iPhone compatibility\"},{\"start_message_uuid\":\"a309b215-8a3b-413f-b3be-293adab91e98\",\"end_message_uuid\":\"3e0967b0-97eb-4f43-91b2-4ef4ad6960d3\",\"label\":\"Hypothetical iPhone 2003 connectivity scenario\"},{\"start_message_uuid\":\"65ade572-35d9-4158-a3e7-3cef69b587ed\",\"end_message_uuid\":\"38dcb7b2-880d-4ef8-b68b-4f0b90db5dfc\",\"label\":\"Wi-Fi popularization and iPhone Wi-Fi support\"}]}",
+      "ms": 18281
+    },
+    {
+      "id": "ddcc93cd-18e5-4bfd-b28d-6d4a43da3a78",
+      "name": "SR-71s never downed",
+      "mc": 20,
+      "promptHash": "df8e7d6362cf4b3e",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 13,
+          "label": "SR-71 Blackbird operational history and specs",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 14,
+          "end": 15,
+          "label": "SR-71 pilot patches and crew recognition",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 16,
+          "end": 19,
+          "label": "Drifting vs grip driving corner speed comparison",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"aaa21cda-ebdd-4cbe-bf4e-b184a966205d\",\"end_message_uuid\":\"3006c058-7bff-49b7-af56-7b54a8bbe93b\",\"label\":\"SR-71 Blackbird operational history and specs\"},{\"start_message_uuid\":\"aaa22cce-872a-40c9-a6ca-df35e6779e18\",\"end_message_uuid\":\"b048c997-377d-4877-85ba-f2dddf791575\",\"label\":\"SR-71 pilot patches and crew recognition\"},{\"start_message_uuid\":\"aaa269d6-4c13-4877-ae98-ee9b18667995\",\"end_message_uuid\":\"ce360bdd-ca1c-4dd9-b731-3b4eba7380ac\",\"label\":\"Drifting vs grip driving corner speed comparison\"}]}",
+      "ms": 17397
+    },
+    {
+      "id": "7b7e0d0d-d8e9-455c-8383-cf150b365ce6",
+      "name": "Policy Document Database Import",
+      "mc": 12,
+      "promptHash": "8e521e4ec9f496b3",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 11,
+          "label": "SurrealDB policy import workflow: Discover, Schema, Apply, Parse",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"e0564284-c2cf-471c-94c9-37e1251378bc\",\"end_message_uuid\":\"bb1619a7-a587-4fec-9ba2-9ffa53050c28\",\"label\":\"SurrealDB policy import workflow: Discover, Schema, Apply, Parse\"}]}",
+      "ms": 16222
+    },
+    {
+      "id": "670e2fd5-08fc-8013-86f1-eb0ad8d54d93",
+      "name": "WebSocket Message Queueing Fix",
+      "mc": 14,
+      "promptHash": "c8a5e4098cde138f",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "WebSocket message queueing with promise support",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "Dynamic method dispatch via Proxy for API calls",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 7,
+          "label": "Event subscription (specific and global) for WS events",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 10,
+          "label": "Future plans: debug, reconnect, autocomplete",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 11,
+          "end": 13,
+          "label": "Rewriting library from Node.js to Deno",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"540cc7b3-83c5-44c6-9b65-92b14b60850b\",\"end_message_uuid\":\"0eb70237-29d7-434b-8037-2780dc66cd8a\",\"label\":\"WebSocket message queueing with promise support\"},{\"start_message_uuid\":\"d37d55fe-aea3-4e7a-9190-9e6b9f21e5ff\",\"end_message_uuid\":\"79937683-ad19-49ba-8068-598eb34ca7b9\",\"label\":\"Dynamic method dispatch via Proxy for API calls\"},{\"start_message_uuid\":\"0b4d5893-eb9e-4b7d-bd82-0f56e38614c2\",\"end_message_uuid\":\"26041b2e-614c-4682-b2b7-a79c8b204256\",\"label\":\"Event subscription (specific and global) for WS events\"},{\"start_message_uuid\":\"3e554dd1-cc2d-4fe5-ba5f-e8f826df7cd9\",\"end_message_uuid\":\"cb6b9e01-ce0f-4ecf-b766-4946f38aff06\",\"label\":\"Future plans: debug, reconnect, autocomplete\"},{\"start_message_uuid\":\"3d2917bc-512a-441d-bd2b-e3acd353924d\",\"end_message_uuid\":\"a7f24121-4987-4a2b-8d29-0e4800ba1480\",\"label\":\"Rewriting library from Node.js to Deno\"}]}",
+      "ms": 33264
+    },
+    {
+      "id": "c8f1088f-2584-479f-ad31-69f2e208b4ce",
+      "name": "LUT effects on image appearance",
+      "mc": 8,
+      "promptHash": "b219c82900bc7efc",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 7,
+          "label": "LUTs as capture-time stock choice in SOOC workflow",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"019e8993-5dda-77b1-83db-7c644d82f92e\",\"end_message_uuid\":\"019e8997-eab9-7710-a456-6cb46749ff4f\",\"label\":\"LUTs as capture-time stock choice in SOOC workflow\"}]}",
+      "ms": 11573
+    },
+    {
+      "id": "67dc568a-9128-8013-946e-304354396075",
+      "name": "NinjaOne RMM Overview",
+      "mc": 10,
+      "promptHash": "c69bf834eb68b7c5",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "NinjaOne RMM overview and background",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 9,
+          "label": "macOS Gatekeeper block on AlphaPoint installer and TeamViewer concern",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"c21155ca-de3d-4759-96f3-557ab5edad11\",\"end_message_uuid\":\"b2600d38-b5b5-4596-8a24-dc0b326a9022\",\"label\":\"NinjaOne RMM overview and background\"},{\"start_message_uuid\":\"c7029599-c74a-431a-a94c-1acdc8c35c0c\",\"end_message_uuid\":\"1e313954-e648-4432-b6c3-8e709e72f585\",\"label\":\"macOS Gatekeeper block on AlphaPoint installer and TeamViewer concern\"}]}",
+      "ms": 16489
+    },
+    {
+      "id": "68265d39-6344-8013-a724-365431cbdb8e",
+      "name": "Telemedicine Opportunity Decision Analysis",
+      "mc": 26,
+      "promptHash": "49a4171f6c026cf2",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 13,
+          "label": "El Salvador telemedicine middleware opportunity evaluation",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 14,
+          "end": 15,
+          "label": "Personal bandwidth and time-allocation risks",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 20,
+          "end": 23,
+          "label": "Risk assessment: delivery failure vs personal collateral damage",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 24,
+          "end": 25,
+          "label": "Go/No-Go decision matrix for proposal",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [
+        16,
+        17,
+        18,
+        19
+      ],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"37bfbd8e-3456-4df2-bf6e-dd2b4da2e994\",\"end_message_uuid\":\"5273eb75-d148-4b33-b058-8d551d323b49\",\"label\":\"El Salvador telemedicine middleware opportunity evaluation\"},{\"start_message_uuid\":\"1b7193cb-d01d-4999-bc3b-ae568542682a\",\"end_message_uuid\":\"61c066f1-5335-400c-9167-4f5b2319df59\",\"label\":\"Personal bandwidth and time-allocation risks\"},{\"start_message_uuid\":\"fa80df0b-6543-4e99-b9ea-5485186a6c67\",\"end_message_uuid\":\"9ea8fe37-2529-449d-9d0d-ca6af82bff7e\",\"label\":\"Risk assessment: delivery failure vs personal collateral damage\"},{\"start_message_uuid\":\"61611f3f-8427-46d0-8d9a-149e9b829454\",\"end_message_uuid\":\"1558b151-4410-44a8-8a75-38b316935f92\",\"label\":\"Go/No-Go decision matrix for proposal\"}]}",
+      "ms": 29068
+    },
+    {
+      "id": "f471869f-bd14-4d4f-a372-fa6e4283be7c",
+      "name": "Google Drive Folder Search",
+      "mc": 14,
+      "promptHash": "802d30345a5c89e6",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 5,
+          "label": "Locating and exploring All Meetings sales folder",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 6,
+          "end": 9,
+          "label": "Top 5 prospect objections from sales transcripts",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 10,
+          "end": 11,
+          "label": "Email context for sales prospects (Sony, Glean)",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 12,
+          "end": 13,
+          "label": "Searching Jira for WhiteBit tickets",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"71038418-0db6-4c32-abde-2db9728939d1\",\"end_message_uuid\":\"010dcd0d-bc97-475c-aa4b-7281c10205c5\",\"label\":\"Locating and exploring All Meetings sales folder\"},{\"start_message_uuid\":\"11798497-4c2e-4298-8e3e-762c8def3f49\",\"end_message_uuid\":\"22015302-b21a-40d2-952a-b1616f80408b\",\"label\":\"Top 5 prospect objections from sales transcripts\"},{\"start_message_uuid\":\"af0f2e49-2ecb-44cd-80ca-9d986d85f18a\",\"end_message_uuid\":\"d9782aa2-f46b-4033-bff8-ba82a225dd1f\",\"label\":\"Email context for sales prospects (Sony, Glean)\"},{\"start_message_uuid\":\"06292940-e488-4107-b0d9-46fdb4732701\",\"end_message_uuid\":\"636bc976-14a5-4490-8490-522936065ff1\",\"label\":\"Searching Jira for WhiteBit tickets\"}]}",
+      "ms": 27095
+    },
+    {
+      "id": "676ce76d-1b14-8013-9fab-bdf9b5e00ccb",
+      "name": "S5IIX High Resolution Mode",
+      "mc": 18,
+      "promptHash": "8168c9d865a18463",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "S5IIX High Resolution Mode overview and use cases",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "High Resolution Mode for astrophotography challenges",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "label": "S5IIX astrophotography-specific camera features",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 6,
+          "end": 7,
+          "label": "Time-lapse mode long exposure for astrophotography",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 8,
+          "end": 9,
+          "label": "Distinguishing high-res, long exposure, and time-lapse",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 10,
+          "end": 11,
+          "label": "Capturing unseen stars with long exposure",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 12,
+          "end": 13,
+          "label": "Why manual focus is better than infinity focus for stars",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 14,
+          "end": 15,
+          "label": "Timer vs tethered shooting for astrophotography",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 16,
+          "end": 17,
+          "label": "S5IIX long exposure setup with timer delay",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"2d2d060c-4f21-4d3e-9bc6-84b093417668\",\"end_message_uuid\":\"877afa46-d7d4-4c5e-b74c-73078fd70d65\",\"label\":\"S5IIX High Resolution Mode overview and use cases\"},{\"start_message_uuid\":\"afc101c0-0632-4188-8a94-cfb1700ef360\",\"end_message_uuid\":\"1a5705ca-44a9-42a2-a206-cbb2c5ee66a1\",\"label\":\"High Resolution Mode for astrophotography challenges\"},{\"start_message_uuid\":\"dd18e571-c6e8-4236-ab7b-ede6302b22ec\",\"end_message_uuid\":\"866793eb-3fb1-4455-9f54-2164b4a61a91\",\"label\":\"S5IIX astrophotography-specific camera features\"},{\"start_message_uuid\":\"61d69ac0-dc66-4229-b464-40913a074d76\",\"end_message_uuid\":\"ce3b38ec-b642-4412-ae13-9930bdb62624\",\"label\":\"Time-lapse mode long exposure for astrophotography\"},{\"start_message_uuid\":\"847d74ed-01ed-433f-bc94-09327c7f476b\",\"end_message_uuid\":\"8441e87c-a378-49be-b184-6ad46901bf4d\",\"label\":\"Distinguishing high-res, long exposure, and time-lapse\"},{\"start_message_uuid\":\"97b3f5bc-7bac-409c-ad26-fa71b94b8271\",\"end_message_uuid\":\"d24380e7-455b-4158-9ead-cad6eaff8d87\",\"label\":\"Capturing unseen stars with long exposure\"},{\"start_message_uuid\":\"9e425057-957c-4aae-9a00-256164c12a8d\",\"end_message_uuid\":\"67757099-4a79-48f8-be64-cd3fad26cd72\",\"label\":\"Why manual focus is better than infinity focus for stars\"},{\"start_message_uuid\":\"1d7f97eb-9186-4978-9a70-d87dd373827d\",\"end_message_uuid\":\"1b5683e0-1f52-422a-96fb-75bb4188d50a\",\"label\":\"Timer vs tethered shooting for astrophotography\"},{\"start_message_uuid\":\"8928e1d8-0ea2-4676-9479-2dace4db80dd\",\"end_message_uuid\":\"fbaa40d0-d5bf-471f-900e-49806494e5cc\",\"label\":\"S5IIX long exposure setup with timer delay\"}]}",
+      "ms": 49872
+    },
+    {
+      "id": "019e4d54-f0cb-74e0-a4cc-36c524895d38",
+      "name": "Untitled",
+      "mc": 4,
+      "promptHash": "f4d158822b2f7dbd",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "Reviewing Archie_Board_Deck_v2.pdf with Codex",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "Building Archie_Board_Deck_v3.pptx progress report",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"019e4d54-f0cb-74e0-a4cc-36c524895d38-msg-0\",\"end_message_uuid\":\"019e4d54-f0cb-74e0-a4cc-36c524895d38-msg-1\",\"label\":\"Reviewing Archie_Board_Deck_v2.pdf with Codex\"},{\"start_message_uuid\":\"019e4d54-f0cb-74e0-a4cc-36c524895d38-msg-2\",\"end_message_uuid\":\"019e4d54-f0cb-74e0-a4cc-36c524895d38-msg-3\",\"label\":\"Building Archie_Board_Deck_v3.pptx progress report\"}]}",
+      "ms": 41518
+    },
+    {
+      "id": "9f7e3acb-4a5d-4b63-b47d-21fc956bd36d",
+      "name": "Camera Sensor vs. Display",
+      "mc": 8,
+      "promptHash": "2feac688589e1a86",
+      "chunks": [
+        {
+          "start": 0,
+          "end": 1,
+          "label": "Camera sensors vs display pixels",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "label": "Traditional vs Quad Bayer filter explained",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "label": "48MP sensor pixel binning to 24MP",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        },
+        {
+          "start": 6,
+          "end": 7,
+          "label": "Using 48MP data to enhance 24MP image",
+          "startFlag": "exact",
+          "endFlag": "exact"
+        }
+      ],
+      "anomalies": [],
+      "uncovered": [],
+      "error": null,
+      "rawResponse": "{\"chunks\":[{\"start_message_uuid\":\"aaa2bd63-2402-4954-89e5-3772353ca644\",\"end_message_uuid\":\"50c05cbf-c199-4978-8ab8-ded397c1721a\",\"label\":\"Camera sensors vs display pixels\"},{\"start_message_uuid\":\"aaa272ca-acdf-45d9-9ab0-cd8ee08e01fc\",\"end_message_uuid\":\"5dc40454-9186-4c4b-90bd-2ed9cf5fcf18\",\"label\":\"Traditional vs Quad Bayer filter explained\"},{\"start_message_uuid\":\"aaa295b3-523b-4ba8-beee-d50146354e49\",\"end_message_uuid\":\"2042ab1d-5070-4b77-b382-083044a71196\",\"label\":\"48MP sensor pixel binning to 24MP\"},{\"start_message_uuid\":\"aaa26071-0a24-47fa-951c-112eb32e5b4f\",\"end_message_uuid\":\"e8062489-121a-4b8a-afcb-0b67d1b39c62\",\"label\":\"Using 48MP data to enhance 24MP image\"}]}",
+      "ms": 23892
+    }
+  ]
+}
