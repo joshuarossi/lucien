@@ -1,6 +1,11 @@
 # Chunk segmentation — v2 design note
 
-**Status:** proposal · **Date:** 2026-06-17 · **Owner:** Josh
+> **⚠️ Superseded by [`chunk-segmentation-v3.md`](./chunk-segmentation-v3.md).** v3
+> kept the curation/quality-tier ideas below but did NOT adopt the streaming reframe
+> (§3a) — it went windowed-whole-conv plus a calibrated relabel. Read v3 for the
+> current approach; this doc is historical.
+
+**Status:** proposal (superseded) · **Date:** 2026-06-17 · **Owner:** Josh
 **Supersedes:** the v1 chunk LoRA (`minicpm5-chunk-segmented`)
 
 ## 1. What v1 told us
