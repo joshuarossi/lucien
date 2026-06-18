@@ -1,0 +1,121 @@
+{
+  "stage": "chunk",
+  "version": "v3.0-windowed-curriculum",
+  "builtAt": "2026-06-18T05:14:31.700Z",
+  "format": "messages (system+user+assistant), windowed on chunk boundaries — drop-in for the trainer",
+  "params": {
+    "budget": 30000,
+    "hardMax": 44000,
+    "easyMsgs": 8,
+    "easyKeep": 0.25,
+    "cKeep": 0,
+    "singleFrac": 0.35,
+    "validFrac": 0.1,
+    "idealCache": "/Users/joshrossi/Code/lucien/benchmark/finetune/chunk-v3/ideal-labels.json",
+    "limit": null
+  },
+  "testHoldout": 25,
+  "tierConvCounts": {
+    "A": 616,
+    "B": 787,
+    "C": 350,
+    "D": 113
+  },
+  "windowing": {
+    "convsKept": 1737,
+    "convsWindowed": 427,
+    "convsDropped": 14,
+    "totalWindows": 3153
+  },
+  "defects": {
+    "hard": 20,
+    "overlap": 12,
+    "nested": 6,
+    "unresolved": 8,
+    "gapWindows": 59,
+    "cleanWindows": 3133
+  },
+  "labels": {
+    "idealWindows": 249,
+    "source": "prod + ideal cache"
+  },
+  "pool": {
+    "droppedWindowedSingletons": 1076,
+    "easyShorts": 673,
+    "easyKept": 168,
+    "tierCWindows": 394,
+    "tierCKeep": 0,
+    "multiKept": 861
+  },
+  "counts": {
+    "train": 1043,
+    "valid": 115,
+    "total": 1158
+  },
+  "composition": {
+    "train": {
+      "byTier": {
+        "B": 215,
+        "A": 828
+      },
+      "byMsgBand": {
+        "<=8": 454,
+        "9-12": 249,
+        "13-20": 241,
+        "29-50": 26,
+        "21-28": 69,
+        ">50": 4
+      },
+      "labelSource": {
+        "prod": 816,
+        "ideal": 227
+      },
+      "single": 267,
+      "multi": 776,
+      "windowed": 562,
+      "avgChunks": 2.26
+    },
+    "valid": {
+      "byTier": {
+        "A": 93,
+        "B": 22
+      },
+      "byMsgBand": {
+        "13-20": 28,
+        "<=8": 51,
+        "9-12": 27,
+        "29-50": 2,
+        "21-28": 7
+      },
+      "labelSource": {
+        "ideal": 22,
+        "prod": 93
+      },
+      "single": 30,
+      "multi": 85,
+      "windowed": 63,
+      "avgChunks": 2.21
+    }
+  },
+  "droppedSample": [
+    "019e7535: all windows over hardMax",
+    "023300d2: no placeable chunks",
+    "322727b6: all windows over hardMax",
+    "58a3f811: no placeable chunks",
+    "66f44e69: all windows over hardMax",
+    "6817f97f: no placeable chunks",
+    "695204cb: all windows over hardMax",
+    "75d8c356: all windows over hardMax",
+    "8faef32f: no placeable chunks",
+    "9e16f8ae: all windows over hardMax",
+    "a362917d: all windows over hardMax",
+    "af7f0f81: no placeable chunks",
+    "b0c7078d: no placeable chunks",
+    "cf35fa8e: no placeable chunks"
+  ],
+  "skipped": {
+    "holdout": 24,
+    "noAssistant": 2,
+    "tierD": 113
+  }
+}

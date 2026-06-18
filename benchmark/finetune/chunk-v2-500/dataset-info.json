@@ -1,0 +1,64 @@
+{
+  "stage": "chunk",
+  "version": "v2.0-curated-wholeconv",
+  "builtAt": "2026-06-17T02:29:31.564Z",
+  "format": "messages (system+user+assistant), same as v1 — drop-in for the trainer",
+  "selection": "DB-graph quality tiers; balanced single:multi",
+  "systemPromptFrom": "sysprompt-v1.json",
+  "params": {
+    "maxChars": 32000,
+    "singleFrac": 0.4,
+    "cCap": 0.5,
+    "validFrac": 0.1,
+    "limit": null
+  },
+  "testHoldout": 25,
+  "tierCountsAllConvs": {
+    "A": 616,
+    "B": 787,
+    "C": 350,
+    "D": 113
+  },
+  "oversizedExcludedByTier": {
+    "A": 278,
+    "B": 25,
+    "C": 105,
+    "D": 0
+  },
+  "available": {
+    "A": 338,
+    "B": 760,
+    "C": 245
+  },
+  "selectedCounts": {
+    "A": 338,
+    "B": 338,
+    "C": 169,
+    "total": 500
+  },
+  "counts": {
+    "train": 450,
+    "valid": 50,
+    "total": 500
+  },
+  "composition": {
+    "train": {
+      "byTier": {
+        "B": 145,
+        "A": 305
+      },
+      "single": 145,
+      "multi": 305,
+      "avgChunks": 2.41
+    },
+    "valid": {
+      "byTier": {
+        "A": 33,
+        "B": 17
+      },
+      "single": 17,
+      "multi": 33,
+      "avgChunks": 2.42
+    }
+  }
+}
