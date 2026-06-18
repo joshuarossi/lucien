@@ -59,3 +59,12 @@ benchmark/finetune/**/ideal-labels*.json
 # Chunk-eval judge-prep payloads (large per-conv prompts, regenerable via
 # chunk-eval.ts judge-prep).
 benchmark/results/**/judge-input-*.json
+
+# Chunk DPO/ORPO generated data + judging scratch. Regenerable: dpo-prep.ts →
+# dpo-judge-prod-windows workflow → dpo-collect.ts. orpo-*.jsonl is already
+# covered by the *.jsonl rule above; only scripts + *-info.json are tracked.
+benchmark/finetune/**/dpo/judge-in/
+benchmark/finetune/**/dpo/judge-out/
+benchmark/finetune/**/dpo/judge-windows.json
+benchmark/finetune/**/dpo/judge-windowIds.json
+benchmark/finetune/**/dpo/_ids.json

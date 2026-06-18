@@ -146,9 +146,23 @@ re-tune is a free, instant `curate-chunk-v3.ts` re-run — no re-relabeling.
 
 ## 7. Not done / next
 
-- **v3.1 DPO.** The runtime over-split-is-safe asymmetry belongs here, expressed as
-  preference pairs (chosen = ideal; rejected = perturbations: merge adjacent = hard
-  under-split negative, delete a chunk = dropped-span negative, split mid-topic =
-  soft over-split negative). SFT cannot express it; do not try to bake it into the
-  gold.
+- **v3.1 ORPO — BUILT (centered, not asymmetric).** Earlier note here proposed an
+  under-split-heavy "over-split-is-safe" lean. That was wrong: in practice both
+  failure modes are real (0-chunk collapse AND ~8-chunk explosion), so the goal is
+  the CORRECT amount for each conversation, not a direction. The chosen already
+  encodes the correct count; we bracket it on BOTH sides so it is a basin —
+  under-split negatives (merge adjacent, collapse-to-1) AND over-split negatives
+  (split a chunk, explode-to-~2x, long-single-topic multi-cut). Load-bearing
+  property: long/few-chunk windows MUST appear with over-split negatives so the
+  model cannot learn "long ⇒ split more". Balance is a *slight* over-split lean
+  (~1.3:1) — the explosion is the more visible failure — enforced corpus-wide.
+  - Pipeline: `scripts/dpo-prep.ts` (perturb + stage prod windows) →
+    `dpo-judge-prod-windows` Workflow (one agent per prod multi-chunk window:
+    classify each boundary real-shift vs over-split; this both vets prod gold as a
+    clean chosen and validates under-split negatives) → `scripts/dpo-collect.ts`
+    (corrects prod over-splits into a clean chosen, generates the centered/leaned
+    pair set). Output: `benchmark/finetune/chunk-v3/dpo/orpo-{train,valid}.jsonl`
+    (TRL conversational-preference; `.with-meta.jsonl` carries dir/tag/source).
+  - First build: 2,482 pairs (1.3:1 over:under). 46% of prod windows were found
+    over-split by the judge and corrected before use as chosen.
 - Scale the relabel beyond the hardest 250 if the loss curve / eval warrant it.

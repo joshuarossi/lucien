@@ -1,0 +1,15 @@
+{
+  "builtAt": "2026-06-18T09:11:47.877Z",
+  "maxSplitPerWindow": 2,
+  "stats": {
+    "records": 1158,
+    "ideal": 249,
+    "prod": 909,
+    "trustedSplit": 418,
+    "trustedMerge": 421,
+    "prodMergeWindows": 669,
+    "prodMergeCandidates": 1033,
+    "skippedSingleChunkProd": 240,
+    "skippedMalformed": 0
+  }
+}
